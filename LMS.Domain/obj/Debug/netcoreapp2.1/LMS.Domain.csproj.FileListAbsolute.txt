@@ -1,0 +1,18 @@
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Domain\bin\Debug\netcoreapp2.1\LMS.Domain.deps.json
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Domain\bin\Debug\netcoreapp2.1\LMS.Domain.dll
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Domain\bin\Debug\netcoreapp2.1\LMS.Domain.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.csprojAssemblyReference.cache
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.csproj.CoreCompileInputs.cache
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.AssemblyInfoInputs.cache
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.AssemblyInfo.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.dll
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Domain\bin\Debug\netcoreapp2.1\LMS.Domain.deps.json
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Domain\bin\Debug\netcoreapp2.1\LMS.Domain.dll
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Domain\bin\Debug\netcoreapp2.1\LMS.Domain.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.csprojAssemblyReference.cache
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.csproj.CoreCompileInputs.cache
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.AssemblyInfoInputs.cache
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.AssemblyInfo.cs
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.dll
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.pdb

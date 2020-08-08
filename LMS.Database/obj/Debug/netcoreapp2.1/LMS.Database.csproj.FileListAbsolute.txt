@@ -1,0 +1,30 @@
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Database\bin\Debug\netcoreapp2.1\LMS.Database.deps.json
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Database\bin\Debug\netcoreapp2.1\LMS.Database.dll
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Database\bin\Debug\netcoreapp2.1\LMS.Database.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Database\obj\Debug\netcoreapp2.1\LMS.Database.csprojAssemblyReference.cache
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Database\obj\Debug\netcoreapp2.1\LMS.Database.csproj.CoreCompileInputs.cache
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Database\obj\Debug\netcoreapp2.1\LMS.Database.AssemblyInfoInputs.cache
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Database\obj\Debug\netcoreapp2.1\LMS.Database.AssemblyInfo.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Database\obj\Debug\netcoreapp2.1\LMS.Database.dll
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Database\obj\Debug\netcoreapp2.1\LMS.Database.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Database\bin\Debug\netcoreapp2.1\LMS.Domain.dll
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Database\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Database\bin\Debug\netcoreapp2.1\Microsoft.EntityFrameworkCore.dll
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Database\bin\Debug\netcoreapp2.1\LMS.Domain.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Database\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.xml
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Database\bin\Debug\netcoreapp2.1\Microsoft.EntityFrameworkCore.xml
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\LMS.Database\obj\Debug\netcoreapp2.1\LMS.Database.csproj.CopyComplete
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Database\bin\Debug\netcoreapp2.1\LMS.Database.deps.json
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Database\bin\Debug\netcoreapp2.1\LMS.Database.dll
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Database\bin\Debug\netcoreapp2.1\LMS.Database.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Database\bin\Debug\netcoreapp2.1\LMS.Domain.dll
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Database\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Database\bin\Debug\netcoreapp2.1\LMS.Domain.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Database\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.xml
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Database\obj\Debug\netcoreapp2.1\LMS.Database.csprojAssemblyReference.cache
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Database\obj\Debug\netcoreapp2.1\LMS.Database.csproj.CoreCompileInputs.cache
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Database\obj\Debug\netcoreapp2.1\LMS.Database.AssemblyInfoInputs.cache
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Database\obj\Debug\netcoreapp2.1\LMS.Database.AssemblyInfo.cs
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Database\obj\Debug\netcoreapp2.1\LMS.Database.csproj.CopyComplete
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Database\obj\Debug\netcoreapp2.1\LMS.Database.dll
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS.Database\obj\Debug\netcoreapp2.1\LMS.Database.pdb
