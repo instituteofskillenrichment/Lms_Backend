@@ -4616,6 +4616,22 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
+      "LMS.BusinessLogics/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.1",
+        "dependencies": {
+          "LMS.Database": "1.0.0",
+          "LMS.Domain": "1.0.0",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "2.1.1",
+          "Microsoft.EntityFrameworkCore": "2.1.1"
+        },
+        "compile": {
+          "bin/placeholder/LMS.BusinessLogics.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/LMS.BusinessLogics.dll": {}
+        }
+      },
       "LMS.Database/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.1",
@@ -12544,6 +12560,11 @@
         "system.xml.xpath.xdocument.nuspec"
       ]
     },
+    "LMS.BusinessLogics/1.0.0": {
+      "type": "project",
+      "path": "../LMS.BusinessLogics/LMS.BusinessLogics.csproj",
+      "msbuildProject": "../LMS.BusinessLogics/LMS.BusinessLogics.csproj"
+    },
     "LMS.Database/1.0.0": {
       "type": "project",
       "path": "../LMS.Database/LMS.Database.csproj",
@@ -12557,7 +12578,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
-      "LMS.Database >= 1.0.0",
+      "LMS.BusinessLogics >= 1.0.0",
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.AspNetCore.Razor.Design >= 2.1.2",
       "Microsoft.NETCore.App >= 2.1.0",
@@ -12594,8 +12615,8 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\BKP CODE\\LMS\\LMS.Database\\LMS.Database.csproj": {
-              "projectPath": "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\BKP CODE\\LMS\\LMS.Database\\LMS.Database.csproj"
+            "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\BKP CODE\\LMS\\LMS.BusinessLogics\\LMS.BusinessLogics.csproj": {
+              "projectPath": "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\BKP CODE\\LMS\\LMS.BusinessLogics\\LMS.BusinessLogics.csproj"
             }
           }
         }

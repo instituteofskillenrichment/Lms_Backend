@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using LMS.Database;
+using LMS.BusinessLogics.Interfaces;
+using LMS.BusinessLogics.Repositories;
 
 namespace LMS
 {
@@ -41,6 +43,9 @@ namespace LMS
                 .AddEntityFrameworkStores<LmsDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            //Added By Absar
+            services.AddScoped<IClassRepository, ClassRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

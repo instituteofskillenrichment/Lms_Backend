@@ -12,16 +12,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LMS.Database\LMS.Database.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\Dashboard\assets\demo\demo.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LMS.BusinessLogics\LMS.BusinessLogics.csproj" />
   </ItemGroup>
 
 </Project>

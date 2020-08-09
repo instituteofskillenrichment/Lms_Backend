@@ -74,3 +74,6 @@ D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS\obj\Debug\netcoreapp2.1
 D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS\obj\Debug\netcoreapp2.1\LMS.pdb
 D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Shared\_AdminLayout.g.cshtml.cs
 D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Dashboard\Index.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS\bin\Debug\netcoreapp2.1\LMS.BusinessLogics.dll
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS\bin\Debug\netcoreapp2.1\LMS.BusinessLogics.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Class\Index.g.cshtml.cs

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LMS.BusinessLogics.Repositories
 {
-    class ClassRepository : IClassRepository
+    public class ClassRepository : IClassRepository
     {
         private LmsDbContext _lmsDbContext;
 
