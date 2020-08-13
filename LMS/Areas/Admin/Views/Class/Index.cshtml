@@ -108,99 +108,44 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <span class="custom-checkbox">
-                                                    <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                                    <label for="checkbox1"></label>
-                                                </span>
-                                            </td>
-                                            <td>1001</td>
-                                            <td>Class 1</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i></a>
-                                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="custom-checkbox">
-                                                    <input type="checkbox" id="checkbox2" name="options[]" value="1">
-                                                    <label for="checkbox2"></label>
-                                                </span>
-                                            </td>
-                                            <td>1002</td>
-                                            <td>Class 2</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i></a>
-                                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="custom-checkbox">
-                                                    <input type="checkbox" id="checkbox3" name="options[]" value="1">
-                                                    <label for="checkbox3"></label>
-                                                </span>
-                                            </td>
-                                            <td>1003</td>
-                                            <td>Class 3</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i></a>
-                                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="custom-checkbox">
-                                                    <input type="checkbox" id="checkbox3" name="options[]" value="1">
-                                                    <label for="checkbox3"></label>
-                                                </span>
-                                            </td>
-                                            <td>1004</td>
-                                            <td>Class 4</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i></a>
-                                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="custom-checkbox">
-                                                    <input type="checkbox" id="checkbox5" name="options[]" value="1">
-                                                    <label for="checkbox5"></label>
-                                                </span>
-                                            </td>
-                                            <td>1005</td>
-                                            <td>Class 5</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <a href="#editEmployeeModal" class="edit" data-toggle="modal">
-                                                <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
-                                                </a>
-                                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
-                                                <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <span class="custom-checkbox">
+                                                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                                        <label for="checkbox1"></label>
+                                                    </span>
+                                                </td>
+                                                <td>@item.Class_Id</td>
+                                                <td>@item.Class_Name</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <a href="#editEmployeeModal" class="edit" data-toggle="modal">
+                                                        <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                                    </a>
+                                                    
+                                                    <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
+                                                        <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                                    </a>
+
+                                                    @*Added BY Absar To get parentid*@
+                                                    <input type="hidden" class="Class_Id" value="@item.Class_Id"/>
+
+                                                </td>
+                                            </tr>
+                                        }
+
                                     </tbody>
                                 </table>
                                 <div class="clearfix">
                                     <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
                                     <ul class="pagination">
                                         <li class="page-item disabled"><a href="#">Previous</a></li>
-                                        <li class="page-item"><a href="#" class="page-link">1</a></li>
+                                        <li class="page-item active"><a href="#" class="page-link">1</a></li>
                                         <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                                        <li class="page-item"><a href="#" class="page-link">3</a></li>
                                         <li class="page-item"><a href="#" class="page-link">4</a></li>
                                         <li class="page-item"><a href="#" class="page-link">5</a></li>
                                         <li class="page-item"><a href="#" class="page-link">Next</a></li>
@@ -209,23 +154,23 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Edit Modal HTML -->
+                    <!-- Add Modal HTML -->
                     <div id="addEmployeeModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form>
+                                <form method="post" asp-controller="class" asp-action="addClass">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Add Class</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="form-group">
+                                        @*<div class="form-group">
                                             <label>Class ID</label>
-                                            <input type="text" class="form-control" required="">
-                                        </div>
+                                            <input type="text" class="form-control" required="" name="class_Id">
+                                        </div>*@
                                         <div class="form-group">
                                             <label>Class Name</label>
-                                            <input type="text" class="form-control" required="">
+                                            <input type="text" class="form-control" required="" name="Class_Name">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -236,11 +181,13 @@
                             </div>
                         </div>
                     </div>
+                    
+                    
                     <!-- Edit Modal HTML -->
                     <div id="editEmployeeModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form>
+                                <form method="post" asp-controller="class" asp-action="editClass">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Edit Class</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -248,26 +195,30 @@
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label>Class ID</label>
-                                            <input type="text" class="form-control" required="">
+                                            <input type="text" class="form-control" required="" id="Class_Id" disabled="disabled">
                                         </div>
                                         <div class="form-group">
                                             <label>Class Name</label>
-                                            <input type="text" class="form-control" required="">
+                                            <input type="text" class="form-control" required="" name="Class_Name" id="Class_Name">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                                         <input type="submit" class="btn btn-info" value="Save">
+                                        @*Added By Absar*@
+                                        <input type="hidden" name="Class_Id" id="Class_Id"/>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
+                    
+                    
                     <!-- Delete Modal HTML -->
                     <div id="deleteEmployeeModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form>
+                                <form method="post" asp-controller="class" asp-action="deleteClass">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Delete Class</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -279,6 +230,10 @@
                                     <div class="modal-footer">
                                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                                         <input type="submit" class="btn btn-danger" value="Delete">
+
+                                        @*//Added By Absar To Pass Parameter to action method*@
+                                        <input type="hidden" id="Class_Id" name="Class_Id" />
+
                                     </div>
                                 </form>
                             </div>
@@ -331,6 +286,32 @@
     $(document).ready(function () {
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
+
+
+        //Get Class_Id for Delete Added By Absar
+        $('table .delete').on('click', function () {
+            var Class_Id = $(this).parent().find('.Class_Id').val();
+            $('#deleteEmployeeModal #Class_Id').val(Class_Id);
+        });
+
+        //Get Class_Id for Edit Added By Absar
+        $('table .edit').on('click', function () {
+            var id = $(this).parent().find('.Class_Id').val();
+            $.ajax({
+
+                type: 'GET',
+                url: '/admin/class/editClass/' + id,
+                success: function (objClass) {
+
+                    objClass = JSON.stringify(objClass);
+
+                    alert(objClass.class_Id);
+                    $('#editEmployeeModal #Class_Id').val(objClass["class_Id"]);
+                    $('#editEmployeeModal #Class_Name').val('4');
+
+                }
+            });
+        });
 
         // Select/Deselect checkboxes
         var checkbox = $('table tbody input[type="checkbox"]');
