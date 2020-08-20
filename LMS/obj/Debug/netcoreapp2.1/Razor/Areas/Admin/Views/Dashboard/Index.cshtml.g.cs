@@ -74,7 +74,7 @@ namespace AspNetCore
                 ");
             EndContext();
             BeginContext(744, 100, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0723c68f8b134228ada9f95681661278", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4fab077af50349a3b8c640654939f18c", async() => {
                 BeginContext(831, 9, true);
                 WriteLiteral("Dashboard");
                 EndContext();
@@ -109,7 +109,7 @@ namespace AspNetCore
                 ");
             EndContext();
             BeginContext(1400, 478, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6cb11f5fa6a348c79311a58d135fa845", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "11cdbcf0bee2472ebcf47d3c338699a3", async() => {
                 BeginContext(1406, 465, true);
                 WriteLiteral(@"
                     <div class=""input-group no-border"">

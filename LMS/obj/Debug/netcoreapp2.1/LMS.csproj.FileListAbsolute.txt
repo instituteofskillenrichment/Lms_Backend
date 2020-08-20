@@ -123,3 +123,4 @@ U:\Freelance Work\ISM\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.Views.pdb
 U:\Freelance Work\ISM\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.csproj.CopyComplete
 U:\Freelance Work\ISM\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.dll
 U:\Freelance Work\ISM\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.pdb
+U:\Freelance Work\ISM\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Login\Index.cshtml.g.cs
