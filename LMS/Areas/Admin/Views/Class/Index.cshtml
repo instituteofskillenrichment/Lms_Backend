@@ -303,11 +303,11 @@
                 url: '/admin/class/editClass/' + id,
                 success: function (objClass) {
 
-                    objClass = JSON.stringify(objClass);
+                    //objClass = JSON.stringify(objClass);
 
-                    alert(objClass.class_Id);
-                    $('#editEmployeeModal #Class_Id').val(objClass["class_Id"]);
-                    $('#editEmployeeModal #Class_Name').val('4');
+                    //alert(objClass.class_Id);
+                    $('#editEmployeeModal #Class_Id').val(objClass.class_Id);
+                    $('#editEmployeeModal #Class_Name').val(objClass.class_Name);
 
                 }
             });
