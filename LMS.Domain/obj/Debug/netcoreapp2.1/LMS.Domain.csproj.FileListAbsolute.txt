@@ -24,3 +24,12 @@ U:\Freelance Work\ISM\Lms_Backend\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.
 U:\Freelance Work\ISM\Lms_Backend\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.AssemblyInfo.cs
 U:\Freelance Work\ISM\Lms_Backend\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.dll
 U:\Freelance Work\ISM\Lms_Backend\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\CLONE FROM REPO\Lms_Backend\LMS.Domain\bin\Debug\netcoreapp2.1\LMS.Domain.deps.json
+D:\Documents\.Net Core Projects\ISE\LMS\CLONE FROM REPO\Lms_Backend\LMS.Domain\bin\Debug\netcoreapp2.1\LMS.Domain.dll
+D:\Documents\.Net Core Projects\ISE\LMS\CLONE FROM REPO\Lms_Backend\LMS.Domain\bin\Debug\netcoreapp2.1\LMS.Domain.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\CLONE FROM REPO\Lms_Backend\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.csprojAssemblyReference.cache
+D:\Documents\.Net Core Projects\ISE\LMS\CLONE FROM REPO\Lms_Backend\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.csproj.CoreCompileInputs.cache
+D:\Documents\.Net Core Projects\ISE\LMS\CLONE FROM REPO\Lms_Backend\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.AssemblyInfoInputs.cache
+D:\Documents\.Net Core Projects\ISE\LMS\CLONE FROM REPO\Lms_Backend\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.AssemblyInfo.cs
+D:\Documents\.Net Core Projects\ISE\LMS\CLONE FROM REPO\Lms_Backend\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.dll
+D:\Documents\.Net Core Projects\ISE\LMS\CLONE FROM REPO\Lms_Backend\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.pdb

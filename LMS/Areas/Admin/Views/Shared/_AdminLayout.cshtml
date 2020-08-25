@@ -52,83 +52,133 @@
                 </a>
             </div>
             <div class="sidebar-wrapper" id="sidebar-wrapper">
-                <ul class="nav">
-                    <li class="active ">
+                <ul class="nav navigation">
+                    <li class="active">
                         <a asp-area="admin" asp-controller="dashboard" asp-action="index">
                             <i class="now-ui-icons design_app"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
-                    <li>
-                        <a href="./class.html">
+
+                    <li class="has-child">
+                        <a href='#'>
                             <i class="now-ui-icons education_atom"></i>
-                            <p>Class / Section</p>
+                            <p>Class / Section </p>
                         </a>
+
+                        <ul>
+                            <li><a asp-area="admin" asp-controller="class" asp-action="index">Classes</a></li>
+                            <li><a href='#'>Section</a></li>
+                            <li><a href='#'>Assign Section</a></li>
+
+                        </ul>
                     </li>
-                    <li>
-                        <a href="./section.html">
+
+
+                    <li class="has-child">
+                        <a href='#'>
                             <i class="now-ui-icons education_atom"></i>
-                            <p>Section</p>
+                            <p>Subject </p>
                         </a>
+
+                        <ul>
+                            <li><a>Add Subject</a></li>
+                            <li><a href='#'>Assign Subject</a></li>
+
+
+                        </ul>
                     </li>
-                    <li>
-                        <a href="./classsection.html">
+                    <li class="has-child">
+                        <a href='#'>
                             <i class="now-ui-icons education_atom"></i>
-                            <p>Class Section</p>
+                            <p>Teacher </p>
                         </a>
+
+                        <ul>
+                            <li><a>Add Teacher</a></li>
+                            <li><a href='#'>Assign Subject</a></li>
+
+
+                        </ul>
                     </li>
-                    <li>
-                        <a href="./subjectclass.html">
+                    <li class="has-child">
+                        <a href='#'>
                             <i class="now-ui-icons education_atom"></i>
-                            <p>Subject Class</p>
+                            <p>Student </p>
                         </a>
+
+                        <ul>
+                            <li><a>Add Student</a></li>
+                            <li><a href='#'>Assign Class</a></li>
+
+
+                        </ul>
                     </li>
+
+                    <li class="has-child">
+                        <a href='#'>
+                            <i class="now-ui-icons education_atom"></i>
+                            <p>User / Roles </p>
+                        </a>
+
+                        <ul>
+                            <li><a asp-area="admin" asp-controller="role" asp-action="index">Add Role</a></li>
+                            <li><a asp-area="admin" asp-controller="user" asp-action="index">Add User</a></li>
+                            <li><a href='#'>Assign Role</a></li>
+
+
+                        </ul>
+                    </li>
+
+
+                    
 
 
 
                 </ul>
             </div>
         </div>
-        <div class="dashboard">
+        <div class="main-panel" id="main-panel">
             @RenderBody()
         </div>
     </div>
     <!--   Core JS Files   -->
     <script src="~/Dashboard/assets/js/core/jquery.min.js"></script>
     @*<script src="../assets/js/core/jquery.min.js"></script>*@
-    
+
     @*<script src="../assets/js/core/popper.min.js"></script>*@
     <script src="~/Dashboard/assets/js/core/popper.min.js"></script>
-    
+    <script src="~/Dashboard/assets/js/navigation.js"></script>
+
     @*<script src="../assets/js/core/bootstrap.min.js"></script>*@
     <script src="~/Dashboard/assets/js/core/bootstrap.min.js"></script>
-    
+
     @*<script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>*@
     <script src="~/Dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-    
+
     <!--  Google Maps Plugin    -->
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
     <!-- Chart JS -->
     @*<script src="../assets/js/plugins/chartjs.min.js"></script>*@
     <script src="~/Dashboard/assets/js/plugins/chartjs.min.js"></script>
-    
+
     <!--  Notifications Plugin    -->
     @*<script src="../assets/js/plugins/bootstrap-notify.js"></script>*@
     <script src="~/Dashboard/assets/js/plugins/bootstrap-notify.js"></script>
-    
+
     <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
     @*<script src="../assets/js/now-ui-dashboard.min.js?v=1.5.0" type="text/javascript"></script>*@
     <script src="~/Dashboard/assets/js/now-ui-dashboard.min.js"></script>
-    
+
     <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
-    <script src="~/Dashboard/assets/demo/demo.js"></script>
-    
+    @*<script src="~/Dashboard/assets/demo/demo.js"></script>*@
+
 
     <script>
         $(document).ready(function () {
             // Javascript method's body can be found in assets/js/demos.js
-            demo.initDashboardPageCharts();
-
+            //demo.initDashboardPageCharts();
+            $('.navigation').navigation();
         });
     </script>
 </body>

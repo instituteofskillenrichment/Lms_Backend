@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using LMS.Database;
 using LMS.BusinessLogics.Interfaces;
 using LMS.BusinessLogics.Repositories;
+using LMS.Domain.ViewModels;
 
 namespace LMS
 {
@@ -36,14 +37,23 @@ namespace LMS
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<LmsDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            
-            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<LmsDbContext>();
-            
+            services.AddDbContext<LmsDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+
+            //services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<LmsDbContext>();
+            //added By absar
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<LmsDbContext>()
+                .AddDefaultTokenProviders();
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             //Added By Absar
             services.AddScoped<IClassRepository, ClassRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

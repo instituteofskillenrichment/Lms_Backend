@@ -5,7 +5,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="main-panel ps" id="main-panel">
+<div class="Dashboard" id="Dashboard">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
         <div class="container-fluid">
@@ -302,10 +302,10 @@
                 type: 'GET',
                 url: '/admin/class/editClass/' + id,
                 success: function (objClass) {
+                    //debugger;
+                   // objClass = JSON.stringify(objClass);
 
-                    //objClass = JSON.stringify(objClass);
-
-                    //alert(objClass.class_Id);
+                    //alert(objClass);
                     $('#editEmployeeModal #Class_Id').val(objClass.class_Id);
                     $('#editEmployeeModal #Class_Name').val(objClass.class_Name);
 
