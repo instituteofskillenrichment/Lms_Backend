@@ -38,12 +38,14 @@ namespace LMS
 
             services.AddDbContext<LmsDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             
-            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<LmsDbContext>();
+            services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<LmsDbContext>();
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             //Added By Absar
             services.AddScoped<IClassRepository, ClassRepository>();
+            services.AddScoped<ITeacherRepository, TeacherRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

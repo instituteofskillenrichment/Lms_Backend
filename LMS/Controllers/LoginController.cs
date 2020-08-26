@@ -42,13 +42,23 @@ namespace LMS.Controllers
 
                 if (result.Succeeded)
                 {
+                    var roleDetails = await userManager.GetRolesAsync(user);
+
                     if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
                     }
-                    else
+                    else if (roleDetails[0] == "Admin") //Admin case
                     {
                         return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                    }
+                    else if (roleDetails[0] == "Teacher") //Teacher case
+                    {
+                        return RedirectToAction("Index", "Home", new { area = "Teachers" });
+                    }
+                    else //Student case
+                    {
+                        return RedirectToAction("Index", "Home", new { area = "Students" });
                     }
                 }
 

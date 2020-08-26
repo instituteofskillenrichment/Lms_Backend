@@ -1,0 +1,327 @@
+﻿@model IEnumerable<LMS.Domain.Teacher>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="main-panel ps" id="main-panel">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
+        <div class="container-fluid">
+            <div class="navbar-wrapper">
+                <div class="navbar-toggle">
+                    <button type="button" class="navbar-toggler">
+                        <span class="navbar-toggler-bar bar1"></span>
+                        <span class="navbar-toggler-bar bar2"></span>
+                        <span class="navbar-toggler-bar bar3"></span>
+                    </button>
+                </div>
+                <a class="navbar-brand" href="#pablo">Teacher Info</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-bar navbar-kebab"></span>
+                <span class="navbar-toggler-bar navbar-kebab"></span>
+                <span class="navbar-toggler-bar navbar-kebab"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                <form>
+                    <div class="input-group no-border">
+                        <input type="text" value="" class="form-control" placeholder="Search...">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <i class="now-ui-icons ui-1_zoom-bold"></i>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pablo">
+                            <i class="now-ui-icons media-2_sound-wave"></i>
+                            <p>
+                                <span class="d-lg-none d-md-block">Stats</span>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="now-ui-icons location_world"></i>
+                            <p>
+                                <span class="d-lg-none d-md-block">Some Actions</span>
+                            </p>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pablo">
+                            <i class="now-ui-icons users_single-02"></i>
+                            <p>
+                                <span class="d-lg-none d-md-block">Account</span>
+                            </p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="panel-header panel-header-sm">
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+
+                    <div class="container">
+                        <div class="table-responsive">
+                            <div class="table-wrapper">
+                                <div class="table-title">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h2>Manage <b>Teacher</b></h2>
+                                        </div>
+                                        <div class="col-md-6 pull-right">
+                                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons"></i> <span>Add New Teacher</span></a>
+                                            <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons"></i> <span>Delete</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table id="teacher" class="display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <span class="custom-checkbox">
+                                                    <input type="checkbox" id="selectAll">
+                                                    <label for="selectAll"></label>
+                                                </span>
+                                            </th>
+                                            <th>Teacher ID</th>
+                                            <th>Teacher Name</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <span class="custom-checkbox">
+                                                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                                        <label for="checkbox1"></label>
+                                                    </span>
+                                                </td>
+                                                <td>@item.Teacher_Id</td>
+                                                <td>@item.Teacher_Name</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <a href="#editEmployeeModal" class="edit" data-toggle="modal">
+                                                        <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                                    </a>
+
+                                                    <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
+                                                        <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                                    </a>
+
+                                                    @*Added BY Absar To get parentid*@
+                                                    <input type="hidden" class="Teacher_Id" value="@item.Teacher_Id" />
+
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                                <div class="clearfix">
+                                    <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                                    <ul class="pagination">
+                                        <li class="page-item disabled"><a href="#">Previous</a></li>
+                                        <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                                        <li class="page-item"><a href="#" class="page-link">3</a></li>
+                                        <li class="page-item"><a href="#" class="page-link">4</a></li>
+                                        <li class="page-item"><a href="#" class="page-link">5</a></li>
+                                        <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Modal HTML -->
+                    <div id="addEmployeeModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="teacher" asp-action="addTeacher">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Add Teacher</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>Teacher Name</label>
+                                            <input type="text" class="form-control" required="" name="Teacher_Name">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-success" value="Add">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Edit Modal HTML -->
+                    <div id="editEmployeeModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="teacher" asp-action="editTeacher">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Edit Teacher</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>Teacher ID</label>
+                                            <input type="text" class="form-control" required="" id="Teacher_Id" disabled="disabled">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Teacher Name</label>
+                                            <input type="text" class="form-control" required="" name="Teacher_Name" id="Teacher_Name">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-info" value="Save">
+                                        @*Added By Arib*@
+                                        <input type="hidden" name="Teacher_Id" id="Teacher_Id" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Delete Modal HTML -->
+                    <div id="deleteEmployeeModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="teacher" asp-action="deleteTeacher">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Delete Teacher</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to delete these Records?</p>
+                                        <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-danger" value="Delete">
+
+                                        @*//Added By Arib To Pass Parameter to action method*@
+                                        <input type="hidden" id="Teacher_Id" name="Teacher_Id" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <footer class="footer">
+        <div class=" container-fluid ">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://www.creative-tim.com">
+                            Karachi Grammar School
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="copyright" id="copyright">
+                ©
+                <script>
+                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                </script>2020, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            </div>
+        </div>
+    </footer>
+    <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>
+</div>
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/js/core/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+
+        //Get Teacher_Id for Delete Added By Arib
+        $('table .delete').on('click', function () {
+            var Teacher_Id = $(this).parent().find('.Teacher_Id').val();
+            $('#deleteEmployeeModal #Teacher_Id').val(Teacher_Id);
+        });
+
+        //Get Teacher_Id for Edit Added By Arib
+        $('table .edit').on('click', function () {
+            var id = $(this).parent().find('.Teacher_Id').val();
+            $.ajax({
+
+                type: 'GET',
+                url: '/admin/teacher/editTeacher/' + id,
+                success: function (objTeacher) {
+
+                    $('#editEmployeeModal #Teacher_Id').val(objTeacher.teacher_Id);
+                    $('#editEmployeeModal #Teacher_Name').val(objTeacher.teacher_Name);
+
+                }
+            });
+        });
+
+        // Select/Deselect checkboxes
+        var checkbox = $('table tbody input[type="checkbox"]');
+        $("#selectAll").click(function () {
+            if (this.checked) {
+                checkbox.each(function () {
+                    this.checked = true;
+                });
+            } else {
+                checkbox.each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+        checkbox.click(function () {
+            if (!this.checked) {
+                $("#selectAll").prop("checked", false);
+            }
+        });
+    });
+</script>
+

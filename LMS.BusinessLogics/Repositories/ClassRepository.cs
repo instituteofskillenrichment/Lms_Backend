@@ -1,11 +1,8 @@
 ﻿using LMS.BusinessLogics.Interfaces;
 using LMS.Database;
 using LMS.Domain;
-using System;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LMS.BusinessLogics.Repositories
