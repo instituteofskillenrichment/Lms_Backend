@@ -86,19 +86,19 @@ namespace LMS.BusinessLogics.Repositories
 
         
 
-        public IQueryable GetAllUser()
+        public IQueryable<AppUser> GetAllUser()
         {
 
-            IQueryable user = from u in _lmsDbContext.Users
+            IQueryable<AppUser> user = from u in _lmsDbContext.Users
                        join ur in _lmsDbContext.UserRoles on u.Id equals ur.UserId
                        join r in _lmsDbContext.Roles on ur.RoleId equals r.Id
-                       select new
+                       select new AppUser
                        {
-                           u.Id,
-                           u.UserName,
-                           u.Email,
-                           u.PasswordHash,
-                           r.Name
+                          UserId =  u.Id,
+                          UserName = u.UserName,
+                          UserEmail =  u.Email,
+                          UserPassword =  u.PasswordHash,
+                          UserRole= r.Name
                        };
 
 

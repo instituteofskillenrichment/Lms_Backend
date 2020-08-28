@@ -172,3 +172,99 @@ D:\Documents\.Net Core Projects\ISE\LMS\CLONE FROM REPO\Lms_Backend\LMS\obj\Debu
 D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Role\Index.g.cshtml.cs
 D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\User\Index.g.cshtml.cs
 D:\Documents\.Net Core Projects\ISE\LMS\BKP CODE\LMS\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Login\Index.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.deps.json
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.runtimeconfig.json
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.runtimeconfig.dev.json
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.dll
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.pdb
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.Views.dll
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.Views.pdb
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.BusinessLogics.dll
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.Database.dll
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.Domain.dll
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.BusinessLogics.pdb
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.Database.pdb
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.Domain.pdb
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.csprojAssemblyReference.cache
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.csproj.CoreCompileInputs.cache
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.RazorAssemblyInfo.cache
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.RazorAssemblyInfo.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.AssemblyInfoInputs.cache
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.AssemblyInfo.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.TagHelpers.input.cache
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.TagHelpers.output.cache
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.RazorCoreGenerate.cache
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Class\Index.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Dashboard\Index.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Role\Index.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Shared\_AdminLayout.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\User\Index.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Home\About.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Home\Contact.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Home\Privacy.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Login\Index.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Error.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_Layout.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_LoginPartial.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ValidationScriptsPartial.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\_ViewImports.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\_ViewStart.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\_ViewImports.g.cshtml.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.RazorTargetAssemblyInfo.cache
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.RazorTargetAssemblyInfo.cs
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.Views.pdb
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.csproj.CopyComplete
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.dll
+C:\Users\Absar.Ahmed\Desktop\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.deps.json
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.runtimeconfig.json
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.runtimeconfig.dev.json
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.dll
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.Views.dll
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.Views.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.BusinessLogics.dll
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.Database.dll
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.Domain.dll
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.BusinessLogics.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.Database.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\bin\Debug\netcoreapp2.1\LMS.Domain.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.csprojAssemblyReference.cache
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.csproj.CoreCompileInputs.cache
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.RazorAssemblyInfo.cache
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.RazorAssemblyInfo.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.AssemblyInfoInputs.cache
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.AssemblyInfo.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.TagHelpers.input.cache
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.TagHelpers.output.cache
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.RazorCoreGenerate.cache
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Class\Index.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Dashboard\Index.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Role\Index.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Shared\_AdminLayout.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\User\Index.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Home\About.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Home\Contact.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Home\Privacy.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Login\Index.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Error.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_Layout.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_LoginPartial.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ValidationScriptsPartial.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\_ViewImports.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Views\_ViewStart.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\_ViewImports.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.RazorTargetAssemblyInfo.cache
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.RazorTargetAssemblyInfo.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.Views.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.csproj.CopyComplete
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.dll
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.pdb
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Section\Index.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\AssignSection\Index.g.cshtml.cs

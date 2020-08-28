@@ -38,7 +38,7 @@ namespace LMS.Areas.Admin.Controllers
             
 
             ViewBag.User = User;
-            //ViewBag.Role = _RoleRepository.GetAllRoles();
+            ViewBag.Role = _RoleRepository.GetAllRoles();
             ////var AppUserVM = new AppUser();
             //var User = _UserRepository.GetAllUser();
 

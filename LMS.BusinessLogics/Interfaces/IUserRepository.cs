@@ -14,7 +14,7 @@ namespace LMS.BusinessLogics.Interfaces
         Task<int> CreateUser(IdentityUser objModel, string User_Role);
         Task<int> UpdateUser(IdentityUser objModel);
         Task<int> DeleteUser(string userId);
-        IQueryable GetAllUser();
+        IQueryable<AppUser> GetAllUser();
         Task<IdentityUser> FindUserById(string userId);
         
     }

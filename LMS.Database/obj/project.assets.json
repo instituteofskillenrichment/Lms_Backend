@@ -3594,11 +3594,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\BKP CODE\\LMS\\LMS.Database\\LMS.Database.csproj",
+      "projectUniqueName": "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\LMS\\Lms_Backend\\LMS.Database\\LMS.Database.csproj",
       "projectName": "LMS.Database",
-      "projectPath": "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\BKP CODE\\LMS\\LMS.Database\\LMS.Database.csproj",
+      "projectPath": "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\LMS\\Lms_Backend\\LMS.Database\\LMS.Database.csproj",
       "packagesPath": "C:\\Users\\Absar.Ahmed\\.nuget\\packages\\",
-      "outputPath": "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\BKP CODE\\LMS\\LMS.Database\\obj\\",
+      "outputPath": "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\LMS\\Lms_Backend\\LMS.Database\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -3617,8 +3617,8 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\BKP CODE\\LMS\\LMS.Domain\\LMS.Domain.csproj": {
-              "projectPath": "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\BKP CODE\\LMS\\LMS.Domain\\LMS.Domain.csproj"
+            "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\LMS\\Lms_Backend\\LMS.Domain\\LMS.Domain.csproj": {
+              "projectPath": "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\LMS\\Lms_Backend\\LMS.Domain\\LMS.Domain.csproj"
             }
           }
         }

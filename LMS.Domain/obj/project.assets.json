@@ -694,11 +694,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\BKP CODE\\LMS\\LMS.Domain\\LMS.Domain.csproj",
+      "projectUniqueName": "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\LMS\\Lms_Backend\\LMS.Domain\\LMS.Domain.csproj",
       "projectName": "LMS.Domain",
-      "projectPath": "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\BKP CODE\\LMS\\LMS.Domain\\LMS.Domain.csproj",
+      "projectPath": "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\LMS\\Lms_Backend\\LMS.Domain\\LMS.Domain.csproj",
       "packagesPath": "C:\\Users\\Absar.Ahmed\\.nuget\\packages\\",
-      "outputPath": "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\BKP CODE\\LMS\\LMS.Domain\\obj\\",
+      "outputPath": "D:\\Documents\\.Net Core Projects\\ISE\\LMS\\LMS\\Lms_Backend\\LMS.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

@@ -52,8 +52,10 @@ namespace LMS
 
             //Added By Absar
             services.AddScoped<IClassRepository, ClassRepository>();
+            services.AddScoped<ISectionRepository, SectionRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAssignSectionRepository, AssignSectionRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
