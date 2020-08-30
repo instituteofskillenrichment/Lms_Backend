@@ -55,7 +55,7 @@ namespace LMS.BusinessLogics.Repositories
 
                 if (result.Succeeded)
                 {
-                    
+
 
                     return 1;
 
@@ -94,7 +94,7 @@ namespace LMS.BusinessLogics.Repositories
         public IQueryable<AppUser> FindUserWithRoleById(string userId)
         {
 
-            
+
 
             var findUser = (from u in _lmsDbContext.Users
                             join ur in _lmsDbContext.UserRoles on u.Id equals ur.UserId
@@ -114,7 +114,7 @@ namespace LMS.BusinessLogics.Repositories
 
 
 
-            
+
 
             return findUser;
         }
@@ -127,34 +127,15 @@ namespace LMS.BusinessLogics.Repositories
         }
 
 
-        //public async Task<int> DeleteUser(string userId)
-        //{
-        //    //IdentityUser user = await FindUserById(userId);
+        public async Task<int> DeleteUser(IdentityUser objModel)
+        {
+            var result = await _userManager.DeleteAsync(objModel);
 
-        //    var userRole =  _userManager.FindByIdAsync(userId);
-
-        //    //var user = _userManager.FindByIdAsync(userRole.UserId);
-
-        //    IdentityUser identityUser = new IdentityUser
-        //    {
-        //        Id = userRole.
-
-
-
-
-        //    };
-
-        //    if (userRole != null)
-        //    {
-        //        IdentityResult result = await _userManager.DeleteAsync(identityUser);
-        //        if (result.Succeeded)
-        //            return 1;
-        //        else
-        //            return 0;
-        //    }
-
-        //    return -1;
-        //}
+            if (result.Succeeded)
+                return 1;
+            else
+                return 0;
+        }
 
         //public IQueryable<AppUser> FindUserById(string userId)
         //{
@@ -187,14 +168,31 @@ namespace LMS.BusinessLogics.Repositories
 
 
 
-        //public async Task<int> UpdateUser(IdentityUser objModel)
-        //{
-        //    IdentityResult result = await _userManager.UpdateAsync(objModel);
+        public async Task<int> UpdateUser(IdentityUser objModel)
+        {
+            IdentityResult result = await _userManager.UpdateAsync(objModel);
 
-        //    if (result.Succeeded)
-        //        return 1;
-        //    else
-        //        return 0;
-        //}
+            if (result.Succeeded)
+                return 1;
+            else
+                return 0;
+        }
+
+        //Added by Arib on 30-Aug-2020
+        public async Task<IList<string>> GetRoles(IdentityUser objModel)
+        {
+            var roles = await _userManager.GetRolesAsync(objModel);
+
+            return roles;
+        }
+
+        //Added by Arib on 30-Aug-2020
+        public async Task<IdentityResult> RemoveRole(IdentityUser objModel, string role)
+        {
+            var result = await _userManager.RemoveFromRoleAsync(objModel, role);
+
+            return result;
+
+        }
     }
 }

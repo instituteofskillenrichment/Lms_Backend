@@ -4,6 +4,12 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    @if (ViewBag.Error != null)
+    {
+        <script type="text/javascript">
+          alert( "@(ViewBag.Error)");
+        </script>
+    }
 }
 
 <div class="dashboard" id="dashboard">
@@ -107,26 +113,26 @@
                                     <tbody>
                                         @foreach (var item in ViewBag.User)
                                         {
-                                        <tr>
-                                            <td>@item.UserId</td>
-                                            <td>@item.UserName</td>
-                                            <td>@item.UserEmail</td>
-                                            <td>@item.UserPassword</td>
-                                            <td>@item.UserRole</td>
-                                            <td>
-                                                <a href="#editUserModal" class="edit" id="edit" data-toggle="modal">
-                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
-                                                </a>
+                                            <tr>
+                                                <td>@item.UserId</td>
+                                                <td>@item.UserName</td>
+                                                <td>@item.UserEmail</td>
+                                                <td>@item.UserPassword</td>
+                                                <td>@item.UserRole</td>
+                                                <td>
+                                                    <a href="#editUserModal" class="edit" id="edit" data-toggle="modal">
+                                                        <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                                    </a>
 
-                                                <a href="#deleteUserModal" class="delete" id="delete" data-toggle="modal">
-                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
-                                                </a>
+                                                    <a href="#deleteUserModal" class="delete" id="delete" data-toggle="modal">
+                                                        <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                                    </a>
 
-                                                @*Added BY Absar To get parentid*@
-                                                <input type="hidden" class="User_Id" value="@item.UserId" />
+                                                    @*Added BY Absar To get parentid*@
+                                                    <input type="hidden" class="User_Id" value="@item.UserId" />
 
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -146,9 +152,9 @@
                                         </div>
                                         <div class="modal-body">
                                             @*<div class="form-group">
-                                                <label>Class ID</label>
-                                                <input type="text" class="form-control" required="" name="User_Id">
-                                            </div>*@
+                                                    <label>Class ID</label>
+                                                    <input type="text" class="form-control" required="" name="User_Id">
+                                                </div>*@
                                             <div class="form-group">
                                                 <label>User Name</label>
                                                 <input type="text" class="form-control" required="" name="UserName">
@@ -299,6 +305,9 @@
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
 @*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
+<script type="text/javascript">
+
+</script>
 <script>
     $(document).ready(function () {
 
