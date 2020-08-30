@@ -11,11 +11,19 @@ namespace LMS.BusinessLogics.Interfaces
 {
     public interface IUserRepository
     {
-        Task<int> CreateUser(IdentityUser objModel, string User_Role);
-        Task<int> UpdateUser(IdentityUser objModel);
-        Task<int> DeleteUser(string userId);
-        IQueryable<AppUser> GetAllUser();
+        IQueryable<AppUser> GetAllUserWithRoles();
+
+        Task<int> CreateUser(IdentityUser objModel);
+
+        Task<int> AssignToRole(IdentityUser objModel, string UserRole);
+
+        IQueryable<AppUser> FindUserWithRoleById(string userId);
+
         Task<IdentityUser> FindUserById(string userId);
-        
+        //Task<int> UpdateUser(IdentityUser objModel);
+        //Task<int> DeleteUser(string userId);
+
+
+
     }
 }

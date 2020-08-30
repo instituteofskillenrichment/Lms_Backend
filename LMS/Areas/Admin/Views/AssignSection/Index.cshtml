@@ -17,7 +17,7 @@
                         <span class="navbar-toggler-bar bar3"></span>
                     </button>
                 </div>
-                <a class="navbar-brand" href="#pablo">Section Info</a>
+                <a class="navbar-brand" href="#pablo">Class Section Info</a>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -136,7 +136,7 @@
                                 <div class="modal-content">
                                     <form method="post" asp-controller="assignSection" asp-action="addClassSection">
                                         <div class="modal-header">
-                                            <h4 class="modal-title">Add Section</h4>
+                                            <h4 class="modal-title">Add Class Section</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                         </div>
                                         <div class="modal-body">
@@ -171,7 +171,7 @@
                                 <div class="modal-content">
                                     <form method="post" asp-controller="assignSection" asp-action="editClassSection">
                                         <div class="modal-header">
-                                            <h4 class="modal-title">Edit Class</h4>
+                                            <h4 class="modal-title">Edit Class Section</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                         </div>
                                         <div class="modal-body">
@@ -181,7 +181,9 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Class Name</label>
-                                                <select id="Class_Id" name="Class_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Class, "Class_Id", "Class_Name"))"></select>
+                                                <select id="Class_Id" name="Class_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Class, "Class_Id", "Class_Name"))">
+
+                                                </select>
                                             </div>
 
                                             <div class="form-group">
@@ -209,7 +211,7 @@
                                 <div class="modal-content">
                                     <form method="post" asp-controller="assignSection" asp-action="deleteClassSection">
                                         <div class="modal-header">
-                                            <h4 class="modal-title">Delete Section</h4>
+                                            <h4 class="modal-title">Delete Class Section</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                         </div>
                                         <div class="modal-body">
@@ -295,12 +297,13 @@
                 type: 'GET',
                 url: '/admin/assignSection/editClassSection/' + id,
                 success: function (objassignSection) {
-                    debugger;
+                   // debugger;
                     // objClass = JSON.stringify(objClass);
 
                     //alert(objClass);
                     $('#editClassSectionModal #ClassSection_Id').val(objassignSection.classSection_id);
-                    $('#editClassSectionModal #Section_Name').val(objassignSection.section_Id);
+                    $('#editClassSectionModal #Class_Id').val(objassignSection.class_Id);
+                    $('#editClassSectionModal #Section_Id').val(objassignSection.section_Id);
 
                 }
             });

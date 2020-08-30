@@ -92,7 +92,7 @@
                                     </div>
                                 </div>
 
-                                <table id="classpage" class="display" style="width:100%">
+                                <table id="sectionpage" class="display" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -163,7 +163,7 @@
                                 <div class="modal-content">
                                     <form method="post" asp-controller="section" asp-action="editSection">
                                         <div class="modal-header">
-                                            <h4 class="modal-title">Edit Class</h4>
+                                            <h4 class="modal-title">Edit Section</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                         </div>
                                         <div class="modal-body">
@@ -261,19 +261,19 @@
 <script>
     $(document).ready(function () {
 
-        $('#classpage').DataTable();
+        $('#sectionpage').DataTable();
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
 
         //Get Section_Id for Delete Added By Absar
-        $('#classpage #delete').on('click', function () {
+        $('#sectionpage #delete').on('click', function () {
             var Section_Id = $(this).parent().find('.Section_Id').val();
             $('#deleteClassModal #Section_Id').val(Section_Id);
         });
 
         //Get Section_Id for Edit Added By Absar
-        $('#classpage #edit').on('click', function () {
+        $('#sectionpage #edit').on('click', function () {
             var id = $(this).parent().find('.Section_Id').val();
             $.ajax({
 

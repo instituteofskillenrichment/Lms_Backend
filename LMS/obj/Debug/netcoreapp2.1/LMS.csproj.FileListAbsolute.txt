@@ -268,3 +268,4 @@ D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp
 D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\LMS.pdb
 D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Section\Index.g.cshtml.cs
 D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\AssignSection\Index.g.cshtml.cs
+D:\Documents\.Net Core Projects\ISE\LMS\LMS\Lms_Backend\LMS\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Subject\Index.g.cshtml.cs

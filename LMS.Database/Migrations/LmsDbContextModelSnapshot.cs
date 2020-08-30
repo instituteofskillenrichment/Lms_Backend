@@ -89,7 +89,7 @@ namespace LMS.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Suject_Name");
+                    b.Property<string>("Subject_Name");
 
                     b.HasKey("Subject_Id");
 
