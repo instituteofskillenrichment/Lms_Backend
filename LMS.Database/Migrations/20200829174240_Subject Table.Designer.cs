@@ -4,14 +4,16 @@ using LMS.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LMS.Database.Migrations
 {
     [DbContext(typeof(LmsDbContext))]
-    partial class LmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200829174240_Subject Table")]
+    partial class SubjectTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,19 +85,6 @@ namespace LMS.Database.Migrations
                     b.ToTable("Section");
                 });
 
-            modelBuilder.Entity("LMS.Domain.Student", b =>
-                {
-                    b.Property<int>("Student_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Student_Name");
-
-                    b.HasKey("Student_Id");
-
-                    b.ToTable("Student");
-                });
-
             modelBuilder.Entity("LMS.Domain.Subject", b =>
                 {
                     b.Property<int>("Subject_Id")
@@ -107,19 +96,6 @@ namespace LMS.Database.Migrations
                     b.HasKey("Subject_Id");
 
                     b.ToTable("Subject");
-                });
-
-            modelBuilder.Entity("LMS.Domain.Teacher", b =>
-                {
-                    b.Property<int>("Teacher_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Teacher_Name");
-
-                    b.HasKey("Teacher_Id");
-
-                    b.ToTable("Teacher");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

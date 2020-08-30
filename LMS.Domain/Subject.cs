@@ -9,7 +9,7 @@ namespace LMS.Domain
     {
         [Key]
         public int Subject_Id { get; set; }
-        public string Suject_Name { get; set; }
+        public string Subject_Name { get; set; }
 
     }
 }

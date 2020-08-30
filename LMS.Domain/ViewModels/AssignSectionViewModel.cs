@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace LMS.Domain.ViewModels
@@ -16,5 +17,7 @@ namespace LMS.Domain.ViewModels
         public int Section_Id { get; set; }
         public string ClassSectionName { get; set; }
         
+        public IQueryable<AssignSectionViewModel> assignSectionViewModels { get; set; }
+
     }
 }

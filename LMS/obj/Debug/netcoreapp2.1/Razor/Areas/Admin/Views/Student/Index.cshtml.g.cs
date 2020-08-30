@@ -81,7 +81,7 @@ using Microsoft.AspNetCore.Identity;
             WriteLiteral(" navbar-kebab\"></span>\r\n                <span class=\"navbar-toggler-bar navbar-kebab\"></span>\r\n            </button>\r\n            <div class=\"collapse navbar-collapse justify-content-end\" id=\"navigation\">\r\n                ");
             EndContext();
             BeginContext(1391, 478, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "8a50fb1713d54711ba9209a481c4c8ee", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3ab9e790cb0c4607aa418bf9e1c86645", async() => {
                 BeginContext(1397, 465, true);
                 WriteLiteral(@"
                     <div class=""input-group no-border"">
@@ -281,7 +281,7 @@ WriteAttributeValue("", 7701, item.Student_Id, 7701, 16, false);
                                 ");
             EndContext();
             BeginContext(9358, 1175, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "c5a93b8f546748938624e7226af289c8", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a1062ea894b34fb2872a8e41f91a22ba", async() => {
                 BeginContext(9427, 1099, true);
                 WriteLiteral(@"
                                     <div class=""modal-header"">
@@ -333,7 +333,7 @@ WriteAttributeValue("", 7701, item.Student_Id, 7701, 16, false);
                                 ");
             EndContext();
             BeginContext(10889, 1670, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dd4855d87bea48c8ac750c366db564f4", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "99ccc0bbf5204e9eb25b34bcf15bf63e", async() => {
                 BeginContext(10959, 1359, true);
                 WriteLiteral(@"
                                     <div class=""modal-header"">
@@ -393,7 +393,7 @@ WriteAttributeValue("", 7701, item.Student_Id, 7701, 16, false);
                                 ");
             EndContext();
             BeginContext(12921, 1282, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "269ea42d26884cad8fc0529c8f7493af", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0760afa4297a4a94b729bf74aeae6253", async() => {
                 BeginContext(12993, 932, true);
                 WriteLiteral(@"
                                     <div class=""modal-header"">
@@ -483,7 +483,7 @@ WriteAttributeValue("", 7701, item.Student_Id, 7701, 16, false);
 ");
             EndContext();
             BeginContext(15892, 64, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4f187a1465fc4dfaaa73f6239b6c89b2", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2cbfa796a5194b3596906f03f3ff038d", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();

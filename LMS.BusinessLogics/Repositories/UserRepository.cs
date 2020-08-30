@@ -19,6 +19,8 @@ namespace LMS.BusinessLogics.Repositories
         private readonly IRoleRepository _RoleRepository;
         private LmsDbContext _lmsDbContext;
 
+        public object ModelState { get; private set; }
+
         public UserRepository(UserManager<IdentityUser> userManager, LmsDbContext lmsDbContext, IRoleRepository RoleRepository)
         {
             _userManager = userManager;
@@ -26,7 +28,26 @@ namespace LMS.BusinessLogics.Repositories
             _RoleRepository = RoleRepository;
         }
 
-        public async Task<int> CreateUser(IdentityUser objModel, string User_Role)
+        public IQueryable<AppUser> GetAllUserWithRoles()
+        {
+
+            IQueryable<AppUser> user = from u in _lmsDbContext.Users
+                                       join ur in _lmsDbContext.UserRoles on u.Id equals ur.UserId
+                                       join r in _lmsDbContext.Roles on ur.RoleId equals r.Id
+                                       select new AppUser
+                                       {
+                                           UserId = u.Id,
+                                           UserName = u.UserName,
+                                           UserEmail = u.Email,
+                                           UserPassword = u.PasswordHash,
+                                           UserRole = r.Name
+                                       };
+
+            return user;
+        }
+
+
+        public async Task<int> CreateUser(IdentityUser objModel)
         {
             if (objModel != null)
             {
@@ -34,22 +55,10 @@ namespace LMS.BusinessLogics.Repositories
 
                 if (result.Succeeded)
                 {
-                    IdentityRole RoleModel = await _RoleRepository.FindRoleById(User_Role);
-
-                    if (RoleModel != null)
-                    {
-                        IdentityResult success = await _userManager.AddToRoleAsync(objModel, RoleModel.Name);
-
-                        if (success.Succeeded)
-                        {
-                            return 1;
-                        }
-                        else
-                        {
-                            return 0;
-                        }
-                    }
                     
+
+                    return 1;
+
                 }
                 else
                 {
@@ -60,81 +69,132 @@ namespace LMS.BusinessLogics.Repositories
             return -1;
         }
 
-        public async Task<int> DeleteUser(string userId)
+        public async Task<int> AssignToRole(IdentityUser objModel, string UserRole)
         {
-            IdentityUser user = await FindUserById(userId);
+            IdentityRole getRole = await _RoleRepository.FindRoleById(UserRole);
 
-            if (user != null)
+            if (getRole != null)
             {
-                IdentityResult result = await _userManager.DeleteAsync(user);
+                IdentityResult result = await _userManager.AddToRoleAsync(objModel, getRole.Name);
+
                 if (result.Succeeded)
+                {
                     return 1;
+                }
                 else
+                {
                     return 0;
+                }
             }
 
             return -1;
         }
 
-        public async Task<IdentityUser> FindUserById(string userId)
+
+        public IQueryable<AppUser> FindUserWithRoleById(string userId)
         {
 
-            IdentityUser findUser = await _userManager.FindByIdAsync(userId);
+            
+
+            var findUser = (from u in _lmsDbContext.Users
+                            join ur in _lmsDbContext.UserRoles on u.Id equals ur.UserId
+                            join r in _lmsDbContext.Roles on ur.RoleId equals r.Id
+                            where u.Id == userId
+                            select new AppUser
+                            {
+                                UserId = u.Id,
+                                UserName = u.UserName,
+                                UserEmail = u.Email,
+                                UserPassword = u.PasswordHash,
+                                UserRoleId = r.Id,
+                                UserRole = r.Name
+                            });
+
+
+
+
+
+            
 
             return findUser;
         }
 
-        
-
-        public IQueryable<AppUser> GetAllUser()
+        public Task<IdentityUser> FindUserById(string userId)
         {
-
-            IQueryable<AppUser> user = from u in _lmsDbContext.Users
-                       join ur in _lmsDbContext.UserRoles on u.Id equals ur.UserId
-                       join r in _lmsDbContext.Roles on ur.RoleId equals r.Id
-                       select new AppUser
-                       {
-                          UserId =  u.Id,
-                          UserName = u.UserName,
-                          UserEmail =  u.Email,
-                          UserPassword =  u.PasswordHash,
-                          UserRole= r.Name
-                       };
-
-
-            
-            //var list = new List<string>();
-
-                       //foreach (var user in _userManager.Users.ToList())
-                       //{
-                       //    list.Add(new
-                       //    {
-                       //        //Id = user.Id,
-                       //        user.Id,
-                       //        //UserName = user.UserName,
-                       //        user.UserName,
-                       //        //Email = user.Email,
-                       //        user.Email,
-                       //        //PasswordHash = user.PasswordHash,
-                       //        user.PasswordHash,
-                       //        Roles = ( _userManager.GetRolesAsync(user))
-                       //    });
-                       //}
-
-
-                       //IQueryable<IdentityUser> identityUser =  _userManager.Users;
+            var user = _userManager.FindByIdAsync(userId);
 
             return user;
         }
 
-        public async Task<int> UpdateUser(IdentityUser objModel)
-        {
-            IdentityResult result = await _userManager.UpdateAsync(objModel);
 
-            if (result.Succeeded)
-                return 1;
-            else
-                return 0;
-        }
+        //public async Task<int> DeleteUser(string userId)
+        //{
+        //    //IdentityUser user = await FindUserById(userId);
+
+        //    var userRole =  _userManager.FindByIdAsync(userId);
+
+        //    //var user = _userManager.FindByIdAsync(userRole.UserId);
+
+        //    IdentityUser identityUser = new IdentityUser
+        //    {
+        //        Id = userRole.
+
+
+
+
+        //    };
+
+        //    if (userRole != null)
+        //    {
+        //        IdentityResult result = await _userManager.DeleteAsync(identityUser);
+        //        if (result.Succeeded)
+        //            return 1;
+        //        else
+        //            return 0;
+        //    }
+
+        //    return -1;
+        //}
+
+        //public IQueryable<AppUser> FindUserById(string userId)
+        //{
+
+        //    //IdentityUser findUser = await _userManager.FindByIdAsync(userId);
+
+        //    var findUser = (from u in _lmsDbContext.Users
+        //                   join ur in _lmsDbContext.UserRoles on u.Id equals ur.UserId
+        //                   join r in _lmsDbContext.Roles on ur.RoleId equals r.Id
+        //                   where u.Id == userId
+        //                   select new AppUser
+        //                   {
+        //                       UserId = u.Id,
+        //                       UserName = u.UserName,
+        //                       UserEmail = u.Email,
+        //                       UserPassword = u.PasswordHash,
+        //                       UserRole = r.Name
+        //                   });
+
+
+
+
+
+        //    //var findUser = _lmsDbContext.UserRoles.AsNoTracking().FirstOrDefaultAsync(e => e.UserId == userId);
+
+        //    return findUser;
+        //}
+
+
+
+
+
+        //public async Task<int> UpdateUser(IdentityUser objModel)
+        //{
+        //    IdentityResult result = await _userManager.UpdateAsync(objModel);
+
+        //    if (result.Succeeded)
+        //        return 1;
+        //    else
+        //        return 0;
+        //}
     }
 }

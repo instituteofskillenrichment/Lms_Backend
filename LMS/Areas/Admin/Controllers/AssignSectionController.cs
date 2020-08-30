@@ -6,6 +6,7 @@ using LMS.BusinessLogics.Interfaces;
 using LMS.Domain;
 using LMS.Domain.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LMS.Areas.Admin.Controllers
 {
@@ -25,9 +26,14 @@ namespace LMS.Areas.Admin.Controllers
         [Route("index")]
         public IActionResult Index()
         {
+            
             var ClassSection = _AssignSectionRepository.GetAllClasSection();
 
-           // ViewBag.AssignClassSection = ClassSection;
+            //var assignSectionVM = new AssignSectionViewModel()
+            //{
+            //    assignSectionViewModels = ClassSection
+            //};
+
 
             ViewBag.Class = _AssignSectionRepository.GetAllClass();
 

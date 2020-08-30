@@ -33,12 +33,14 @@ namespace LMS.Areas.Admin.Controllers
         {
 
 
-            var User = _UserRepository.GetAllUser();
+            var UserWithRole = _UserRepository.GetAllUserWithRoles();
 
-            
 
-            ViewBag.User = User;
+
+            ViewBag.User = UserWithRole;
+
             ViewBag.Role = _RoleRepository.GetAllRoles();
+            
             ////var AppUserVM = new AppUser();
             //var User = _UserRepository.GetAllUser();
 
@@ -50,83 +52,114 @@ namespace LMS.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("addUser")]
-        public async Task<IActionResult> AddUser(string UserName, string Email,string PasswordHash, string User_Role)
-        {
+        public async Task<IActionResult> AddUser(AppUser objAppUser)
+        { 
             if (ModelState.IsValid)
             {
 
 
                 IdentityUser User = new IdentityUser
                 {
-                    
 
-                    UserName = UserName,
-                    Email = Email,
-                    PasswordHash = PasswordHash
-                    
+
+                    UserName = objAppUser.UserName,
+                    Email = objAppUser.UserEmail,
+                    PasswordHash = objAppUser.UserPassword
+
                 };
 
-                await _UserRepository.CreateUser(User, User_Role);
+                int userSucceed = await _UserRepository.CreateUser(User);
+
+                if(userSucceed ==1)
+                {
+                    //int assignRole = await _UserRepository.AssignToRole(User, objAppUser.UserRole);
+
+                    await _UserRepository.AssignToRole(User, objAppUser.UserRole);
+
+                }
+                else
+                {
+                    //foreach (IdentityError error in userSucceed.Errors)
+                    //    ModelState.AddModelError("", error.Description);
+                }
 
                 return RedirectToAction("Index", "user", new { area = "admin" });
 
             }
+            
 
             return View();
         }
 
 
-        [HttpPost]
-        [Route("deleteUser")]
-        public async Task<IActionResult> DeleteUser(string User_Id)
-        {
+        //[HttpPost]
+        //[Route("deleteUser")]
+        //public async Task<IActionResult> DeleteUser(string User_Id)
+        //{
 
-            if (!string.IsNullOrEmpty(User_Id))
-            {
-                await _UserRepository.DeleteUser(User_Id);
+        //    if (!string.IsNullOrEmpty(User_Id))
+        //    {
+        //        await _UserRepository.DeleteUser(User_Id);
 
-                return RedirectToAction("Index", "user", new { area = "admin" });
-            }
+        //        return RedirectToAction("Index", "user", new { area = "admin" });
+        //    }
 
-            return View();
-        }
+        //    return View();
+        //}
 
 
         [HttpGet]
         [Route("editUser/{User_Id}")]
-        public async Task<IActionResult> EditUser(string User_Id)
+        public IActionResult EditUser(string User_Id)
         {
 
 
             ViewBag.Role = _RoleRepository.GetAllRoles();
 
-            var objUser = await _UserRepository.FindUserById(User_Id);
+            var objUserWithRole =  _UserRepository.FindUserWithRoleById(User_Id);
 
-            return new JsonResult(objUser);
+            //if(objUserWithRole != null)
+            //{
+            //    var objUser = _UserRepository.FindUserById(User_Id);
+            //    return new JsonResult(objUser);
+            //}
+
+
+            return new JsonResult(objUserWithRole);
 
         }
 
 
-        [HttpPost]
-        [Route("editUser")]
-        public async Task<IActionResult> EditUser(string User_Id, string User_Name, string User_Email, string User_Password)
-        {
-            if (ModelState.IsValid)
-            {
-                IdentityUser UserModel = await _UserRepository.FindUserById(User_Id);
+        //[HttpPost]
+        //[Route("editUser")]
+        //public async Task<IActionResult> EditUser(string User_Id, string User_Name, string User_Email, string User_Password, string User_Role)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        //IdentityUser UserModel = await _UserRepository.FindUserById(User_Id);
 
-                UserModel.UserName = User_Name;
-                UserModel.Email = User_Email;
-                UserModel.PasswordHash = User_Password;
+        //        var UserModel =  _UserRepository.FindUserById(User_Id);
 
-                await _UserRepository.UpdateUser(UserModel);
+        //        //IdentityUser identityUser = new IdentityUser
+        //        //{
+        //        //    Id = UserModel.UserId,
+        //        //    UserName = UserModel.UserName,
+        //        //    Email = UserModel.UserEmail,
+        //        //    PasswordHash = UserModel.UserPassword
+        //        //};
 
-                return RedirectToAction("Index", "user", new { area = "admin" });
+        //        //UserModel.UserName = User_Name;
+        //        //UserModel.Email = User_Email;
+        //        //UserModel.PasswordHash = User_Password;
 
-            }
+        //        //await _UserRepository.UpdateUser(identityUser);
 
-            return View();
-        }
+        //        return RedirectToAction("Index", "user", new { area = "admin" });
+
+        //    }
+
+        //    return View();
+        //}
 
 
 

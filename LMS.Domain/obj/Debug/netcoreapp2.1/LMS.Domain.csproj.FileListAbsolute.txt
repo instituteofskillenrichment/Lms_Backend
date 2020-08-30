@@ -57,3 +57,5 @@ U:\Freelance Work\ISM\Lms_Backend\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.
 U:\Freelance Work\ISM\Lms_Backend\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.csproj.CopyComplete
 U:\Freelance Work\ISM\Lms_Backend\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.dll
 U:\Freelance Work\ISM\Lms_Backend\LMS.Domain\obj\Debug\netcoreapp2.1\LMS.Domain.pdb
+U:\Freelance Work\ISM\Lms_Backend\LMS.Domain\bin\Debug\netcoreapp2.1\Microsoft.Extensions.Identity.Stores.dll
+U:\Freelance Work\ISM\Lms_Backend\LMS.Domain\bin\Debug\netcoreapp2.1\Microsoft.Extensions.Identity.Stores.xml
