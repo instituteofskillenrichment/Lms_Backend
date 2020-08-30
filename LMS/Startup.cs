@@ -52,6 +52,8 @@ namespace LMS
 
             //Added By Absar
             services.AddScoped<IClassRepository, ClassRepository>();
+            services.AddScoped<ITeacherRepository, TeacherRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<ISectionRepository, SectionRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
