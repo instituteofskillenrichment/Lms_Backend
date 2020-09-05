@@ -20,10 +20,16 @@ namespace LMS.BusinessLogics.Interfaces
         IQueryable<AppUser> FindUserWithRoleById(string userId);
 
         Task<IdentityUser> FindUserById(string userId);
-        //Task<int> UpdateUser(IdentityUser objModel);
-        //Task<int> DeleteUser(string userId);
+        Task<int> UpdateUser(IdentityUser objModel);
 
+        //Added by Arib on 30-Aug-2020
+        Task<IList<string>> GetRoles(IdentityUser objModel);
 
+        //Added by Arib on 30-Aug-2020
+        Task<IdentityResult> RemoveRole(IdentityUser objModel, string role);
+
+        //Added by Arib on 30-Aug-2020
+        Task<int> DeleteUser(IdentityUser objModel);
 
     }
 }

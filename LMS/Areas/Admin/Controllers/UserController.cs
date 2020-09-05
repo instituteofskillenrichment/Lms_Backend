@@ -40,7 +40,13 @@ namespace LMS.Areas.Admin.Controllers
             ViewBag.User = UserWithRole;
 
             ViewBag.Role = _RoleRepository.GetAllRoles();
-            
+
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"].ToString();
+            }
+
+
             ////var AppUserVM = new AppUser();
             //var User = _UserRepository.GetAllUser();
 
@@ -53,7 +59,7 @@ namespace LMS.Areas.Admin.Controllers
         [HttpPost]
         [Route("addUser")]
         public async Task<IActionResult> AddUser(AppUser objAppUser)
-        { 
+        {
             if (ModelState.IsValid)
             {
 
@@ -70,42 +76,58 @@ namespace LMS.Areas.Admin.Controllers
 
                 int userSucceed = await _UserRepository.CreateUser(User);
 
-                if(userSucceed ==1)
+                if (userSucceed == 1)
                 {
                     //int assignRole = await _UserRepository.AssignToRole(User, objAppUser.UserRole);
 
-                    await _UserRepository.AssignToRole(User, objAppUser.UserRole);
+                    var response  = await _UserRepository.AssignToRole(User, objAppUser.UserRole);
+
+                    if (response != 1)
+                    {
+                        ViewBag.Error = "Failed to assign role to the user. Please try again!";
+                        return RedirectToAction("Index", "user", new { area = "admin" });
+                    }
 
                 }
                 else
                 {
-                    //foreach (IdentityError error in userSucceed.Errors)
-                    //    ModelState.AddModelError("", error.Description);
+                    ViewBag.Error = "Failed to add user. Please try again!";
+                    return RedirectToAction("Index", "user", new { area = "admin" });
                 }
 
                 return RedirectToAction("Index", "user", new { area = "admin" });
 
             }
-            
+
 
             return View();
         }
 
 
-        //[HttpPost]
-        //[Route("deleteUser")]
-        //public async Task<IActionResult> DeleteUser(string User_Id)
-        //{
+        [HttpPost]
+        [Route("deleteUser")]
+        public async Task<IActionResult> DeleteUser(string User_Id)
+        {
+            var user = await _UserRepository.FindUserById(User_Id);
 
-        //    if (!string.IsNullOrEmpty(User_Id))
-        //    {
-        //        await _UserRepository.DeleteUser(User_Id);
+            if (user == null)
+            {
+                TempData["Error"] = $"User with Id = {User_Id} cannot be found";
+                return RedirectToAction("Index", "user", new { area = "admin" });
+            }
+            else
+            {
+                var result = await _UserRepository.DeleteUser(user);
 
-        //        return RedirectToAction("Index", "user", new { area = "admin" });
-        //    }
+                if (result != 1)
+                {
+                    TempData["Error"] = "Failed to delete user. Please try again!";
+                    return RedirectToAction("Index", "user", new { area = "admin" });
+                }
 
-        //    return View();
-        //}
+                return RedirectToAction("Index", "user", new { area = "admin" });
+            }
+        }
 
 
         [HttpGet]
@@ -116,7 +138,7 @@ namespace LMS.Areas.Admin.Controllers
 
             ViewBag.Role = _RoleRepository.GetAllRoles();
 
-            var objUserWithRole =  _UserRepository.FindUserWithRoleById(User_Id);
+            var objUserWithRole = _UserRepository.FindUserWithRoleById(User_Id);
 
             //if(objUserWithRole != null)
             //{
@@ -130,38 +152,49 @@ namespace LMS.Areas.Admin.Controllers
         }
 
 
-        //[HttpPost]
-        //[Route("editUser")]
-        //public async Task<IActionResult> EditUser(string User_Id, string User_Name, string User_Email, string User_Password, string User_Role)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        //IdentityUser UserModel = await _UserRepository.FindUserById(User_Id);
+        [HttpPost]
+        [Route("editUser")]
+        public async Task<IActionResult> EditUser(string User_Id, string User_Name, string User_Email, string User_Password, string User_Role)
+        {
+            if (ModelState.IsValid)
+            {
+                IdentityUser UserModel = await _UserRepository.FindUserById(User_Id);
 
-        //        var UserModel =  _UserRepository.FindUserById(User_Id);
+                UserModel.UserName = User_Name;
+                UserModel.Email = User_Email;
+                UserModel.PasswordHash = User_Password;
 
-        //        //IdentityUser identityUser = new IdentityUser
-        //        //{
-        //        //    Id = UserModel.UserId,
-        //        //    UserName = UserModel.UserName,
-        //        //    Email = UserModel.UserEmail,
-        //        //    PasswordHash = UserModel.UserPassword
-        //        //};
+                int response = await _UserRepository.UpdateUser(UserModel);
 
-        //        //UserModel.UserName = User_Name;
-        //        //UserModel.Email = User_Email;
-        //        //UserModel.PasswordHash = User_Password;
+                if (response == 1)
+                {
+                   var roles = await _UserRepository.GetRoles(UserModel);
+                   var result = await _UserRepository.RemoveRole(UserModel, roles[0]);
 
-        //        //await _UserRepository.UpdateUser(identityUser);
+                    if (!result.Succeeded)
+                    {
+                        TempData["Error"] = "Cannot remove user existing roles. Please try again!";
+                        return RedirectToAction("Index", "user", new { area = "admin" });
+                    }
 
-        //        return RedirectToAction("Index", "user", new { area = "admin" });
+                   response = await _UserRepository.AssignToRole(UserModel, User_Role);
 
-        //    }
+                    if (response != 1)
+                    {
+                        TempData["Error"] = "Failed to update role to the user. Please try again!";
+                        return RedirectToAction("Index", "user", new { area = "admin" });
+                    }
+                }
+                else
+                {
+                    TempData["Error"] = "Failed to update user. Please try again!";
+                    return RedirectToAction("Index", "user", new { area = "admin" });
+                }
 
-        //    return View();
-        //}
+                return RedirectToAction("Index", "user", new { area = "admin" });
+            }
 
-
-
+            return View();
+        }
     }
 }
