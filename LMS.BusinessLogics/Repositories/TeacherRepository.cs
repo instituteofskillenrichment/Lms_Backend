@@ -5,20 +5,26 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace LMS.BusinessLogics.Repositories
 {
     public class TeacherRepository : ITeacherRepository
     {
         private LmsDbContext _lmsDbContext;
-
+        
         public TeacherRepository(LmsDbContext lmsDbContext)
         {
             _lmsDbContext = lmsDbContext;
+            
         }
 
         public async Task AddTeacher(Teacher objTeacher)
         {
             await _lmsDbContext.Teacher.AddAsync(objTeacher);
+
+
+            int teacherId = objTeacher.Teacher_Id;
+
             await _lmsDbContext.SaveChangesAsync();
         }
 
@@ -53,5 +59,9 @@ namespace LMS.BusinessLogics.Repositories
 
             await _lmsDbContext.SaveChangesAsync();
         }
+
+
+        
+
     }
 }

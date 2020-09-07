@@ -30,7 +30,7 @@ namespace LMS.Controllers
             {
                 var user = await userManager.FindByEmailAsync(model.Email);
 
-                if (user != null && !user.EmailConfirmed &&
+                if (user != null && 
                                     (await userManager.CheckPasswordAsync(user, model.Password)))
                 {
                     ModelState.AddModelError(string.Empty, "Email not confirmed yet");
@@ -38,7 +38,7 @@ namespace LMS.Controllers
                 }
 
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password,
-                                        model.RememberMe, true);
+                                        model.RememberMe, false);
 
                 if (result.Succeeded)
                 {

@@ -12,6 +12,7 @@ namespace LMS.Areas.Admin.Controllers
 {
     [Area("admin")]
     [Route("admin/assignSection")]
+
     public class AssignSectionController : Controller
     {
         private readonly IAssignSectionRepository _AssignSectionRepository;

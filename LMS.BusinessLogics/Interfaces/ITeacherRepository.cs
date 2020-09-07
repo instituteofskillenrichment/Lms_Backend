@@ -11,5 +11,6 @@ namespace LMS.BusinessLogics.Interfaces
         Task AddTeacher(Teacher objTeacher);
         Task UpdateTeacher(Teacher objTeacher);
         Task DeleteTeacher(int id);
+        
     }
 }
