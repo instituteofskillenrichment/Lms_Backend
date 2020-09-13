@@ -15,7 +15,6 @@ namespace LMS.Areas.Admin.Controllers
     [Route("admin/user")]
     public class UserController : Controller
     {
-
         private readonly IUserRepository _UserRepository;
         private readonly IRoleRepository _RoleRepository;
         private LmsDbContext _lmsDbContext;
@@ -31,11 +30,7 @@ namespace LMS.Areas.Admin.Controllers
         [Route("index")]
         public IActionResult Index()
         {
-
-
             var UserWithRole = _UserRepository.GetAllUserWithRoles();
-
-
 
             ViewBag.User = UserWithRole;
 
@@ -46,14 +41,13 @@ namespace LMS.Areas.Admin.Controllers
                 ViewBag.Error = TempData["Error"].ToString();
             }
 
-
-            ////var AppUserVM = new AppUser();
-            //var User = _UserRepository.GetAllUser();
-
+            if (TempData["Success"] != null)
+            {
+                ViewBag.Success = TempData["Success"].ToString();
+            }
 
             return View();
         }
-
 
 
         [HttpPost]
@@ -62,43 +56,34 @@ namespace LMS.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-
-
                 IdentityUser User = new IdentityUser
                 {
-
-
                     UserName = objAppUser.UserName,
                     Email = objAppUser.UserEmail,
                     PasswordHash = objAppUser.UserPassword
-
                 };
 
                 int userSucceed = await _UserRepository.CreateUser(User);
 
                 if (userSucceed == 1)
                 {
-                    //int assignRole = await _UserRepository.AssignToRole(User, objAppUser.UserRole);
-
                     var response  = await _UserRepository.AssignToRole(User, objAppUser.UserRole);
 
                     if (response != 1)
                     {
-                        ViewBag.Error = "Failed to assign role to the user. Please try again!";
+                        TempData["Error"] = "Failed to assign role to the user. Please try again!";
                         return RedirectToAction("Index", "user", new { area = "admin" });
                     }
-
                 }
                 else
                 {
-                    ViewBag.Error = "Failed to add user. Please try again!";
+                    TempData["Error"] = "Failed to add user. Please try again!";
                     return RedirectToAction("Index", "user", new { area = "admin" });
                 }
 
+                TempData["Success"] = "User successfully added.";
                 return RedirectToAction("Index", "user", new { area = "admin" });
-
             }
-
 
             return View();
         }
@@ -125,6 +110,7 @@ namespace LMS.Areas.Admin.Controllers
                     return RedirectToAction("Index", "user", new { area = "admin" });
                 }
 
+                TempData["Success"] = "User successfully deleted.";
                 return RedirectToAction("Index", "user", new { area = "admin" });
             }
         }
@@ -134,18 +120,9 @@ namespace LMS.Areas.Admin.Controllers
         [Route("editUser/{User_Id}")]
         public IActionResult EditUser(string User_Id)
         {
-
-
             ViewBag.Role = _RoleRepository.GetAllRoles();
 
             var objUserWithRole = _UserRepository.FindUserWithRoleById(User_Id);
-
-            //if(objUserWithRole != null)
-            //{
-            //    var objUser = _UserRepository.FindUserById(User_Id);
-            //    return new JsonResult(objUser);
-            //}
-
 
             return new JsonResult(objUserWithRole);
 
@@ -191,6 +168,7 @@ namespace LMS.Areas.Admin.Controllers
                     return RedirectToAction("Index", "user", new { area = "admin" });
                 }
 
+                TempData["Success"] = "User successfully updated.";
                 return RedirectToAction("Index", "user", new { area = "admin" });
             }
 

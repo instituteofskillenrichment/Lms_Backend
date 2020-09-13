@@ -2,6 +2,7 @@
 using LMS.Database;
 using LMS.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,25 +12,46 @@ namespace LMS.BusinessLogics.Repositories
     public class StudentRepository : IStudentRepository
     {
         private LmsDbContext _lmsDbContext;
+        private ILogger _logger;
 
-        public StudentRepository(LmsDbContext lmsDbContext)
+        public StudentRepository(LmsDbContext lmsDbContext, ILogger logger)
         {
             _lmsDbContext = lmsDbContext;
+            _logger = logger;
         }
 
-        public async Task AddStudent(Student objStudent)
+        public async Task<int> AddStudent(Student objStudent)
         {
-            await _lmsDbContext.Student.AddAsync(objStudent);
-            await _lmsDbContext.SaveChangesAsync();
+            try
+            {
+                await _lmsDbContext.Student.AddAsync(objStudent);
+                await _lmsDbContext.SaveChangesAsync();
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
+                return -1;
+            }
         }
 
-        public async Task DeleteStudent(int id)
+        public async Task<int> DeleteStudent(int id)
         {
-            var deleteStudent = await GetStudentById(id);
+            try
+            {
+                var deleteStudent = await GetStudentById(id);
 
-            _lmsDbContext.Student.Remove(deleteStudent);
+                _lmsDbContext.Student.Remove(deleteStudent);
 
-            await _lmsDbContext.SaveChangesAsync();
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+
+                return -1;
+            }
         }
 
         public IQueryable<Student> GetAllStudent()
@@ -48,11 +70,21 @@ namespace LMS.BusinessLogics.Repositories
             return Student;
         }
 
-        public async Task UpdateStudent(Student objStudent)
+        public async Task<int> UpdateStudent(Student objStudent)
         {
-            _lmsDbContext.Student.Update(objStudent);
+            try
+            {
+                _lmsDbContext.Student.Update(objStudent);
 
-            await _lmsDbContext.SaveChangesAsync();
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
+                return -1;
+            }
         }
     }
 }

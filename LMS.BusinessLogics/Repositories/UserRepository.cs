@@ -46,7 +46,6 @@ namespace LMS.BusinessLogics.Repositories
             return user;
         }
 
-
         public async Task<int> CreateUser(IdentityUser objModel)
         {
             if (objModel != null)
@@ -55,10 +54,7 @@ namespace LMS.BusinessLogics.Repositories
 
                 if (result.Succeeded)
                 {
-
-
                     return 1;
-
                 }
                 else
                 {
@@ -163,10 +159,6 @@ namespace LMS.BusinessLogics.Repositories
 
         //    return findUser;
         //}
-
-
-
-
 
         public async Task<int> UpdateUser(IdentityUser objModel)
         {
