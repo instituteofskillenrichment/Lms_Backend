@@ -2,6 +2,7 @@
 using LMS.Domain;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace LMS.Areas.Admin.Controllers
@@ -25,6 +26,7 @@ namespace LMS.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var Teacher = _TeacherRepository.GetAllTeacher();
+            
 
             return View(Teacher);
         }
@@ -67,7 +69,11 @@ namespace LMS.Areas.Admin.Controllers
 
                 };
 
-                await _TeacherRepository.AddTeacher(newTeacher);
+                int Id =  await _TeacherRepository.AddTeacher(newTeacher);
+
+                UploadImage(Id);
+
+                await _TeacherRepository.SaveChanges();
 
                 return RedirectToAction("Index", "Teacher", new { area = "admin" });
 
@@ -92,21 +98,41 @@ namespace LMS.Areas.Admin.Controllers
         {
             var objTeacher = await _TeacherRepository.GetTeacherById(id);
 
-            return new JsonResult(objTeacher);
+            return View(objTeacher);
 
         }
 
         [HttpPost]
-        [Route("editTeacher")]
+        [Route("editTeacher/{id}")]
         public async Task<IActionResult> EditTeacher(Teacher TeacherModel)
         {
             if (ModelState.IsValid)
             {
                 Teacher objTeacher = await _TeacherRepository.GetTeacherById(TeacherModel.Teacher_Id);
 
+                //objTeacher.Teacher_Name = TeacherModel.Teacher_Name;
                 objTeacher.Teacher_Name = TeacherModel.Teacher_Name;
+                objTeacher.Teacher_City = TeacherModel.Teacher_City;
+                objTeacher.Teacher_Cnic = TeacherModel.Teacher_Cnic;
+                objTeacher.Teacher_Country = TeacherModel.Teacher_Country;
+                objTeacher.Teacher_CurrentAddress = TeacherModel.Teacher_CurrentAddress;
+                objTeacher.Teacher_DOB = TeacherModel.Teacher_DOB;
+                objTeacher.Teacher_Department = TeacherModel.Teacher_Department;
+                objTeacher.Teacher_Designation = TeacherModel.Teacher_Designation;
+                objTeacher.Teacher_Email = TeacherModel.Teacher_Email;
+                objTeacher.Teacher_FatherName = TeacherModel.Teacher_FatherName;
+                objTeacher.Teacher_Gender = TeacherModel.Teacher_Gender;
+                objTeacher.Teacher_HomePhone = TeacherModel.Teacher_HomePhone;
+                objTeacher.Teacher_LastDegree = TeacherModel.Teacher_LastDegree;
+                objTeacher.Teacher_MobNumber = TeacherModel.Teacher_MobNumber;
+                objTeacher.Teacher_PermenentAddress = TeacherModel.Teacher_PermenentAddress;
+                //objTeacher.Teacher_Photo = TeacherModel.Teacher_Photo;
 
                 await _TeacherRepository.UpdateTeacher(objTeacher);
+
+                UploadImage(objTeacher.Teacher_Id);
+
+                await _TeacherRepository.SaveChanges();
 
                 return RedirectToAction("Index", "Teacher", new { area = "admin" });
 
@@ -117,7 +143,7 @@ namespace LMS.Areas.Admin.Controllers
 
 
 
-        public Task UploadImage(int id)
+        public void UploadImage(int id)
         {
             //login to save image path in db
             //get bike id we have saved in db
@@ -128,19 +154,21 @@ namespace LMS.Areas.Admin.Controllers
 
             //gte eeeroot folder path on save image on server
 
-            string wwwRootPath = _hostingEnvironment.;
+            string wwwRootPath = _hostingEnvironment.WebRootPath;
 
             //get the upload file
             var files = HttpContext.Request.Form.Files;
 
             //get the referenc of blog image we have saved in db
-            var SaveBlog = _dbContext.Blogs.Find(blogId);
+            var SaveTeacher = _TeacherRepository.FindTeacherById(teacherId);
+            
+            
 
             //upload hte image on server and save path on db
 
             if (files.Count != 0)
             {
-                var imagePath = @"\User\assets\img\";
+                var imagePath = @"\Dashboard\assets\img\Teacher-Img\";
                 // var Extension = Path.GetExtension(files[0].FileName);
                 var FileName = Path.GetFileName(files[0].FileName);
                 var RelativeImagePath = imagePath + FileName;
@@ -154,7 +182,8 @@ namespace LMS.Areas.Admin.Controllers
                 }
 
                 //save imagepath to db
-                SaveBlog.ImagePath = RelativeImagePath;
+                SaveTeacher.Teacher_Photo = RelativeImagePath;
+                //_TeacherRepository.SaveChanges();
 
             }
         }

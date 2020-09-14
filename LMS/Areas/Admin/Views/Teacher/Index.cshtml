@@ -85,17 +85,23 @@
                                             <h2>Manage <b>Teachers</b></h2>
                                         </div>
                                         <div class="col-md-6 pull-right">
-                                            <a href="#addClassModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Teacher</span></a>
-                                            <a href="#deleteClassModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+                                            <a asp-area="admin" asp-controller="teacher" asp-action="addTeacher" class="btn btn-success" ><i class="material-icons">&#xE147;</i> <span>Add New Teacher</span></a>
+                                            @*<a href="#deleteTeacherModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>*@
                                         </div>
                                     </div>
                                 </div>
 
-                                <table id="classpage" class="display" style="width:100%">
+                                <table id="teacherpage" class="display" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Teacher Name</th>
+                                            <th>Name</th>
+                                            <th>Designation</th>
+                                            <th>Department</th>
+                                            <th>Email</th>
+                                            <th>Mobile Number</th>
+                                            <th>City</th>
+                                            <th>Country</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -105,17 +111,24 @@
                                             <tr>
                                                 <td>@item.Teacher_Id</td>
                                                 <td>@item.Teacher_Name</td>
+                                                <td>@item.Teacher_Designation</td>
+                                                <td>@item.Teacher_Department</td>
+                                                <td>@item.Teacher_Email</td>
+                                                <td>@item.Teacher_MobNumber</td>
+                                                <td>@item.Teacher_City</td>
+                                                <td>@item.Teacher_Country</td>
+
                                                 <td>
-                                                    <a href="#editClassModal" class="edit" id="edit" data-toggle="modal">
-                                                        <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                                    <a asp-area="admin" asp-controller="teacher" asp-action="editTeacher" asp-route-id="@item.Teacher_Id" class="edit" id="edit" >
+                                                        <i class="material-icons" title="" data-original-title="Edit"></i>
                                                     </a>
 
-                                                    <a href="#deleteClassModal" class="delete" id="delete" data-toggle="modal">
+                                                    <a href="#deleteTeacherModal" class="delete" id="delete" data-toggle="modal">
                                                         <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
                                                     </a>
 
                                                     @*Added BY Absar To get parentid*@
-                                                    <input type="hidden" class="Class_Id" value="@item.Teacher_Id" />
+                                                    <input type="hidden" class="Teacher_Id" value="@item.Teacher_Id" />
 
                                                 </td>
                                             </tr>
@@ -127,71 +140,15 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Add Modal HTML -->
-                        <div id="addClassModal" class="modal fade">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form method="post" asp-controller="class" asp-action="addClass">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Add Class</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            @*<div class="form-group">
-                                                    <label>Class ID</label>
-                                                    <input type="text" class="form-control" required="" name="class_Id">
-                                                </div>*@
-                                            <div class="form-group">
-                                                <label>Class Name</label>
-                                                <input type="text" class="form-control" required="" name="Class_Name">
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input type="submit" class="btn btn-success" value="Add">
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                        
 
-
-                        <!-- Edit Modal HTML -->
-                        <div id="editClassModal" class="modal fade">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form method="post" asp-controller="class" asp-action="editClass">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Edit Class</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label>Class ID</label>
-                                                <input type="text" class="form-control" required="" id="Class_Id" disabled="disabled">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Class Name</label>
-                                                <input type="text" class="form-control" required="" name="Class_Name" id="Class_Name">
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input type="submit" class="btn btn-info" value="Save">
-                                            @*Added By Absar*@
-                                            <input type="hidden" name="Class_Id" id="Class_Id" />
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
+                        
 
                         <!-- Delete Modal HTML -->
-                        <div id="deleteClassModal" class="modal fade">
+                        <div id="deleteTeacherModal" class="modal fade">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form method="post" asp-controller="class" asp-action="deleteClass">
+                                    <form method="post" asp-controller="teacher" asp-action="deleteTeacher">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Delete Class</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -205,7 +162,7 @@
                                             <input type="submit" class="btn btn-danger" value="Delete">
 
                                             @*//Added By Absar To Pass Parameter to action method*@
-                                            <input type="hidden" id="Class_Id" name="Class_Id" />
+                                            <input type="hidden" id="Teacher_Id" name="Teacher_Id" />
 
                                         </div>
                                     </form>
@@ -260,35 +217,18 @@
 <script>
     $(document).ready(function () {
 
-        $('#classpage').DataTable();
+        $('#teacherpage').DataTable();
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
 
-        //Get Class_Id for Delete Added By Absar
-        $('#classpage #delete').on('click', function () {
-            var Class_Id = $(this).parent().find('.Class_Id').val();
-            $('#deleteClassModal #Class_Id').val(Class_Id);
+        //Get Teacher_Id for Delete Added By Absar
+        $('#teacherpage #delete').on('click', function () {
+            var Teacher_Id = $(this).parent().find('.Teacher_Id').val();
+            $('#deleteTeacherModal #Teacher_Id').val(Teacher_Id);
         });
 
-        //Get Class_Id for Edit Added By Absar
-        $('#classpage #edit').on('click', function () {
-            var id = $(this).parent().find('.Class_Id').val();
-            $.ajax({
-
-                type: 'GET',
-                url: '/admin/class/editClass/' + id,
-                success: function (objClass) {
-                    //debugger;
-                    // objClass = JSON.stringify(objClass);
-
-                    //alert(objClass);
-                    $('#editClassModal #Class_Id').val(objClass.class_Id);
-                    $('#editClassModal #Class_Name').val(objClass.class_Name);
-
-                }
-            });
-        });
+        
 
         // Select/Deselect checkboxes
         var checkbox = $('table tbody input[type="checkbox"]');

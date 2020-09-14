@@ -18,14 +18,16 @@ namespace LMS.BusinessLogics.Repositories
             
         }
 
-        public async Task AddTeacher(Teacher objTeacher)
+        public async Task<int> AddTeacher(Teacher objTeacher)
         {
             await _lmsDbContext.Teacher.AddAsync(objTeacher);
 
 
             int teacherId = objTeacher.Teacher_Id;
 
-            await _lmsDbContext.SaveChangesAsync();
+            return teacherId;
+
+            //await _lmsDbContext.SaveChangesAsync();
         }
 
         public async Task DeleteTeacher(int id)
@@ -52,16 +54,30 @@ namespace LMS.BusinessLogics.Repositories
 
             return Teacher;
         }
+        public Teacher FindTeacherById(int Id)
+        {
+            Teacher Teacher =   _lmsDbContext.Teacher.Find(Id);
+                        
+
+            return Teacher;
+        }
 
         public async Task UpdateTeacher(Teacher objTeacher)
         {
             _lmsDbContext.Teacher.Update(objTeacher);
 
+            //await _lmsDbContext.SaveChangesAsync();
+        }
+
+
+        public async Task SaveChanges()
+        {
             await _lmsDbContext.SaveChangesAsync();
         }
 
 
-        
+
+
 
     }
 }

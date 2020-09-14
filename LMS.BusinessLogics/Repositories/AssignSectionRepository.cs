@@ -43,8 +43,10 @@ namespace LMS.BusinessLogics.Repositories
                                                                     select new AssignSectionViewModel
                                                                     {
                                                                        ClassSection_Id = cs.ClassSection_id,
+                                                                       ClassId = c.Class_Id,
                                                                         ClassName =  c.Class_Name,
-                                                                        ClassSectionName =  s.Section_Name
+                                                                        SectionId = s.Section_Id,
+                                                                        SectionName =  s.Section_Name
 
 
                                                                     }).AsQueryable();

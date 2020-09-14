@@ -21,7 +21,7 @@ namespace LMS.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Index(LoginViewModel model, string returnUrl)
@@ -30,12 +30,12 @@ namespace LMS.Controllers
             {
                 var user = await userManager.FindByEmailAsync(model.Email);
 
-                if (user != null && 
-                                    (await userManager.CheckPasswordAsync(user, model.Password)))
-                {
-                    ModelState.AddModelError(string.Empty, "Email not confirmed yet");
-                    return View(model);
-                }
+                //if (user != null && 
+                //                    (await userManager.CheckPasswordAsync(user, model.Password)))
+                //{
+                //    ModelState.AddModelError(string.Empty, "Email not confirmed yet");
+                //    return View(model);
+                //}
 
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password,
                                         model.RememberMe, false);

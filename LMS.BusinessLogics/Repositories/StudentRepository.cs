@@ -17,10 +17,15 @@ namespace LMS.BusinessLogics.Repositories
             _lmsDbContext = lmsDbContext;
         }
 
-        public async Task AddStudent(Student objStudent)
+        public async Task<int> AddStudent(Student objStudent)
         {
             await _lmsDbContext.Student.AddAsync(objStudent);
-            await _lmsDbContext.SaveChangesAsync();
+
+            int studentId = objStudent.Student_Id;
+
+            return studentId;
+
+            //await _lmsDbContext.SaveChangesAsync();
         }
 
         public async Task DeleteStudent(int id)
@@ -48,10 +53,25 @@ namespace LMS.BusinessLogics.Repositories
             return Student;
         }
 
+
+        public Student FindStudentById(int Id)
+        {
+            Student Student = _lmsDbContext.Student.Find(Id);
+
+
+            return Student;
+        }
+
         public async Task UpdateStudent(Student objStudent)
         {
             _lmsDbContext.Student.Update(objStudent);
 
+            //await _lmsDbContext.SaveChangesAsync();
+        }
+
+
+        public async Task SaveChanges()
+        {
             await _lmsDbContext.SaveChangesAsync();
         }
     }

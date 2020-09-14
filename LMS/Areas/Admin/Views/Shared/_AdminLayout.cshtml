@@ -74,6 +74,7 @@
                             <li><a asp-area="admin" asp-controller="class" asp-action="index">Classes</a></li>
                             <li><a asp-area="admin" asp-controller="section" asp-action="index">Section</a></li>
                             <li><a asp-area="admin" asp-controller="assignSection" asp-action="index">Assign Section</a></li>
+                            <li><a asp-area="admin" asp-controller="assignSubject" asp-action="index">Assign Subject</a></li>
 
                         </ul>
                     </li>
@@ -107,8 +108,8 @@
                         </a>
 
                         <ul>
-                            <li><a>Add Student</a></li>
-                            <li><a href='#'>Assign Class</a></li>
+                            <li><a asp-area="admin" asp-controller="student" asp-action="addStudent">Add Student</a></li>
+                            <li><a asp-area="admin" asp-controller="student" asp-action="index">Student List</a></li>
 
 
                         </ul>

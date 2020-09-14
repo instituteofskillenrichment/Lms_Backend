@@ -108,7 +108,7 @@
                                                     <div class="col-md-4 pr-1">
                                                         <div class="form-group">
                                                             <label>Teacher ID</label>
-                                                            <input type="text" class="form-control" placeholder="Teacher ID">
+                                                            <input type="text" class="form-control" placeholder="Teacher ID" disabled>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4 px-1">
@@ -119,7 +119,7 @@
                                                     </div>
                                                     <div class="col-md-4 pl-1">
                                                         <div class="form-group">
-                                                            <img src="~/Dashboard/assets/img/default-avatar.png" style="width:150px; height:170px; margin-left:50px;" class="img-thumbnail">
+                                                            <img id="teacher_image" src="~/Dashboard/assets/img/default-avatar.png" style="width:150px; height:170px; margin-left:50px;" class="img-thumbnail">
 
 
                                                             <div class="row">
@@ -127,8 +127,8 @@
 
                                                                 </div>
                                                                 <div class="col-md-4">
-
-                                                                    <input asp-for="Teacher_Photo" type="file" name="files" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;">
+                                                                    <input asp-for="Teacher_Photo" type="file" name="files" onchange="readURL(this);" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;"/>
+                                                                   @* <input asp-for="Teacher_Photo" type="file" name="files" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;">*@
 
                                                                     <!-- <input type="file" name="imageFile" class="btn btn-default btn-sm valid"> -->
                                                                     <!-- <button type="button" id="ubutton" class="btn btn-default btn-sm">Upload</button> -->
@@ -328,35 +328,11 @@
 <script>
     $(document).ready(function () {
 
-        $('#classpage').DataTable();
+        //$('#classpage').DataTable();
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
-
-        //Get Class_Id for Delete Added By Absar
-        $('#classpage #delete').on('click', function () {
-            var Class_Id = $(this).parent().find('.Class_Id').val();
-            $('#deleteClassModal #Class_Id').val(Class_Id);
-        });
-
-        //Get Class_Id for Edit Added By Absar
-        $('#classpage #edit').on('click', function () {
-            var id = $(this).parent().find('.Class_Id').val();
-            $.ajax({
-
-                type: 'GET',
-                url: '/admin/class/editClass/' + id,
-                success: function (objClass) {
-                    //debugger;
-                    // objClass = JSON.stringify(objClass);
-
-                    //alert(objClass);
-                    $('#editClassModal #Class_Id').val(objClass.class_Id);
-                    $('#editClassModal #Class_Name').val(objClass.class_Name);
-
-                }
-            });
-        });
+        
 
         // Select/Deselect checkboxes
         var checkbox = $('table tbody input[type="checkbox"]');
@@ -377,4 +353,25 @@
             }
         });
     });
+
+
+
+
+    //function to show imae in div after browse
+     function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#teacher_image')
+                    .attr('src', e.target.result)
+                   // .width(150)
+                   // .height(170)
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+
 </script>
