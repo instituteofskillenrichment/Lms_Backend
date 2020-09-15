@@ -14,7 +14,8 @@ namespace LMS.BusinessLogics.Interfaces
         List<Class> GetAllClasses();
         List<Section> GetAllSections();
         List<Subject> GetAllSubjects();
-        Task<ClassSubject> GetClassSubjectById(int Id);
+        Task<AssignSubjectViewModel> GetClassSubjectById(int Id);
+        Task<ClassSection> GetClassSectionById(int classId, int sectionId);
         Task AddClassSubject(ClassSubject objClassSubject);
         Task UpdateClassSubject(ClassSubject objClassSubject);
         Task DeleteClassSubject(int Id);

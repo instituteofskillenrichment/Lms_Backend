@@ -32,6 +32,12 @@ namespace LMS.Areas.Admin.Controllers
 
             var ClassSubject = _AssignSubjectRepository.GetAllClassesSubjects();
 
+            ViewBag.Class = _AssignSubjectRepository.GetAllClasses();
+
+            ViewBag.Section = _AssignSubjectRepository.GetAllSections();
+
+            ViewBag.Subject = _AssignSubjectRepository.GetAllSubjects();
+            
             return View(ClassSubject);
         }
 
@@ -39,21 +45,13 @@ namespace LMS.Areas.Admin.Controllers
         [Route("addClassSubject")]
         public IActionResult AddClassSubject()
         {
-            //List<Subject> lstSubject = _AssignSubjectRepository.GetAllSubjects();
-            //List<Class> lstClass = _AssignSubjectRepository.GetAllClasses().ToList();
-
-
+            
             var assignSubjectVM = new AssignSubjectViewModel();
 
-           // assignSubjectVM.ClassSubject = new ClassSubject();
-
             assignSubjectVM.Subjects = _AssignSubjectRepository.GetAllSubjects();
-
-            //Fille DropDown List OF Class
+            
             assignSubjectVM.Classes = new List<SelectListItem>();
-            //assignSubjectVM.Classes = _AssignSubjectRepository.GetAllClasses();
-            //assignSubjectVM.Classes.Insert(0, new Class { Class_Id = 0, Class_Name = "Select Class Name" });
-
+            
             var objClass = _AssignSubjectRepository.GetAllClasses().ToList();
 
             foreach(var lstclass in objClass)
@@ -69,13 +67,8 @@ namespace LMS.Areas.Admin.Controllers
                 assignSubjectVM.Classes.Add(selectListItem);
             }
 
-
-
-            //Fille DropDown List OF Section
             assignSubjectVM.Sections = new List<SelectListItem>();
-            //assignSubjectVM.Sections = _AssignSubjectRepository.GetAllSections();
-            //assignSubjectVM.Sections.Insert(0, new Section { Section_Id = 0, Section_Name = "Select Section Name" });
-
+            
             var objSection = _AssignSubjectRepository.GetAllSections().ToList();
 
             foreach(var lstSection in objSection)
@@ -97,30 +90,106 @@ namespace LMS.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("addClassSubject")]
-        public IActionResult AddClassSubject(AssignSubjectViewModel objAssignSubjectVM)
+        public async Task<IActionResult> AddClassSubject(AssignSubjectViewModel objAssignSubjectVM)
         {
-            var assignSubjectVM = new AssignSubjectViewModel();
+            if (ModelState.IsValid)
+            {
+                List<string> lstSubject = Request.Form["lstSubject"].ToList();
 
-            //assignSubjectVM.ClassSubject = new ClassSubject();
+                
+                var ClassSection = await _AssignSubjectRepository.GetClassSectionById(objAssignSubjectVM.Class_Id, objAssignSubjectVM.Section_Id);
 
-            assignSubjectVM.Subjects = _AssignSubjectRepository.GetAllSubjects();
+                if (lstSubject.Count > 0)
+                {
+                    
 
-            //Fille DropDown List OF Class
-            //assignSubjectVM.Classes = new List<Class>();
-            //assignSubjectVM.Classes = _AssignSubjectRepository.GetAllClasses().ToList();
-            //assignSubjectVM.Classes.Insert(0, new Class { Class_Id = 0, Class_Name = "Select Class Name" });
-
-
-            //Fille DropDown List OF Section
-            //assignSubjectVM.Sections = new List<Section>();
-            //assignSubjectVM.Sections = _AssignSubjectRepository.GetAllSections().ToList();
-            //assignSubjectVM.Sections.Insert(0, new Section { Section_Id = 0, Section_Name = "Select Section Name" });
-
+                    foreach(var objSubject in lstSubject)
+                    {
+                        var ClassSubject = new ClassSubject
+                        {
+                            ClassSection_Id = ClassSection.ClassSection_id,
+                            Subject_Id = Convert.ToInt32(objSubject)
+                        };
 
 
-            return View(assignSubjectVM);
+                        await _AssignSubjectRepository.AddClassSubject(ClassSubject);
+
+                    }
+
+
+
+                    
+
+                }
+
+                return RedirectToAction("Index", "assignSubject", new { area = "admin" });
+            }
+
+            return View();
+            
         }
 
+
+        [HttpGet]
+        [Route("editClassSubject/{id}")]
+        public async Task<IActionResult> EditClassSubject(int id)
+        {
+
+            ViewBag.Class = _AssignSubjectRepository.GetAllClasses();
+
+            ViewBag.Section = _AssignSubjectRepository.GetAllSections();
+
+            ViewBag.Subject = _AssignSubjectRepository.GetAllSubjects();
+
+
+            var objassignSubject = await _AssignSubjectRepository.GetClassSubjectById(id);
+
+            return new JsonResult(objassignSubject);
+        }
+
+
+
+        [HttpPost]
+        [Route("editClassSubject")]
+        public async Task<IActionResult> EditClassSubject(AssignSubjectViewModel objClassSubjectModel)
+        {
+            if (ModelState.IsValid)
+            {
+                //get values of class subject
+                AssignSubjectViewModel objAssignSubject = await _AssignSubjectRepository.GetClassSubjectById(objClassSubjectModel.ClassSubject_Id);
+
+                //get class section id
+                var ClassSection = await _AssignSubjectRepository.GetClassSectionById(objClassSubjectModel.Class_Id, objClassSubjectModel.Section_Id);
+
+                //assign new values to class subject
+                ClassSubject objSubject = new ClassSubject();
+                
+                objSubject.ClassSubject_Id = objAssignSubject.ClassSubject_Id;
+                objSubject.ClassSection_Id = ClassSection.ClassSection_id;
+                objSubject.Subject_Id = objClassSubjectModel.Subject_Id; 
+                
+
+                await _AssignSubjectRepository.UpdateClassSubject(objSubject);
+
+                return RedirectToAction("Index", "assignSubject", new { area = "admin" });
+
+            }
+
+            return View();
+        }
+
+
+
+
+        [HttpPost]
+        [Route("deleteClassSubject")]
+        public async Task<IActionResult> DeleteClassSubject(int ClassSubject_Id)
+        {
+            await _AssignSubjectRepository.DeleteClassSubject(ClassSubject_Id);
+
+            return RedirectToAction("Index", "assignSubject", new { area = "admin" });
+
+        }
 
     }
 }
