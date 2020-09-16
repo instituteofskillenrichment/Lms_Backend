@@ -11,6 +11,7 @@ namespace LMS.BusinessLogics.Interfaces
     public interface IAssignSubjectRepository
     {
         IQueryable<AssignSubjectViewModel> GetAllClassesSubjects();
+        IQueryable<AssignSubjectViewModel> GetAllSubjectsByClassSection(int ClassSectionId);
         List<Class> GetAllClasses();
         List<Section> GetAllSections();
         List<Subject> GetAllSubjects();

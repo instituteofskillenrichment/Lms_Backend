@@ -45,6 +45,33 @@ namespace LMS.BusinessLogics.Repositories
         }
 
 
+
+        public IQueryable<AssignSubjectViewModel> GetAllSubjectsByClassSection(int ClassSectionId)
+        {
+            IQueryable<AssignSubjectViewModel> ClassSubject =   (from csub in _lmsDbContext.ClassSubject
+                                                               join csec in _lmsDbContext.ClassSection on csub.ClassSection_Id equals csec.ClassSection_id
+                                                               join sub in _lmsDbContext.Subject on csub.Subject_Id equals sub.Subject_Id
+                                                               join c in _lmsDbContext.Class on csec.Class_Id equals c.Class_Id
+                                                               join s in _lmsDbContext.Section on csec.Section_Id equals s.Section_Id
+                                                               where csub.ClassSection_Id == ClassSectionId
+                                                               select new AssignSubjectViewModel
+                                                               {
+                                                                   ClassSubject_Id = csub.ClassSubject_Id,
+                                                                   ClassSection_Id = csec.ClassSection_id,
+                                                                   Class_Id = c.Class_Id,
+                                                                   Class_Name = c.Class_Name,
+                                                                   Section_Id = s.Section_Id,
+                                                                   Section_Name = s.Section_Name,
+                                                                   Subject_Id = sub.Subject_Id,
+                                                                   Subject_Name = sub.Subject_Name
+
+
+                                                               }).AsQueryable();
+
+            return ClassSubject;
+        }
+
+
         public List<Class> GetAllClasses()
         {
             List<Class> Classes = _lmsDbContext.Class.ToList();

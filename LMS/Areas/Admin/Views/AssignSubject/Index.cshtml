@@ -120,6 +120,11 @@
                                                         <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
                                                     </a>
 
+                                                    <a asp-area="admin" asp-controller="assignSubject" asp-action="classSubjectDetail" asp-route-id="@item.ClassSection_Id" class="detail" id="detail">
+                                                        <i class="fa fa-list" aria-hidden="true" title="Detail" data-original-title="Detail" style="font-size:24px;"></i>
+                                                    </a>
+
+
                                                     @*Added BY Absar To get parentid*@
                                                     <input type="hidden" class="ClassSubject_Id" value="@item.ClassSubject_Id" />
 
@@ -273,7 +278,7 @@
                 type: 'GET',
                 url: '/admin/assignSubject/editClassSubject/' + id,
                 success: function (objassignSubject) {
-                    debugger;
+                    //debugger;
                     // objClass = JSON.stringify(objClass);
 
                     //alert(objClass);

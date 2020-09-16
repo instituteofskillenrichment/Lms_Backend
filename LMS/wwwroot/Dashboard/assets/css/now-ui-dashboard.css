@@ -1324,7 +1324,7 @@ fieldset[disabled] .btn-link.active {
 
 .form-control {
   background-color: transparent;
-  border: 1px solid #E3E3E3;
+  border: 1px solid #174876;
   border-radius: 30px;
   color: #2c2c2c;
   line-height: normal;
@@ -3893,6 +3893,7 @@ Created using IcoMoon - icomoon.io
   font-size: 13px;
   padding: 10px 8px;
   line-height: 1.625rem;
+  font-weight: 600;
 }
 .nav li ul li a {
   padding: 3px 23px!important;
@@ -4706,9 +4707,10 @@ background: linear-gradient(0deg, rgba(12,46,78,1) 0%, rgba(25,77,126,1) 100%);
 }
 
 .card label {
-  font-size: 0.8571em;
+  font-size: 15px;
   margin-bottom: 5px;
-  color: #9A9A9A;
+  color: #ae7c38;
+  font-weight: 600;
 }
 
 .card .card-footer {

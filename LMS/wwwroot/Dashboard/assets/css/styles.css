@@ -12,7 +12,7 @@
   font-family: 'Font Awesome 5 Free';
   font-weight: 400; }
 
-@import url('https://fonts.googleapis.com/css?family=Numans');
+/*@import url('https://fonts.googleapis.com/css?family=Numans'); URL Comment By Absar*/
 
 html,body{
 background-image: url('../img/image.png');

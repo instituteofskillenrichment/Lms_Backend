@@ -42,6 +42,20 @@ namespace LMS.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Route("classSubjectDetail/{id}")]
+        public IActionResult ClassSubjectDetail(int id)
+        {
+
+            var ClassSubject = _AssignSubjectRepository.GetAllSubjectsByClassSection(id);
+
+            
+
+            return View(ClassSubject);
+        }
+
+
+
+        [HttpGet]
         [Route("addClassSubject")]
         public IActionResult AddClassSubject()
         {
