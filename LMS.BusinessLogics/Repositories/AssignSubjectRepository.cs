@@ -27,6 +27,7 @@ namespace LMS.BusinessLogics.Repositories
                                                                join sub in _lmsDbContext.Subject on csub.Subject_Id equals sub.Subject_Id
                                                                join c in _lmsDbContext.Class on csec.Class_Id equals c.Class_Id
                                                                join s in _lmsDbContext.Section on csec.Section_Id equals s.Section_Id
+                                                               orderby c.Class_Id, s.Section_Id
                                                                select new AssignSubjectViewModel
                                                                {
                                                                    ClassSubject_Id = csub.ClassSubject_Id,

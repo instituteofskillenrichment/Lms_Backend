@@ -259,7 +259,13 @@
 <script>
     $(document).ready(function () {
 
-        $('#assignClassSubjectpage').DataTable();
+        //$('#assignClassSubjectpage').DataTable();
+
+        $('#assignClassSubjectpage').dataTable({
+            /* Disable initial sort */
+            "aaSorting": []
+        });
+
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
 

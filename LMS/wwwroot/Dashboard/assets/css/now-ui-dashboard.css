@@ -560,7 +560,7 @@ fieldset[disabled] .navbar .navbar-nav>a.btn.active {
 }
 
 .btn-primary {
-  background-color: #566787;
+  background-color: #184a79;
   color: #FFFFFF;
   font-size: 13px;
 }
@@ -3669,8 +3669,9 @@ Created using IcoMoon - icomoon.io
 .table>thead>tr>th {
   border-bottom-width: 1px;
   font-size: 1.45em;
-  font-weight: 300;
+  font-weight: 600;
   border: 0;
+  color: #ae7c38;
 }
 
 .table .radio,

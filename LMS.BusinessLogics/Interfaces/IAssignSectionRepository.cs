@@ -10,6 +10,7 @@ namespace LMS.BusinessLogics.Interfaces
 {
     public interface IAssignSectionRepository
     {
+        //IQueryable<AssignSectionViewModel> GetAllClasSection();
         IQueryable<AssignSectionViewModel> GetAllClasSection();
         IQueryable<Class> GetAllClass();
         IQueryable<Section> GetAllSection();

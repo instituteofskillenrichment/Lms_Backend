@@ -16,6 +16,11 @@ namespace LMS.Domain.ViewModels
         
         public int SectionId { get; set; }
         public string SectionName { get; set; }
+
+
+        public List<Class> Classes = new List<Class>();
+        public List<Section> Sections = new List<Section>();
+        public List<ClassSection> ClassSections = new List<ClassSection>();
         
         
 

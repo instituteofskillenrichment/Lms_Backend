@@ -90,7 +90,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <form asp-action="addClassSubject">
+                                <form asp-action="addClassSubject" method="post">
                                     
                                     <br /><br />
                                     <div class="row">
@@ -152,7 +152,7 @@
                                     <div class="row">
                                         <div class="col-md-4 pr-1">
                                             <div class="form-group">
-                                                <input type="submit" value="Create" class="btn btn-primary" />
+                                                <input type="submit" value="Assign Subject" class="btn btn-primary" />
                                             </div>
                                         </div>
 
@@ -221,7 +221,7 @@
 @*<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>*@
 @*<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>*@
 @*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
-<script>
+@*<script>
     $(document).ready(function () {
 
        // $('#assignClassSubjectpage').DataTable();
@@ -256,24 +256,24 @@
         //});
 
         // Select/Deselect checkboxes
-        var checkbox = $('table tbody input[type="checkbox"]');
-        $("#selectAll").click(function () {
-            if (this.checked) {
-                checkbox.each(function () {
-                    this.checked = true;
-                });
-            } else {
-                checkbox.each(function () {
-                    this.checked = false;
-                });
-            }
-        });
-        checkbox.click(function () {
-            if (!this.checked) {
-                $("#selectAll").prop("checked", false);
-            }
-        });
-    });
-</script>
+    //    var checkbox = $('table tbody input[type="checkbox"]');
+    //    $("#selectAll").click(function () {
+    //        if (this.checked) {
+    //            checkbox.each(function () {
+    //                this.checked = true;
+    //            });
+    //        } else {
+    //            checkbox.each(function () {
+    //                this.checked = false;
+    //            });
+    //        }
+    //    });
+    //    checkbox.click(function () {
+    //        if (!this.checked) {
+    //            $("#selectAll").prop("checked", false);
+    //        }
+    //    });
+    //});
+</script>*@
 
 

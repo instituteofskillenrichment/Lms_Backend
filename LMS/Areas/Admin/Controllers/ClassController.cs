@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using LMS.BusinessLogics.Interfaces;
 using LMS.Domain;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+
 
 namespace LMS.Areas.Admin.Controllers
 {

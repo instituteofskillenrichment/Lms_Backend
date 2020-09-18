@@ -15,16 +15,22 @@ namespace LMS.BusinessLogics.Repositories
     {
         private LmsDbContext _lmsDbContext;
 
+
+
         public AssignSectionRepository(LmsDbContext lmsDbContext)
         {
             _lmsDbContext = lmsDbContext;
         }
+
+
 
         public async Task AddClassSection(ClassSection objClassSection)
         {
             await _lmsDbContext.ClassSection.AddAsync(objClassSection);
             await _lmsDbContext.SaveChangesAsync();
         }
+
+
 
         public async Task DeleteClassSection(int Id)
         {
@@ -35,25 +41,42 @@ namespace LMS.BusinessLogics.Repositories
             await _lmsDbContext.SaveChangesAsync();
         }
 
+
+
         public IQueryable<AssignSectionViewModel> GetAllClasSection()
         {
             IQueryable<AssignSectionViewModel> ClassSection = (from cs in _lmsDbContext.ClassSection
-                                                                    join c in _lmsDbContext.Class on cs.Class_Id equals c.Class_Id
-                                                                    join s in _lmsDbContext.Section on cs.Section_Id equals s.Section_Id
-                                                                    select new AssignSectionViewModel
-                                                                    {
-                                                                       ClassSection_Id = cs.ClassSection_id,
-                                                                       ClassId = c.Class_Id,
-                                                                        ClassName =  c.Class_Name,
-                                                                        SectionId = s.Section_Id,
-                                                                        SectionName =  s.Section_Name
+                                                               join c in _lmsDbContext.Class on cs.Class_Id equals c.Class_Id
+                                                               join s in _lmsDbContext.Section on cs.Section_Id equals s.Section_Id
+                                                               select new AssignSectionViewModel
+                                                               {
+                                                                   ClassSection_Id = cs.ClassSection_id,
+                                                                   ClassId = c.Class_Id,
+                                                                   ClassName = c.Class_Name,
+                                                                   SectionId = s.Section_Id,
+                                                                   SectionName = s.Section_Name
 
 
-                                                                    }).AsQueryable();
+                                                               }).AsQueryable();
 
-            
 
-           // IQueryable <ClassSection> listOfClassSection = _lmsDbContext.ClassSection.AsQueryable();
+            //var ClassSection =
+            //     from cs in _lmsDbContext.ClassSection
+            //     join c in _lmsDbContext.Class on cs.Class_Id equals c.Class_Id into classGrp
+            //     join s in _lmsDbContext.Section on cs.Section_Id equals s.Section_Id into sectionGrp
+            //     orderby cs.ClassSection_id
+            //     select new AssignSectionViewModel
+            //     {
+            //         ClassSection_Id = cs.ClassSection_id,
+
+            //         Classes = (from c2 in classGrp
+            //                    orderby c2.Class_Name
+            //                    select c2).ToList(),
+            //         Sections = (from s2 in sectionGrp
+            //                     orderby s2.Section_Name
+            //                     select s2).ToList()
+            //     };
+
 
             return ClassSection;
         }
@@ -69,6 +92,7 @@ namespace LMS.BusinessLogics.Repositories
         }
 
 
+
         public IQueryable<Section> GetAllSection()
         {
 
@@ -78,8 +102,7 @@ namespace LMS.BusinessLogics.Repositories
         }
 
 
-
-
+        
         public async Task<ClassSection> GetClassSectionById(int Id)
         {
             var ClassSection = await _lmsDbContext.ClassSection
@@ -89,11 +112,16 @@ namespace LMS.BusinessLogics.Repositories
             return ClassSection;
         }
 
+
+
         public async Task UpdateClassSection(ClassSection objClassSection)
         {
             _lmsDbContext.ClassSection.Update(objClassSection);
 
             await _lmsDbContext.SaveChangesAsync();
         }
+
+
+
     }
 }

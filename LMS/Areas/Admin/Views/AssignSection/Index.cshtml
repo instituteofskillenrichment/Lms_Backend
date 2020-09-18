@@ -102,8 +102,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+
+                                        
                                         @foreach (var item in Model)
                                         {
+
+
                                             <tr>
                                                 <td>@item.ClassSection_Id</td>
                                                 <td>@item.ClassName</td>
@@ -117,11 +121,52 @@
                                                         <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
                                                     </a>
 
-                                                    @*Added BY Absar To get parentid*@
+
                                                     <input type="hidden" class="ClassSection_Id" value="@item.ClassSection_Id" />
 
                                                 </td>
                                             </tr>
+
+
+
+                                            @*<tr>
+                                                <td>&nbsp;&nbsp; @item.ClassSection_Id</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                                @if(item.Classes.Count > 0 && item.Sections.Count > 0)
+                                                {
+                                                    <tr>
+                                                        @foreach (var classes in item.Classes)
+                                                        {
+
+                                                            <td><input type="hidden" class="ClassSection_Id" value="@item.ClassSection_Id" /></td>
+                                                            <td>@classes.Class_Name</td>
+
+                                                            @foreach (var sections in item.Sections)
+                                                            {
+                                                                <td>@sections.Section_Name</td>
+                                                            }
+
+                                                        }
+
+                                                        <td>
+                                                            <a href="#editClassSectionModal" class="edit" id="edit" data-toggle="modal">
+                                                                <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                                            </a>
+
+                                                            <a href="#deleteClassSectionModal" class="delete" id="delete" data-toggle="modal">
+                                                                <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                                            </a>
+
+
+                                                            <input type="hidden" class="ClassSection_Id" value="@item.ClassSection_Id" />
+                                                        </td>
+
+                                                    </tr>
+                                                }*@
+
                                         }
                                     </tbody>
                                 </table>
@@ -273,12 +318,18 @@
 
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
-<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+@*<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>*@
 @*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
 <script>
     $(document).ready(function () {
 
-        $('#assignClassSectionpage').DataTable();
+      //  $('#assignClassSectionpage').DataTable();
+
+        $('#assignClassSectionpage').dataTable({
+            /* Disable initial sort */
+            "aaSorting": []
+        });
+
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
