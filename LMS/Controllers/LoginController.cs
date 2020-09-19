@@ -21,7 +21,7 @@ namespace LMS.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Index(LoginViewModel model, string returnUrl)
@@ -37,7 +37,7 @@ namespace LMS.Controllers
                 //    return View(model);
                 //}
 
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password,
+                var result = await signInManager.PasswordSignInAsync(user.UserName, model.Password,
                                         model.RememberMe, false);
 
                 if (result.Succeeded)

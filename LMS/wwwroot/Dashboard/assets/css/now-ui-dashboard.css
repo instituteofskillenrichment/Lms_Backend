@@ -560,8 +560,9 @@ fieldset[disabled] .navbar .navbar-nav>a.btn.active {
 }
 
 .btn-primary {
-  background-color: #5fcf80;
+  background-color: #184a79;
   color: #FFFFFF;
+  font-size: 13px;
 }
 
 .btn-primary:hover,
@@ -627,7 +628,7 @@ fieldset[disabled] .btn-primary.active {
 }
 
 .btn-success {
-  background-color: #18ce0f;
+  background-color: #4b9c47;
   color: #FFFFFF;
 }
 
@@ -642,7 +643,7 @@ fieldset[disabled] .btn-primary.active {
 .show>.btn-success.dropdown-toggle,
 .show>.btn-success.dropdown-toggle:focus,
 .show>.btn-success.dropdown-toggle:hover {
-  background-color: #1beb11;
+  background-color: #278823;
   color: #FFFFFF;
   box-shadow: none;
   border-color: #1beb11;
@@ -828,7 +829,7 @@ fieldset[disabled] .btn-warning.active {
 }
 
 .btn-danger {
-  background-color: #FF3636;
+  background-color: #de6161;
   color: #FFFFFF;
 }
 
@@ -1323,12 +1324,12 @@ fieldset[disabled] .btn-link.active {
 
 .form-control {
   background-color: transparent;
-  border: 1px solid #E3E3E3;
+  border: 1px solid #174876;
   border-radius: 30px;
   color: #2c2c2c;
   line-height: normal;
   height: auto;
-  font-size: 0.8571em;
+  font-size: 1.3em;
   -webkit-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
   -moz-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
   -o-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
@@ -1848,12 +1849,12 @@ h6 {
 }
 
 a {
-  color: #5fcf80;
+  color: #184a79;
 }
 
 a:hover,
 a:focus {
-  color: #5fcf80;
+  color: #184a79;
 }
 
 h1,
@@ -2033,7 +2034,7 @@ a.text-gray:hover {
 body {
   color: #2c2c2c;
   font-size: 14px;
-  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  font-family: sans-serif;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 }
@@ -3668,8 +3669,9 @@ Created using IcoMoon - icomoon.io
 .table>thead>tr>th {
   border-bottom-width: 1px;
   font-size: 1.45em;
-  font-weight: 300;
+  font-weight: 600;
   border: 0;
+  color: #ae7c38;
 }
 
 .table .radio,
@@ -3889,9 +3891,10 @@ Created using IcoMoon - icomoon.io
   position: relative;
   text-transform: uppercase;
   cursor: pointer;
-  font-size: 0.7142em;
+  font-size: 13px;
   padding: 10px 8px;
   line-height: 1.625rem;
+  font-weight: 600;
 }
 .nav li ul li a {
   padding: 3px 23px!important;
@@ -3905,7 +3908,7 @@ Created using IcoMoon - icomoon.io
   font-size: 15px;
   font-family: 'Nucleo Outline';
   font-weight: bold;    
-  color: #5a9b6d;
+  color: #fff;
 
 }
 ul.navigation > li ul {
@@ -3924,7 +3927,7 @@ ul.navigation > li ul {
 .sidebar .nav li:focus:not(.active)>a,
 .off-canvas-sidebar .nav li:hover:not(.active)>a,
 .off-canvas-sidebar .nav li:focus:not(.active)>a {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgb(174 124 56);
 }
 
 .sidebar .nav li:hover:not(.active)>a i,
@@ -3936,7 +3939,7 @@ ul.navigation > li ul {
 
 .sidebar .nav li.active>a,
 .off-canvas-sidebar .nav li.active>a {
-  background-color: #FFFFFF;
+  background-color: #ae7c38;
   box-shadow: 0 1px 15px 1px rgba(39, 39, 39, 0.1);
 }
 
@@ -4123,17 +4126,19 @@ ul.navigation > li ul {
 
 .sidebar[data-color="orange"]:after,
 .off-canvas-sidebar[data-color="orange"]:after {
-  background: #5fcf80;
+/*background: #0c2e4e;*/
+background: rgb(12,46,78);
+background: linear-gradient(0deg, rgba(12,46,78,1) 0%, rgba(25,77,126,1) 100%);
 }
 
 .sidebar[data-color="orange"] .nav li.active>a:not([data-toggle="collapse"]),
 .off-canvas-sidebar[data-color="orange"] .nav li.active>a:not([data-toggle="collapse"]) {
-  color: #5fcf80;
+  color: #fff;
 }
 
 .sidebar[data-color="orange"] .nav li.active>a:not([data-toggle="collapse"]) i,
 .off-canvas-sidebar[data-color="orange"] .nav li.active>a:not([data-toggle="collapse"]) i {
-  color: #5fcf80;
+  color: #fff;
 }
 
 .sidebar[data-color="red"]:after,
@@ -4703,9 +4708,10 @@ ul.navigation > li ul {
 }
 
 .card label {
-  font-size: 0.8571em;
+  font-size: 15px;
   margin-bottom: 5px;
-  color: #9A9A9A;
+  color: #ae7c38;
+  font-weight: 600;
 }
 
 .card .card-footer {
@@ -6306,3 +6312,16 @@ min-width: 100px;
 .modal form label {
 font-weight: normal;
 }	
+
+/*******Custom css***********/
+.main-logo{
+width: 100px;
+height: 100px;
+margin: 0px auto;
+text-align: center;
+display: block;
+}
+.has-child ul {
+  padding: 0px;
+  list-style: none;
+}

@@ -1,0 +1,339 @@
+﻿@model IEnumerable<LMS.Domain.ViewModels.StudentClassViewModel>
+
+@{
+    ViewData["Title"] = "StudentClassDetail";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="dashboard" id="dashboard">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
+        <div class="container-fluid">
+            <div class="navbar-wrapper">
+                <div class="navbar-toggle">
+                    <button type="button" class="navbar-toggler">
+                        <span class="navbar-toggler-bar bar1"></span>
+                        <span class="navbar-toggler-bar bar2"></span>
+                        <span class="navbar-toggler-bar bar3"></span>
+                    </button>
+                </div>
+                <a class="navbar-brand" href="#pablo">Class Subject Info</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-bar navbar-kebab"></span>
+                <span class="navbar-toggler-bar navbar-kebab"></span>
+                <span class="navbar-toggler-bar navbar-kebab"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                <form>
+                    <div class="input-group no-border">
+                        <input type="text" value="" class="form-control" placeholder="Search...">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <i class="now-ui-icons ui-1_zoom-bold"></i>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pablo">
+                            <i class="now-ui-icons media-2_sound-wave"></i>
+                            <p>
+                                <span class="d-lg-none d-md-block">Stats</span>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="now-ui-icons location_world"></i>
+                            <p>
+                                <span class="d-lg-none d-md-block">Some Actions</span>
+                            </p>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pablo">
+                            <i class="now-ui-icons users_single-02"></i>
+                            <p>
+                                <span class="d-lg-none d-md-block">Account</span>
+                            </p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="panel-header panel-header-sm">
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+
+                    <div class="container-fluid">
+                        <div class="table-responsive">
+                            <div class="table-wrapper">
+                                <div class="table-title">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h2>Assign Subject To Particular <b>Class & Section</b></h2>
+                                        </div>
+                                        <div class="col-md-6 pull-right">
+                                            <a asp-area="admin" asp-controller="assignSubject" asp-action="addClassSubject" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add New Class Subjects</span></a>
+                                            <a href="#deleteStudentClassModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <table id="StudentClassPage" class="display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Student ID</th>
+                                            <th>Student Name</th>
+                                            <th>Class Name</th>
+                                            <th>Section Name</th>
+                                            <th>Enroll Subjects</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.StudentClass_Id</td>
+                                                <td>@item.Student_Id</td>
+                                                <td>@item.Student_Name</td>
+                                                <td>@item.Class_Name</td>
+                                                <td>@item.Section_Name</td>
+                                                <td>
+                                                    <a asp-area="admin" asp-controller="student" asp-action="studentSubjectDetail" asp-route-id="@item.Student_Id" class="studentSubject" id="studentSubject">
+                                                        <i class="btn btn-primary" data-toggle="tooltip" title="" data-original-title="AssignClass" style="line-height: 1em; border-radius: 2em;">Subjects</i>
+                                                    </a>
+
+                                                    @*Added BY Absar To get parentid*@
+                                                    @*<input type="hidden" class="Student_Id" value="@item.Student_Id" />*@
+
+                                                </td>
+                                                <td>
+                                                    <a href="#editStudentClassModel" class="edit" id="edit" data-toggle="modal">
+                                                        <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                                    </a>
+
+                                                    <a href="#deleteStudentClassModal" class="delete" id="delete" data-toggle="modal">
+                                                        <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                                    </a>
+
+
+
+                                                    @*Added BY Absar To get parentid*@
+                                                    <input type="hidden" class="StudentClass_Id" value="@item.StudentClass_Id" />
+                                                    <input type="hidden" class="Student_Id" value="@item.Student_Id" />
+
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                <div class="clearfix">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <!-- Edit Modal HTML -->
+                        <div id="editStudentClassModel" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form method="post" asp-controller="student" asp-action="editStudentClass">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Edit Student Class</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label>ID</label>
+                                                <input type="text" class="form-control" required="" id="StudentClass_Id" disabled="disabled">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Student ID</label>
+                                                <input type="text" class="form-control" required="" id="Student_Id" disabled="disabled">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Student Name</label>
+                                                <input type="text" class="form-control" required="" id="Student_Name" disabled="disabled">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Class Name</label>
+                                                <select id="Class_Id" name="Class_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Class, "Class_Id", "Class_Name"))"></select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Section Name</label>
+                                                <select id="Section_Id" name="Section_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Section, "Section_Id", "Section_Name"))"></select>
+                                            </div>
+
+                                            
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                            <input type="submit" class="btn btn-info" value="Save">
+                                            @*Added By Absar*@
+                                            <input type="hidden" name="StudentClass_Id" id="StudentClass_Id" />
+                                            <input type="hidden" name="Student_Id" id="Student_Id" />
+                                            <input type="hidden" name="Student_Name" id="Student_Name" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- Delete Modal HTML -->
+                        <div id="deleteStudentClassModal" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form method="post" asp-controller="student" asp-action="deleteStudentClass">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Delete Class Subject</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to delete these Records?</p>
+                                            <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                            <input type="submit" class="btn btn-danger" value="Delete">
+
+                                            @*//Added By Absar To Pass Parameter to action method*@
+                                            <input type="hidden" id="StudentClass_Id" name="StudentClass_Id" />
+                                            <input type="hidden" id="Students_Id" name="Student_Id" />
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <footer class="footer">
+            <div class=" container-fluid ">
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="https://www.creative-tim.com">
+                                Karachi Grammar School
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://presentation.creative-tim.com">
+                                About Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://blog.creative-tim.com">
+                                Blog
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="copyright" id="copyright">
+                    &copy;
+                    <script>
+                        document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                    </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+@*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
+<script>
+    $(document).ready(function () {
+
+        //$('#editStudentClassModal').DataTable();
+
+        $('#StudentClassPage').dataTable({
+            /* Disable initial sort */
+            "aaSorting": []
+        });
+
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+
+        //Get StudentClass_Id for Delete Added By Absar
+        $('#StudentClassPage #delete').on('click', function () {
+            var StudentClass_Id = $(this).parent().find('.StudentClass_Id').val();
+            $('#deleteStudentClassModal #StudentClass_Id').val(StudentClass_Id);
+        });
+
+        //Get StudentClass_Id for Edit Added By Absar
+        $('#StudentClassPage #edit').on('click', function () {
+            var id = $(this).parent().find('.StudentClass_Id').val();
+            $.ajax({
+
+                type: 'GET',
+                url: '/admin/student/editStudentClass/' + id,
+                success: function (objStudentClass) {
+                   
+                    // objClass = JSON.stringify(objClass);
+
+                    //alert(objClass);
+                    $('#editStudentClassModel #StudentClass_Id').val(objStudentClass.studentClass_Id);
+                    $('#editStudentClassModel #Class_Id').val(objStudentClass.class_Id);
+                    $('#editStudentClassModel #Section_Id').val(objStudentClass.section_Id);
+                    $('#editStudentClassModel #Student_Id').val(objStudentClass.student_Id);
+                    $('#editStudentClassModel #Student_Name').val(objStudentClass.student_Name);
+
+                }
+            });
+        });
+
+        // Select/Deselect checkboxes
+        var checkbox = $('table tbody input[type="checkbox"]');
+        $("#selectAll").click(function () {
+            if (this.checked) {
+                checkbox.each(function () {
+                    this.checked = true;
+                });
+            } else {
+                checkbox.each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+        checkbox.click(function () {
+            if (!this.checked) {
+                $("#selectAll").prop("checked", false);
+            }
+        });
+    });
+</script>
+

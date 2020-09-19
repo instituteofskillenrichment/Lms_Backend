@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LMS.Domain.Class>
+﻿@model IQueryable<LMS.Domain.Class>
 
 @{
     ViewData["Title"] = "Index";
@@ -262,18 +262,24 @@
     $(document).ready(function () {
 
         $('#classpage').DataTable();
+
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
-
+         
 
         //Get Class_Id for Delete Added By Absar
         $('#classpage #delete').on('click', function () {
             var Class_Id = $(this).parent().find('.Class_Id').val();
+            //debugger;
+            console.log(Class_Id);
             $('#deleteClassModal #Class_Id').val(Class_Id);
         });
+        
 
-        //Get Class_Id for Edit Added By Absar
+
         $('#classpage #edit').on('click', function () {
+
+
             var id = $(this).parent().find('.Class_Id').val();
             $.ajax({
 

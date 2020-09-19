@@ -12,6 +12,7 @@ namespace LMS.Areas.Admin.Controllers
 {
     [Area("admin")]
     [Route("admin/assignSection")]
+
     public class AssignSectionController : Controller
     {
         private readonly IAssignSectionRepository _AssignSectionRepository;
@@ -51,8 +52,8 @@ namespace LMS.Areas.Admin.Controllers
             {
                 ClassSection newClassSection = new ClassSection
                 {
-                    Class_Id = objClassSection.Class_Id,
-                    Section_Id = objClassSection.Section_Id
+                    Class_Id = objClassSection.ClassId,
+                    Section_Id = objClassSection.SectionId
                 };
 
                 await _AssignSectionRepository.AddClassSection(newClassSection);
@@ -90,8 +91,8 @@ namespace LMS.Areas.Admin.Controllers
             {
                 ClassSection objAssignSection = await _AssignSectionRepository.GetClassSectionById(objClassSection.ClassSection_Id);
 
-                objAssignSection.Class_Id = objClassSection.Class_Id;
-                objAssignSection.Section_Id = objClassSection.Section_Id;
+                objAssignSection.Class_Id = objClassSection.ClassId;
+                objAssignSection.Section_Id = objClassSection.SectionId;
 
 
                 await _AssignSectionRepository.UpdateClassSection(objAssignSection);

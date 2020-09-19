@@ -70,6 +70,33 @@ namespace LMS.Database.Migrations
                     b.ToTable("ClassSubject");
                 });
 
+            modelBuilder.Entity("LMS.Domain.Lecture", b =>
+                {
+                    b.Property<int>("Lecture_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClassSubject_Id");
+
+                    b.Property<string>("LecturePost_Date");
+
+                    b.Property<string>("Lecture_Detail");
+
+                    b.Property<string>("Lecture_File");
+
+                    b.Property<string>("Lecture_Name");
+
+                    b.Property<int>("Teacher_Id");
+
+                    b.HasKey("Lecture_Id");
+
+                    b.HasIndex("ClassSubject_Id");
+
+                    b.HasIndex("Teacher_Id");
+
+                    b.ToTable("Lecture");
+                });
+
             modelBuilder.Entity("LMS.Domain.Section", b =>
                 {
                     b.Property<int>("Section_Id")
@@ -89,11 +116,54 @@ namespace LMS.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Student_City");
+
+                    b.Property<string>("Student_Cnic");
+
+                    b.Property<string>("Student_Country");
+
+                    b.Property<string>("Student_CurrentAddress");
+
+                    b.Property<string>("Student_DOB");
+
+                    b.Property<string>("Student_Email");
+
+                    b.Property<string>("Student_FatherName");
+
+                    b.Property<string>("Student_Gender");
+
+                    b.Property<string>("Student_HomePhone");
+
+                    b.Property<string>("Student_MobNumber");
+
                     b.Property<string>("Student_Name");
+
+                    b.Property<string>("Student_PermenentAddress");
+
+                    b.Property<string>("Student_Photo");
 
                     b.HasKey("Student_Id");
 
                     b.ToTable("Student");
+                });
+
+            modelBuilder.Entity("LMS.Domain.StudentClass", b =>
+                {
+                    b.Property<int>("StudentClass_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClassSection_id");
+
+                    b.Property<int>("Student_Id");
+
+                    b.HasKey("StudentClass_Id");
+
+                    b.HasIndex("ClassSection_id");
+
+                    b.HasIndex("Student_Id");
+
+                    b.ToTable("StudentClass");
                 });
 
             modelBuilder.Entity("LMS.Domain.Subject", b =>
@@ -115,11 +185,60 @@ namespace LMS.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Teacher_City");
+
+                    b.Property<string>("Teacher_Cnic");
+
+                    b.Property<string>("Teacher_Country");
+
+                    b.Property<string>("Teacher_CurrentAddress");
+
+                    b.Property<string>("Teacher_DOB");
+
+                    b.Property<string>("Teacher_Department");
+
+                    b.Property<string>("Teacher_Designation");
+
+                    b.Property<string>("Teacher_Email");
+
+                    b.Property<string>("Teacher_FatherName");
+
+                    b.Property<string>("Teacher_Gender");
+
+                    b.Property<string>("Teacher_HomePhone");
+
+                    b.Property<string>("Teacher_LastDegree");
+
+                    b.Property<string>("Teacher_MobNumber");
+
                     b.Property<string>("Teacher_Name");
+
+                    b.Property<string>("Teacher_PermenentAddress");
+
+                    b.Property<string>("Teacher_Photo");
 
                     b.HasKey("Teacher_Id");
 
                     b.ToTable("Teacher");
+                });
+
+            modelBuilder.Entity("LMS.Domain.TeacherSubject", b =>
+                {
+                    b.Property<int>("TeacherSubject_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClassSubject_Id");
+
+                    b.Property<int>("Teacher_Id");
+
+                    b.HasKey("TeacherSubject_Id");
+
+                    b.HasIndex("ClassSubject_Id");
+
+                    b.HasIndex("Teacher_Id");
+
+                    b.ToTable("TeacherSubject");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -306,6 +425,45 @@ namespace LMS.Database.Migrations
                     b.HasOne("LMS.Domain.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("Subject_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LMS.Domain.Lecture", b =>
+                {
+                    b.HasOne("LMS.Domain.ClassSubject", "ClassSubject")
+                        .WithMany()
+                        .HasForeignKey("ClassSubject_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("Teacher_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LMS.Domain.StudentClass", b =>
+                {
+                    b.HasOne("LMS.Domain.ClassSection", "ClassSection")
+                        .WithMany()
+                        .HasForeignKey("ClassSection_id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("Student_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LMS.Domain.TeacherSubject", b =>
+                {
+                    b.HasOne("LMS.Domain.ClassSubject", "ClassSubject")
+                        .WithMany()
+                        .HasForeignKey("ClassSubject_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("Teacher_Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -22,17 +22,21 @@ namespace LMS.BusinessLogics.Repositories
 
         public async Task<int> AddStudent(Student objStudent)
         {
+
             try
             {
-                await _lmsDbContext.Student.AddAsync(objStudent);
-                await _lmsDbContext.SaveChangesAsync();
-                return 1;
+              await _lmsDbContext.Student.AddAsync(objStudent);
+
+              int studentId = objStudent.Student_Id;
+
+              return 1;
             }
             catch (Exception ex)
             {
                 _logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
                 return -1;
             }
+
         }
 
         public async Task<int> DeleteStudent(int id)
@@ -70,13 +74,25 @@ namespace LMS.BusinessLogics.Repositories
             return Student;
         }
 
+
+
+        public Student FindStudentById(int Id)
+        {
+            Student Student = _lmsDbContext.Student.Find(Id);
+
+
+            return Student;
+        }
+
         public async Task<int> UpdateStudent(Student objStudent)
+
         {
             try
             {
                 _lmsDbContext.Student.Update(objStudent);
 
-                await _lmsDbContext.SaveChangesAsync();
+                //await _lmsDbContext.SaveChangesAsync();
+
 
                 return 1;
             }
@@ -85,6 +101,15 @@ namespace LMS.BusinessLogics.Repositories
                 _logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
                 return -1;
             }
+
+            //await _lmsDbContext.SaveChangesAsync();
+        }
+
+
+        public async Task SaveChanges()
+        {
+            await _lmsDbContext.SaveChangesAsync();
+
         }
     }
 }

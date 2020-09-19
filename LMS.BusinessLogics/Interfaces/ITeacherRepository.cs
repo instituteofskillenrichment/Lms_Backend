@@ -8,8 +8,15 @@ namespace LMS.BusinessLogics.Interfaces
     {
         IQueryable<Teacher> GetAllTeacher();
         Task<Teacher> GetTeacherById(int Id);
+
         Task<int> AddTeacher(Teacher objTeacher);
         Task<int> UpdateTeacher(Teacher objTeacher);
         Task<int> DeleteTeacher(int id);
+
+        Teacher FindTeacherById(int Id);
+        
+        Task SaveChanges();
+        
+
     }
 }
