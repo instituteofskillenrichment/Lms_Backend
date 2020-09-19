@@ -1,8 +1,13 @@
 ﻿using LMS.BusinessLogics.Interfaces;
 using LMS.Domain;
+using LMS.Domain.ViewModels;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LMS.Areas.Admin.Controllers
@@ -12,12 +17,14 @@ namespace LMS.Areas.Admin.Controllers
     public class TeacherController : Controller
     {
         private readonly ITeacherRepository _TeacherRepository;
+        private readonly ITeacherSubjectRepository _TeacherSubjectRepository;
         private readonly HostingEnvironment _hostingEnvironment;
 
 
-        public TeacherController(ITeacherRepository TeacherRepository, HostingEnvironment hostingEnvironment)
+        public TeacherController(ITeacherRepository TeacherRepository, ITeacherSubjectRepository TeacherSubjectRepository, HostingEnvironment hostingEnvironment)
         {
             _TeacherRepository = TeacherRepository;
+            _TeacherSubjectRepository = TeacherSubjectRepository;
             _hostingEnvironment = hostingEnvironment;
         }
 
@@ -26,7 +33,7 @@ namespace LMS.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var Teacher = _TeacherRepository.GetAllTeacher();
-            
+
 
             return View(Teacher);
         }
@@ -69,7 +76,7 @@ namespace LMS.Areas.Admin.Controllers
 
                 };
 
-                int Id =  await _TeacherRepository.AddTeacher(newTeacher);
+                int Id = await _TeacherRepository.AddTeacher(newTeacher);
 
                 UploadImage(Id);
 
@@ -141,6 +148,124 @@ namespace LMS.Areas.Admin.Controllers
             return View();
         }
 
+
+
+        [HttpGet]
+        [Route("assignTeacherSubject/{id}")]
+        public IActionResult AssignTeacherSubject(int id)
+        {
+
+            var assignTeacherSubjectVM = new TeacherSubjectViewModel();
+
+            var Teacher = _TeacherRepository.FindTeacherById(id);
+
+            assignTeacherSubjectVM.Teacher_Id = Teacher.Teacher_Id;
+            assignTeacherSubjectVM.Teacher_Name = Teacher.Teacher_Name;
+
+
+            assignTeacherSubjectVM.Subjects = _TeacherSubjectRepository.GetAllSubjects();
+
+            assignTeacherSubjectVM.Classes = new List<SelectListItem>();
+
+            var objClass = _TeacherSubjectRepository.GetAllClasses();
+
+            foreach (var lstclass in objClass)
+            {
+
+                var selectListItem = new SelectListItem
+                {
+                    Text = lstclass.Class_Name,
+                    Value = lstclass.Class_Id.ToString(),
+
+                };
+
+                assignTeacherSubjectVM.Classes.Add(selectListItem);
+            }
+
+            assignTeacherSubjectVM.Sections = new List<SelectListItem>();
+
+            var objSection = _TeacherSubjectRepository.GetAllSections();
+
+            foreach (var lstSection in objSection)
+            {
+                var selectListItem = new SelectListItem
+                {
+                    Text = lstSection.Section_Name,
+                    Value = lstSection.Section_Id.ToString(),
+
+                };
+
+                assignTeacherSubjectVM.Sections.Add(selectListItem);
+            }
+
+
+            return View(assignTeacherSubjectVM);
+
+            
+        }
+
+
+        [HttpPost]
+        [Route("assignTeacherSubject/{id}")]
+        public async Task<IActionResult> AssignTeacherSubject(TeacherSubjectViewModel objVM)
+        {
+
+            if (ModelState.IsValid)
+            {
+                List<string> lstSubject = Request.Form["lstSubject"].ToList();
+
+
+                var ClassSection = await _TeacherSubjectRepository.GetClassSectionById(objVM.Class_Id, objVM.Section_Id);
+
+                if (lstSubject.Count > 0)
+                {
+                    
+                    foreach (var objSubject in lstSubject)
+                    {
+                        
+                        var ClassSubject = await _TeacherSubjectRepository.GetClassSubjectById(ClassSection.ClassSection_id, Convert.ToInt32(objSubject));
+
+                        var TeacherSubject = new TeacherSubject
+                        {
+                            Teacher_Id = objVM.Teacher_Id,
+                            ClassSubject_Id = ClassSubject.ClassSubject_Id
+                            
+                        };
+                        
+                        await _TeacherSubjectRepository.AddTeacherSubject(TeacherSubject);
+
+                    }
+                    
+                }
+
+                return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
+            }
+
+            return View();
+
+
+        }
+
+
+
+        [HttpGet]
+        [Route("teacherSubjectDetail")]
+        public IActionResult TeacherSubjectDetail()
+        {
+            var objTeacherSubjectDetail = _TeacherSubjectRepository.GetTeacherSubjects();
+
+            return View(objTeacherSubjectDetail);
+        }
+
+
+        [HttpGet]
+        [Route("teacherClassesSubjects")]
+        public IActionResult TeacherClassesSubjects(int id)
+        {
+            var TeacherClassSubject = _TeacherSubjectRepository.GetTeacherClassSubjectstByTeacherId(id);
+
+            return View(TeacherClassSubject);
+        }
 
 
         public void UploadImage(int id)

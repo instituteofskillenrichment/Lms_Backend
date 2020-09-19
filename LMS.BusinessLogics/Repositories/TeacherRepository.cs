@@ -21,7 +21,7 @@ namespace LMS.BusinessLogics.Repositories
         public async Task<int> AddTeacher(Teacher objTeacher)
         {
             await _lmsDbContext.Teacher.AddAsync(objTeacher);
-
+            
 
             int teacherId = objTeacher.Teacher_Id;
 

@@ -318,17 +318,14 @@
 
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
-@*<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>*@
-@*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<script src="~/Dashboard/assets/js/navigation.js"></script>
 <script>
     $(document).ready(function () {
 
       //  $('#assignClassSectionpage').DataTable();
 
-        $('#assignClassSectionpage').dataTable({
-            /* Disable initial sort */
-            "aaSorting": []
-        });
+        
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
@@ -378,5 +375,14 @@
                 $("#selectAll").prop("checked", false);
             }
         });
+
+
+
+        $('#assignClassSectionpage').dataTable({
+            /* Disable initial sort */
+            "aaSorting": [],
+            //"pageLength":25
+        });
+
     });
 </script>

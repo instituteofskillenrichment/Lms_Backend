@@ -102,6 +102,7 @@
                                             <th>Mobile Number</th>
                                             <th>City</th>
                                             <th>Country</th>
+                                            <th>OfferSubject</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -117,7 +118,14 @@
                                                 <td>@item.Teacher_MobNumber</td>
                                                 <td>@item.Teacher_City</td>
                                                 <td>@item.Teacher_Country</td>
+                                                <td>
+                                                    <a asp-area="admin" asp-controller="teacher" asp-action="assignTeacherSubject" asp-route-id="@item.Teacher_Id" class="assignSubject" id="assignSubject" >
+                                                        <i class="btn btn-primary" data-toggle="tooltip" title="" data-original-title="AssignClass" style="line-height: 1em; border-radius: 2em;">Assign Subject</i>
+                                                    </a>
 
+                                                    @*Added BY Absar To get parentid*@
+                                                    <input type="hidden" class="Student_Id" value="@item.Teacher_Id" />
+                                                </td>
                                                 <td>
                                                     <a asp-area="admin" asp-controller="teacher" asp-action="editTeacher" asp-route-id="@item.Teacher_Id" class="edit" id="edit" >
                                                         <i class="material-icons" title="" data-original-title="Edit"></i>

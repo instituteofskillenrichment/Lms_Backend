@@ -4,14 +4,16 @@ using LMS.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LMS.Database.Migrations
 {
     [DbContext(typeof(LmsDbContext))]
-    partial class LmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200919072734_Remove TeacherSubject Table")]
+    partial class RemoveTeacherSubjectTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,25 +195,6 @@ namespace LMS.Database.Migrations
                     b.HasKey("Teacher_Id");
 
                     b.ToTable("Teacher");
-                });
-
-            modelBuilder.Entity("LMS.Domain.TeacherSubject", b =>
-                {
-                    b.Property<int>("TeacherSubject_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ClassSubject_Id");
-
-                    b.Property<int>("Teacher_Id");
-
-                    b.HasKey("TeacherSubject_Id");
-
-                    b.HasIndex("ClassSubject_Id");
-
-                    b.HasIndex("Teacher_Id");
-
-                    b.ToTable("TeacherSubject");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -411,19 +394,6 @@ namespace LMS.Database.Migrations
                     b.HasOne("LMS.Domain.Student", "Student")
                         .WithMany()
                         .HasForeignKey("Student_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("LMS.Domain.TeacherSubject", b =>
-                {
-                    b.HasOne("LMS.Domain.ClassSubject", "ClassSubject")
-                        .WithMany()
-                        .HasForeignKey("ClassSubject_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("LMS.Domain.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("Teacher_Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

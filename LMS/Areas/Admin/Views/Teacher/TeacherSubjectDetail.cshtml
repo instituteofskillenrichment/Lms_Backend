@@ -1,7 +1,7 @@
-﻿@model IEnumerable<LMS.Domain.ViewModels.StudentClassViewModel>
+﻿@model IEnumerable<LMS.Domain.ViewModels.TeacherSubjectViewModel>
 
 @{
-    ViewData["Title"] = "StudentClassDetail";
+    ViewData["Title"] = "TeacherSubjectDetail";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -17,7 +17,7 @@
                         <span class="navbar-toggler-bar bar3"></span>
                     </button>
                 </div>
-                <a class="navbar-brand" href="#pablo">Class Subject Info</a>
+                <a class="navbar-brand" href="#pablo">Teacher Subject Info</a>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -83,7 +83,7 @@
                                 <div class="table-title">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h2>Assign Subject To Particular <b>Class & Section</b></h2>
+                                            <h2>Assign Subject To Particular <b>Teacher</b></h2>
                                         </div>
                                         <div class="col-md-6 pull-right">
                                             <a asp-area="admin" asp-controller="assignSubject" asp-action="addClassSubject" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add New Class Subjects</span></a>
@@ -96,10 +96,11 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Student ID</th>
-                                            <th>Student Name</th>
+                                            <th>Teacher ID</th>
+                                            <th>Teacher Name</th>
                                             <th>Class Name</th>
                                             <th>Section Name</th>
+                                            <th>Subject Name</th>
                                             <th>Enroll Subjects</th>
                                             <th>Action</th>
                                         </tr>
@@ -108,13 +109,14 @@
                                         @foreach (var item in Model)
                                         {
                                             <tr>
-                                                <td>@item.StudentClass_Id</td>
-                                                <td>@item.Student_Id</td>
-                                                <td>@item.Student_Name</td>
+                                                <td>@item.TeacherSubject_Id</td>
+                                                <td>@item.Teacher_Id</td>
+                                                <td>@item.Teacher_Name</td>
                                                 <td>@item.Class_Name</td>
                                                 <td>@item.Section_Name</td>
+                                                <td>@item.Subject_Name</td>
                                                 <td>
-                                                    <a asp-area="admin" asp-controller="student" asp-action="studentSubjectDetail" asp-route-id="@item.Student_Id" class="studentSubject" id="studentSubject">
+                                                    <a asp-area="admin" asp-controller="teacher" asp-action="teacherClassesSubjects" asp-route-id="@item.Teacher_Id" class="studentSubject" id="studentSubject">
                                                         <i class="btn btn-primary" data-toggle="tooltip" title="" data-original-title="AssignClass" style="line-height: 1em; border-radius: 2em;">Subjects</i>
                                                     </a>
 
@@ -134,8 +136,8 @@
 
 
                                                     @*Added BY Absar To get parentid*@
-                                                    <input type="hidden" class="StudentClass_Id" value="@item.StudentClass_Id" />
-                                                    <input type="hidden" class="Student_Id" value="@item.Student_Id" />
+                                                    <input type="hidden" class="TeacherSubject_Id" value="@item.TeacherSubject_Id" />
+                                                    <input type="hidden" class="Teacher_Id" value="@item.Teacher_Id" />
 
 
                                                 </td>
@@ -154,7 +156,7 @@
 
 
                         <!-- Edit Modal HTML -->
-                        <div id="editStudentClassModel" class="modal fade">
+                        @*<div id="editStudentClassModel" class="modal fade">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <form method="post" asp-controller="student" asp-action="editStudentClass">
@@ -185,13 +187,13 @@
                                                 <select id="Section_Id" name="Section_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Section, "Section_Id", "Section_Name"))"></select>
                                             </div>
 
-                                            
+
 
                                         </div>
                                         <div class="modal-footer">
                                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                                             <input type="submit" class="btn btn-info" value="Save">
-                                            @*Added By Absar*@
+                                            
                                             <input type="hidden" name="StudentClass_Id" id="StudentClass_Id" />
                                             <input type="hidden" name="Student_Id" id="Student_Id" />
                                             <input type="hidden" name="Student_Name" id="Student_Name" />
@@ -199,7 +201,7 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
 
 
@@ -302,7 +304,7 @@
                 type: 'GET',
                 url: '/admin/student/editStudentClass/' + id,
                 success: function (objStudentClass) {
-                   
+
                     // objClass = JSON.stringify(objClass);
 
                     //alert(objClass);
@@ -336,4 +338,3 @@
         });
     });
 </script>
-
