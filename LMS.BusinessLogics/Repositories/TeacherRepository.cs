@@ -2,6 +2,7 @@
 using LMS.Database;
 using LMS.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,32 +12,52 @@ namespace LMS.BusinessLogics.Repositories
     public class TeacherRepository : ITeacherRepository
     {
         private LmsDbContext _lmsDbContext;
-        
-        public TeacherRepository(LmsDbContext lmsDbContext)
+
+        private ILogger<TeacherRepository> _logger;
+
+        public TeacherRepository(LmsDbContext lmsDbContext, ILogger<TeacherRepository> logger)
         {
             _lmsDbContext = lmsDbContext;
-            
+            _logger = logger;
+
+        
+
         }
 
         public async Task<int> AddTeacher(Teacher objTeacher)
         {
-            await _lmsDbContext.Teacher.AddAsync(objTeacher);
-            
 
-            int teacherId = objTeacher.Teacher_Id;
+            try
+            {
+                await _lmsDbContext.Teacher.AddAsync(objTeacher);
+                await _lmsDbContext.SaveChangesAsync();
+                return 1;
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
+                return -1;
+            }
 
-            return teacherId;
-
-            //await _lmsDbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteTeacher(int id)
+        public async Task<int> DeleteTeacher(int id)
         {
-            var deleteTeacher = await GetTeacherById(id);
+            try
+            {
+                var deleteTeacher = await GetTeacherById(id);
 
-            _lmsDbContext.Teacher.Remove(deleteTeacher);
+                _lmsDbContext.Teacher.Remove(deleteTeacher);
 
-            await _lmsDbContext.SaveChangesAsync();
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
+                return -1;
+            }
         }
 
         public IQueryable<Teacher> GetAllTeacher()
@@ -62,17 +83,32 @@ namespace LMS.BusinessLogics.Repositories
             return Teacher;
         }
 
-        public async Task UpdateTeacher(Teacher objTeacher)
+        public async Task<int> UpdateTeacher(Teacher objTeacher)
         {
-            _lmsDbContext.Teacher.Update(objTeacher);
+            try
+            {
+                _lmsDbContext.Teacher.Update(objTeacher);
 
-            //await _lmsDbContext.SaveChangesAsync();
+                //await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+
+
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
+                return -1;
+            }
+
+
         }
 
 
         public async Task SaveChanges()
         {
             await _lmsDbContext.SaveChangesAsync();
+
         }
 
 

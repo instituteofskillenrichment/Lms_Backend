@@ -85,8 +85,7 @@ namespace LMS.BusinessLogics.Repositories
 
         public IQueryable<Class> GetAllClass()
         {
-            
-             IQueryable<Class> listOfClass = _lmsDbContext.Class.AsQueryable();
+            IQueryable<Class> listOfClass = _lmsDbContext.Class.AsQueryable();
 
             return listOfClass;
         }
@@ -95,14 +94,12 @@ namespace LMS.BusinessLogics.Repositories
 
         public IQueryable<Section> GetAllSection()
         {
-
             IQueryable<Section> listOfSection = _lmsDbContext.Section.AsQueryable();
 
             return listOfSection;
         }
 
 
-        
         public async Task<ClassSection> GetClassSectionById(int Id)
         {
             var ClassSection = await _lmsDbContext.ClassSection

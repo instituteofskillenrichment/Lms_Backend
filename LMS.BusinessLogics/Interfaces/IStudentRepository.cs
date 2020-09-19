@@ -8,10 +8,14 @@ namespace LMS.BusinessLogics.Interfaces
     {
         IQueryable<Student> GetAllStudent();
         Task<Student> GetStudentById(int Id);
-        Student FindStudentById(int Id);
+
         Task<int> AddStudent(Student objStudent);
-        Task UpdateStudent(Student objStudent);
-        Task DeleteStudent(int id);
+        Task<int> UpdateStudent(Student objStudent);
+        Task<int> DeleteStudent(int id);
+
+        Student FindStudentById(int Id);
+        
         Task SaveChanges();
+
     }
 }
