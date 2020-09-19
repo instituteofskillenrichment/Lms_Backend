@@ -18,6 +18,7 @@ namespace LMS.Database
         public DbSet<TeacherSubject> TeacherSubject { get; set; }
         public DbSet<Student> Student { get; set; }
         public DbSet<StudentClass> StudentClass { get; set; }
+        public DbSet<Lecture> Lecture { get; set; }
 
     }
 }
