@@ -15,7 +15,7 @@ namespace LMS.BusinessLogics.Interfaces
 
         Student FindStudentById(int Id);
         
-        Task SaveChanges();
+        Task<int> SaveChanges();
 
     }
 }

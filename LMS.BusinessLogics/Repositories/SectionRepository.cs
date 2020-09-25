@@ -19,21 +19,41 @@ namespace LMS.BusinessLogics.Repositories
             _lmsDbContext = lmsDbContext;
         }
 
-        public async Task AddSection(Section objSection)
+        public async Task<int> AddSection(Section objSection)
         {
-            await _lmsDbContext.Section.AddAsync(objSection);
-            await _lmsDbContext.SaveChangesAsync();
+            try
+            {
+                await _lmsDbContext.Section.AddAsync(objSection);
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
+
+            
         }
 
         
 
-        public async Task DeleteSection(int Id)
+        public async Task<int> DeleteSection(int Id)
         {
-            var deleteSection = await GetSectionById(Id);
+            try
+            {
+                var deleteSection = await GetSectionById(Id);
 
-            _lmsDbContext.Section.Remove(deleteSection);
+                _lmsDbContext.Section.Remove(deleteSection);
 
-            await _lmsDbContext.SaveChangesAsync();
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
 
 
@@ -58,11 +78,21 @@ namespace LMS.BusinessLogics.Repositories
 
 
 
-        public async Task UpdateSection(Section objSection)
+        public async Task<int> UpdateSection(Section objSection)
         {
-            _lmsDbContext.Section.Update(objSection);
+            try
+            {
+                _lmsDbContext.Section.Update(objSection);
 
-            await _lmsDbContext.SaveChangesAsync();
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
+
         }
     }
 }

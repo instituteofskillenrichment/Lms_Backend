@@ -24,21 +24,39 @@ namespace LMS.BusinessLogics.Repositories
 
 
 
-        public async Task AddClassSection(ClassSection objClassSection)
+        public async Task<int> AddClassSection(ClassSection objClassSection)
         {
-            await _lmsDbContext.ClassSection.AddAsync(objClassSection);
-            await _lmsDbContext.SaveChangesAsync();
+            try
+            {
+                await _lmsDbContext.ClassSection.AddAsync(objClassSection);
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
 
 
 
-        public async Task DeleteClassSection(int Id)
+        public async Task<int> DeleteClassSection(int Id)
         {
-            var deleteClassSection = await GetClassSectionById(Id);
+            try
+            {
+                var deleteClassSection = await GetClassSectionById(Id);
 
-            _lmsDbContext.ClassSection.Remove(deleteClassSection);
+                _lmsDbContext.ClassSection.Remove(deleteClassSection);
 
-            await _lmsDbContext.SaveChangesAsync();
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
 
 
@@ -51,10 +69,10 @@ namespace LMS.BusinessLogics.Repositories
                                                                select new AssignSectionViewModel
                                                                {
                                                                    ClassSection_Id = cs.ClassSection_id,
-                                                                   ClassId = c.Class_Id,
-                                                                   ClassName = c.Class_Name,
-                                                                   SectionId = s.Section_Id,
-                                                                   SectionName = s.Section_Name
+                                                                   Class_Id = c.Class_Id,
+                                                                   Class_Name = c.Class_Name,
+                                                                   Section_Id = s.Section_Id,
+                                                                   Section_Name = s.Section_Name
 
 
                                                                }).AsQueryable();
@@ -111,11 +129,20 @@ namespace LMS.BusinessLogics.Repositories
 
 
 
-        public async Task UpdateClassSection(ClassSection objClassSection)
+        public async Task<int> UpdateClassSection(ClassSection objClassSection)
         {
-            _lmsDbContext.ClassSection.Update(objClassSection);
+            try
+            {
+                _lmsDbContext.ClassSection.Update(objClassSection);
 
-            await _lmsDbContext.SaveChangesAsync();
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
 
 

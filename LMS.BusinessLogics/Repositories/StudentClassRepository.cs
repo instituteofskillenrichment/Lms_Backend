@@ -22,26 +22,44 @@ namespace LMS.BusinessLogics.Repositories
 
 
 
-        public async Task AddStudentClass(StudentClass objStudent)
+        public async Task<int> AddStudentClass(StudentClass objStudent)
         {
-            await _lmsDbContext.StudentClass.AddAsync(objStudent);
-            await _lmsDbContext.SaveChangesAsync();
+            try
+            {
+                await _lmsDbContext.StudentClass.AddAsync(objStudent);
+                await _lmsDbContext.SaveChangesAsync();
+
+                return -1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
 
 
 
-        public async Task DeleteStudentClass(int id)
+        public async Task<int> DeleteStudentClass(int id)
         {
-            var deleteStudentClass = await GetSudentClassById(id);
+            try
+            {
+                var deleteStudentClass = await GetSudentClassById(id);
 
-            StudentClass objStudentClass = new StudentClass();
-            objStudentClass.StudentClass_Id = deleteStudentClass.StudentClass_Id;
-            objStudentClass.Student_Id = deleteStudentClass.Student_Id;
-            objStudentClass.ClassSection_id = deleteStudentClass.ClassSection_Id;
+                StudentClass objStudentClass = new StudentClass();
+                objStudentClass.StudentClass_Id = deleteStudentClass.StudentClass_Id;
+                objStudentClass.Student_Id = deleteStudentClass.Student_Id;
+                objStudentClass.ClassSection_id = deleteStudentClass.ClassSection_Id;
 
-            _lmsDbContext.StudentClass.Remove(objStudentClass);
+                _lmsDbContext.StudentClass.Remove(objStudentClass);
 
-            await _lmsDbContext.SaveChangesAsync();
+                await _lmsDbContext.SaveChangesAsync();
+
+                return -1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
 
 
@@ -169,11 +187,20 @@ namespace LMS.BusinessLogics.Repositories
 
 
 
-        public async Task UpdateStudentClass(StudentClass objStudentClass)
+        public async Task<int> UpdateStudentClass(StudentClass objStudentClass)
         {
-            _lmsDbContext.StudentClass.Update(objStudentClass);
+            try
+            {
+                _lmsDbContext.StudentClass.Update(objStudentClass);
 
-            await _lmsDbContext.SaveChangesAsync();
+                await _lmsDbContext.SaveChangesAsync();
+
+                return -1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
 
 

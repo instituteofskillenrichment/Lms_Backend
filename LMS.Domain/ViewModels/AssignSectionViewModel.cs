@@ -11,11 +11,11 @@ namespace LMS.Domain.ViewModels
         
         public int ClassSection_Id { get; set; }
         
-        public int ClassId { get; set; }
-        public string ClassName { get; set; }
+        public int Class_Id { get; set; }
+        public string Class_Name { get; set; }
         
-        public int SectionId { get; set; }
-        public string SectionName { get; set; }
+        public int Section_Id { get; set; }
+        public string Section_Name { get; set; }
 
 
         public List<Class> Classes = new List<Class>();

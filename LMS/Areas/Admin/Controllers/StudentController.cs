@@ -32,15 +32,15 @@ namespace LMS.Areas.Admin.Controllers
         {
 
 
-            if (TempData["Error"] != null)
-            {
-                ViewBag.Error = TempData["Error"].ToString();
-            }
+            //if (TempData["Error"] != null)
+            //{
+            //    ViewBag.Error = TempData["Error"].ToString();
+            //}
 
-            if (TempData["Success"] != null)
-            {
-                ViewBag.Success = TempData["Success"].ToString();
-            }
+            //if (TempData["Success"] != null)
+            //{
+            //    ViewBag.Success = TempData["Success"].ToString();
+            //}
 
 
             var studentClassVM = new StudentClassViewModel();
@@ -114,25 +114,20 @@ namespace LMS.Areas.Admin.Controllers
                 };
 
 
-                int result = await _StudentRepository.AddStudent(newStudent);
+                int Id = await _StudentRepository.AddStudent(newStudent);
+                
+                 UploadImage(Id);
 
-          //      int Id = await _StudentRepository.AddStudent(newStudent);
-
-          //      UploadImage(Id);
-
-                await _StudentRepository.SaveChanges();
-
-               // return RedirectToAction("Index", "Student", new { area = "admin" });
-
-
+                int result = await _StudentRepository.SaveChanges();
+                
                 if (result == 1)
                 {
-                    TempData["Success"] = "Student successfully added.";
+                    TempData["Success"] = "Success";
                     return RedirectToAction("Index", "Student", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Error"] = "Failed to add student. Please try again!";
+                    TempData["Error"] = "Failed";
                     return RedirectToAction("Index", "Student", new { area = "admin" });
                 }
             }
@@ -146,18 +141,24 @@ namespace LMS.Areas.Admin.Controllers
         [Route("deleteStudent")]
         public async Task<IActionResult> DeleteStudent(int Student_Id)
         {
-            int result = await _StudentRepository.DeleteStudent(Student_Id);
+            if (ModelState.IsValid)
+            {
+                int result = await _StudentRepository.DeleteStudent(Student_Id);
 
-            if (result == 1)
-            {
-                TempData["Success"] = "Student successfully deleted.";
-                return RedirectToAction("Index", "Student", new { area = "admin" });
+                if (result == 1)
+                {
+                    TempData["Success"] = "Success";
+                    return RedirectToAction("Index", "Student", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Error"] = "Failed";
+                    return RedirectToAction("Index", "Student", new { area = "admin" });
+                }
             }
-            else
-            {
-                TempData["Error"] = "Failed to delete student. Please try again!";
-                return RedirectToAction("Index", "Student", new { area = "admin" });
-            }
+
+            return View();
+                
         }
 
 
@@ -197,29 +198,22 @@ namespace LMS.Areas.Admin.Controllers
             //    objStudent.Student_LastDegree = TeacherModel.Teacher_LastDegree;
                 objStudent.Student_MobNumber = StudentModel.Student_MobNumber;
                 objStudent.Student_PermenentAddress = StudentModel.Student_PermenentAddress;
-
-
-                int result = await _StudentRepository.UpdateStudent(objStudent);
-
-             //   await _StudentRepository.UpdateStudent(objStudent);
-
-            //    UploadImage(objStudent.Student_Id);
-
-                await _StudentRepository.SaveChanges();
-
                 
+               int Id = await _StudentRepository.UpdateStudent(objStudent);
+                
+               UploadImage(objStudent.Student_Id);
 
-
-                if (result == 1)
-                {
-                    TempData["Success"] = "Student successfully updated.";
-                    return RedirectToAction("Index", "Student", new { area = "admin" });
-                }
-                else
-                {
-                    TempData["Error"] = "Failed to update student. Please try again!";
-                    return RedirectToAction("Index", "Student", new { area = "admin" });
-                }
+               int result = await _StudentRepository.SaveChanges();
+               if (result == 1)
+               {
+                   TempData["Success"] = "Success";
+                   return RedirectToAction("Index", "Student", new { area = "admin" });
+               }
+               else
+               {
+                   TempData["Error"] = "Failed";
+                   return RedirectToAction("Index", "Student", new { area = "admin" });
+               }
             }
 
             return View();
@@ -288,9 +282,17 @@ namespace LMS.Areas.Admin.Controllers
                 
 
 
-                await _StudentClassRepository.AddStudentClass(studentClass);
-
-                return RedirectToAction("Index", "student", new { area = "admin" });
+                int result = await _StudentClassRepository.AddStudentClass(studentClass);
+                if (result == 1)
+                {
+                    TempData["Success"] = "Success";
+                    return RedirectToAction("Index", "Student", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Error"] = "Failed";
+                    return RedirectToAction("Index", "Student", new { area = "admin" });
+                }
 
             }
 
@@ -330,9 +332,18 @@ namespace LMS.Areas.Admin.Controllers
                 objStudentClass.Student_Id = studentClassModel.Student_Id;
 
 
-                await _StudentClassRepository.UpdateStudentClass(objStudentClass);
+                int result = await _StudentClassRepository.UpdateStudentClass(objStudentClass);
 
-                return RedirectToAction("StudentClassDetail", "student", new { area = "admin" });
+                if (result == 1)
+                {
+                    TempData["Success"] = "Success";
+                    return RedirectToAction("Index", "Student", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Error"] = "Failed";
+                    return RedirectToAction("Index", "Student", new { area = "admin" });
+                }
 
             }
 
@@ -345,10 +356,24 @@ namespace LMS.Areas.Admin.Controllers
         [Route("deleteStudentClass")]
         public async Task<IActionResult> deleteStudentClass(int StudentClass_Id)
         {
-            await _StudentClassRepository.DeleteStudentClass(StudentClass_Id);
+            if (ModelState.IsValid)
+            {
+                int result = await _StudentClassRepository.DeleteStudentClass(StudentClass_Id);
 
-            return RedirectToAction("StudentClassDetail", "student", new { area = "admin" });
+                if (result == 1)
+                {
+                    TempData["Success"] = "Success";
+                    return RedirectToAction("Index", "Student", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Error"] = "Failed";
+                    return RedirectToAction("Index", "Student", new { area = "admin" });
+                }
+            }
 
+
+            return View();
         }
 
 

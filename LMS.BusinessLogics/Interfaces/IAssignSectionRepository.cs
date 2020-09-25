@@ -15,8 +15,8 @@ namespace LMS.BusinessLogics.Interfaces
         IQueryable<Class> GetAllClass();
         IQueryable<Section> GetAllSection();
         Task<ClassSection> GetClassSectionById(int Id);
-        Task AddClassSection(ClassSection objClassSection);
-        Task UpdateClassSection(ClassSection objClassSection);
-        Task DeleteClassSection(int Id);
+        Task<int> AddClassSection(ClassSection objClassSection);
+        Task<int> UpdateClassSection(ClassSection objClassSection);
+        Task<int> DeleteClassSection(int Id);
     }
 }

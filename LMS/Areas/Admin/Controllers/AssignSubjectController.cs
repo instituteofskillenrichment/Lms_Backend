@@ -113,30 +113,48 @@ namespace LMS.Areas.Admin.Controllers
                 
                 var ClassSection = await _AssignSubjectRepository.GetClassSectionById(objAssignSubjectVM.Class_Id, objAssignSubjectVM.Section_Id);
 
-                if (lstSubject.Count > 0)
+                if(ClassSection != null)
                 {
-                    
+                    int result = 0;
 
-                    foreach(var objSubject in lstSubject)
+                    if (lstSubject.Count > 0)
                     {
-                        var ClassSubject = new ClassSubject
+
+
+                        foreach (var objSubject in lstSubject)
                         {
-                            ClassSection_Id = ClassSection.ClassSection_id,
-                            Subject_Id = Convert.ToInt32(objSubject)
-                        };
+                            var ClassSubject = new ClassSubject
+                            {
+                                ClassSection_Id = ClassSection.ClassSection_id,
+                                Subject_Id = Convert.ToInt32(objSubject)
+                            };
 
 
-                        await _AssignSubjectRepository.AddClassSubject(ClassSubject);
+                           result =  await _AssignSubjectRepository.AddClassSubject(ClassSubject);
+
+                        }
+
+                        if(result > 0)
+                        {
+                            TempData["Message"] = "Success";
+                            return RedirectToAction("Index", "assignSubject", new { area = "admin" });
+                        }
+                        else
+                        {
+                            TempData["Message"] = "Failed";
+                            return RedirectToAction("Index", "assignSubject", new { area = "admin" });
+                        }
+
 
                     }
-
-
-
-                    
-
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("Index", "assignSubject", new { area = "admin" });
                 }
 
-                return RedirectToAction("Index", "assignSubject", new { area = "admin" });
+                
             }
 
             return View();
@@ -175,17 +193,35 @@ namespace LMS.Areas.Admin.Controllers
                 //get class section id
                 var ClassSection = await _AssignSubjectRepository.GetClassSectionById(objClassSubjectModel.Class_Id, objClassSubjectModel.Section_Id);
 
-                //assign new values to class subject
-                ClassSubject objSubject = new ClassSubject();
-                
-                objSubject.ClassSubject_Id = objAssignSubject.ClassSubject_Id;
-                objSubject.ClassSection_Id = ClassSection.ClassSection_id;
-                objSubject.Subject_Id = objClassSubjectModel.Subject_Id; 
-                
+                if(ClassSection != null)
+                {
+                    //assign new values to class subject
+                    ClassSubject objSubject = new ClassSubject();
 
-                await _AssignSubjectRepository.UpdateClassSubject(objSubject);
+                    objSubject.ClassSubject_Id = objAssignSubject.ClassSubject_Id;
+                    objSubject.ClassSection_Id = ClassSection.ClassSection_id;
+                    objSubject.Subject_Id = objClassSubjectModel.Subject_Id;
 
-                return RedirectToAction("Index", "assignSubject", new { area = "admin" });
+
+                    int result = await _AssignSubjectRepository.UpdateClassSubject(objSubject);
+                    if (result == 1)
+                    {
+                        TempData["Message"] = "Success";
+                        return RedirectToAction("Index", "assignSubject", new { area = "admin" });
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Failed";
+                        return RedirectToAction("Index", "assignSubject", new { area = "admin" });
+                    }
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("Index", "assignSubject", new { area = "admin" });
+                }
+
+                
 
             }
 
@@ -199,10 +235,24 @@ namespace LMS.Areas.Admin.Controllers
         [Route("deleteClassSubject")]
         public async Task<IActionResult> DeleteClassSubject(int ClassSubject_Id)
         {
-            await _AssignSubjectRepository.DeleteClassSubject(ClassSubject_Id);
+            if (ModelState.IsValid)
+            {
+                int result = await _AssignSubjectRepository.DeleteClassSubject(ClassSubject_Id);
 
-            return RedirectToAction("Index", "assignSubject", new { area = "admin" });
+                if (result == 1)
+                {
+                    TempData["Message"] = "Success";
+                    return RedirectToAction("Index", "assignSubject", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("Index", "assignSubject", new { area = "admin" });
+                }
+            }
 
+            return View();
+            
         }
 
     }

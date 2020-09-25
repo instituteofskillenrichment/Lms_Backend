@@ -42,9 +42,18 @@ namespace LMS.Areas.Admin.Controllers
                     Subject_Name = objSubject.Subject_Name
                 };
 
-                await _SubjectRepository.AddSubject(newSubject);
-
-                return RedirectToAction("Index", "subject", new { area = "admin" });
+                int result =  await _SubjectRepository.AddSubject(newSubject);
+                if (result == 1)
+                {
+                    TempData["Message"] = "Success";
+                    return RedirectToAction("Index", "subject", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("Index", "subject", new { area = "admin" });
+                }
+                
 
             }
 
@@ -73,9 +82,18 @@ namespace LMS.Areas.Admin.Controllers
 
                 objSubject.Subject_Name = subjectModel.Subject_Name;
 
-                await _SubjectRepository.UpdateSubject(objSubject);
+                int result = await _SubjectRepository.UpdateSubject(objSubject);
 
-                return RedirectToAction("Index", "subject", new { area = "admin" });
+                if (result == 1)
+                {
+                    TempData["Message"] = "Success";
+                    return RedirectToAction("Index", "subject", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("Index", "subject", new { area = "admin" });
+                }
 
             }
 
@@ -88,10 +106,24 @@ namespace LMS.Areas.Admin.Controllers
         [Route("deleteSubject")]
         public async Task<IActionResult> DeleteSubject(int Subject_Id)
         {
-            await _SubjectRepository.DeleteSubject(Subject_Id);
+            if (ModelState.IsValid)
+            { 
+                int result = await _SubjectRepository.DeleteSubject(Subject_Id);
 
-            return RedirectToAction("Index", "subject", new { area = "admin" });
+                if (result == 1)
+                {
+                    TempData["Message"] = "Success";
+                    return RedirectToAction("Index", "subject", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("Index", "subject", new { area = "admin" });
+                }
 
+            }
+
+            return View();
         }
     }
 }

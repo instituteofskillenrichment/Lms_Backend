@@ -1,7 +1,7 @@
 ﻿using LMS.BusinessLogics.Interfaces;
 using LMS.Domain;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Threading.Tasks;
 
 namespace LMS.Areas.Admin.Controllers
 {
@@ -48,9 +48,19 @@ namespace LMS.Areas.Admin.Controllers
                     Class_Name = objClass.Class_Name
                 };
 
-                await _ClassRepository.AddClass(newClass);
+                int result =  await _ClassRepository.AddClass(newClass);
+                if(result == 1)
+                {
+                    TempData["Message"] = "Success"; 
+                    return RedirectToAction("Index", "class", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("Index", "class", new { area = "admin" });
+                }
 
-                return RedirectToAction("Index", "class", new { area = "admin" });
+                
 
             }
 
@@ -62,10 +72,24 @@ namespace LMS.Areas.Admin.Controllers
         [Route("deleteClass")]
         public async Task<IActionResult> DeleteClass(int Class_Id)
         {
-                await _ClassRepository.DeleteClass(Class_Id);
+            if (ModelState.IsValid)
+            {
+               int result = await _ClassRepository.DeleteClass(Class_Id);
 
-                return RedirectToAction("Index", "class", new { area = "admin" });
-            
+                if (result == 1)
+                {
+                    TempData["Message"] = "Success";
+                    return RedirectToAction("Index", "class", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("Index", "class", new { area = "admin" });
+                }
+            }
+
+            return View();
+
         }
 
 
@@ -92,9 +116,18 @@ namespace LMS.Areas.Admin.Controllers
 
                 objClass.Class_Name = classModel.Class_Name;
 
-                await _ClassRepository.UpdateClass(objClass);
+                int result = await _ClassRepository.UpdateClass(objClass);
 
-                return RedirectToAction("Index", "class", new { area = "admin" });
+                if (result == 1)
+                {
+                    TempData["Message"] = "Success";
+                    return RedirectToAction("Index", "class", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("Index", "class", new { area = "admin" });
+                }
 
             }
 

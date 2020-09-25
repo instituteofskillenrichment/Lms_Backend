@@ -17,7 +17,7 @@ namespace LMS.BusinessLogics.Interfaces
         Task<ClassSubject> GetClassSubjectById(int classSectionId, int subjectId);
         IQueryable<TeacherSubjectViewModel> GetTeacherSubjects();
         IQueryable<TeacherSubjectViewModel> GetTeacherClassSubjectstByTeacherId(int TeacherId);
-        Task AddTeacherSubject(TeacherSubject objTeacherSubject);
+        Task<int> AddTeacherSubject(TeacherSubject objTeacherSubject);
 
     }
 }

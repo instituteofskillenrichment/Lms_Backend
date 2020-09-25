@@ -18,19 +18,37 @@ namespace LMS.BusinessLogics.Repositories
             _lmsDbContext = lmsDbContext;
         }
 
-        public async Task AddSubject(Subject objSubject)
+        public async Task<int> AddSubject(Subject objSubject)
         {
-            await _lmsDbContext.Subject.AddAsync(objSubject);
-            await _lmsDbContext.SaveChangesAsync();
+            try
+            {
+                await _lmsDbContext.Subject.AddAsync(objSubject);
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
 
-        public async Task DeleteSubject(int Id)
+        public async Task<int> DeleteSubject(int Id)
         {
-            var deleteSubject = await GetSubjectById(Id);
+            try
+            {
+                var deleteSubject = await GetSubjectById(Id);
 
-            _lmsDbContext.Subject.Remove(deleteSubject);
+                _lmsDbContext.Subject.Remove(deleteSubject);
 
-            await _lmsDbContext.SaveChangesAsync();
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
 
         public IQueryable<Subject> GetAllSubject()
@@ -49,11 +67,21 @@ namespace LMS.BusinessLogics.Repositories
             return Subject;
         }
 
-        public async Task UpdateSubject(Subject objSubject)
+        public async Task<int> UpdateSubject(Subject objSubject)
         {
-            _lmsDbContext.Subject.Update(objSubject);
+           try
+            {
+                _lmsDbContext.Subject.Update(objSubject);
 
-            await _lmsDbContext.SaveChangesAsync();
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
+
         }
     }
 }

@@ -3,6 +3,7 @@ using LMS.Database;
 using LMS.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,8 +31,10 @@ namespace LMS.BusinessLogics.Repositories
             try
             {
                 await _lmsDbContext.Teacher.AddAsync(objTeacher);
-                await _lmsDbContext.SaveChangesAsync();
-                return 1;
+
+                int TeacherId = objTeacher.Teacher_Id;
+                //await _lmsDbContext.SaveChangesAsync();
+                return TeacherId;
             }
             catch (System.Exception ex)
             {
@@ -105,9 +108,19 @@ namespace LMS.BusinessLogics.Repositories
         }
 
 
-        public async Task SaveChanges()
+        public async Task<int> SaveChanges()
         {
-            await _lmsDbContext.SaveChangesAsync();
+            try
+            {
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
+            
 
         }
 

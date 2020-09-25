@@ -89,25 +89,20 @@ namespace LMS.Areas.Admin.Controllers
                 };
 
 
-                int result = await _TeacherRepository.AddTeacher(newTeacher);
-
-  //              int Id = await _TeacherRepository.AddTeacher(newTeacher);
-
-   //             UploadImage(Id);
-
-                await _TeacherRepository.SaveChanges();
-
+                int Id = await _TeacherRepository.AddTeacher(newTeacher);
                 
+                UploadImage(Id);
 
-
+                int result = await _TeacherRepository.SaveChanges();
+                
                 if (result == 1)
                 {
-                    TempData["Success"] = "Teacher successfully added.";
+                    TempData["Message"] = "Success";
                     return RedirectToAction("Index", "Teacher", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Error"] = "Failed to add teacher. Please try again!";
+                    TempData["Message"] = "Failed";
                     return RedirectToAction("Index", "Teacher", new { area = "admin" });
                 }
             }
@@ -119,18 +114,23 @@ namespace LMS.Areas.Admin.Controllers
         [Route("deleteTeacher")]
         public async Task<IActionResult> DeleteTeacher(int Teacher_Id)
         {
-            int result = await _TeacherRepository.DeleteTeacher(Teacher_Id);
+            if (ModelState.IsValid)
+            {
+                int result = await _TeacherRepository.DeleteTeacher(Teacher_Id);
 
-            if (result == 1)
-            {
-                TempData["Success"] = "Teacher successfully deleted.";
-                return RedirectToAction("Index", "Teacher", new { area = "admin" });
+                if (result == 1)
+                {
+                    TempData["Message"] = "Success";
+                    return RedirectToAction("Index", "Teacher", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("Index", "Teacher", new { area = "admin" });
+                }
             }
-            else
-            {
-                TempData["Error"] = "Failed to delete teacher. Please try again!";
-                return RedirectToAction("Index", "Teacher", new { area = "admin" });
-            }
+
+            return View();    
         }
 
         [HttpGet]
@@ -170,25 +170,20 @@ namespace LMS.Areas.Admin.Controllers
                 //objTeacher.Teacher_Photo = TeacherModel.Teacher_Photo;
 
 
-                int result = await _TeacherRepository.UpdateTeacher(objTeacher);
-
-                await _TeacherRepository.UpdateTeacher(objTeacher);
-
-    //            UploadImage(objTeacher.Teacher_Id);
-
-    //            await _TeacherRepository.SaveChanges();
-
+                int Id = await _TeacherRepository.UpdateTeacher(objTeacher);
                 
+                UploadImage(objTeacher.Teacher_Id);
 
+                int result =  await _TeacherRepository.SaveChanges();
 
                 if (result == 1)
                 {
-                    TempData["Success"] = "Teacher successfully updated.";
+                    TempData["Message"] = "Success";
                     return RedirectToAction("Index", "Teacher", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Error"] = "Failed to update teacher. Please try again!";
+                    TempData["Message"] = "Failed";
                     return RedirectToAction("Index", "Teacher", new { area = "admin" });
                 }
             }
@@ -264,28 +259,57 @@ namespace LMS.Areas.Admin.Controllers
 
                 var ClassSection = await _TeacherSubjectRepository.GetClassSectionById(objVM.Class_Id, objVM.Section_Id);
 
-                if (lstSubject.Count > 0)
+                if(ClassSection != null)
                 {
-                    
-                    foreach (var objSubject in lstSubject)
-                    {
-                        
-                        var ClassSubject = await _TeacherSubjectRepository.GetClassSubjectById(ClassSection.ClassSection_id, Convert.ToInt32(objSubject));
+                    int result = 0;
 
-                        var TeacherSubject = new TeacherSubject
+                    if (lstSubject.Count > 0)
+                    {
+
+                        foreach (var objSubject in lstSubject)
                         {
-                            Teacher_Id = objVM.Teacher_Id,
-                            ClassSubject_Id = ClassSubject.ClassSubject_Id
-                            
-                        };
-                        
-                        await _TeacherSubjectRepository.AddTeacherSubject(TeacherSubject);
+
+                            var ClassSubject = await _TeacherSubjectRepository.GetClassSubjectById(ClassSection.ClassSection_id, Convert.ToInt32(objSubject));
+
+                            if(ClassSubject != null)
+                            {
+                                var TeacherSubject = new TeacherSubject
+                                {
+                                    Teacher_Id = objVM.Teacher_Id,
+                                    ClassSubject_Id = ClassSubject.ClassSubject_Id
+
+                                };
+
+                               result = await _TeacherSubjectRepository.AddTeacherSubject(TeacherSubject);
+                            }
+                            else
+                            {
+                                TempData["Message"] = "Failed";
+                                return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
+                            }
+
+                        }
+
+                        if (result > 0)
+                        {
+                            TempData["Message"] = "Success";
+                            return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
+                        }
+                        else
+                        {
+                            TempData["Message"] = "Failed";
+                            return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
+                        }
 
                     }
-                    
-                }
 
-                return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
+                    //return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
+                }
             }
 
             return View();

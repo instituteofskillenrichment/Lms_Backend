@@ -255,16 +255,33 @@
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 @*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
 <script>
     $(document).ready(function () {
 
-        //$('#assignClassSubjectpage').DataTable();
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
 
-        $('#assignClassSubjectpage').dataTable({
-            /* Disable initial sort */
-            "aaSorting": []
-        });
+        
+
+        var message = '@TempData["Message"]';
+
+        if (message == "Success") {
+            //console.log(message);
+            toastr.success('Record Added Successfully');
+        }
+        else if (message == "Failed")  {
+            toastr.error('Error Occured Whill Adding Record');
+        }
+
+        
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
@@ -297,24 +314,12 @@
             });
         });
 
-        // Select/Deselect checkboxes
-        var checkbox = $('table tbody input[type="checkbox"]');
-        $("#selectAll").click(function () {
-            if (this.checked) {
-                checkbox.each(function () {
-                    this.checked = true;
-                });
-            } else {
-                checkbox.each(function () {
-                    this.checked = false;
-                });
-            }
+
+        $('#assignClassSubjectpage').dataTable({
+            /* Disable initial sort */
+            "aaSorting": []
         });
-        checkbox.click(function () {
-            if (!this.checked) {
-                $("#selectAll").prop("checked", false);
-            }
-        });
+
     });
 </script>
 

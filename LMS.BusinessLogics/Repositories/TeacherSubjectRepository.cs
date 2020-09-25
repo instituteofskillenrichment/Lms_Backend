@@ -20,10 +20,20 @@ namespace LMS.BusinessLogics.Repositories
             _lmsDbContext = lmsDbContext;
         }
 
-        public async Task AddTeacherSubject(TeacherSubject objTeacherSubject)
+        public async Task<int> AddTeacherSubject(TeacherSubject objTeacherSubject)
         {
-            await _lmsDbContext.TeacherSubject.AddAsync(objTeacherSubject);
-            await _lmsDbContext.SaveChangesAsync();
+            try
+            {
+                await _lmsDbContext.TeacherSubject.AddAsync(objTeacherSubject);
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+
+            }
         }
 
         public List<Class> GetAllClasses()

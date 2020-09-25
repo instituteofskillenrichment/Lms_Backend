@@ -30,4 +30,10 @@
     <ProjectReference Include="..\LMS.BusinessLogics\LMS.BusinessLogics.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
