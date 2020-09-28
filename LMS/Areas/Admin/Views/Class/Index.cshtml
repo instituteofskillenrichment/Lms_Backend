@@ -295,8 +295,7 @@
         //Get Class_Id for Delete Added By Absar
         $('#classpage #delete').on('click', function () {
             var Class_Id = $(this).parent().find('.Class_Id').val();
-            //debugger;
-            console.log(Class_Id);
+            
             $('#deleteClassModal #Class_Id').val(Class_Id);
         });
 
@@ -311,10 +310,7 @@
                 type: 'GET',
                 url: '/admin/class/editClass/' + id,
                 success: function (objClass) {
-                    //debugger;
-                    // objClass = JSON.stringify(objClass);
-
-                    //alert(objClass);
+                    
                     $('#editClassModal #Class_Id').val(objClass.class_Id);
                     $('#editClassModal #Class_Name').val(objClass.class_Name);
 

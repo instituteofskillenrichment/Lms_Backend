@@ -358,10 +358,7 @@
                 type: 'GET',
                 url: '/admin/assignSection/editClassSection/' + id,
                 success: function (objassignSection) {
-                    // debugger;
-                    // objClass = JSON.stringify(objClass);
-
-                    //alert(objClass);
+                   
                     $('#editClassSectionModal #ClassSection_Id').val(objassignSection.classSection_id);
                     $('#editClassSectionModal #Class_Id').val(objassignSection.class_Id);
                     $('#editClassSectionModal #Section_Id').val(objassignSection.section_Id);

@@ -33,20 +33,7 @@ namespace LMS.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var Teacher = _TeacherRepository.GetAllTeacher();
-
-
-            if (TempData["Error"] != null)
-            {
-                ViewBag.Error = TempData["Error"].ToString();
-            }
-
-            if (TempData["Success"] != null)
-            {
-                ViewBag.Success = TempData["Success"].ToString();
-            }
-
-
-
+            
             return View(Teacher);
         }
 
@@ -319,11 +306,115 @@ namespace LMS.Areas.Admin.Controllers
 
 
 
+        [HttpPost]
+        [Route("deleteTeacherSubject")]
+        public async Task<IActionResult> DeleteTeacherSubject(int TeacherSubject_Id)
+        {
+            if (ModelState.IsValid)
+            {
+                int result = await _TeacherSubjectRepository.DeleteTeacherSubject(TeacherSubject_Id);
+
+                if (result == 1)
+                {
+                    TempData["Message"] = "Success";
+                    return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
+                }
+
+            }
+
+            return View();
+        }
+
+
+        [HttpGet]
+        [Route("editTeacherSubject/{id}")]
+        public async Task<IActionResult> EditTeacherSubject(int id)
+        {
+            var objTeacherSubject = await _TeacherSubjectRepository.GetTeacherSubjectById(id);
+
+            return new JsonResult(objTeacherSubject);
+
+        }
+
+        [HttpPost]
+        [Route("editTeacherSubject")]
+        public async Task<IActionResult> EditTeacherSubject(TeacherSubjectViewModel objTeacherSubjectVM)
+        {
+            if (ModelState.IsValid)
+            {
+               // List<string> lstSubject = Request.Form["lstSubject"].ToList();
+
+
+                var ClassSection = await _TeacherSubjectRepository.GetClassSectionById(objTeacherSubjectVM.Class_Id, objTeacherSubjectVM.Section_Id);
+
+                if (ClassSection != null)
+                {
+                    int result = 0;
+                    
+                    var ClassSubject = await _TeacherSubjectRepository.GetClassSubjectById(ClassSection.ClassSection_id, Convert.ToInt32(objTeacherSubjectVM.Subject_Id));
+
+                    if (ClassSubject != null)
+                    {
+                        var TeacherSubject = new TeacherSubject();
+
+                        TeacherSubject.TeacherSubject_Id = objTeacherSubjectVM.TeacherSubject_Id;
+                        TeacherSubject.Teacher_Id = objTeacherSubjectVM.Teacher_Id;
+                        TeacherSubject.ClassSubject_Id = ClassSubject.ClassSubject_Id;
+
+                        
+
+                        result = await _TeacherSubjectRepository.EditTeacherSubject(TeacherSubject);
+
+                        if (result > 0)
+                        {
+                            TempData["Message"] = "Success";
+                            return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
+                        }
+                        else
+                        {
+                            TempData["Message"] = "Failed";
+                            return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
+                        }
+
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Failed";
+                        return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
+                    }
+
+                        
+
+                        
+
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
+                }
+            }
+
+            return View();
+
+        }
+
+
+
         [HttpGet]
         [Route("teacherSubjectDetail")]
         public IActionResult TeacherSubjectDetail()
         {
             var objTeacherSubjectDetail = _TeacherSubjectRepository.GetTeacherSubjects();
+
+            ViewBag.Class = _TeacherSubjectRepository.GetAllClasses();
+            ViewBag.Section = _TeacherSubjectRepository.GetAllSections();
+            ViewBag.Subjects = _TeacherSubjectRepository.GetAllSubjects();
 
             return View(objTeacherSubjectDetail);
         }

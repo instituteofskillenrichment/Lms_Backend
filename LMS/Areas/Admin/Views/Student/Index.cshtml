@@ -315,13 +315,10 @@
                 type: 'GET',
                 url: '/admin/student/addStudentClass/' + id,
                 success: function (objStudent) {
-                    debugger;
-                    // objClass = JSON.stringify(objClass);
-
-                    //alert(objClass);
+                   
                     $('#assignStudentClassModal #Student_Id').val(objStudent.student_Id);
                     $('#assignStudentClassModal #Student_Name').val(objStudent.student_Name);
-                    // $('#assignStudentClassModal #Section_Id').val(objassignSection.section_Id);
+                    
 
                 }
             });

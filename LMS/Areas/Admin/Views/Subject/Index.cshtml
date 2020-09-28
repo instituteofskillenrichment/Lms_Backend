@@ -301,10 +301,7 @@
                 type: 'GET',
                 url: '/admin/subject/editSubject/' + id,
                 success: function (objSubject) {
-                    //debugger;
-                    // objClass = JSON.stringify(objClass);
-
-                    //alert(objClass);
+                    
                     $('#editSubjectModal #Subject_Id').val(objSubject.subject_Id);
                     $('#editSubjectModal #Subject_Name').val(objSubject.subject_Name);
 

@@ -1,10 +1,12 @@
 ﻿using LMS.BusinessLogics.Interfaces;
 using LMS.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace LMS.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("admin")]
     [Route("admin/class")]
     public class ClassController : Controller

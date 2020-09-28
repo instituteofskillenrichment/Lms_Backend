@@ -99,7 +99,7 @@
                                     </div>
                                 </div>
 
-                                <table id="rolepage" class="display" style="width:100%">
+                                <table id="userpage" class="display" style="width: 650px;">
                                     <thead>
                                         <tr>
                                             <th>Id</th>
@@ -311,29 +311,26 @@
 <script>
     $(document).ready(function () {
 
-        $('#rolepage').DataTable();
+        
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
 
         //Get User_Id for Delete Added By Absar
-        $('#rolepage #delete').on('click', function () {
+        $('#userpage #delete').on('click', function () {
             var User_Id = $(this).parent().find('.User_Id').val();
             $('#deleteUserModal #User_Id').val(User_Id);
         });
 
         //Get User_Id for Edit Added By Absar
-        $('#rolepage #edit').on('click', function () {
+        $('#userpage #edit').on('click', function () {
             var id = $(this).parent().find('.User_Id').val();
             $.ajax({
 
                 type: 'GET',
                 url: '/admin/user/editUser/' + id,
                 success: function (objUserWithRole) {
-                   // debugger;
-                    // objClass = JSON.stringify(objClass);
-
-                    //alert(objClass);
+                   
                     $('#editUserModal #User_Id').val(objUserWithRole[0].userId);
                     $('#editUserModal #User_Name').val(objUserWithRole[0].userName);
                     $('#editUserModal #User_Email').val(objUserWithRole[0].userEmail);
@@ -344,23 +341,22 @@
             });
         });
 
-        // Select/Deselect checkboxes
-        var checkbox = $('table tbody input[type="checkbox"]');
-        $("#selectAll").click(function () {
-            if (this.checked) {
-                checkbox.each(function () {
-                    this.checked = true;
-                });
-            } else {
-                checkbox.each(function () {
-                    this.checked = false;
-                });
-            }
+
+
+        $('#userpage').DataTable({
+            responsive: true,
+            autoWidth: false,
+            "columnDefs": [
+                { "width": "15%", "targets": 0 },
+                { "width": "15%", "targets": 1 },
+                { "width": "15%", "targets": 2 },
+                { "width": "25%", "targets": 3 },
+                { "width": "15%", "targets": 4 },
+                { "width": "15%", "targets": 5 },
+                
+            ],
         });
-        checkbox.click(function () {
-            if (!this.checked) {
-                $("#selectAll").prop("checked", false);
-            }
-        });
+
+        
     });
 </script>

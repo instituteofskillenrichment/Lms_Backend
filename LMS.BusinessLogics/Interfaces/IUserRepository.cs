@@ -13,7 +13,7 @@ namespace LMS.BusinessLogics.Interfaces
     {
         IQueryable<AppUser> GetAllUserWithRoles();
 
-        Task<int> CreateUser(IdentityUser objModel);
+        Task<int> CreateUser(IdentityUser objModel, string Password);
 
         Task<int> AssignToRole(IdentityUser objModel, string UserRole);
 

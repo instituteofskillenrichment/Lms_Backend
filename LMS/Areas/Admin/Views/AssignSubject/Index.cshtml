@@ -301,10 +301,7 @@
                 type: 'GET',
                 url: '/admin/assignSubject/editClassSubject/' + id,
                 success: function (objassignSubject) {
-                    //debugger;
-                    // objClass = JSON.stringify(objClass);
-
-                    //alert(objClass);
+                    
                     $('#editClassSubjectModal #ClassSubject_Id').val(objassignSubject.classSubject_Id);
                     $('#editClassSubjectModal #Class_Id').val(objassignSubject.class_Id);
                     $('#editClassSubjectModal #Section_Id').val(objassignSubject.section_Id);

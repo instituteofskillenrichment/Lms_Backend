@@ -300,10 +300,7 @@
                 type: 'GET',
                 url: '/admin/section/editSection/' + id,
                 success: function (objSection) {
-                    //debugger;
-                    // objClass = JSON.stringify(objClass);
-
-                    //alert(objClass);
+                    
                     $('#editSectionModal #Section_Id').val(objSection.section_Id);
                     $('#editSectionModal #Section_Name').val(objSection.section_Name);
 

@@ -38,7 +38,7 @@ namespace LMS.BusinessLogics.Repositories
             }
             catch (System.Exception ex)
             {
-                _logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
+               // _logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
                 return -1;
             }
 
@@ -58,7 +58,7 @@ namespace LMS.BusinessLogics.Repositories
             }
             catch (System.Exception ex)
             {
-                _logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
+               // _logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
                 return -1;
             }
         }
@@ -100,7 +100,7 @@ namespace LMS.BusinessLogics.Repositories
             }
             catch (System.Exception ex)
             {
-                _logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
+               // _logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
                 return -1;
             }
 

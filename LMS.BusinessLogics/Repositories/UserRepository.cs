@@ -46,11 +46,11 @@ namespace LMS.BusinessLogics.Repositories
             return user;
         }
 
-        public async Task<int> CreateUser(IdentityUser objModel)
+        public async Task<int> CreateUser(IdentityUser objModel, string Password)
         {
             if (objModel != null)
             {
-                IdentityResult result = await _userManager.CreateAsync(objModel);
+                IdentityResult result = await _userManager.CreateAsync(objModel, Password);
 
                 if (result.Succeeded)
                 {
