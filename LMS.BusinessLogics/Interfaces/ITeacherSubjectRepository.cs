@@ -15,9 +15,13 @@ namespace LMS.BusinessLogics.Interfaces
         List<Section> GetAllSections();
         Task<ClassSection> GetClassSectionById(int classId, int sectionId);
         Task<ClassSubject> GetClassSubjectById(int classSectionId, int subjectId);
+        List<ClassSubject> GetClassSubjectsById(int classSectionId);
         IQueryable<TeacherSubjectViewModel> GetTeacherSubjects();
         IQueryable<TeacherSubjectViewModel> GetTeacherClassSubjectstByTeacherId(int TeacherId);
         Task AddTeacherSubject(TeacherSubject objTeacherSubject);
-
+        //Added by arib
+        IEnumerable<SubjectLectureViewModel> GetTeacherClassSubjectLectures(int TeacherId, int classSubjectId);
+        //Added by arib
+        Task<ClassSubject> GetClassSubjectById(int classSectionId);
     }
 }
