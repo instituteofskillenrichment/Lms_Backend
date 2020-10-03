@@ -16,7 +16,8 @@ namespace LMS.BusinessLogics.Interfaces
         Teacher FindTeacherById(int Id);
         
         Task SaveChanges();
-        
+
+        Teacher FindTeacherByRefId(string Id);
 
     }
 }

@@ -1,5 +1,7 @@
-﻿using LMS.Domain.ViewModels;
+﻿using LMS.BusinessLogics.Interfaces;
+using LMS.Domain.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -10,11 +12,13 @@ namespace LMS.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
+        private readonly ITeacherRepository teacherRepository;
 
-        public LoginController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public LoginController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ITeacherRepository teacherRepository)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.teacherRepository = teacherRepository;
         }
 
         public IActionResult Index()
@@ -54,6 +58,10 @@ namespace LMS.Controllers
                     }
                     else if (roleDetails[0] == "Teacher") //Teacher case
                     {
+                        var teacherObj = teacherRepository.FindTeacherByRefId(user.Id);
+
+                        HttpContext.Session.SetInt32("UserId", teacherObj.Teacher_Id);
+
                         return RedirectToAction("Index", "Home", new { area = "Teachers" });
                     }
                     else //Student case

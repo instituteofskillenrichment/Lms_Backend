@@ -3,11 +3,13 @@ using LMS.Common;
 using LMS.Domain;
 using LMS.Domain.ViewModels;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -97,11 +99,83 @@ namespace LMS.Areas.Teachers.Controllers
                     Lecture_Detail = objLecture.Lecture_Detail,
                     Lecture_File = uniqueFileName,
                     LecturePost_Date = DateTime.Now.ToString(),
-                    Teacher_Id = 2,
+                    Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1,
                     ClassSubject_Id = classSubjectObj.ClassSubject_Id
                 };
 
                 await _LectureRepository.AddLecture(newLecture);
+
+                return RedirectToAction("Index", "subject", new { area = "admin" });
+
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        [Route("editLecture/{id}")]
+        public async Task<IActionResult> EditLecture(int id)
+        {
+            var objLecture = await _LectureRepository.GetLectureById(id);
+
+            EditLectureViewModel model = new EditLectureViewModel
+            {
+                Id = objLecture.Lecture_Id,
+                Lecture_Name = objLecture.Lecture_Name,
+                Lecture_Detail = objLecture.Lecture_Detail,
+                ExistingFilePath = objLecture.Lecture_File,
+                LecturePost_Date = Convert.ToDateTime(objLecture.LecturePost_Date)
+            };
+
+            List<Class> classList = _ClassRepository.GetAllClass().ToList();
+
+            ViewBag.ClassList = classList;
+
+            List<Section> sectionList = _SectionRepository.GetAllSection().ToList();
+
+            ViewBag.SectionList = sectionList;
+
+            List<Subject> subjectList = _SubjectRepository.GetAllSubject().ToList();
+
+            ViewBag.SubjectList = subjectList;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("editLecture/{id}")]
+        public async Task<IActionResult> EditLecture(EditLectureViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var objLecture = await _LectureRepository.GetLectureById(model.Id);
+
+                var classSectionObj = await _StudentClassRepository.GetClassSectionById(model.Class_Id, model.Section_Id);
+
+                var classSubjectObj = await _TeacherSubjectRepository.GetClassSubjectById(classSectionObj.ClassSection_id);
+
+                objLecture.Lecture_Name = model.Lecture_Name;
+                objLecture.Lecture_Detail = model.Lecture_Detail;
+                objLecture.LecturePost_Date = DateTime.Now.ToString();
+                objLecture.Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1;
+                objLecture.ClassSubject_Id = classSubjectObj.ClassSubject_Id;
+
+                if (model.Lecture_File != null)
+                {
+                    if (model.ExistingFilePath != null)
+                    {
+                        string filePath = Path.Combine(_hostingEnvironment.WebRootPath,
+                            "Lectures", model.ExistingFilePath);
+                        System.IO.File.Delete(filePath);
+                    }
+                    
+                    string uniqueFileName = Utility.ProcessUploadedFile(objLecture, _hostingEnvironment);
+                    
+                    objLecture.Lecture_File = uniqueFileName;
+
+                }
+
+                await _LectureRepository.UpdateLecture(objLecture);
 
                 return RedirectToAction("Index", "subject", new { area = "admin" });
 

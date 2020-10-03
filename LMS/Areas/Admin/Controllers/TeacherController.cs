@@ -2,6 +2,7 @@
 using LMS.Domain;
 using LMS.Domain.ViewModels;
 using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -18,13 +19,16 @@ namespace LMS.Areas.Admin.Controllers
     {
         private readonly ITeacherRepository _TeacherRepository;
         private readonly ITeacherSubjectRepository _TeacherSubjectRepository;
+        private readonly IUserRepository _UserRepository;
         private readonly HostingEnvironment _hostingEnvironment;
 
 
-        public TeacherController(ITeacherRepository TeacherRepository, ITeacherSubjectRepository TeacherSubjectRepository, HostingEnvironment hostingEnvironment)
+        public TeacherController(ITeacherRepository TeacherRepository, ITeacherSubjectRepository TeacherSubjectRepository,
+            IUserRepository UserRepository, HostingEnvironment hostingEnvironment)
         {
             _TeacherRepository = TeacherRepository;
             _TeacherSubjectRepository = TeacherSubjectRepository;
+            _UserRepository = UserRepository;
             _hostingEnvironment = hostingEnvironment;
         }
 
@@ -66,6 +70,26 @@ namespace LMS.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                IdentityUser User = new IdentityUser
+                {
+                    UserName = objTeacher.Teacher_Email,
+                    Email = objTeacher.Teacher_Email,
+                    PasswordHash = objTeacher.Teacher_Password
+                };
+
+                int userSucceed = await _UserRepository.CreateUser(User);
+
+                if (userSucceed == 1)
+                {
+                    var response = await _UserRepository.AssignToRole(User, "Teacher");
+
+                    if (response != 1)
+                    {
+                        TempData["Error"] = "Failed to add teacher. Please try again!";
+                        return RedirectToAction("Index", "Teacher", new { area = "admin" });
+                    }
+                }
+
                 Teacher newTeacher = new Teacher
                 {
                     Teacher_Name = objTeacher.Teacher_Name,
@@ -83,9 +107,8 @@ namespace LMS.Areas.Admin.Controllers
                     Teacher_LastDegree = objTeacher.Teacher_LastDegree,
                     Teacher_MobNumber = objTeacher.Teacher_MobNumber,
                     Teacher_PermenentAddress = objTeacher.Teacher_PermenentAddress,
-                    Teacher_Photo = objTeacher.Teacher_Photo
-
-
+                    Teacher_Photo = objTeacher.Teacher_Photo,
+                    Teacher_Ref_Id = User.Id
                 };
 
 
