@@ -82,7 +82,6 @@ namespace LMS.BusinessLogics.Repositories
         {
             Teacher Teacher =   _lmsDbContext.Teacher.Find(Id);
                         
-
             return Teacher;
         }
 
@@ -107,7 +106,6 @@ namespace LMS.BusinessLogics.Repositories
 
         }
 
-
         public async Task<int> SaveChanges()
         {
             try
@@ -124,9 +122,12 @@ namespace LMS.BusinessLogics.Repositories
 
         }
 
+        public Teacher FindTeacherByRefId(string Id)
+        {
+            var Teacher = _lmsDbContext.Teacher.Where(x => x.Teacher_Ref_Id == Id).FirstOrDefault();
 
-
-
+            return Teacher;
+        }
 
     }
 }

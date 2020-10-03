@@ -14,9 +14,9 @@ namespace LMS.BusinessLogics.Interfaces
         Task<int> DeleteTeacher(int id);
 
         Teacher FindTeacherById(int Id);
-        
+
+        Teacher FindTeacherByRefId(string Id);
         Task<int> SaveChanges();
-        
 
     }
 }

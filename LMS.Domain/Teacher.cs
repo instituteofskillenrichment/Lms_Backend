@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LMS.Domain
 {
@@ -22,10 +23,10 @@ namespace LMS.Domain
         public string Teacher_City { get; set; }
         public string Teacher_Country { get; set; }
         public string Teacher_Photo { get; set; }
-        
+        public string Teacher_Ref_Id { get; set; }
 
-
-
+        [NotMapped]
+        public string Teacher_Password { get; set; }
 
 
     }
