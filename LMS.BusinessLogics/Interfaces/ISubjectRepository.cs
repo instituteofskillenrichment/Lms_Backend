@@ -11,8 +11,8 @@ namespace LMS.BusinessLogics.Interfaces
     {
         IQueryable<Subject> GetAllSubject();
         Task<Subject> GetSubjectById(int Id);
-        Task AddSubject(Subject objSubject);
-        Task UpdateSubject(Subject objSubject);
-        Task DeleteSubject(int Id);
+        Task<int> AddSubject(Subject objSubject);
+        Task<int> UpdateSubject(Subject objSubject);
+        Task<int> DeleteSubject(int Id);
     }
 }

@@ -12,12 +12,12 @@ namespace LMS.BusinessLogics.Repositories
     public class StudentRepository : IStudentRepository
     {
         private LmsDbContext _lmsDbContext;
-        private ILogger _logger;
+        //private Logger _logger;
 
-        public StudentRepository(LmsDbContext lmsDbContext, ILogger logger)
+        public StudentRepository(LmsDbContext lmsDbContext)
         {
             _lmsDbContext = lmsDbContext;
-            _logger = logger;
+            //_logger = logger;
         }
 
         public async Task<int> AddStudent(Student objStudent)
@@ -29,11 +29,11 @@ namespace LMS.BusinessLogics.Repositories
 
               int studentId = objStudent.Student_Id;
 
-              return 1;
+              return studentId;
             }
             catch (Exception ex)
             {
-                _logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
+                //_logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
                 return -1;
             }
 
@@ -98,7 +98,7 @@ namespace LMS.BusinessLogics.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
+                //_logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
                 return -1;
             }
 
@@ -106,9 +106,18 @@ namespace LMS.BusinessLogics.Repositories
         }
 
 
-        public async Task SaveChanges()
+        public async Task<int> SaveChanges()
         {
-            await _lmsDbContext.SaveChangesAsync();
+            try
+            {
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
 
         }
     }

@@ -52,13 +52,22 @@ namespace LMS.Areas.Admin.Controllers
             {
                 ClassSection newClassSection = new ClassSection
                 {
-                    Class_Id = objClassSection.ClassId,
-                    Section_Id = objClassSection.SectionId
+                    Class_Id = objClassSection.Class_Id,
+                    Section_Id = objClassSection.Section_Id
                 };
 
-                await _AssignSectionRepository.AddClassSection(newClassSection);
-
-                return RedirectToAction("Index", "assignSection", new { area = "admin" });
+                int result =  await _AssignSectionRepository.AddClassSection(newClassSection);
+                if (result == 1)
+                {
+                    TempData["Message"] = "Success";
+                    return RedirectToAction("Index", "assignSection", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("Index", "assignSection", new { area = "admin" });
+                }
+                
 
             }
 
@@ -91,13 +100,22 @@ namespace LMS.Areas.Admin.Controllers
             {
                 ClassSection objAssignSection = await _AssignSectionRepository.GetClassSectionById(objClassSection.ClassSection_Id);
 
-                objAssignSection.Class_Id = objClassSection.ClassId;
-                objAssignSection.Section_Id = objClassSection.SectionId;
+                objAssignSection.Class_Id = objClassSection.Class_Id;
+                objAssignSection.Section_Id = objClassSection.Section_Id;
 
 
-                await _AssignSectionRepository.UpdateClassSection(objAssignSection);
+                int result = await _AssignSectionRepository.UpdateClassSection(objAssignSection);
 
-                return RedirectToAction("Index", "assignSection", new { area = "admin" });
+                if (result == 1)
+                {
+                    TempData["Message"] = "Success";
+                    return RedirectToAction("Index", "assignSection", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("Index", "assignSection", new { area = "admin" });
+                }
 
             }
 
@@ -109,10 +127,25 @@ namespace LMS.Areas.Admin.Controllers
         [Route("deleteClassSection")]
         public async Task<IActionResult> DeleteClassSection(int ClassSection_Id)
         {
-            await _AssignSectionRepository.DeleteClassSection(ClassSection_Id);
 
-            return RedirectToAction("Index", "assignSection", new { area = "admin" });
+            if (ModelState.IsValid)
+            {
+                int result = await _AssignSectionRepository.DeleteClassSection(ClassSection_Id);
 
+                if (result == 1)
+                {
+                    TempData["Message"] = "Success";
+                    return RedirectToAction("Index", "assignSection", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("Index", "assignSection", new { area = "admin" });
+                }
+            }
+
+            return View();
+             
         }
 
     }

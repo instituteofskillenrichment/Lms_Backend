@@ -60,10 +60,10 @@ namespace LMS.Areas.Admin.Controllers
                 {
                     UserName = objAppUser.UserName,
                     Email = objAppUser.UserEmail,
-                    PasswordHash = objAppUser.UserPassword
+                    //PasswordHash = objAppUser.UserPassword
                 };
 
-                int userSucceed = await _UserRepository.CreateUser(User);
+                int userSucceed = await _UserRepository.CreateUser(User, objAppUser.UserPassword);
 
                 if (userSucceed == 1)
                 {

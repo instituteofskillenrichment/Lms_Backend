@@ -20,10 +20,94 @@ namespace LMS.BusinessLogics.Repositories
             _lmsDbContext = lmsDbContext;
         }
 
-        public async Task AddTeacherSubject(TeacherSubject objTeacherSubject)
+        public async Task<int> AddTeacherSubject(TeacherSubject objTeacherSubject)
         {
-            await _lmsDbContext.TeacherSubject.AddAsync(objTeacherSubject);
-            await _lmsDbContext.SaveChangesAsync();
+            try
+            {
+                await _lmsDbContext.TeacherSubject.AddAsync(objTeacherSubject);
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+
+            }
+        }
+
+
+        public async Task<int> EditTeacherSubject(TeacherSubject objTeacherSubject)
+        {
+            try
+            {
+                 _lmsDbContext.TeacherSubject.Update(objTeacherSubject);
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+
+            }
+        }
+
+
+        public Task<TeacherSubjectViewModel> GetTeacherSubjectById(int TeacherSubject_Id)
+        {
+            var TeacherSubject = (
+
+                                                                 from t in _lmsDbContext.Teacher
+                                                                 join ts in _lmsDbContext.TeacherSubject on t.Teacher_Id equals ts.Teacher_Id
+                                                                 join csub in _lmsDbContext.ClassSubject on ts.ClassSubject_Id equals csub.ClassSubject_Id
+                                                                 join sub in _lmsDbContext.Subject on csub.Subject_Id equals sub.Subject_Id
+                                                                 join csec in _lmsDbContext.ClassSection on csub.ClassSection_Id equals csec.ClassSection_id
+                                                                 join c in _lmsDbContext.Class on csec.Class_Id equals c.Class_Id
+                                                                 join s in _lmsDbContext.Section on csec.Section_Id equals s.Section_Id
+                                                                 //where ts.TeacherSubject_Id == TeacherSubject_Id
+                                                                 //orderby c.Class_Id, s.Section_Id
+                                                                 select new TeacherSubjectViewModel
+                                                                 {
+                                                                     TeacherSubject_Id = ts.TeacherSubject_Id,
+                                                                     Teacher_Id = t.Teacher_Id,
+                                                                     Teacher_Name = t.Teacher_Name,
+                                                                     ClassSubject_Id = csub.ClassSubject_Id,
+                                                                     Subject_Id = sub.Subject_Id,
+                                                                     Subject_Name = sub.Subject_Name,
+                                                                     ClassSection_Id = csec.ClassSection_id,
+                                                                     Class_Id = c.Class_Id,
+                                                                     Class_Name = c.Class_Name,
+                                                                     Section_Id = s.Section_Id,
+                                                                     Section_Name = s.Section_Name
+
+                                                                 }).AsNoTracking().FirstOrDefaultAsync(ts => ts.TeacherSubject_Id == TeacherSubject_Id) ;
+
+            return TeacherSubject;
+        }
+
+
+        public async Task<int> DeleteTeacherSubject(int TeacherSubject_Id)
+        {
+            try
+            {
+                var objTeacherSubject = await GetTeacherSubjectById(TeacherSubject_Id);
+
+                var deleteTeacherSubject = new TeacherSubject();
+                deleteTeacherSubject.TeacherSubject_Id = objTeacherSubject.TeacherSubject_Id;
+                deleteTeacherSubject.ClassSubject_Id = objTeacherSubject.ClassSubject_Id;
+                deleteTeacherSubject.Teacher_Id = objTeacherSubject.Teacher_Id;
+                
+                _lmsDbContext.TeacherSubject.Remove(deleteTeacherSubject);
+
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
 
         public List<Class> GetAllClasses()
@@ -118,7 +202,7 @@ namespace LMS.BusinessLogics.Repositories
                                                                  join csec in _lmsDbContext.ClassSection on csub.ClassSection_Id equals csec.ClassSection_id
                                                                  join c in _lmsDbContext.Class on csec.Class_Id equals c.Class_Id
                                                                  join s in _lmsDbContext.Section on csec.Section_Id equals s.Section_Id
-                                                                 orderby c.Class_Id, s.Section_Id
+                                                                 orderby t.Teacher_Id, c.Class_Id, s.Section_Id
                                                                  select new TeacherSubjectViewModel
                                                                  {
                                                                      TeacherSubject_Id = ts.TeacherSubject_Id,

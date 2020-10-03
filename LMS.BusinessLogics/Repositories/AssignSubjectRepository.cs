@@ -140,32 +140,59 @@ namespace LMS.BusinessLogics.Repositories
 
 
 
-        public async Task AddClassSubject(ClassSubject objClassSubject)
+        public async Task<int> AddClassSubject(ClassSubject objClassSubject)
         {
-            await _lmsDbContext.ClassSubject.AddAsync(objClassSubject);
-            await _lmsDbContext.SaveChangesAsync();
+            try
+            {
+                await _lmsDbContext.ClassSubject.AddAsync(objClassSubject);
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
 
-        public async Task DeleteClassSubject(int Id)
+        public async Task<int> DeleteClassSubject(int Id)
         {
-            var deleteClassSubject = await GetClassSubjectById(Id);
+            try
+            {
+                var deleteClassSubject = await GetClassSubjectById(Id);
 
-            ClassSubject objClassSubject = new ClassSubject();
-            objClassSubject.ClassSubject_Id = deleteClassSubject.ClassSubject_Id;
-            objClassSubject.ClassSection_Id = deleteClassSubject.ClassSection_Id;
-            objClassSubject.Subject_Id = deleteClassSubject.Subject_Id;
+                ClassSubject objClassSubject = new ClassSubject();
+                objClassSubject.ClassSubject_Id = deleteClassSubject.ClassSubject_Id;
+                objClassSubject.ClassSection_Id = deleteClassSubject.ClassSection_Id;
+                objClassSubject.Subject_Id = deleteClassSubject.Subject_Id;
 
-            _lmsDbContext.ClassSubject.Remove(objClassSubject);
+                _lmsDbContext.ClassSubject.Remove(objClassSubject);
 
-            await _lmsDbContext.SaveChangesAsync();
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
 
 
-        public async Task UpdateClassSubject(ClassSubject objClassSubject)
+        public async Task<int> UpdateClassSubject(ClassSubject objClassSubject)
         {
-            _lmsDbContext.ClassSubject.Update(objClassSubject);
+            try
+            {
+                _lmsDbContext.ClassSubject.Update(objClassSubject);
 
-            await _lmsDbContext.SaveChangesAsync();
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
 
 

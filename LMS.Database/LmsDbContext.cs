@@ -20,5 +20,10 @@ namespace LMS.Database
         public DbSet<StudentClass> StudentClass { get; set; }
         public DbSet<Lecture> Lecture { get; set; }
 
+
+
+       
+
+
     }
 }

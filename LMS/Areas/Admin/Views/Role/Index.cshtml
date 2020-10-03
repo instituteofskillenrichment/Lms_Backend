@@ -280,10 +280,7 @@
                 type: 'GET',
                 url: '/admin/role/editRole/' + id,
                 success: function (objRole) {
-                    //debugger;
-                    // objClass = JSON.stringify(objClass);
-
-                    //alert(objClass);
+                    
                     $('#editRoleModal #Role_Id').val(objRole.id);
                     $('#editRoleModal #Role_Name').val(objRole.name);
 

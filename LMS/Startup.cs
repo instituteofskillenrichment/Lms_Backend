@@ -43,6 +43,21 @@ namespace LMS
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                options.LoginPath = "/Login/Index"; // Set here your login path.
+                //options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // set here your access denied path.
+                options.SlidingExpiration = true;
+
+            });
+
+
+
             services.AddDbContext<LmsDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));

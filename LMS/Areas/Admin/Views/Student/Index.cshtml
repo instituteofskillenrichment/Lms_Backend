@@ -72,12 +72,12 @@
     <div class="panel-header panel-header-sm">
     </div>
     <div class="content">
-        @if (ViewBag.Error != null)
-        {
-            <script type="text/javascript">
-          alert( "@(ViewBag.Error)");
-            </script>
-        }
+        @*@if (ViewBag.Error != null)
+            {
+                <script type="text/javascript">
+              alert( "@(ViewBag.Error)");
+                </script>
+            }*@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -123,6 +123,9 @@
                                                 <td>@item.Student_City</td>
                                                 <td>@item.Student_Country</td>
                                                 <td>
+
+                                                    
+
                                                     <a href="#assignStudentClassModal" class="assignClass" id="assignClass" data-toggle="modal">
                                                         <i class="btn btn-primary" data-toggle="tooltip" title="" data-original-title="AssignClass" style="line-height: 1em; border-radius: 2em;">Assign Class</i>
                                                     </a>
@@ -168,11 +171,11 @@
                                         <div class="modal-body">
                                             <div class="form-group">
                                                 <label>ID</label>
-                                                <input type="text" class="form-control" required="" id="Student_Id" disabled="disabled" >
+                                                <input type="text" class="form-control" required="" id="Student_Id" disabled="disabled">
                                             </div>
                                             <div class="form-group">
                                                 <label>Student Name</label>
-                                                <input type="text" class="form-control" required="" id="Student_Name" disabled="disabled" >
+                                                <input type="text" class="form-control" required="" id="Student_Name" disabled="disabled">
                                             </div>
                                             <div class="form-group">
                                                 <label>Class Name</label>
@@ -266,11 +269,32 @@
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 @*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
 <script>
     $(document).ready(function () {
 
-        $('#studentpage').DataTable();
+         toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+
+
+        var message = '@TempData["Message"]';
+
+        if (message == "Success") {
+            //console.log(message);
+            toastr.success('Record Added Successfully');
+        }
+        else if (message == "Failed")  {
+            toastr.error('Error Occured Whill Adding Record');
+        }
+        
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
@@ -281,7 +305,7 @@
             $('#deleteStudentModal #Student_Id').val(Student_Id);
         });
 
-        
+
 
         //Get ClassSection_Id for Edit Added By Absar
         $('#studentpage #assignClass').on('click', function () {
@@ -291,13 +315,10 @@
                 type: 'GET',
                 url: '/admin/student/addStudentClass/' + id,
                 success: function (objStudent) {
-                     debugger;
-                    // objClass = JSON.stringify(objClass);
-
-                    //alert(objClass);
+                   
                     $('#assignStudentClassModal #Student_Id').val(objStudent.student_Id);
                     $('#assignStudentClassModal #Student_Name').val(objStudent.student_Name);
-                   // $('#assignStudentClassModal #Section_Id').val(objassignSection.section_Id);
+                    
 
                 }
             });
@@ -305,24 +326,7 @@
 
 
 
-
-        // Select/Deselect checkboxes
-        var checkbox = $('table tbody input[type="checkbox"]');
-        $("#selectAll").click(function () {
-            if (this.checked) {
-                checkbox.each(function () {
-                    this.checked = true;
-                });
-            } else {
-                checkbox.each(function () {
-                    this.checked = false;
-                });
-            }
-        });
-        checkbox.click(function () {
-            if (!this.checked) {
-                $("#selectAll").prop("checked", false);
-            }
-        });
+        $('#studentpage').DataTable();
+        
     });
 </script>

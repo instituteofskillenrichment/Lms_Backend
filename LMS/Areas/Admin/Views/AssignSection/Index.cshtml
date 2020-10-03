@@ -103,15 +103,15 @@
                                     </thead>
                                     <tbody>
 
-                                        
+
                                         @foreach (var item in Model)
                                         {
 
 
                                             <tr>
                                                 <td>@item.ClassSection_Id</td>
-                                                <td>@item.ClassName</td>
-                                                <td>@item.SectionName</td>
+                                                <td>@item.Class_Name</td>
+                                                <td>@item.Section_Name</td>
                                                 <td>
                                                     <a href="#editClassSectionModal" class="edit" id="edit" data-toggle="modal">
                                                         <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
@@ -130,42 +130,42 @@
 
 
                                             @*<tr>
-                                                <td>&nbsp;&nbsp; @item.ClassSection_Id</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                                @if(item.Classes.Count > 0 && item.Sections.Count > 0)
-                                                {
-                                                    <tr>
-                                                        @foreach (var classes in item.Classes)
-                                                        {
-
-                                                            <td><input type="hidden" class="ClassSection_Id" value="@item.ClassSection_Id" /></td>
-                                                            <td>@classes.Class_Name</td>
-
-                                                            @foreach (var sections in item.Sections)
+                                                    <td>&nbsp;&nbsp; @item.ClassSection_Id</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                    @if(item.Classes.Count > 0 && item.Sections.Count > 0)
+                                                    {
+                                                        <tr>
+                                                            @foreach (var classes in item.Classes)
                                                             {
-                                                                <td>@sections.Section_Name</td>
+
+                                                                <td><input type="hidden" class="ClassSection_Id" value="@item.ClassSection_Id" /></td>
+                                                                <td>@classes.Class_Name</td>
+
+                                                                @foreach (var sections in item.Sections)
+                                                                {
+                                                                    <td>@sections.Section_Name</td>
+                                                                }
+
                                                             }
 
-                                                        }
+                                                            <td>
+                                                                <a href="#editClassSectionModal" class="edit" id="edit" data-toggle="modal">
+                                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                                                </a>
 
-                                                        <td>
-                                                            <a href="#editClassSectionModal" class="edit" id="edit" data-toggle="modal">
-                                                                <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
-                                                            </a>
-
-                                                            <a href="#deleteClassSectionModal" class="delete" id="delete" data-toggle="modal">
-                                                                <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
-                                                            </a>
+                                                                <a href="#deleteClassSectionModal" class="delete" id="delete" data-toggle="modal">
+                                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                                                </a>
 
 
-                                                            <input type="hidden" class="ClassSection_Id" value="@item.ClassSection_Id" />
-                                                        </td>
+                                                                <input type="hidden" class="ClassSection_Id" value="@item.ClassSection_Id" />
+                                                            </td>
 
-                                                    </tr>
-                                                }*@
+                                                        </tr>
+                                                    }*@
 
                                         }
                                     </tbody>
@@ -186,9 +186,9 @@
                                         </div>
                                         <div class="modal-body">
                                             @*<div class="form-group">
-                                                <label>Class ID</label>
-                                                <input type="text" class="form-control" required="" name="ClassSection_Id">
-                                            </div>*@
+                                                    <label>Class ID</label>
+                                                    <input type="text" class="form-control" required="" name="ClassSection_Id">
+                                                </div>*@
                                             <div class="form-group">
                                                 <label>Class Name</label>
                                                 <select id="Class_Id" name="Class_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Class, "Class_Id", "Class_Name"))"></select>
@@ -226,16 +226,12 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Class Name</label>
-                                                <select id="Class_Id" name="Class_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Class, "Class_Id", "Class_Name"))">
-
-                                                </select>
+                                                <select id="Class_Id" name="Class_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Class, "Class_Id", "Class_Name"))"></select>
                                             </div>
 
                                             <div class="form-group">
                                                 <label>Section Name</label>
-                                                <select id="Section_Id" name="Section_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Section, "Section_Id", "Section_Name"))">
-                                                    
-                                                </select>
+                                                <select id="Section_Id" name="Section_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Section, "Section_Id", "Section_Name"))"></select>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -319,13 +315,30 @@
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
-<script src="~/Dashboard/assets/js/navigation.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+@*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
 <script>
     $(document).ready(function () {
 
-      //  $('#assignClassSectionpage').DataTable();
-
+       
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
         
+        var message = '@TempData["Message"]';
+
+        if (message == "Success") {
+            //console.log(message);
+            toastr.success('Record Added Successfully');
+        }
+        else if (message == "Failed")  {
+            toastr.error('Error Occured Whill Adding Record');
+        }
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
@@ -345,10 +358,7 @@
                 type: 'GET',
                 url: '/admin/assignSection/editClassSection/' + id,
                 success: function (objassignSection) {
-                   // debugger;
-                    // objClass = JSON.stringify(objClass);
-
-                    //alert(objClass);
+                   
                     $('#editClassSectionModal #ClassSection_Id').val(objassignSection.classSection_id);
                     $('#editClassSectionModal #Class_Id').val(objassignSection.class_Id);
                     $('#editClassSectionModal #Section_Id').val(objassignSection.section_Id);
@@ -357,26 +367,7 @@
             });
         });
 
-        // Select/Deselect checkboxes
-        var checkbox = $('table tbody input[type="checkbox"]');
-        $("#selectAll").click(function () {
-            if (this.checked) {
-                checkbox.each(function () {
-                    this.checked = true;
-                });
-            } else {
-                checkbox.each(function () {
-                    this.checked = false;
-                });
-            }
-        });
-        checkbox.click(function () {
-            if (!this.checked) {
-                $("#selectAll").prop("checked", false);
-            }
-        });
-
-
+        
 
         $('#assignClassSectionpage').dataTable({
             /* Disable initial sort */

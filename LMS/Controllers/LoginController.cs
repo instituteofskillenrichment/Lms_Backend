@@ -32,7 +32,7 @@ namespace LMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await userManager.FindByEmailAsync(model.Email);
+                var user = await userManager.FindByNameAsync(model.UserName);
 
                 //if (user != null && 
                 //                    (await userManager.CheckPasswordAsync(user, model.Password)))
@@ -41,8 +41,7 @@ namespace LMS.Controllers
                 //    return View(model);
                 //}
 
-                var result = await signInManager.PasswordSignInAsync(user.UserName, model.Password,
-                                        model.RememberMe, false);
+                var result = await signInManager.PasswordSignInAsync(user.UserName, model.Password,model.RememberMe, lockoutOnFailure: true);
 
                 if (result.Succeeded)
                 {

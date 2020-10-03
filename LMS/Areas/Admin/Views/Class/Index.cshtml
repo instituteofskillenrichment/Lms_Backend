@@ -5,6 +5,8 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
+
+
 <div class="dashboard" id="dashboard">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
@@ -72,6 +74,7 @@
     <!-- End Navbar -->
     <div class="panel-header panel-header-sm">
     </div>
+    
     <div class="content">
         <div class="row">
             <div class="col-md-12">
@@ -257,24 +260,45 @@
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 @*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
 <script>
     $(document).ready(function () {
+        
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
 
-        $('#classpage').DataTable();
+
+
+        var message = '@TempData["Message"]';
+
+        if (message == "Success") {
+            //console.log(message);
+            toastr.success('Record Added Successfully');
+        }
+        else if (message == "Failed")  {
+            toastr.error('Error Occured Whill Adding Record');
+        }
+
+        
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
-         
+
 
         //Get Class_Id for Delete Added By Absar
         $('#classpage #delete').on('click', function () {
             var Class_Id = $(this).parent().find('.Class_Id').val();
-            //debugger;
-            console.log(Class_Id);
+            
             $('#deleteClassModal #Class_Id').val(Class_Id);
         });
-        
+
 
 
         $('#classpage #edit').on('click', function () {
@@ -286,10 +310,7 @@
                 type: 'GET',
                 url: '/admin/class/editClass/' + id,
                 success: function (objClass) {
-                    //debugger;
-                    // objClass = JSON.stringify(objClass);
-
-                    //alert(objClass);
+                    
                     $('#editClassModal #Class_Id').val(objClass.class_Id);
                     $('#editClassModal #Class_Name').val(objClass.class_Name);
 
@@ -297,23 +318,15 @@
             });
         });
 
-        // Select/Deselect checkboxes
-        var checkbox = $('table tbody input[type="checkbox"]');
-        $("#selectAll").click(function () {
-            if (this.checked) {
-                checkbox.each(function () {
-                    this.checked = true;
-                });
-            } else {
-                checkbox.each(function () {
-                    this.checked = false;
-                });
-            }
+        
+
+        $('#classpage').DataTable({
+            /* Disable initial sort */
+           // "aaSorting": []
         });
-        checkbox.click(function () {
-            if (!this.checked) {
-                $("#selectAll").prop("checked", false);
-            }
-        });
+
+        
+
+
     });
 </script>

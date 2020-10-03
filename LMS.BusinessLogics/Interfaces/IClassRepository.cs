@@ -11,9 +11,9 @@ namespace LMS.BusinessLogics.Interfaces
     {
         IQueryable<Class> GetAllClass();
         Task<Class> GetClassById(int Id);
-        Task AddClass(Class objClass);
-        Task UpdateClass(Class objClass);
-        Task DeleteClass(int id);
+        Task<int> AddClass(Class objClass);
+        Task<int> UpdateClass(Class objClass);
+        Task<int> DeleteClass(int id);
 
     }
 }

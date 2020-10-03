@@ -11,8 +11,8 @@ namespace LMS.BusinessLogics.Interfaces
     {
         IQueryable<Section> GetAllSection();
         Task<Section> GetSectionById(int Id);
-        Task AddSection(Section objSection);
-        Task UpdateSection(Section objSection);
-        Task DeleteSection(int Id);
+        Task<int> AddSection(Section objSection);
+        Task<int> UpdateSection(Section objSection);
+        Task<int> DeleteSection(int Id);
     }
 }

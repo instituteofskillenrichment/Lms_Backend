@@ -41,9 +41,19 @@ namespace LMS.Areas.Admin.Controllers
                     Section_Name = objSection.Section_Name
                 };
 
-                await _SectionRepository.AddSection(newSection);
+                int result = await _SectionRepository.AddSection(newSection);
+                if (result == 1)
+                {
+                    TempData["Message"] = "Success";
+                    return RedirectToAction("Index", "section", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("Index", "section", new { area = "admin" });
+                }
 
-                return RedirectToAction("Index", "section", new { area = "admin" });
+                
 
             }
 
@@ -73,9 +83,18 @@ namespace LMS.Areas.Admin.Controllers
 
                 objSection.Section_Name = sectionModel.Section_Name;
 
-                await _SectionRepository.UpdateSection(objSection);
+                int result = await _SectionRepository.UpdateSection(objSection);
 
-                return RedirectToAction("Index", "section", new { area = "admin" });
+                if (result == 1)
+                {
+                    TempData["Message"] = "Success";
+                    return RedirectToAction("Index", "section", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("Index", "section", new { area = "admin" });
+                }
 
             }
 
@@ -87,9 +106,25 @@ namespace LMS.Areas.Admin.Controllers
         [Route("deleteSection")]
         public async Task<IActionResult> DeleteSection(int Section_Id)
         {
-            await _SectionRepository.DeleteSection(Section_Id);
+            if (ModelState.IsValid)
+            {
+               int result = await _SectionRepository.DeleteSection(Section_Id);
 
-            return RedirectToAction("Index", "section", new { area = "admin" });
+                if (result == 1)
+                {
+                    TempData["Message"] = "Success";
+                    return RedirectToAction("Index", "section", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Message"] = "Failed";
+                    return RedirectToAction("Index", "section", new { area = "admin" });
+                }
+                
+
+            }
+
+            return View();   
 
         }
 

@@ -19,9 +19,9 @@ namespace LMS.BusinessLogics.Interfaces
         List<Section> GetAllSections();
         Task<ClassSection> GetClassSectionById(int classId, int sectionId);
         //Student FindStudentById(int Id);
-        Task AddStudentClass(StudentClass objStudent);
-        Task UpdateStudentClass(StudentClass objStudentClass);
-        Task DeleteStudentClass(int id);
+        Task<int> AddStudentClass(StudentClass objStudent);
+        Task<int> UpdateStudentClass(StudentClass objStudentClass);
+        Task<int> DeleteStudentClass(int id);
         //Task SaveChanges();
 
     }
