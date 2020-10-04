@@ -234,6 +234,7 @@ namespace LMS.BusinessLogics.Repositories
                                                                  join l in _lmsDbContext.Lecture on csb.ClassSubject_Id equals l.ClassSubject_Id
                                                                  where l.Teacher_Id == TeacherId && l.ClassSubject_Id == classSubjectId
                                                                  group new { c, sb, csb } by new { c.Class_Name, sb.Subject_Id, csb.ClassSubject_Id, sb.Subject_Name } into grp
+                                                                 from l in grp.DefaultIfEmpty()
                                                                  select new SubjectLectureViewModel
                                                                  {
                                                                     Subject_Id = grp.Key.Subject_Id,

@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using LMS.BusinessLogics.Interfaces;
 using LMS.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LMS.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("admin")]
     [Route("admin/subject")]
     public class SubjectController : Controller
@@ -27,6 +29,16 @@ namespace LMS.Areas.Admin.Controllers
         {
             var Subject = _SubjectRepository.GetAllSubject();
 
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"].ToString();
+            }
+
+            if (TempData["Success"] != null)
+            {
+                ViewBag.Success = TempData["Success"].ToString();
+            }
+
             return View(Subject);
         }
 
@@ -45,12 +57,12 @@ namespace LMS.Areas.Admin.Controllers
                 int result =  await _SubjectRepository.AddSubject(newSubject);
                 if (result == 1)
                 {
-                    TempData["Message"] = "Success";
+                    TempData["Success"] = "Subject Added Successfully";
                     return RedirectToAction("Index", "subject", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Subject Adding Failed";
                     return RedirectToAction("Index", "subject", new { area = "admin" });
                 }
                 
@@ -86,12 +98,12 @@ namespace LMS.Areas.Admin.Controllers
 
                 if (result == 1)
                 {
-                    TempData["Message"] = "Success";
+                    TempData["Success"] = "Subject Updated Successfully";
                     return RedirectToAction("Index", "subject", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Updating Subject Failed";
                     return RedirectToAction("Index", "subject", new { area = "admin" });
                 }
 
@@ -112,12 +124,12 @@ namespace LMS.Areas.Admin.Controllers
 
                 if (result == 1)
                 {
-                    TempData["Message"] = "Success";
+                    TempData["Success"] = "Subject Deleted Successfully";
                     return RedirectToAction("Index", "subject", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Deletiing Subject Failed";
                     return RedirectToAction("Index", "subject", new { area = "admin" });
                 }
 

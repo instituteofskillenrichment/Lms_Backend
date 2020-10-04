@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using LMS.BusinessLogics.Interfaces;
 using LMS.Domain.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LMS.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("admin")]
     [Route("admin/role")]
     public class RoleController : Controller
@@ -25,7 +27,15 @@ namespace LMS.Areas.Admin.Controllers
         [Route("index")]
         public IActionResult Index()
         {
-            //var Role = _RoleRepository.GetAllRoles();
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"].ToString();
+            }
+
+            if (TempData["Success"] != null)
+            {
+                ViewBag.Success = TempData["Success"].ToString();
+            }
 
             return View(_RoleRepository.GetAllRoles());
         }
@@ -44,9 +54,20 @@ namespace LMS.Areas.Admin.Controllers
                     Name = objIdentityRole.Name
                 };
 
-                await _RoleRepository.CreateRole(RoleModel);
+                int result = await _RoleRepository.CreateRole(RoleModel);
 
-                return RedirectToAction("Index", "role", new { area = "admin" });
+                if(result == 1)
+                {
+                    TempData["Success"] = "Role Added Succesfully";
+                    return RedirectToAction("Index", "role", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Error"] = "Role Added Failed";
+                    return RedirectToAction("Index", "role", new { area = "admin" });
+                }
+
+                
 
             }
 
@@ -60,11 +81,23 @@ namespace LMS.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteRole(string Role_Id)
         {
 
-            if (!string.IsNullOrEmpty(Role_Id))
+            if(ModelState.IsValid)
             {
-                await _RoleRepository.DeleteRole(Role_Id);
-
-                return RedirectToAction("Index", "role", new { area = "admin" });
+                if (!string.IsNullOrEmpty(Role_Id))
+                {
+                    int result = await _RoleRepository.DeleteRole(Role_Id);
+                    
+                    if (result == 1)
+                    {
+                        TempData["Success"] = "Role Deleted Succesfully";
+                        return RedirectToAction("Index", "role", new { area = "admin" });
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Deleting Role Failed";
+                        return RedirectToAction("Index", "role", new { area = "admin" });
+                    }
+                }
             }
             
             return View();
@@ -93,11 +126,30 @@ namespace LMS.Areas.Admin.Controllers
             {
                 IdentityRole RoleModel = await _RoleRepository.FindRoleById(Role_Id);
 
-                RoleModel.Name = Role_Name;
+                if(RoleModel != null)
+                {
+                    RoleModel.Name = Role_Name;
 
-                await _RoleRepository.UpdateRole(RoleModel);
+                    int result = await _RoleRepository.UpdateRole(RoleModel);
 
-                return RedirectToAction("Index", "role", new { area = "admin" });
+                    if (result == 1)
+                    {
+                        TempData["Success"] = "Role Updated Succesfully";
+                        return RedirectToAction("Index", "role", new { area = "admin" });
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Updating Role Failed";
+                        return RedirectToAction("Index", "role", new { area = "admin" });
+                    }
+                }
+                else
+                {
+                    TempData["Error"] = "Rolle Didn't Find";
+                    return RedirectToAction("Index", "role", new { area = "admin" });
+                }
+
+               
 
             }
 

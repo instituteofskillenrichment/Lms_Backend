@@ -24,24 +24,32 @@ namespace LMS.BusinessLogics.Repositories
 
         public async Task<int> CreateRole(IdentityRole objModel)
         {
-            bool checkRole = await IsRoleExist(objModel.Name);
-
-
-            if(checkRole == false)
+            try
             {
-                IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(objModel.Name));
-                if (result.Succeeded)
+                bool checkRole = await IsRoleExist(objModel.Name);
+
+
+                if (checkRole == false)
                 {
-                    return 1;
+                    IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(objModel.Name));
+                    if (result.Succeeded)
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 }
                 else
                 {
                     return 0;
                 }
+
             }
-            else
+            catch(Exception)
             {
-                return 0;
+                return -1;
             }
 
             
@@ -50,20 +58,31 @@ namespace LMS.BusinessLogics.Repositories
         public async Task<int> DeleteRole(string roleId)
         {
 
-            IdentityRole role = await FindRoleById(roleId);
-
-            //IdentityRole role = await _roleManager.FindByIdAsync(roleId);
-
-            if (role != null)
+            try
             {
-                IdentityResult result = await _roleManager.DeleteAsync(role);
-                if (result.Succeeded)
-                    return 1;
-                else
-                    return 0;
-            }
+                IdentityRole role = await FindRoleById(roleId);
 
-            return -1;
+                //IdentityRole role = await _roleManager.FindByIdAsync(roleId);
+
+                if (role != null)
+                {
+                    IdentityResult result = await _roleManager.DeleteAsync(role);
+                    if (result.Succeeded)
+                        return 1;
+                    else
+                        return 0;
+                }
+                else
+                {
+                    return 0;
+                }
+
+                
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
 
         public async Task<IdentityRole> FindRoleById(string roleId)
@@ -97,12 +116,19 @@ namespace LMS.BusinessLogics.Repositories
         public async Task<int> UpdateRole(IdentityRole objModel)
         {
 
-            IdentityResult result = await _roleManager.UpdateAsync(objModel);
+            try
+            {
+                IdentityResult result = await _roleManager.UpdateAsync(objModel);
 
-            if (result.Succeeded)
-                return 1;
-            else
-                return 0;
+                if (result.Succeeded)
+                    return 1;
+                else
+                    return 0;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
 
         }
 

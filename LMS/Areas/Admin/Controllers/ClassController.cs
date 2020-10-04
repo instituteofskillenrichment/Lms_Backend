@@ -53,12 +53,12 @@ namespace LMS.Areas.Admin.Controllers
                 int result =  await _ClassRepository.AddClass(newClass);
                 if(result == 1)
                 {
-                    TempData["Message"] = "Success"; 
+                    TempData["Success"] = " Class Added Successfully"; 
                     return RedirectToAction("Index", "class", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Adding Class Failed";
                     return RedirectToAction("Index", "class", new { area = "admin" });
                 }
 
@@ -80,12 +80,12 @@ namespace LMS.Areas.Admin.Controllers
 
                 if (result == 1)
                 {
-                    TempData["Message"] = "Success";
+                    TempData["Success"] = "Delete Class Successfully";
                     return RedirectToAction("Index", "class", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Deleting Class Failed";
                     return RedirectToAction("Index", "class", new { area = "admin" });
                 }
             }
@@ -122,12 +122,12 @@ namespace LMS.Areas.Admin.Controllers
 
                 if (result == 1)
                 {
-                    TempData["Message"] = "Success";
+                    TempData["Success"] = "Class Updated Successfully";
                     return RedirectToAction("Index", "class", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Updating Class Failed ";
                     return RedirectToAction("Index", "class", new { area = "admin" });
                 }
 

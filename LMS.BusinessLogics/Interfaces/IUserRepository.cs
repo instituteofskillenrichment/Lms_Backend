@@ -31,5 +31,7 @@ namespace LMS.BusinessLogics.Interfaces
         //Added by Arib on 30-Aug-2020
         Task<int> DeleteUser(IdentityUser objModel);
 
+        Task<int> ResetPassword(IdentityUser objModel, string Password);
+
     }
 }
