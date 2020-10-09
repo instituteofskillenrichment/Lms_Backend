@@ -19,10 +19,10 @@ namespace LMS.Database
         public DbSet<Student> Student { get; set; }
         public DbSet<StudentClass> StudentClass { get; set; }
         public DbSet<Lecture> Lecture { get; set; }
+        public DbSet<Grade> Grade { get; set; }
 
 
 
-       
 
 
     }

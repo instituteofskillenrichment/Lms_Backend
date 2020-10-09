@@ -50,119 +50,76 @@
     <div class="wrapper ">
         <div class="sidebar" data-color="orange">
             <!--
-                Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-            -->
+        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+    -->
             <div class="logo">
                 <a href="#" class="">
-                    <img src="~/Dashboard/assets/img/logo-new_03.png" alt="" class="main-logo">
+                    <img src="/Dashboard/assets/img/logo-new_03.png" alt="" class="main-logo">
 
                 </a>
 
             </div>
-            <div class="sidebar-wrapper" id="sidebar-wrapper">
+            <div class="sidebar-wrapper ps" id="sidebar-wrapper">
                 <ul class="nav navigation">
-                    <li class="active">
-                        <a asp-area="admin" asp-controller="dashboard" asp-action="index">
+                    <li>
+                        <a href="./dashboard.html">
                             <i class="now-ui-icons design_app"></i>
-                            <p>Dashboard</p>
+                            <p>Teacher Dashboard</p>
                         </a>
                     </li>
-
                     <li class="has-child">
-                        <a href='#'>
-                            <i class="now-ui-icons education_atom"></i>
-                            <p>Class / Section </p>
+                        <a href="#">
+                            <i class="now-ui-icons design_app"></i>
+                            <p>Classes</p>
                         </a>
 
-                        <ul>
-                            <li><a asp-area="admin" asp-controller="class" asp-action="index">Classes</a></li>
-                            <li><a asp-area="admin" asp-controller="section" asp-action="index">Section</a></li>
-                            <li><a asp-area="admin" asp-controller="assignSection" asp-action="index">Assign Section</a></li>
-                            <li><a asp-area="admin" asp-controller="assignSubject" asp-action="index">Assign Subject</a></li>
-
-                        </ul>
                     </li>
 
+                    <li>
+                        <a href="#">
+                            <i class="now-ui-icons design_app"></i>
+                            <p>Lecture </p>
+                        </a>
+                    </li>
 
                     <li class="has-child">
                         <a href="#">
-                            <i class="now-ui-icons education_atom"></i>
-                            <p>Subject </p>
+                            <i class="now-ui-icons design_app"></i>
+                            <p>Attendance</p>
                         </a>
-
                         <ul>
-                           
-                            <li><a asp-area="admin" asp-controller="subject" asp-action="index">Subject List</a></li>
-                            
+                            <li><a href="#">Session</a></li>
                         </ul>
-
                     </li>
-
 
                     <li class="has-child">
                         <a href="#">
-                            <i class="now-ui-icons education_atom"></i>
-                            <p>Grade </p>
+                            <i class="now-ui-icons design_app"></i>
+                            <p>Quizes</p>
                         </a>
-
                         <ul>
-                            <li><a asp-area="admin" asp-controller="grade" asp-action="addGrade">Add Grade</a></li>
-                            <li><a asp-area="admin" asp-controller="grade" asp-action="index">Grade List</a></li>
-
-                        </ul>
-
-                    </li>
-
-                    <li class="has-child">
-                        <a href='#'>
-                            <i class="now-ui-icons education_atom"></i>
-                            <p>Teacher </p>
-                        </a>
-
-                        <ul>
-                            <li><a asp-area="admin" asp-controller="teacher" asp-action="addTeacher">Add Teacher</a></li>
-                            <li><a asp-area="admin" asp-controller="teacher" asp-action="index">Teachers List</a></li>
-                            <li><a asp-area="admin" asp-controller="teacher" asp-action="teacherSubjectDetail">Teachers Subject</a></li>
-
-
+                            <li><a href="#">Assignments</a></li>
+                            <li><a href="#">Tests</a></li>
                         </ul>
                     </li>
-                    <li class="has-child">
-                        <a href='#'>
-                            <i class="now-ui-icons education_atom"></i>
-                            <p>Student </p>
+                    <li>
+                        <a href="#">
+                            <i class="now-ui-icons design_app"></i>
+                            <p>Grades</p>
                         </a>
-
-                        <ul>
-                            <li><a asp-area="admin" asp-controller="student" asp-action="addStudent">Add Student</a></li>
-                            <li><a asp-area="admin" asp-controller="student" asp-action="index">Student List</a></li>
-                            <li><a asp-area="admin" asp-controller="student" asp-action="studentClassDetail">Student Class</a></li>
-
-
-                        </ul>
                     </li>
-
-                    <li class="has-child">
-                        <a href='#'>
-                            <i class="now-ui-icons education_atom"></i>
-                            <p>User / Roles </p>
+                    <li>
+                        <a href="#">
+                            <i class="now-ui-icons design_app"></i>
+                            <p>Announcements</p>
                         </a>
-
-                        <ul>
-                            <li><a asp-area="admin" asp-controller="role" asp-action="index">Add Role</a></li>
-                            <li><a asp-area="admin" asp-controller="user" asp-action="index">Add User</a></li>
-
-
-
-                        </ul>
                     </li>
-
-
 
 
 
 
                 </ul>
+                <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>
             </div>
         </div>
         <div class="main-panel" id="main-panel">

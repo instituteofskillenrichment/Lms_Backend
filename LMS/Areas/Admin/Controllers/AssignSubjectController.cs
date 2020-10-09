@@ -161,7 +161,7 @@ namespace LMS.Areas.Admin.Controllers
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Failed";
                     return RedirectToAction("Index", "assignSubject", new { area = "admin" });
                 }
 
