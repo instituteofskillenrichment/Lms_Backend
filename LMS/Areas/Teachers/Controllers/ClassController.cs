@@ -27,8 +27,9 @@ namespace LMS.Areas.Teachers.Controllers
         [Route("index")]
         public IActionResult Index()
         {
-            var TeacherClasses = _TeacherSubjectRepository.GetTeacherClassSubjectstByTeacherId(HttpContext.Session.GetInt32("UserId")??1);
 
+            var TeacherClasses = _TeacherSubjectRepository.GetTeacherClassSubjectstDistinctByTeacherId(HttpContext.Session.GetInt32("UserId")??1);
+            
             if (TempData["Error"] != null)
             {
                 ViewBag.Error = TempData["Error"].ToString();

@@ -90,7 +90,6 @@ namespace LMS.Areas.Admin.Controllers
                     }
 
 
-
                     Teacher newTeacher = new Teacher
                     {
                         Teacher_Name = objTeacher.Teacher_Name,
@@ -137,7 +136,6 @@ namespace LMS.Areas.Admin.Controllers
                     return RedirectToAction("Index", "Teacher", new { area = "admin" });
                 }
 
-                
             }
 
             return View();

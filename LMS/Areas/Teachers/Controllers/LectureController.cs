@@ -169,7 +169,7 @@ namespace LMS.Areas.Teachers.Controllers
                         System.IO.File.Delete(filePath);
                     }
                     
-                    string uniqueFileName = Utility.ProcessUploadedFile(objLecture, _hostingEnvironment);
+                    string uniqueFileName = Utility.ProcessUploadedFile(model, _hostingEnvironment);
                     
                     objLecture.Lecture_File = uniqueFileName;
 
