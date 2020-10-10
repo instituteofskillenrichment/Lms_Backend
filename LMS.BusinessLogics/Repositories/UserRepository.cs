@@ -186,5 +186,34 @@ namespace LMS.BusinessLogics.Repositories
             return result;
 
         }
+
+
+
+        public async Task<int> ResetPassword(IdentityUser objModel, string Password)
+        {
+            if (objModel != null)
+            {
+
+                await _userManager.RemovePasswordAsync(objModel);
+
+                IdentityResult result = await _userManager.AddPasswordAsync(objModel, Password);
+
+                //IdentityResult result = await _userManager.ChangePasswordAsync(objModel.Id, objModel.PasswordHash, Password);
+
+                
+
+                if (result.Succeeded)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+            return -1;
+        }
+
     }
 }

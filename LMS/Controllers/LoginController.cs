@@ -61,7 +61,7 @@ namespace LMS.Controllers
 
                         HttpContext.Session.SetInt32("UserId", teacherObj.Teacher_Id);
 
-                        return RedirectToAction("Index", "Home", new { area = "Teachers" });
+                        return RedirectToAction("Index", "Dashboard", new { area = "Teachers" });
                     }
                     else //Student case
                     {

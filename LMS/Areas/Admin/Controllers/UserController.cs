@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using LMS.BusinessLogics.Interfaces;
 using LMS.Database;
 using LMS.Domain.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LMS.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("admin")]
     [Route("admin/user")]
     public class UserController : Controller
@@ -174,5 +176,75 @@ namespace LMS.Areas.Admin.Controllers
 
             return View();
         }
+
+
+
+        [HttpGet]
+        [Route("resetPassword/{id}")]
+        public async Task<IActionResult> ResetPassword(string id)
+        {
+
+
+            if(ModelState.IsValid)
+            {
+                
+                IdentityUser UserModel = await _UserRepository.FindUserById(id);
+
+                if(UserModel != null)
+                {
+                    int result = 0;
+                    var roles = await _UserRepository.GetRoles(UserModel);
+                    roles = roles.Select(x => x.ToUpper()).ToList();
+
+                    if (roles != null)
+                    {
+                        if(roles[0] == "ADMIN" )
+                        {
+                            result = await _UserRepository.ResetPassword(UserModel, "Admin@123");
+                        }
+                        else if(roles[0] == "TEACHER")
+                        {
+                            result = await _UserRepository.ResetPassword(UserModel, "Teacher@123");
+                        }
+                        else if (roles[0] == "STUDENT")
+                        {
+                            result = await _UserRepository.ResetPassword(UserModel, "Student@123");
+                        }
+
+                        
+                        if(result == 1)
+                        {
+                            TempData["Success"] = "User Password Reset Successfully...";
+                            
+                            return RedirectToAction("Index", "user", new { area = "admin" });
+                        }
+                        else
+                        {
+                            TempData["Error"] = "User Password Reset Failed...";
+                            
+                            return RedirectToAction("Index", "user", new { area = "admin" });
+                        }
+
+
+
+                    }
+                    else
+                    {
+                        TempData["Error"] = "UserRole Not Found. Please try again!";
+                        return RedirectToAction("Index", "user", new { area = "admin" });
+                    }
+                }
+                else
+                {
+                    TempData["Error"] = "User Not Found. Please try again!";
+                    return RedirectToAction("Index", "user", new { area = "admin" });
+                }
+                
+            }
+            
+            return View();
+
+        }
+
     }
 }

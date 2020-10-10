@@ -1,6 +1,7 @@
 ﻿using LMS.BusinessLogics.Interfaces;
 using LMS.Domain;
 using LMS.Domain.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace LMS.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("admin")]
     [Route("admin/teacher")]
     public class TeacherController : Controller
@@ -37,7 +39,18 @@ namespace LMS.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var Teacher = _TeacherRepository.GetAllTeacher();
-            
+
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"].ToString();
+            }
+
+            if (TempData["Success"] != null)
+            {
+                ViewBag.Success = TempData["Success"].ToString();
+            }
+
+
             return View(Teacher);
         }
 
@@ -72,9 +85,10 @@ namespace LMS.Areas.Admin.Controllers
 
                     if (response != 1)
                     {
-                        TempData["Error"] = "Failed to add teacher. Please try again!";
+                        TempData["Error"] = "Error In Assigning Role. Please try again!";
                         return RedirectToAction("Index", "Teacher", new { area = "admin" });
                     }
+
 
                     Teacher newTeacher = new Teacher
                     {
@@ -106,18 +120,19 @@ namespace LMS.Areas.Admin.Controllers
 
                     if (result == 1)
                     {
-                        TempData["Message"] = "Success";
+                        TempData["Success"] = "Teachet Added Successfully";
                         return RedirectToAction("Index", "Teacher", new { area = "admin" });
                     }
                     else
                     {
-                        TempData["Message"] = "Failed";
+                        TempData["Error"] = "Failed to add teacher. Please try again!";
                         return RedirectToAction("Index", "Teacher", new { area = "admin" });
                     }
+
                 }
                 else
                 {
-                    TempData["Error"] = "Failed to add teacher. Please try again!";
+                    TempData["Error"] = "Error In Creating Teacher. Please try again!";
                     return RedirectToAction("Index", "Teacher", new { area = "admin" });
                 }
 
@@ -136,12 +151,12 @@ namespace LMS.Areas.Admin.Controllers
 
                 if (result == 1)
                 {
-                    TempData["Message"] = "Success";
+                    TempData["Success"] = "Teacher Deleted Successfully";
                     return RedirectToAction("Index", "Teacher", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Failed To Delete Teacher";
                     return RedirectToAction("Index", "Teacher", new { area = "admin" });
                 }
             }
@@ -194,12 +209,12 @@ namespace LMS.Areas.Admin.Controllers
 
                 if (result == 1)
                 {
-                    TempData["Message"] = "Success";
+                    TempData["Success"] = "Teacher Updated Successfully";
                     return RedirectToAction("Index", "Teacher", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Failed To Update Teacher";
                     return RedirectToAction("Index", "Teacher", new { area = "admin" });
                 }
             }
@@ -300,7 +315,7 @@ namespace LMS.Areas.Admin.Controllers
                             }
                             else
                             {
-                                TempData["Message"] = "Failed";
+                                TempData["Error"] = "Please Assign Subject To Class";
                                 return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
                             }
 
@@ -308,12 +323,12 @@ namespace LMS.Areas.Admin.Controllers
 
                         if (result > 0)
                         {
-                            TempData["Message"] = "Success";
+                            TempData["Success"] = "Subject Assign To Teacher Successfully";
                             return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
                         }
                         else
                         {
-                            TempData["Message"] = "Failed";
+                            TempData["Error"] = "Failed To Assign Subject To Teacher";
                             return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
                         }
 
@@ -323,7 +338,7 @@ namespace LMS.Areas.Admin.Controllers
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Class Section Didn't Find";
                     return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
                 }
             }
@@ -345,12 +360,12 @@ namespace LMS.Areas.Admin.Controllers
 
                 if (result == 1)
                 {
-                    TempData["Message"] = "Success";
+                    TempData["Success"] = "Teacher Subject Deleted Successfully";
                     return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Failed To Delete Teacher Subject";
                     return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
                 }
 
@@ -401,30 +416,27 @@ namespace LMS.Areas.Admin.Controllers
 
                         if (result > 0)
                         {
-                            TempData["Message"] = "Success";
+                            TempData["Success"] = "Teacher Subject Updated Successfully";
                             return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
                         }
                         else
                         {
-                            TempData["Message"] = "Failed";
+                            TempData["Error"] = "Failed To Update Teacher Subject";
                             return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
                         }
 
                     }
                     else
                     {
-                        TempData["Message"] = "Failed";
+                        TempData["Error"] = "Please Assign Subject To Class";
                         return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
                     }
 
-                        
-
-                        
-
+                   
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Class Section Didn't Find";
                     return RedirectToAction("teacherSubjectDetail", "teacher", new { area = "admin" });
                 }
             }

@@ -1,6 +1,7 @@
 ﻿using LMS.BusinessLogics.Interfaces;
 using LMS.Domain;
 using LMS.Domain.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace LMS.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("admin")]
     [Route("admin/student")]
     public class StudentController : Controller
@@ -30,18 +32,7 @@ namespace LMS.Areas.Admin.Controllers
         [Route("index")]
         public IActionResult Index()
         {
-
-
-            //if (TempData["Error"] != null)
-            //{
-            //    ViewBag.Error = TempData["Error"].ToString();
-            //}
-
-            //if (TempData["Success"] != null)
-            //{
-            //    ViewBag.Success = TempData["Success"].ToString();
-            //}
-
+            
 
             var studentClassVM = new StudentClassViewModel();
             studentClassVM.Students = _StudentRepository.GetAllStudent().ToList();
@@ -75,6 +66,16 @@ namespace LMS.Areas.Admin.Controllers
                 studentClassVM.Sections.Add(selectListItem);
             }
 
+
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"].ToString();
+            }
+
+            if (TempData["Success"] != null)
+            {
+                ViewBag.Success = TempData["Success"].ToString();
+            }
 
             return View(studentClassVM);
         }
@@ -122,12 +123,12 @@ namespace LMS.Areas.Admin.Controllers
                 
                 if (result == 1)
                 {
-                    TempData["Success"] = "Success";
+                    TempData["Success"] = "Student Added Successfully";
                     return RedirectToAction("Index", "Student", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Error"] = "Failed";
+                    TempData["Error"] = "Student Added Failed";
                     return RedirectToAction("Index", "Student", new { area = "admin" });
                 }
             }
@@ -147,12 +148,12 @@ namespace LMS.Areas.Admin.Controllers
 
                 if (result == 1)
                 {
-                    TempData["Success"] = "Success";
+                    TempData["Success"] = "Student Deleted Successfully";
                     return RedirectToAction("Index", "Student", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Error"] = "Failed";
+                    TempData["Error"] = "Deleting Student Failed";
                     return RedirectToAction("Index", "Student", new { area = "admin" });
                 }
             }
@@ -206,12 +207,12 @@ namespace LMS.Areas.Admin.Controllers
                int result = await _StudentRepository.SaveChanges();
                if (result == 1)
                {
-                   TempData["Success"] = "Success";
+                   TempData["Success"] = "Student Updated Successfully";
                    return RedirectToAction("Index", "Student", new { area = "admin" });
                }
                else
                {
-                   TempData["Error"] = "Failed";
+                   TempData["Error"] = "Updating Student Failed";
                    return RedirectToAction("Index", "Student", new { area = "admin" });
                }
             }
@@ -285,12 +286,12 @@ namespace LMS.Areas.Admin.Controllers
                 int result = await _StudentClassRepository.AddStudentClass(studentClass);
                 if (result == 1)
                 {
-                    TempData["Success"] = "Success";
+                    TempData["Success"] = "Class Successfull Assigned To Student";
                     return RedirectToAction("Index", "Student", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Error"] = "Failed";
+                    TempData["Error"] = "Class Assigned To Student Failed";
                     return RedirectToAction("Index", "Student", new { area = "admin" });
                 }
 
@@ -336,12 +337,12 @@ namespace LMS.Areas.Admin.Controllers
 
                 if (result == 1)
                 {
-                    TempData["Success"] = "Success";
+                    TempData["Success"] = "Student Class Updated Successfully";
                     return RedirectToAction("Index", "Student", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Error"] = "Failed";
+                    TempData["Error"] = "Failed To Update Student Class";
                     return RedirectToAction("Index", "Student", new { area = "admin" });
                 }
 
@@ -362,12 +363,12 @@ namespace LMS.Areas.Admin.Controllers
 
                 if (result == 1)
                 {
-                    TempData["Success"] = "Success";
+                    TempData["Success"] = "Student Class Delete Successfully";
                     return RedirectToAction("Index", "Student", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Error"] = "Failed";
+                    TempData["Error"] = "Failed To Delete Student Class";
                     return RedirectToAction("Index", "Student", new { area = "admin" });
                 }
             }

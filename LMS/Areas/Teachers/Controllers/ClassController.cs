@@ -1,5 +1,6 @@
 ﻿using LMS.BusinessLogics.Interfaces;
 using LMS.Domain;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,8 +27,9 @@ namespace LMS.Areas.Teachers.Controllers
         [Route("index")]
         public IActionResult Index()
         {
-            var TeacherClasses = _TeacherSubjectRepository.GetTeacherClassSubjectstDistinctByTeacherId(2);
 
+            var TeacherClasses = _TeacherSubjectRepository.GetTeacherClassSubjectstDistinctByTeacherId(HttpContext.Session.GetInt32("UserId")??1);
+            
             if (TempData["Error"] != null)
             {
                 ViewBag.Error = TempData["Error"].ToString();
@@ -46,7 +48,7 @@ namespace LMS.Areas.Teachers.Controllers
         [Route("subjects")]
         public IActionResult Subjects(int ClassSubjectId)
         {
-            var TeacherClassSubjects = _TeacherSubjectRepository.GetTeacherClassSubjectLectures(2, ClassSubjectId);
+            var TeacherClassSubjects = _TeacherSubjectRepository.GetTeacherClassSubjectLectures(5, ClassSubjectId);
 
 
             if (TempData["Error"] != null)

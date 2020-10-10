@@ -1,5 +1,5 @@
-﻿@model IEnumerable<IdentityRole>
-@using Microsoft.AspNetCore.Identity;
+﻿@model IEnumerable<LMS.Domain.ViewModels.GradeViewModel>
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -10,6 +10,12 @@
     <div class="panel-header panel-header-sm">
     </div>
     <div class="content">
+        @*@if (ViewBag.Error != null)
+            {
+                <script type="text/javascript">
+              alert( "@(ViewBag.Error)");
+                </script>
+            }*@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -20,20 +26,24 @@
                                 <div class="table-title">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h2>Manage <b>Roles</b></h2>
+                                            <h2>Manage <b>Grade</b></h2>
                                         </div>
                                         <div class="col-md-6 pull-right">
-                                            <a href="#addRoleModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Role</span></a>
-                                            <a href="#deleteRoleModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+                                            <a a asp-area="admin" asp-controller="student" asp-action="addStudent" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add New Grade</span></a>
                                         </div>
                                     </div>
                                 </div>
 
-                                <table id="rolepage" class="display" style="width:100%">
+                                <table id="gradepage" class="display" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Role Name</th>
+                                            <th>Grade Name</th>
+                                            <th>Start From</th>
+                                            <th>End On</th>
+                                            <th>Class Name</th>
+                                            <th>Section Name</th>
+                                            <th>Subject Name</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -41,83 +51,70 @@
                                         @foreach (var item in Model)
                                         {
                                             <tr>
-                                                <td>@item.Id</td>
-                                                <td>@item.Name</td>
+                                                <td>@item.Grade_Id</td>
+                                                <td>@item.Grade_Name</td>
+                                                <td>@item.Start_From</td>
+                                                <td>@item.End_On</td>
+                                                <td>@item.Class_Name</td>
+                                                <td>@item.Section_Name</td>
+                                                <td>@item.Subject_Name</td>
                                                 <td>
-                                                    <a href="#editRoleModal" class="edit" id="edit" data-toggle="modal">
+
+
+                                                    <a href="#editGradeModal" class="edit" id="edit" data-toggle="modal">
                                                         <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
                                                     </a>
 
-                                                    <a href="#deleteRoleModal" class="delete" id="delete" data-toggle="modal">
+                                                    <a href="#deleteGradeModal" class="delete" id="delete" data-toggle="modal">
                                                         <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
                                                     </a>
 
                                                     @*Added BY Absar To get parentid*@
-                                                    <input type="hidden" class="Role_Id" value="@item.Id" />
+                                                    <input type="hidden" class="Grade_Id" value="@item.Grade_Id" />
 
                                                 </td>
                                             </tr>
                                         }
                                     </tbody>
                                 </table>
-                                <div class="clearfix">
 
-                                </div>
                             </div>
                         </div>
-                        <!-- Add Modal HTML -->
-                        <div id="addRoleModal" class="modal fade">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form method="post" asp-controller="role" asp-action="addRole">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Add Role</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            @*<div class="form-group">
-                                                    <label>Class ID</label>
-                                                    <input type="text" class="form-control" required="" name="Role_Id">
-                                                </div>*@
-                                            <div class="form-group">
-                                                <label>Role Name</label>
-                                                <input type="text" class="form-control" required="" name="name">
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input type="submit" class="btn btn-success" value="Add">
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+
 
 
                         <!-- Edit Modal HTML -->
-                        <div id="editRoleModal" class="modal fade">
+                        <div id="editGradeModal" class="modal fade">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form method="post" asp-controller="role" asp-action="editRole">
+                                    <form method="post" asp-controller="grade" asp-action="editGrade">
                                         <div class="modal-header">
-                                            <h4 class="modal-title">Edit Role</h4>
+                                            <h4 class="modal-title">Edit Class</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="form-group">
-                                                <label>ID</label>
-                                                <input type="text" class="form-control" required="" id="Role_Id" disabled="disabled">
+                                                <label>Grade ID</label>
+                                                <input type="text" class="form-control" required="" id="Grade_Id" disabled="disabled">
                                             </div>
                                             <div class="form-group">
-                                                <label>Role Name</label>
-                                                <input type="text" class="form-control" required="" name="Role_Name" id="Role_Name">
+                                                <label>Class Name</label>
+                                                <input type="text" class="form-control" required="" name="Grade_Name" id="Grade_Name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Start From</label>
+                                                <input type="text" class="form-control" required="" name="Start_From" id="Start_From">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>End On</label>
+                                                <input type="text" class="form-control" required="" name="End_On" id="End_On">
                                             </div>
                                         </div>
                                         <div class="modal-footer">
                                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                                             <input type="submit" class="btn btn-info" value="Save">
                                             @*Added By Absar*@
-                                            <input type="hidden" name="Role_Id" id="Role_Id" />
+                                            <input type="hidden" name="Grade_Id" id="Grade_Id" />
                                         </div>
                                     </form>
                                 </div>
@@ -126,12 +123,12 @@
 
 
                         <!-- Delete Modal HTML -->
-                        <div id="deleteRoleModal" class="modal fade">
+                        <div id="deleteGradeModal" class="modal fade">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form method="post" asp-controller="role" asp-action="deleteRole">
+                                    <form method="post" asp-controller="grade" asp-action="deleteGrade">
                                         <div class="modal-header">
-                                            <h4 class="modal-title">Delete Role</h4>
+                                            <h4 class="modal-title">Delete Class</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                         </div>
                                         <div class="modal-body">
@@ -143,13 +140,14 @@
                                             <input type="submit" class="btn btn-danger" value="Delete">
 
                                             @*//Added By Absar To Pass Parameter to action method*@
-                                            <input type="hidden" id="Role_Id" name="Role_Id" />
+                                            <input type="hidden" id="Grade_Id" name="Grade_Id" />
 
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
+
 
                     </div>
                 </div>
@@ -200,7 +198,7 @@
 <script>
     $(document).ready(function () {
 
-        toastr.options = {
+         toastr.options = {
             "positionClass": "toast-top-center",
             "showDuration": "5000",
             "hideDuration": "5000",
@@ -208,9 +206,11 @@
             "extendedTimeOut": "5000",
         };
 
+
+
         var messageError = '@(ViewBag.Error)';
         var messageSuccess = '@(ViewBag.Success)';
-        
+
 
         if (messageSuccess.length > 0) {
             //console.log(message);
@@ -220,35 +220,47 @@
             toastr.error(messageError);
         }
 
-
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
 
-        //Get Role_Id for Delete Added By Absar
-        $('#rolepage #delete').on('click', function () {
-            var Role_Id = $(this).parent().find('.Role_Id').val();
-            $('#deleteRoleModal #Role_Id').val(Role_Id);
+        //Get Grade_Id for Delete Added By Absar
+        $('#gradepage #delete').on('click', function () {
+            var Grade_Id = $(this).parent().find('.Grade_Id').val();
+            $('#deleteGradeModal #Grade_Id').val(Grade_Id);
         });
 
-        //Get Role_Id for Edit Added By Absar
-        $('#rolepage #edit').on('click', function () {
-            var id = $(this).parent().find('.Role_Id').val();
+
+
+        //Get ClassSection_Id for Edit Added By Absar
+        $('#gradepage #edit').on('click', function () {
+            var id = $(this).parent().find('.Grade_Id').val();
             $.ajax({
 
                 type: 'GET',
-                url: '/admin/role/editRole/' + id,
-                success: function (objRole) {
+                url: '/admin/grade/editGrade/' + id,
 
-                    $('#editRoleModal #Role_Id').val(objRole.id);
-                    $('#editRoleModal #Role_Name').val(objRole.name);
+                
+
+                success: function (objGrade) {
+
+                    $('#editGradeModal #Grade_Id').val(objGrade.grade_Id);
+                    $('#editGradeModal #Grade_Name').val(objGrade.grade_Name);
+                    $('#editGradeModal #Start_From').val(objGrade.start_From);
+                    $('#editGradeModal #End_On').val(objGrade.end_On);
+
 
                 }
             });
         });
 
 
-        $('#rolepage').DataTable();
+
+        $('#gradepage').DataTable({
+            /* Disable initial sort */
+            "aaSorting": [],
+            //"pageLength":25
+        });
 
     });
 </script>

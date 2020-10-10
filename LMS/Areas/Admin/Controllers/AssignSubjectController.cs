@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using LMS.BusinessLogics.Interfaces;
 using LMS.Domain;
 using LMS.Domain.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LMS.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("admin")]
     [Route("admin/assignSubject")]
     public class AssignSubjectController : Controller
@@ -37,7 +39,18 @@ namespace LMS.Areas.Admin.Controllers
             ViewBag.Section = _AssignSubjectRepository.GetAllSections();
 
             ViewBag.Subject = _AssignSubjectRepository.GetAllSubjects();
-            
+
+
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"].ToString();
+            }
+
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Success = TempData["Success"].ToString();
+            }
+
             return View(ClassSubject);
         }
 
@@ -47,9 +60,7 @@ namespace LMS.Areas.Admin.Controllers
         {
 
             var ClassSubject = _AssignSubjectRepository.GetAllSubjectsByClassSection(id);
-
             
-
             return View(ClassSubject);
         }
 
@@ -136,12 +147,12 @@ namespace LMS.Areas.Admin.Controllers
 
                         if(result > 0)
                         {
-                            TempData["Message"] = "Success";
+                            TempData["Success"] = "Assign Subject To Class Successfully";
                             return RedirectToAction("Index", "assignSubject", new { area = "admin" });
                         }
                         else
                         {
-                            TempData["Message"] = "Failed";
+                            TempData["Error"] = "Assign Subject To Class Failed";
                             return RedirectToAction("Index", "assignSubject", new { area = "admin" });
                         }
 
@@ -150,7 +161,7 @@ namespace LMS.Areas.Admin.Controllers
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Failed";
                     return RedirectToAction("Index", "assignSubject", new { area = "admin" });
                 }
 
@@ -206,18 +217,18 @@ namespace LMS.Areas.Admin.Controllers
                     int result = await _AssignSubjectRepository.UpdateClassSubject(objSubject);
                     if (result == 1)
                     {
-                        TempData["Message"] = "Success";
+                        TempData["Success"] = "Class Subject Updated Successfully ";
                         return RedirectToAction("Index", "assignSubject", new { area = "admin" });
                     }
                     else
                     {
-                        TempData["Message"] = "Failed";
+                        TempData["Error"] = "Updating Class Subject Failed";
                         return RedirectToAction("Index", "assignSubject", new { area = "admin" });
                     }
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Class Section Didn't Find";
                     return RedirectToAction("Index", "assignSubject", new { area = "admin" });
                 }
 
@@ -241,12 +252,12 @@ namespace LMS.Areas.Admin.Controllers
 
                 if (result == 1)
                 {
-                    TempData["Message"] = "Success";
+                    TempData["Success"] = "Class Subject Deleted Successfully";
                     return RedirectToAction("Index", "assignSubject", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Deleting Class Subject Failed";
                     return RedirectToAction("Index", "assignSubject", new { area = "admin" });
                 }
             }

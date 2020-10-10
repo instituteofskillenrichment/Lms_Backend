@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using LMS.BusinessLogics.Interfaces;
 using LMS.Domain;
 using LMS.Domain.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LMS.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("admin")]
     [Route("admin/assignSection")]
 
@@ -29,16 +31,21 @@ namespace LMS.Areas.Admin.Controllers
         {
             
             var ClassSection = _AssignSectionRepository.GetAllClasSection();
-
-            //var assignSectionVM = new AssignSectionViewModel()
-            //{
-            //    assignSectionViewModels = ClassSection
-            //};
-
-
+            
             ViewBag.Class = _AssignSectionRepository.GetAllClass();
 
             ViewBag.Section = _AssignSectionRepository.GetAllSection();
+
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"].ToString();
+            }
+
+            if (TempData["Success"] != null)
+            {
+                ViewBag.Success = TempData["Success"].ToString();
+            }
+
 
             return View(ClassSection);
         }
@@ -59,12 +66,12 @@ namespace LMS.Areas.Admin.Controllers
                 int result =  await _AssignSectionRepository.AddClassSection(newClassSection);
                 if (result == 1)
                 {
-                    TempData["Message"] = "Success";
+                    TempData["Success"] = "Assign Section To Class Successfully";
                     return RedirectToAction("Index", "assignSection", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Assign Section To Class Failed";
                     return RedirectToAction("Index", "assignSection", new { area = "admin" });
                 }
                 
@@ -108,12 +115,12 @@ namespace LMS.Areas.Admin.Controllers
 
                 if (result == 1)
                 {
-                    TempData["Message"] = "Success";
+                    TempData["Success"] = "Class Section Updted Successfully";
                     return RedirectToAction("Index", "assignSection", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Updting Class Section Failed";
                     return RedirectToAction("Index", "assignSection", new { area = "admin" });
                 }
 
@@ -134,12 +141,12 @@ namespace LMS.Areas.Admin.Controllers
 
                 if (result == 1)
                 {
-                    TempData["Message"] = "Success";
+                    TempData["Success"] = "Class Section Deteled Successfully";
                     return RedirectToAction("Index", "assignSection", new { area = "admin" });
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Deleting Class Section Failed";
                     return RedirectToAction("Index", "assignSection", new { area = "admin" });
                 }
             }
