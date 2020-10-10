@@ -61,10 +61,10 @@ namespace LMS.Areas.Admin.Controllers
                 {
                     UserName = objTeacher.Teacher_Email,
                     Email = objTeacher.Teacher_Email,
-                    PasswordHash = objTeacher.Teacher_Password
+                    //PasswordHash = objTeacher.Teacher_Password
                 };
 
-                int userSucceed = await _UserRepository.CreateUser(User, User.PasswordHash);
+                int userSucceed = await _UserRepository.CreateUser(User, objTeacher.Teacher_Password);
 
                 if (userSucceed == 1)
                 {
@@ -75,46 +75,52 @@ namespace LMS.Areas.Admin.Controllers
                         TempData["Error"] = "Failed to add teacher. Please try again!";
                         return RedirectToAction("Index", "Teacher", new { area = "admin" });
                     }
-                }
 
-                Teacher newTeacher = new Teacher
-                {
-                    Teacher_Name = objTeacher.Teacher_Name,
-                    Teacher_City = objTeacher.Teacher_City,
-                    Teacher_Cnic = objTeacher.Teacher_Cnic,
-                    Teacher_Country = objTeacher.Teacher_Country,
-                    Teacher_CurrentAddress = objTeacher.Teacher_CurrentAddress,
-                    Teacher_DOB = objTeacher.Teacher_DOB,
-                    Teacher_Department = objTeacher.Teacher_Department,
-                    Teacher_Designation = objTeacher.Teacher_Designation,
-                    Teacher_Email = objTeacher.Teacher_Email,
-                    Teacher_FatherName = objTeacher.Teacher_FatherName,
-                    Teacher_Gender = objTeacher.Teacher_Gender,
-                    Teacher_HomePhone = objTeacher.Teacher_HomePhone,
-                    Teacher_LastDegree = objTeacher.Teacher_LastDegree,
-                    Teacher_MobNumber = objTeacher.Teacher_MobNumber,
-                    Teacher_PermenentAddress = objTeacher.Teacher_PermenentAddress,
-                    Teacher_Photo = objTeacher.Teacher_Photo,
-                    Teacher_Ref_Id = User.Id
-                };
+                    Teacher newTeacher = new Teacher
+                    {
+                        Teacher_Name = objTeacher.Teacher_Name,
+                        Teacher_City = objTeacher.Teacher_City,
+                        Teacher_Cnic = objTeacher.Teacher_Cnic,
+                        Teacher_Country = objTeacher.Teacher_Country,
+                        Teacher_CurrentAddress = objTeacher.Teacher_CurrentAddress,
+                        Teacher_DOB = objTeacher.Teacher_DOB,
+                        Teacher_Department = objTeacher.Teacher_Department,
+                        Teacher_Designation = objTeacher.Teacher_Designation,
+                        Teacher_Email = objTeacher.Teacher_Email,
+                        Teacher_FatherName = objTeacher.Teacher_FatherName,
+                        Teacher_Gender = objTeacher.Teacher_Gender,
+                        Teacher_HomePhone = objTeacher.Teacher_HomePhone,
+                        Teacher_LastDegree = objTeacher.Teacher_LastDegree,
+                        Teacher_MobNumber = objTeacher.Teacher_MobNumber,
+                        Teacher_PermenentAddress = objTeacher.Teacher_PermenentAddress,
+                        Teacher_Photo = objTeacher.Teacher_Photo,
+                        Teacher_Ref_Id = User.Id
+                    };
 
 
-                int Id = await _TeacherRepository.AddTeacher(newTeacher);
-                
-                UploadImage(Id);
+                    int Id = await _TeacherRepository.AddTeacher(newTeacher);
 
-                int result = await _TeacherRepository.SaveChanges();
-                
-                if (result == 1)
-                {
-                    TempData["Message"] = "Success";
-                    return RedirectToAction("Index", "Teacher", new { area = "admin" });
+                    UploadImage(Id);
+
+                    int result = await _TeacherRepository.SaveChanges();
+
+                    if (result == 1)
+                    {
+                        TempData["Message"] = "Success";
+                        return RedirectToAction("Index", "Teacher", new { area = "admin" });
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Failed";
+                        return RedirectToAction("Index", "Teacher", new { area = "admin" });
+                    }
                 }
                 else
                 {
-                    TempData["Message"] = "Failed";
+                    TempData["Error"] = "Failed to add teacher. Please try again!";
                     return RedirectToAction("Index", "Teacher", new { area = "admin" });
                 }
+
             }
 
             return View();

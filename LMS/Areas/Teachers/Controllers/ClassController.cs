@@ -26,7 +26,7 @@ namespace LMS.Areas.Teachers.Controllers
         [Route("index")]
         public IActionResult Index()
         {
-            var TeacherClasses = _TeacherSubjectRepository.GetTeacherClassSubjectstByTeacherId(2);
+            var TeacherClasses = _TeacherSubjectRepository.GetTeacherClassSubjectstDistinctByTeacherId(2);
 
             if (TempData["Error"] != null)
             {

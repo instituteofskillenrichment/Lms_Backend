@@ -79,7 +79,7 @@
                     <h5 class="title">Lecture Add</h5>
                 </div>
                 <div class="card-body">
-                    <form enctype="multipart/form-data" asp-controller="Lecture" asp-action="AddLecture">
+                    <form enctype="multipart/form-data" asp-controller="Lecture" asp-action="EditLecture">
                         <div class="row">
                             <div class="col-md-5 pr-1">
                                 <div class="form-group">
@@ -128,11 +128,12 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Lecture File</label>
-                                    <a href="@Model.Lecture_File" target="_blank">Lecture File</a>
+                                    <br />
+                                    <a asp-controller="teachers/Lecture" asp-action="downloadLecture" asp-route-lectureId="@Model.Id" class="delete"><i class="fas fa-file-archive"></i> @Model.ExistingFilePath</a>
                                 </div>
                             </div>
                         </div>
-                        
+
 
                         <div class="row">
                             <div class="col-md-4 pr-1">
@@ -142,7 +143,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        <input asp-for="ExistingFilePath" type="hidden" value="@Model.ExistingFilePath" />
                         <button type="submit" class="btn btn-primary">Update</button>
                     </form>
                 </div>
