@@ -2,6 +2,7 @@
 using LMS.Common;
 using LMS.Domain;
 using LMS.Domain.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,30 +16,22 @@ using System.Threading.Tasks;
 
 namespace LMS.Areas.Teachers.Controllers
 {
+    [Authorize(Roles = "Teacher")]
     [Area("teachers")]
     [Route("teachers/lecture")]
     public class LectureController : Controller
     {
         private readonly ILectureRepository _LectureRepository;
-        private readonly IClassRepository _ClassRepository;
-        private readonly ISectionRepository _SectionRepository;
-        private readonly ISubjectRepository _SubjectRepository;
-        private readonly IStudentClassRepository _StudentClassRepository;
-        private readonly ITeacherSubjectRepository _TeacherSubjectRepository;
+        private readonly ITPClassRepository _tPClassReposiroty;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IConfiguration _config;
 
-        public LectureController(ILectureRepository LectureRepository, IClassRepository ClassRepository,
-            IStudentClassRepository StudentClassRepository, ISectionRepository SectionRepository, 
-            ISubjectRepository SubjectRepository, ITeacherSubjectRepository TeacherSubjectRepository, 
-            IHostingEnvironment hostingEnvironment, IConfiguration config)
+        public LectureController(ILectureRepository LectureRepository, 
+                                 ITPClassRepository tPClassReposiroty,
+                                 IHostingEnvironment hostingEnvironment, IConfiguration config)
         {
             _LectureRepository = LectureRepository;
-            _ClassRepository = ClassRepository;
-            _SectionRepository = SectionRepository;
-            _SubjectRepository = SubjectRepository;
-            _StudentClassRepository = StudentClassRepository;
-            _TeacherSubjectRepository = TeacherSubjectRepository;
+            _tPClassReposiroty = tPClassReposiroty;
             _hostingEnvironment = hostingEnvironment;
             _config = config;
         }
@@ -66,20 +59,22 @@ namespace LMS.Areas.Teachers.Controllers
         [Route("addLecture")]
         public IActionResult AddLecture()
         {
-            List<Class> classList = _ClassRepository.GetAllClass().ToList();
+            List<Class> classList = _LectureRepository.GetAllClass().ToList();
 
             ViewBag.ClassList = classList;
 
-            List<Section> sectionList = _SectionRepository.GetAllSection().ToList();
+            List<Section> sectionList = _LectureRepository.GetAllSection().ToList();
 
             ViewBag.SectionList = sectionList;
 
-            List<Subject> subjectList = _SubjectRepository.GetAllSubject().ToList();
+            List<Subject> subjectList = _LectureRepository.GetAllSubject().ToList();
 
             ViewBag.SubjectList = subjectList;
 
             return View();
         }
+
+
 
         [HttpPost]
         [Route("addLecture")]
@@ -89,9 +84,9 @@ namespace LMS.Areas.Teachers.Controllers
             {
                 string uniqueFileName = Utility.ProcessUploadedFile(objLecture, _hostingEnvironment);
 
-                var classSectionObj = await _StudentClassRepository.GetClassSectionById(objLecture.Class_Id, objLecture.Section_Id);
+                var classSectionObj = await _tPClassReposiroty.GetClassSectionById(objLecture.Class_Id, objLecture.Section_Id);
 
-                var classSubjectObj = await _TeacherSubjectRepository.GetClassSubjectById(classSectionObj.ClassSection_id);
+                var classSubjectObj = await _tPClassReposiroty.GetClassSubjectById(classSectionObj.ClassSection_id);
 
                 Lecture newLecture = new Lecture
                 {
@@ -103,9 +98,19 @@ namespace LMS.Areas.Teachers.Controllers
                     ClassSubject_Id = classSubjectObj.ClassSubject_Id
                 };
 
-                await _LectureRepository.AddLecture(newLecture);
+                int result = await _LectureRepository.AddLecture(newLecture);
+                if (result == 1)
+                {
+                    TempData["Success"] = " Lecture Added Successfully";
+                    return RedirectToAction("Index", "lecture", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Error"] = "Adding Lecture Failed";
+                    return RedirectToAction("Index", "lecture", new { area = "admin" });
+                }
 
-                return RedirectToAction("Index", "subject", new { area = "admin" });
+                
 
             }
 
@@ -127,15 +132,15 @@ namespace LMS.Areas.Teachers.Controllers
                 LecturePost_Date = Convert.ToDateTime(objLecture.LecturePost_Date)
             };
 
-            List<Class> classList = _ClassRepository.GetAllClass().ToList();
+            List<Class> classList = _LectureRepository.GetAllClass().ToList();
 
             ViewBag.ClassList = classList;
 
-            List<Section> sectionList = _SectionRepository.GetAllSection().ToList();
+            List<Section> sectionList = _LectureRepository.GetAllSection().ToList();
 
             ViewBag.SectionList = sectionList;
 
-            List<Subject> subjectList = _SubjectRepository.GetAllSubject().ToList();
+            List<Subject> subjectList = _LectureRepository.GetAllSubject().ToList();
 
             ViewBag.SubjectList = subjectList;
 
@@ -150,9 +155,9 @@ namespace LMS.Areas.Teachers.Controllers
             {
                 var objLecture = await _LectureRepository.GetLectureById(model.Id);
 
-                var classSectionObj = await _StudentClassRepository.GetClassSectionById(model.Class_Id, model.Section_Id);
+                var classSectionObj = await _tPClassReposiroty.GetClassSectionById(model.Class_Id, model.Section_Id);
 
-                var classSubjectObj = await _TeacherSubjectRepository.GetClassSubjectById(classSectionObj.ClassSection_id);
+                var classSubjectObj = await _tPClassReposiroty.GetClassSubjectById(classSectionObj.ClassSection_id);
 
                 objLecture.Lecture_Name = model.Lecture_Name;
                 objLecture.Lecture_Detail = model.Lecture_Detail;
@@ -175,9 +180,18 @@ namespace LMS.Areas.Teachers.Controllers
 
                 }
 
-                await _LectureRepository.UpdateLecture(objLecture);
-
-                return RedirectToAction("Index", "subject", new { area = "admin" });
+                int result= await _LectureRepository.UpdateLecture(objLecture);
+                if (result == 1)
+                {
+                    TempData["Success"] = "Lecture Updated Successfully";
+                    return RedirectToAction("Index", "lecture", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Error"] = "Updating Lecture Failed ";
+                    return RedirectToAction("Index", "lecture", new { area = "admin" });
+                }
+                
 
             }
 
@@ -188,9 +202,24 @@ namespace LMS.Areas.Teachers.Controllers
         [Route("deleteLecture")]
         public async Task<IActionResult> DeleteLecture(int Lecture_Id)
         {
-            await _LectureRepository.DeleteLecture(Lecture_Id);
+            if(ModelState.IsValid)
+            {
+                int result = await _LectureRepository.DeleteLecture(Lecture_Id);
+                if (result == 1)
+                {
+                    TempData["Success"] = "Delete Lecture Successfully";
+                    return RedirectToAction("Index", "lecture", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Error"] = "Deleting Lecture Failed";
+                    return RedirectToAction("Index", "lecture", new { area = "admin" });
+                }
 
-            return RedirectToAction("Index", "lecture", new { area = "teacher" });
+                
+            }
+
+            return View();
 
         }
 

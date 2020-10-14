@@ -6,188 +6,187 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="dashboard" id="dashboard">
    
-    <div class="panel-header panel-header-sm">
-    </div>
-    <div class="content">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
 
-                    <div class="container-fluid">
-                        <div class="table-responsive">
-                            <div class="table-wrapper">
-                                <div class="table-title">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h2>Assign Subject To Particular <b>Class & Section</b></h2>
-                                        </div>
-                                        <div class="col-md-6 pull-right">
-                                            <a asp-area="admin" asp-controller="assignSubject" asp-action="addClassSubject" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add New Class Subjects</span></a>
-                                            <a href="#deleteClassSubjectModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
-                                        </div>
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2>Assign Subject To Particular <b>Class & Section</b></h2>
+                                    </div>
+                                    <div class="col-md-6 pull-right">
+                                        <a asp-area="admin" asp-controller="assignSubject" asp-action="addClassSubject" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add New Class Subjects</span></a>
+                                        
                                     </div>
                                 </div>
+                            </div>
 
-                                <table id="assignClassSubjectpage" class="display" style="width:100%">
-                                    <thead>
+                            <table id="assignClassSubjectpage" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Class Name</th>
+                                        <th>Section Name</th>
+                                        <th>Subject Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Class Name</th>
-                                            <th>Section Name</th>
-                                            <th>Subject Name</th>
-                                            <th>Action</th>
+                                            <td>@item.ClassSubject_Id</td>
+                                            <td>@(item.Class_Name + '-' + item.Section_Name)</td>
+                                            <td>@item.Section_Name</td>
+                                            <td>@item.Subject_Name</td>
+                                            <td>
+                                                <a href="#editClassSubjectModal" class="edit" id="edit" data-toggle="modal">
+                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                                </a>
+
+                                                <a href="#deleteClassSubjectModal" class="delete" id="delete" data-toggle="modal">
+                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                                </a>
+
+                                                <a asp-area="admin" asp-controller="assignSubject" asp-action="classSubjectDetail" asp-route-id="@item.ClassSection_Id" class="detail" id="detail">
+                                                    <i class="fa fa-list" aria-hidden="true" title="Detail" data-original-title="Detail" style="font-size:24px;"></i>
+                                                </a>
+
+
+                                                @*Added BY Absar To get parentid*@
+                                                <input type="hidden" class="ClassSubject_Id" value="@item.ClassSubject_Id" />
+
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td>@item.ClassSubject_Id</td>
-                                                <td>@(item.Class_Name + '-' + item.Section_Name)</td>
-                                                <td>@item.Section_Name</td>
-                                                <td>@item.Subject_Name</td>
-                                                <td>
-                                                    <a href="#editClassSubjectModal" class="edit" id="edit" data-toggle="modal">
-                                                        <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
-                                                    </a>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="clearfix">
 
-                                                    <a href="#deleteClassSubjectModal" class="delete" id="delete" data-toggle="modal">
-                                                        <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
-                                                    </a>
-
-                                                    <a asp-area="admin" asp-controller="assignSubject" asp-action="classSubjectDetail" asp-route-id="@item.ClassSection_Id" class="detail" id="detail">
-                                                        <i class="fa fa-list" aria-hidden="true" title="Detail" data-original-title="Detail" style="font-size:24px;"></i>
-                                                    </a>
-
-
-                                                    @*Added BY Absar To get parentid*@
-                                                    <input type="hidden" class="ClassSubject_Id" value="@item.ClassSubject_Id" />
-
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                                <div class="clearfix">
-
-                                </div>
                             </div>
                         </div>
-
-
-
-
-
-                        <!-- Edit Modal HTML -->
-                        <div id="editClassSubjectModal" class="modal fade">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form method="post" asp-controller="assignSubject" asp-action="editClassSubject">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Edit Class Subject</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label>ID</label>
-                                                <input type="text" class="form-control" required="" id="ClassSubject_Id" disabled="disabled">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Class Name</label>
-                                                <select id="Class_Id" name="Class_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Class, "Class_Id", "Class_Name"))"></select>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>Section Name</label>
-                                                <select id="Section_Id" name="Section_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Section, "Section_Id", "Section_Name"))"></select>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>Subject Name</label>
-                                                <select id="Subject_Id" name="Subject_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Subject, "Subject_Id", "Subject_Name"))"></select>
-                                            </div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input type="submit" class="btn btn-info" value="Save">
-                                            @*Added By Absar*@
-                                            <input type="hidden" name="ClassSubject_Id" id="ClassSubject_Id" />
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <!-- Delete Modal HTML -->
-                        <div id="deleteClassSubjectModal" class="modal fade">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form method="post" asp-controller="assignSubject" asp-action="deleteClassSubject">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Delete Class Subject</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Are you sure you want to delete these Records?</p>
-                                            <p class="text-warning"><small>This action cannot be undone.</small></p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input type="submit" class="btn btn-danger" value="Delete">
-
-                                            @*//Added By Absar To Pass Parameter to action method*@
-                                            <input type="hidden" id="ClassSubject_Id" name="ClassSubject_Id" />
-
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
+
+
+
+
+
+                    <!-- Edit Modal HTML -->
+                    <div id="editClassSubjectModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="assignSubject" asp-action="editClassSubject">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Edit Class Subject</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>ID</label>
+                                            <input type="text" class="form-control" required="" id="ClassSubject_Id" disabled="disabled">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Class Name</label>
+                                            <select id="Class_Id" name="Class_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Class, "Class_Id", "Class_Name"))"></select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Section Name</label>
+                                            <select id="Section_Id" name="Section_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Section, "Section_Id", "Section_Name"))"></select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Subject Name</label>
+                                            <select id="Subject_Id" name="Subject_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Subject, "Subject_Id", "Subject_Name"))"></select>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-info" value="Save">
+                                        @*Added By Absar*@
+                                        <input type="hidden" name="ClassSubject_Id" id="ClassSubject_Id" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Delete Modal HTML -->
+                    <div id="deleteClassSubjectModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="assignSubject" asp-action="deleteClassSubject">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Delete Class Subject</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to delete these Records?</p>
+                                        <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-danger" value="Delete">
+
+                                        @*//Added By Absar To Pass Parameter to action method*@
+                                        <input type="hidden" id="ClassSubject_Id" name="ClassSubject_Id" />
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
-
-
-
-
-        <footer class="footer">
-            <div class=" container-fluid ">
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="https://www.creative-tim.com">
-                                Karachi Grammar School
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://presentation.creative-tim.com">
-                                About Us
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://blog.creative-tim.com">
-                                Blog
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="copyright" id="copyright">
-                    &copy;
-                    <script>
-                        document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                    </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
-                </div>
-            </div>
-        </footer>
     </div>
+
+
+
+
+    <footer class="footer">
+        <div class=" container-fluid ">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://www.creative-tim.com">
+                            Karachi Grammar School
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="copyright" id="copyright">
+                &copy;
+                <script>
+                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            </div>
+        </div>
+    </footer>
 </div>
+
 
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
@@ -206,16 +205,16 @@
             "extendedTimeOut": "5000",
         };
 
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
         
 
-        var message = '@TempData["Message"]';
-
-        if (message == "Success") {
-            //console.log(message);
-            toastr.success('Record Added Successfully');
+        if (messageSuccess.length > 0) {
+            
+            toastr.success(messageSuccess);
         }
-        else if (message == "Failed")  {
-            toastr.error('Error Occured Whill Adding Record');
+        else if (messageError > 0)  {
+            toastr.error(messageError);
         }
 
         

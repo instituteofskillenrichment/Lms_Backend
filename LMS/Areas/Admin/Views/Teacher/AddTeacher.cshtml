@@ -5,267 +5,254 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="dashboard" id="dashboard">
    
-    <div class="panel-header panel-header-sm">
-    </div>
-    <div class="content">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
 
-                    <div class="container-fluid">
-                        <div class="table-responsive">
-                            <div class="table-wrapper">
-                                <div class="table-title">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h2>Add <b>Teachers</b></h2>
-                                        </div>
-                                        <div class="col-md-6 pull-right">
-                                           @* <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Teacher</span></a>*@
-                                           @* <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>*@
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <!-- <div class="clearfix"> -->
-                                <!-- </div> -->
-
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
                                 <div class="row">
+                                    <div class="col-md-6">
+                                        <h2>Add <b>Teacher</b></h2>
+                                    </div>
+                                    
+                                </div>
+                            </div>
 
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5 class="title">Create Profile</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <form asp-action="addTeacher" enctype="multipart/form-data">
-                                                <div class="row">
-                                                    <div class="col-md-4 pr-1">
-                                                        <div class="form-group">
-                                                            <label>Teacher ID</label>
-                                                            <input type="text" class="form-control" placeholder="Teacher ID" disabled>
-                                                        </div>
+
+                            <div class="row">
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="title">Create Profile</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form asp-action="addTeacher" enctype="multipart/form-data">
+                                            <div class="row">
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Teacher ID</label>
+                                                        <input type="text" class="form-control" placeholder="Teacher ID" disabled>
                                                     </div>
-                                                    <div class="col-md-4 px-1">
-                                                        <!-- <div class="form-group"> -->
-                                                        <!-- <label>Teacher Name</label> -->
-                                                        <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
-                                                        <!-- </div> -->
-                                                    </div>
-                                                    <div class="col-md-4 pl-1">
-                                                        <div class="form-group">
-                                                            <img id="teacher_image" src="~/Dashboard/assets/img/default-avatar.png" style="width:150px; height:170px; margin-left:50px;" class="img-thumbnail">
+                                                </div>
+                                                <div class="col-md-4 px-1">
+                                                   
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <img id="teacher_image" src="~/Dashboard/assets/img/default-avatar.png" style="width:150px; height:170px; margin-left:50px;" class="img-thumbnail">
 
 
-                                                            <div class="row">
-                                                                <div class="col-md-2">
+                                                        <div class="row">
+                                                            <div class="col-md-2">
 
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <input asp-for="Teacher_Photo" type="file" name="files" onchange="readURL(this);" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;"/>
-                                                                   @* <input asp-for="Teacher_Photo" type="file" name="files" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;">*@
-
-                                                                    <!-- <input type="file" name="imageFile" class="btn btn-default btn-sm valid"> -->
-                                                                    <!-- <button type="button" id="ubutton" class="btn btn-default btn-sm">Upload</button> -->
-                                                                    <!-- <button type="button" id="ubutton" class="btn btn-default btn-sm">Upload</button> -->
-                                                                </div>
-
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input asp-for="Teacher_Photo" type="file" name="files" onchange="readURL(this);" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;"/>
+                                                               
                                                             </div>
 
                                                         </div>
+
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-4 pr-1">
-                                                        <div class="form-group">
-                                                            <label>Teacher Name</label>
-                                                            <input asp-for="Teacher_Name" type="text" class="form-control" placeholder="Teacher Name">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 pl-1">
-                                                        <div class="form-group">
-                                                            <label>Father Name</label>
-                                                            <input asp-for="Teacher_FatherName" type="text" class="form-control" placeholder="Father Name">
-                                                        </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Teacher Name</label>
+                                                        <input asp-for="Teacher_Name" type="text" class="form-control" placeholder="Teacher Name">
                                                     </div>
                                                 </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label>Teacher CNIC</label>
-                                                            <input asp-for="Teacher_Cnic" type="text" class="form-control" placeholder="CNIC">
-                                                        </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label>Father Name</label>
+                                                        <input asp-for="Teacher_FatherName" type="text" class="form-control" placeholder="Father Name">
                                                     </div>
-                                                    <div class="col-md-4 pl-1">
-                                                        <div class="form-group">
-                                                            <label>Date Of Birth</label>
-                                                            <input asp-for="Teacher_DOB" type="text" class="form-control" placeholder="DOB">
-                                                        </div>
-                                                    </div>
+                                                </div>
+                                            </div>
 
-                                                    <div class="col-md-4 pl-1">
-                                                        <div class="form-group" style="color:#9A9A9A;">
-                                                            <label>Gender</label><br>
-                                                            Male&nbsp;&nbsp; <input asp-for="Teacher_Gender" name="Teacher_Gender" type="radio" value="Male" checked>  &nbsp;
-                                                            Female&nbsp;&nbsp;  <input asp-for="Teacher_Gender" name="Teacher_Gender" type="radio" value="Female">
-                                                        </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Teacher CNIC</label>
+                                                        <input asp-for="Teacher_Cnic" type="text" class="form-control" placeholder="CNIC">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label>Date Of Birth</label>
+                                                        <input asp-for="Teacher_DOB" type="text" class="form-control" placeholder="DOB">
                                                     </div>
                                                 </div>
 
-                                                <div class="row">
-                                                    <div class="col-md-4 pr-1">
-                                                        <div class="form-group">
-                                                            <label>Email</label>
-                                                            <input asp-for="Teacher_Email" type="text" class="form-control" placeholder="Email">
-                                                        </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group" style="color:#9A9A9A;">
+                                                        <label>Gender</label><br>
+                                                        Male&nbsp;&nbsp; <input asp-for="Teacher_Gender" name="Teacher_Gender" type="radio" value="Male" checked>  &nbsp;
+                                                        Female&nbsp;&nbsp;  <input asp-for="Teacher_Gender" name="Teacher_Gender" type="radio" value="Female">
                                                     </div>
-                                                    <div class="col-md-4 px-1">
-                                                        <div class="form-group">
-                                                            <label>Mobile Number</label>
-                                                            <input asp-for="Teacher_MobNumber" type="text" class="form-control" placeholder="Mobile Number">
-                                                        </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Email</label>
+                                                        <input asp-for="Teacher_Email" type="text" class="form-control" placeholder="Email">
                                                     </div>
-                                                    <div class="col-md-4 px-1">
-                                                        <div class="form-group">
-                                                            <label>Password</label>
-                                                            <input asp-for="Teacher_Password" type="text" class="form-control" placeholder="Password">
-                                                        </div>
+                                                </div>
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label>Mobile Number</label>
+                                                        <input asp-for="Teacher_MobNumber" type="text" class="form-control" placeholder="Mobile Number">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label>Password</label>
+                                                        <input asp-for="Teacher_Password" type="text" class="form-control" placeholder="Password">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Designation</label>
+                                                        <input asp-for="Teacher_Designation" type="text" class="form-control" placeholder="Designation">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label>Department</label>
+                                                        <input asp-for="Teacher_Department" type="text" class="form-control" placeholder="Department" >
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label>Latest Degree</label>
+                                                        <input asp-for="Teacher_LastDegree" type="text" class="form-control" placeholder="Latest Degree" >
                                                     </div>
                                                 </div>
 
-                                                <div class="row">
-                                                    <div class="col-md-4 pr-1">
-                                                        <div class="form-group">
-                                                            <label>Designation</label>
-                                                            <input asp-for="Teacher_Designation" type="text" class="form-control" placeholder="Designation">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 px-1">
-                                                        <div class="form-group">
-                                                            <label>Department</label>
-                                                            <input asp-for="Teacher_Department" type="text" class="form-control" placeholder="Department" >
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 px-1">
-                                                        <div class="form-group">
-                                                            <label>Latest Degree</label>
-                                                            <input asp-for="Teacher_LastDegree" type="text" class="form-control" placeholder="Latest Degree" >
-                                                        </div>
-                                                    </div>
+                                            </div>
 
+                                            <div class="row">
+                                                <div class="col-md-12 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Current Address</label>
+                                                        <input asp-for="Teacher_CurrentAddress" type="text" class="form-control" placeholder="Current Address" >
+                                                    </div>
                                                 </div>
 
-                                                <div class="row">
-                                                    <div class="col-md-12 pr-1">
-                                                        <div class="form-group">
-                                                            <label>Current Address</label>
-                                                            <input asp-for="Teacher_CurrentAddress" type="text" class="form-control" placeholder="Current Address" >
-                                                        </div>
-                                                    </div>
+                                            </div>
 
+                                            <div class="row">
+                                                <div class="col-md-12 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Permanent Address</label>
+                                                        <input asp-for="Teacher_PermenentAddress" type="text" class="form-control" placeholder="Permanent Address" >
+                                                    </div>
                                                 </div>
 
-                                                <div class="row">
-                                                    <div class="col-md-12 pr-1">
-                                                        <div class="form-group">
-                                                            <label>Permanent Address</label>
-                                                            <input asp-for="Teacher_PermenentAddress" type="text" class="form-control" placeholder="Permanent Address" >
-                                                        </div>
-                                                    </div>
+                                            </div>
 
+                                            <div class="row">
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Home Phone </label>
+                                                        <input asp-for="Teacher_HomePhone" type="text" class="form-control" placeholder="Home Phone" >
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label>City</label>
+                                                        <input asp-for="Teacher_City" type="text" class="form-control" placeholder="City" >
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label>Country</label>
+                                                        <input asp-for="Teacher_Country" type="text" class="form-control" placeholder="Country" >
+                                                    </div>
                                                 </div>
 
-                                                <div class="row">
-                                                    <div class="col-md-4 pr-1">
-                                                        <div class="form-group">
-                                                            <label>Home Phone </label>
-                                                            <input asp-for="Teacher_HomePhone" type="text" class="form-control" placeholder="Home Phone" >
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 px-1">
-                                                        <div class="form-group">
-                                                            <label>City</label>
-                                                            <input asp-for="Teacher_City" type="text" class="form-control" placeholder="City" >
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 px-1">
-                                                        <div class="form-group">
-                                                            <label>Country</label>
-                                                            <input asp-for="Teacher_Country" type="text" class="form-control" placeholder="Country" >
-                                                        </div>
-                                                    </div>
+                                            </div>
 
+                                            <div class="row">
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <input type="submit" value="Create" class="btn btn-primary" />
+                                                    </div>
                                                 </div>
+                                                
 
-                                                <div class="row">
-                                                    <div class="col-md-4 pr-1">
-                                                        <div class="form-group">
-                                                            <input type="submit" value="Create" class="btn btn-primary" />
-                                                        </div>
-                                                    </div>
-                                                    
+                                            </div>
 
-                                                </div>
-
-                                            </form>
-                                        </div>
+                                        </form>
                                     </div>
-
                                 </div>
 
-
-
-
                             </div>
-                        </div>
 
+
+
+
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 
-
-
-
-        <footer class="footer">
-            <div class=" container-fluid ">
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="https://www.creative-tim.com">
-                                Karachi Grammar School
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://presentation.creative-tim.com">
-                                About Us
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://blog.creative-tim.com">
-                                Blog
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="copyright" id="copyright">
-                    &copy;
-                    <script>
-                        document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                    </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
-                </div>
+    <footer class="footer">
+        <div class=" container-fluid ">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://www.creative-tim.com">
+                            Karachi Grammar School
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="copyright" id="copyright">
+                &copy;
+                <script>
+                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
             </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
+</div>
+
+
+
+
+    
+
 
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
-@*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
 <script>
     $(document).ready(function () {
 
@@ -274,25 +261,6 @@
         $('[data-toggle="tooltip"]').tooltip();
 
         
-
-        // Select/Deselect checkboxes
-        var checkbox = $('table tbody input[type="checkbox"]');
-        $("#selectAll").click(function () {
-            if (this.checked) {
-                checkbox.each(function () {
-                    this.checked = true;
-                });
-            } else {
-                checkbox.each(function () {
-                    this.checked = false;
-                });
-            }
-        });
-        checkbox.click(function () {
-            if (!this.checked) {
-                $("#selectAll").prop("checked", false);
-            }
-        });
     });
 
 

@@ -34,13 +34,7 @@ namespace LMS.Controllers
             {
                 var user = await userManager.FindByNameAsync(model.UserName);
 
-                //if (user != null && 
-                //                    (await userManager.CheckPasswordAsync(user, model.Password)))
-                //{
-                //    ModelState.AddModelError(string.Empty, "Email not confirmed yet");
-                //    return View(model);
-                //}
-
+               
                 var result = await signInManager.PasswordSignInAsync(user.UserName, model.Password,model.RememberMe, lockoutOnFailure: true);
 
                 if (result.Succeeded)
@@ -80,5 +74,22 @@ namespace LMS.Controllers
 
             return View(model);
         }
+
+
+
+        //[HttpPost]
+        [Route("logOut")]
+        public async Task<IActionResult> LogOut()
+        {
+            if(ModelState.IsValid)
+            {
+                await signInManager.SignOutAsync();
+
+                return RedirectToAction("Index", "Login");
+            }
+
+            return View();
+        }
+
     }
 }

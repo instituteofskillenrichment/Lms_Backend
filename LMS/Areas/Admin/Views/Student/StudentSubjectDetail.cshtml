@@ -5,151 +5,145 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="dashboard" id="dashboard">
-   
-    <div class="panel-header panel-header-sm">
-    </div>
-    <div class="content">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
 
-                    <div class="container-fluid">
-                        <div class="table-responsive">
-                            <div class="table-wrapper">
-                                <div class="table-title">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h2>Student Subjects</h2>
-                                        </div>
-                                        @*<div class="col-md-6 pull-right">
-                                                <a asp-area="admin" asp-controller="assignSubject" asp-action="addClassSubject" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add New Class Subjects</span></a>
-                                                <a href="#deleteClassSubjectModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
-                                            </div>*@
-                                    </div>
-                                </div>
-
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
                                 <div class="row">
-                                    <div class="col-md-6 px-1">
-                                        <div class="form-group">
-
-                                            <h5 class="title" id="StudentId">Student Id : </h5>
-
-
-                                        </div>
-                                        <div class="form-group">
-                                            <h5 class="title" id="StudentName">Student Name : </h5>
-
-
-                                        </div>
-
+                                    <div class="col-md-6">
+                                        <h2>Student Subjects</h2>
                                     </div>
-
-
-                                    <div class="col-md-6 px-1">
-                                        <div class="form-group">
-
-                                            <h5 class="title" id="ClassId">Class Name : </h5>
-
-
-                                        </div>
-                                        <div class="form-group">
-                                            <h5 class="title" id="SectionId">Section Name : </h5>
-
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="row">
                                     
-                                    <div class="col-md-6 px-1">
-
-                                        
-
-                                        <div class="form-group">
-                                            <h5 class="title">Subjects :</h5>
-
-
-                                            @{
-                                                int count = 1;
-
-                                                @foreach (var item in Model)
-                                                {
-
-                                                    <label>@(count + ":" + item.Subject_Name)</label>
-                                                    count++;
-                                                    <br />
-
-                                                    <lable id="modelStudentId" hidden>@item.Student_Id</lable>
-                                                    <lable id="modelStudentName" hidden>@item.Student_Name</lable>
-                                                    <lable id="modelClass" hidden>@item.Class_Name</lable>
-                                                    <lable id="modelSection" hidden>@item.Section_Name</lable>
-                                                }
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="clearfix">
-
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-md-6 px-1">
+                                    <div class="form-group">
+
+                                        <h5 class="title" id="StudentId">Student Id : </h5>
+
+
+                                    </div>
+                                    <div class="form-group">
+                                        <h5 class="title" id="StudentName">Student Name : </h5>
+
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-6 px-1">
+                                    <div class="form-group">
+
+                                        <h5 class="title" id="ClassId">Class Name : </h5>
+
+
+                                    </div>
+                                    <div class="form-group">
+                                        <h5 class="title" id="SectionId">Section Name : </h5>
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                
+                                <div class="col-md-6 px-1">
+
+                                    
+
+                                    <div class="form-group">
+                                        <h5 class="title">Subjects :</h5>
+
+
+                                        @{
+                                            int count = 1;
+
+                                            @foreach (var item in Model)
+                                            {
+
+                                                <label>@(count + ":" + item.Subject_Name)</label>
+                                                count++;
+                                                <br />
+
+                                                <lable id="modelStudentId" hidden>@item.Student_Id</lable>
+                                                <lable id="modelStudentName" hidden>@item.Student_Name</lable>
+                                                <lable id="modelClass" hidden>@item.Class_Name</lable>
+                                                <lable id="modelSection" hidden>@item.Section_Name</lable>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="clearfix">
+
+                            </div>
                         </div>
-
-
-
-
-
-
-
                     </div>
+
+
+
+
+
+
+
                 </div>
             </div>
         </div>
-
-
-
-
-        <footer class="footer">
-            <div class=" container-fluid ">
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="https://www.creative-tim.com">
-                                Karachi Grammar School
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://presentation.creative-tim.com">
-                                About Us
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://blog.creative-tim.com">
-                                Blog
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="copyright" id="copyright">
-                    &copy;
-                    <script>
-                        document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                    </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
-                </div>
-            </div>
-        </footer>
     </div>
+
+
+
+
+    <footer class="footer">
+        <div class=" container-fluid ">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://www.creative-tim.com">
+                            Karachi Grammar School
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="copyright" id="copyright">
+                &copy;
+                <script>
+                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            </div>
+        </div>
+    </footer>
 </div>
+
 
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
-@*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
 <script>
     $(document).ready(function () {
 

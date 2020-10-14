@@ -1,5 +1,6 @@
 ﻿using LMS.BusinessLogics.Interfaces;
 using LMS.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -7,18 +8,19 @@ using System.Threading.Tasks;
 
 namespace LMS.Areas.Teachers.Controllers
 {
+    [Authorize(Roles = "Teacher")]
     [Area("teachers")]
     [Route("teachers/class")]
     public class ClassController : Controller
     {
-        private readonly IClassRepository _ClassRepository;
-        private readonly ITeacherSubjectRepository _TeacherSubjectRepository;
+       
+        private readonly ITPClassRepository _tPClassRepository;
         private readonly ILectureRepository _LectureRepository;
 
-        public ClassController(ITeacherSubjectRepository TeacherSubjectRepository, IClassRepository ClassRepository, ILectureRepository LectureRepository)
+        public ClassController(ITPClassRepository tPClassRepository, ILectureRepository LectureRepository)
         {
-            _TeacherSubjectRepository = TeacherSubjectRepository;
-            _ClassRepository = ClassRepository;
+            _tPClassRepository = tPClassRepository;
+            
             _LectureRepository = LectureRepository;
         }
 
@@ -28,7 +30,7 @@ namespace LMS.Areas.Teachers.Controllers
         public IActionResult Index()
         {
 
-            var TeacherClasses = _TeacherSubjectRepository.GetTeacherClassSubjectstDistinctByTeacherId(HttpContext.Session.GetInt32("UserId")??1);
+            var TeacherClasses = _tPClassRepository.GetTeacherClassSubjectstDistinctByTeacherId(HttpContext.Session.GetInt32("UserId")??1);
             
             if (TempData["Error"] != null)
             {
@@ -46,9 +48,9 @@ namespace LMS.Areas.Teachers.Controllers
 
         [Route("")]
         [Route("subjects")]
-        public IActionResult Subjects(int ClassSubjectId)
+        public IActionResult Subjects(int ClassSectionId)
         {
-            var TeacherClassSubjects = _TeacherSubjectRepository.GetTeacherClassSubjectLectures(5, ClassSubjectId);
+            var TeacherClassSubjects = _tPClassRepository.GetTeacherClassSubjectLectures(HttpContext.Session.GetInt32("UserId") ?? 1, ClassSectionId);
 
 
             if (TempData["Error"] != null)

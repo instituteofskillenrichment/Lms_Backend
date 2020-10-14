@@ -20,6 +20,8 @@ namespace LMS.BusinessLogics.Repositories
             _lmsDbContext = lmsDbContext;
         }
 
+
+
         public async Task<int> AddTeacherSubject(TeacherSubject objTeacherSubject)
         {
             try
@@ -37,6 +39,7 @@ namespace LMS.BusinessLogics.Repositories
         }
 
 
+
         public async Task<int> EditTeacherSubject(TeacherSubject objTeacherSubject)
         {
             try
@@ -52,6 +55,7 @@ namespace LMS.BusinessLogics.Repositories
 
             }
         }
+
 
 
         public Task<TeacherSubjectViewModel> GetTeacherSubjectById(int TeacherSubject_Id)
@@ -87,6 +91,7 @@ namespace LMS.BusinessLogics.Repositories
         }
 
 
+
         public async Task<int> DeleteTeacherSubject(int TeacherSubject_Id)
         {
             try
@@ -110,6 +115,8 @@ namespace LMS.BusinessLogics.Repositories
             }
         }
 
+
+
         public List<Class> GetAllClasses()
         {
             List<Class> Classes = _lmsDbContext.Class.ToList();
@@ -118,6 +125,8 @@ namespace LMS.BusinessLogics.Repositories
             return Classes;
         }
 
+
+
         public List<Section> GetAllSections()
         {
             List<Section> Sections = _lmsDbContext.Section.ToList();
@@ -125,12 +134,16 @@ namespace LMS.BusinessLogics.Repositories
             return Sections;
         }
 
+
+
         public List<Subject> GetAllSubjects()
         {
             List<Subject> Subjects = _lmsDbContext.Subject.ToList();
 
             return Subjects;
         }
+
+
 
         public async Task<ClassSection> GetClassSectionById(int classId, int sectionId)
         {
@@ -141,6 +154,8 @@ namespace LMS.BusinessLogics.Repositories
             return ClassSection;
         }
 
+
+
         public async Task<ClassSubject> GetClassSubjectById(int classSectionId, int subjectId)
         {
             var ClassSubject = await _lmsDbContext.ClassSubject
@@ -150,14 +165,7 @@ namespace LMS.BusinessLogics.Repositories
             return ClassSubject;
         }
 
-        public List<ClassSubject> GetClassSubjectsById(int classSectionId)
-        {
-            var ClassSubject = _lmsDbContext.ClassSubject.Include(i => i.Subject)
-                .Include(j => j.ClassSection.Class)
-                .Where(csub => csub.ClassSection_Id == classSectionId).ToList();
-
-            return ClassSubject;
-        }
+        
 
         public IQueryable<TeacherSubjectViewModel> GetTeacherClassSubjectstByTeacherId(int TeacherId)
         {
@@ -191,28 +199,7 @@ namespace LMS.BusinessLogics.Repositories
             return TeacherClassSubject;
         }
 
-        public IQueryable<TeacherSubjectViewModel> GetTeacherClassSubjectstDistinctByTeacherId(int TeacherId)
-        {
-            IQueryable<TeacherSubjectViewModel> TeacherClassSubject = (
-                                                               (from ts in _lmsDbContext.TeacherSubject
-                                                                where ts.Teacher_Id == 2
-                                                                select new TeacherSubjectViewModel
-                                                                {
-                                                                    TeacherSubject_Id = ts.TeacherSubject_Id,
-                                                                    Teacher_Id = ts.Teacher_Id,
-                                                                    Teacher_Name = ts.Teacher.Teacher_Name,
-                                                                    ClassSubject_Id = ts.ClassSubject_Id,
-                                                                    Subject_Id = ts.ClassSubject.Subject_Id,
-                                                                    Subject_Name = ts.ClassSubject.Subject.Subject_Name,
-                                                                    ClassSection_Id = ts.ClassSubject.ClassSection_Id,
-                                                                    Class_Id = ts.ClassSubject.ClassSection.Class.Class_Id,
-                                                                    Class_Name = ts.ClassSubject.ClassSection.Class.Class_Name,
-                                                                    Section_Id = ts.ClassSubject.ClassSection.Section_Id,
-                                                                    Section_Name = ts.ClassSubject.ClassSection.Section.Section_Name
-                                                                }).AsQueryable().Distinct());
-
-            return TeacherClassSubject;
-        }
+        
 
         public IQueryable<TeacherSubjectViewModel> GetTeacherSubjects()
         {
@@ -245,60 +232,8 @@ namespace LMS.BusinessLogics.Repositories
             return TeacherClass;
         }
 
-        //Added by Arib
-        public IEnumerable<SubjectLectureViewModel> GetTeacherClassSubjectLectures(int TeacherId, int ClassSubjectId)
-        {
-            /*var TeacherClassSubjectWithLecture = (
+        
 
-                                                             from sb in _lmsDbContext.Subject
-                                                             join csb in _lmsDbContext.ClassSubject on sb.Subject_Id equals csb.Subject_Id
-                                                             join csc in _lmsDbContext.ClassSection on csb.ClassSection_Id equals csc.ClassSection_id
-                                                             join c in _lmsDbContext.Class on csc.Class_Id equals c.Class_Id
-                                                             join l in _lmsDbContext.Lecture on csb.ClassSubject_Id equals l.ClassSubject_Id
-                                                             where l.Teacher_Id == TeacherId && l.ClassSubject_Id == ClassSubjectId
-                                                             group new { c, sb, csb } by new { c.Class_Name, sb.Subject_Id, csb.ClassSubject_Id, sb.Subject_Name } into grp
-                                                             from l in grp.DefaultIfEmpty()
-                                                             select new SubjectLectureViewModel
-                                                             {
-                                                                 Subject_Id = grp.Key.Subject_Id,
-                                                                 Class_Name = grp.Key.Class_Name,
-                                                                 Subject_Name = grp.Key.Subject_Name,
-                                                                 ClassSubject_Id = grp.Key.ClassSubject_Id,
-                                                                 Lecture_Count = grp.Count()
-                                                             }).ToList();
-*/
-
-            var TeacherClassSubjectWithLecture = (
-               from ts in _lmsDbContext.TeacherSubject
-               where ts.Teacher_Id == TeacherId
-               select new SubjectLectureViewModel
-               {
-                   Class_Name = ts.ClassSubject.ClassSection.Class.Class_Name,
-                   Subject_Name = ts.ClassSubject.Subject.Subject_Name,
-                   Subject_Id = ts.ClassSubject.Subject_Id,
-                   ClassSubject_Id = ts.ClassSubject_Id,
-                   Lecture_Count =
-                   (from Lecture in _lmsDbContext.Lecture
-                    where Lecture.Teacher_Id == ts.Teacher_Id && Lecture.ClassSubject_Id == ts.ClassSubject.ClassSubject_Id
-                    select new
-                    {
-                        Lecture.Lecture_Name
-                    }).Count(p => p.Lecture_Name != null)
-               }).ToList();
-
-
-
-            return TeacherClassSubjectWithLecture;
-        }
-
-        //Added by Arib
-        public async Task<ClassSubject> GetClassSubjectById(int classSectionId)
-        {
-            var ClassSubject = await _lmsDbContext.ClassSubject
-                .AsNoTracking()
-                .FirstOrDefaultAsync(csub => csub.ClassSection_Id == classSectionId);
-
-            return ClassSubject;
-        }
+        
     }
 }

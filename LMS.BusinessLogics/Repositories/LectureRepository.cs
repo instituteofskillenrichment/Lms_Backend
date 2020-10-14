@@ -19,20 +19,44 @@ namespace LMS.BusinessLogics.Repositories
             _lmsDbContext = lmsDbContext;
         }
 
-        public async Task AddLecture(Lecture objLecture)
+
+
+        public async Task<int> AddLecture(Lecture objLecture)
         {
-            await _lmsDbContext.Lecture.AddAsync(objLecture);
-            await _lmsDbContext.SaveChangesAsync();
+            try
+            {
+                await _lmsDbContext.Lecture.AddAsync(objLecture);
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
 
-        public async Task DeleteLecture(int id)
+
+
+        public async Task<int> DeleteLecture(int id)
         {
-            var deleteLecture = await GetLectureById(id);
+            try
+            {
+                var deleteLecture = await GetLectureById(id);
 
-            _lmsDbContext.Lecture.Remove(deleteLecture);
+                _lmsDbContext.Lecture.Remove(deleteLecture);
 
-            await _lmsDbContext.SaveChangesAsync();
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
+
+
 
         public IQueryable<Lecture> GetAllLecture()
         {
@@ -40,6 +64,8 @@ namespace LMS.BusinessLogics.Repositories
 
             return listOfLecture;
         }
+
+
 
         public async Task<Lecture> GetLectureById(int Id)
         {
@@ -50,12 +76,25 @@ namespace LMS.BusinessLogics.Repositories
             return Lecture;
         }
 
-        public async Task UpdateLecture(Lecture objLecture)
-        {
-            _lmsDbContext.Lecture.Update(objLecture);
 
-            await _lmsDbContext.SaveChangesAsync();
+
+        public async Task<int> UpdateLecture(Lecture objLecture)
+        {
+            try
+            {
+                _lmsDbContext.Lecture.Update(objLecture);
+
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
+
+
 
         public async Task<IEnumerable<Lecture>> GetLectureBySubject(int Id)
         {
@@ -64,6 +103,31 @@ namespace LMS.BusinessLogics.Repositories
                        .Where(c => c.ClassSubject_Id == Id).ToListAsync();
 
             return Lecture;
+        }
+
+
+
+        public IQueryable<Class> GetAllClass()
+        {
+            IQueryable<Class> listOfClass = _lmsDbContext.Class.AsQueryable();
+
+            return listOfClass;
+        }
+
+
+        public IQueryable<Section> GetAllSection()
+        {
+            IQueryable<Section> listOfClass = _lmsDbContext.Section.AsQueryable();
+
+            return listOfClass;
+        }
+
+
+        public IQueryable<Subject> GetAllSubject()
+        {
+            IQueryable<Subject> listOfSubject = _lmsDbContext.Subject.OrderBy(e => e.Subject_Id).AsQueryable();
+
+            return listOfSubject;
         }
     }
 }
