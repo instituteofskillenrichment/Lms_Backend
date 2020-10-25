@@ -51,7 +51,7 @@ namespace LMS.Areas.Admin.Controllers
             {
                 Section newSection = new Section
                 {
-                    Section_Name = objSection.Section_Name
+                    Section_Name = objSection.Section_Name.ToUpper()
                 };
 
                 int result = await _SectionRepository.AddSection(newSection);

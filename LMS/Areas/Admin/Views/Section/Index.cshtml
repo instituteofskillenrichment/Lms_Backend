@@ -208,14 +208,18 @@
             "extendedTimeOut": "5000",
         };
 
-        var message = '@TempData["Message"]';
 
-        if (message == "Success") {
-            //console.log(message);
-            toastr.success('Record Added Successfully');
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+        
+
+        if (messageSuccess.length > 0) {
+            
+            toastr.success(messageSuccess);
         }
-        else if (message == "Failed")  {
-            toastr.error('Error Occured Whill Adding Record');
+        else if (messageError > 0)  {
+            toastr.error(messageError);
         }
 
         // Activate tooltip

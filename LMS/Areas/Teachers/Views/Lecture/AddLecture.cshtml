@@ -61,15 +61,38 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-4 pr-1">
-                                    <div class="form-group">
-                                        <label>File Upload</label>
-                                        <input asp-for="Lecture_File" class="form-control">
-                                    </div>
-                                </div>
+                            @*<div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>File Upload</label>
 
+                    <input asp-for="Lecture_File" class="form-control" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;">
+                    <input asp-for="Lecture_File" type="file" name="files" onchange="readURL(this);" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;" />
+                    <input asp-for="Lecture_File" class="form-control" type="file" name="files" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;" />
+                </div>
+
+            </div>
+
+        </div>*@
+                            <div class="col-md-4 pl-1">
+                                <div class="form-group">
+                                    <label>FIle Upload</label>
+
+                                    <div class="row">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input asp-for="Lecture_File" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:0px; margin-left: -25px;" />
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
                             </div>
+                            <br />
+                            <br />
                             <button type="submit" class="btn btn-primary">Add</button>
                         </form>
                     </div>

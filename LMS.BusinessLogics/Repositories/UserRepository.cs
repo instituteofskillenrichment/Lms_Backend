@@ -67,23 +67,75 @@ namespace LMS.BusinessLogics.Repositories
 
         public async Task<int> AssignToRole(IdentityUser objModel, string UserRole)
         {
+            
             IdentityRole getRole = await _RoleRepository.FindRoleById(UserRole);
 
-            if (getRole != null)
-            {
-                IdentityResult result = await _userManager.AddToRoleAsync(objModel, getRole.Name);
+            IdentityResult result;
 
-                if (result.Succeeded)
+            if(getRole == null)
+            {
+                getRole = await _RoleRepository.FinRoleByName(UserRole);
+
+                if(getRole == null)
                 {
-                    return 1;
+                    return -1;
                 }
-                else
-                {
-                    return 0;
-                }
+
+                result = await _userManager.AddToRoleAsync(objModel, getRole.Name);
+            }
+            else
+            {
+                result = await _userManager.AddToRoleAsync(objModel, getRole.Name);
             }
 
-            return -1;
+
+            if (result.Succeeded)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+
+            ////By Using Role_Id
+            //IdentityRole getRoleId = await _RoleRepository.FindRoleById(UserRole);
+
+            //if (getRoleId != null)
+            //{
+            //   IdentityResult result = await _userManager.AddToRoleAsync(objModel, getRoleId.Name);
+
+            //    if (result.Succeeded)
+            //    {
+            //        return 1;
+            //    }
+            //    else
+            //    {
+            //        return 0;
+            //    }
+            //}
+
+
+            ////By Using Role_Name
+            //IdentityRole getRoleName = await _RoleRepository.FinRoleByName(UserRole);
+
+            //if (getRoleName != null)
+            //{
+            //    IdentityResult result = await _userManager.AddToRoleAsync(objModel, getRoleName.Name);
+
+            //    if (result.Succeeded)
+            //    {
+            //        return 1;
+            //    }
+            //    else
+            //    {
+            //        return 0;
+            //    }
+
+            //}
+
+
+            //return -1;
         }
 
 

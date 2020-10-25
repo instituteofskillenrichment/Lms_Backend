@@ -21,7 +21,7 @@
                                         <h2>Student Class Details <b>With Subjects</b></h2>
                                     </div>
                                     <div class="col-md-6 pull-right">
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                                                     <i class="btn btn-primary" data-toggle="tooltip" title="" data-original-title="AssignClass" style="line-height: 1em; border-radius: 2em;">Subjects</i>
                                                 </a>
 
-                                                
+
 
                                             </td>
                                             <td>
@@ -118,7 +118,7 @@
                                             <select id="Section_Id" name="Section_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Section, "Section_Id", "Section_Name"))"></select>
                                         </div>
 
-                                        
+
 
                                     </div>
                                     <div class="modal-footer">
@@ -206,10 +206,33 @@
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 <script>
     $(document).ready(function () {
 
-        
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+
+        if (messageSuccess.length > 0) {
+
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0) {
+            toastr.error(messageError);
+        }
+
+
+
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
@@ -228,7 +251,7 @@
                 type: 'GET',
                 url: '/admin/student/editStudentClass/' + id,
                 success: function (objStudentClass) {
-                   
+
                     // objClass = JSON.stringify(objClass);
 
                     //alert(objClass);
@@ -242,7 +265,7 @@
             });
         });
 
-        
+
 
         $('#StudentClassPage').dataTable({
             /* Disable initial sort */
