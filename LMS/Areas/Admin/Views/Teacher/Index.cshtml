@@ -61,12 +61,13 @@
                                             <td>@item.Teacher_City</td>
                                             <td>@item.Teacher_Country</td>
                                             <td>
-                                                <a asp-area="admin" asp-controller="teacher" asp-action="assignTeacherSubject" asp-route-id="@item.Teacher_Id" class="assignSubject" id="assignSubject" >
-                                                    <i class="btn btn-primary" data-toggle="tooltip" title="" data-original-title="AssignClass" style="line-height: 1em; border-radius: 2em;">Assign Subject</i>
+                                                
+                                                <a asp-area="admin" asp-controller="teacher" asp-action="assignTeacherSubject" asp-route-id="@item.Teacher_Id" class="assignSubject" id="assignSubject">
+                                                    <i class="btn btn-primary"  title="" data-original-title="AssignedSubject" style="line-height: 1em; border-radius: 2em;">Assign Subject</i>
                                                 </a>
 
                                                 @*Added BY Absar To get parentid*@
-                                                <input type="hidden" class="Student_Id" value="@item.Teacher_Id" />
+                                                <input type="hidden" class="Teacher_Id" value="@item.Teacher_Id" />
                                             </td>
                                             <td>
                                                 <a asp-area="admin" asp-controller="teacher" asp-action="editTeacher" asp-route-id="@item.Teacher_Id" class="edit" id="edit" >

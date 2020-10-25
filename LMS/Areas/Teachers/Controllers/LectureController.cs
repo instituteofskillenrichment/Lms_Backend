@@ -102,12 +102,12 @@ namespace LMS.Areas.Teachers.Controllers
                 if (result == 1)
                 {
                     TempData["Success"] = " Lecture Added Successfully";
-                    return RedirectToAction("Index", "lecture", new { area = "admin" });
+                    return RedirectToAction("Index", "lecture", new { area = "teachers" });
                 }
                 else
                 {
                     TempData["Error"] = "Adding Lecture Failed";
-                    return RedirectToAction("Index", "lecture", new { area = "admin" });
+                    return RedirectToAction("Index", "lecture", new { area = "teachers" });
                 }
 
                 
@@ -184,12 +184,12 @@ namespace LMS.Areas.Teachers.Controllers
                 if (result == 1)
                 {
                     TempData["Success"] = "Lecture Updated Successfully";
-                    return RedirectToAction("Index", "lecture", new { area = "admin" });
+                    return RedirectToAction("Index", "lecture", new { area = "teachers" });
                 }
                 else
                 {
                     TempData["Error"] = "Updating Lecture Failed ";
-                    return RedirectToAction("Index", "lecture", new { area = "admin" });
+                    return RedirectToAction("Index", "lecture", new { area = "teachers" });
                 }
                 
 
@@ -208,12 +208,12 @@ namespace LMS.Areas.Teachers.Controllers
                 if (result == 1)
                 {
                     TempData["Success"] = "Delete Lecture Successfully";
-                    return RedirectToAction("Index", "lecture", new { area = "admin" });
+                    return RedirectToAction("Index", "lecture", new { area = "teachers" });
                 }
                 else
                 {
                     TempData["Error"] = "Deleting Lecture Failed";
-                    return RedirectToAction("Index", "lecture", new { area = "admin" });
+                    return RedirectToAction("Index", "lecture", new { area = "teachers" });
                 }
 
                 

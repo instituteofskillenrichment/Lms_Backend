@@ -29,7 +29,7 @@ namespace LMS.BusinessLogics.Repositories
                 await _lmsDbContext.StudentClass.AddAsync(objStudent);
                 await _lmsDbContext.SaveChangesAsync();
 
-                return -1;
+                return 1;
             }
             catch(Exception ex)
             {
@@ -54,7 +54,7 @@ namespace LMS.BusinessLogics.Repositories
 
                 await _lmsDbContext.SaveChangesAsync();
 
-                return -1;
+                return 1;
             }
             catch(Exception ex)
             {

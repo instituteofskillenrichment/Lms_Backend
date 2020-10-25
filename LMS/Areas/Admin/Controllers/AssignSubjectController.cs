@@ -46,7 +46,7 @@ namespace LMS.Areas.Admin.Controllers
                 ViewBag.Error = TempData["Error"].ToString();
             }
 
-            if (TempData["Error"] != null)
+            if (TempData["Success"] != null)
             {
                 ViewBag.Success = TempData["Success"].ToString();
             }
@@ -161,7 +161,7 @@ namespace LMS.Areas.Admin.Controllers
                 }
                 else
                 {
-                    TempData["Error"] = "Failed";
+                    TempData["Error"] = "Kindly First Assign Section To Class";
                     return RedirectToAction("Index", "assignSubject", new { area = "admin" });
                 }
 

@@ -120,5 +120,13 @@ namespace LMS.BusinessLogics.Repositories
             }
 
         }
+
+
+        public Student FindStudentByRefId(string Id)
+        {
+            var Student = _lmsDbContext.Student.Where(x => x.Student_Ref_Id == Id).FirstOrDefault();
+
+            return Student;
+        }
     }
 }

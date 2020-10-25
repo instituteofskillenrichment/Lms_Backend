@@ -3,6 +3,7 @@ using LMS.Domain;
 using LMS.Domain.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -19,12 +20,14 @@ namespace LMS.Areas.Admin.Controllers
     {
         private readonly IStudentRepository _StudentRepository;
         private readonly IStudentClassRepository _StudentClassRepository;
+        private readonly IUserRepository _UserRepository;
         private readonly HostingEnvironment _hostingEnvironment;
 
-        public StudentController(IStudentRepository StudentRepository, IStudentClassRepository StudentClassRepository , HostingEnvironment hostingEnvironment)
+        public StudentController(IStudentRepository StudentRepository, IStudentClassRepository StudentClassRepository , HostingEnvironment hostingEnvironment, IUserRepository UserRepository)
         {
             _StudentRepository = StudentRepository;
             _StudentClassRepository = StudentClassRepository;
+            _UserRepository = UserRepository;
             _hostingEnvironment = hostingEnvironment;
         }
        
@@ -98,39 +101,72 @@ namespace LMS.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                Student newStudent = new Student
+                IdentityUser User = new IdentityUser
                 {
-                    Student_Name = objStudent.Student_Name,
-                    Student_City= objStudent.Student_City,
-                    Student_Cnic = objStudent.Student_Cnic,
-                    Student_Country = objStudent.Student_Country,
-                    Student_CurrentAddress = objStudent.Student_CurrentAddress,
-                    Student_DOB = objStudent.Student_DOB,
-                    Student_Email = objStudent.Student_Email,
-                    Student_FatherName = objStudent.Student_FatherName,
-                    Student_Gender = objStudent.Student_Gender,
-                    Student_HomePhone = objStudent.Student_HomePhone,
-                    Student_MobNumber = objStudent.Student_MobNumber,
-                    Student_PermenentAddress = objStudent.Student_PermenentAddress
+                    UserName = objStudent.Student_Email,
+                    Email = objStudent.Student_Email,
+                    //PasswordHash = objTeacher.Teacher_Password
                 };
 
+                int userSucceed = await _UserRepository.CreateUser(User, "Student@123");
 
-                int Id = await _StudentRepository.AddStudent(newStudent);
-                
-                 UploadImage(Id);
-
-                int result = await _StudentRepository.SaveChanges();
-                
-                if (result == 1)
+                if (userSucceed == 1)
                 {
-                    TempData["Success"] = "Student Added Successfully";
-                    return RedirectToAction("Index", "Student", new { area = "admin" });
+                    var response = await _UserRepository.AssignToRole(User, "Student");
+
+                    if (response != 1)
+                    {
+                        TempData["Error"] = "Error In Assigning Role. Please try again!";
+                        return RedirectToAction("Index", "Student", new { area = "admin" });
+                    }
+
+
+                    Student newStudent = new Student
+                    {
+                        Student_Name = objStudent.Student_Name,
+                        Student_City = objStudent.Student_City,
+                        Student_Cnic = objStudent.Student_Cnic,
+                        Student_Country = objStudent.Student_Country,
+                        Student_CurrentAddress = objStudent.Student_CurrentAddress,
+                        Student_DOB = objStudent.Student_DOB,
+                        Student_Email = objStudent.Student_Email,
+                        Student_FatherName = objStudent.Student_FatherName,
+                        Student_Gender = objStudent.Student_Gender,
+                        Student_HomePhone = objStudent.Student_HomePhone,
+                        Student_MobNumber = objStudent.Student_MobNumber,
+                        Student_PermenentAddress = objStudent.Student_PermenentAddress,
+                        Student_Ref_Id = User.Id
+                    };
+
+
+                    int Id = await _StudentRepository.AddStudent(newStudent);
+
+                    UploadImage(Id);
+
+                    int result = await _StudentRepository.SaveChanges();
+
+                    if (result == 1)
+                    {
+                        TempData["Success"] = "Student Added Successfully";
+                        return RedirectToAction("Index", "Student", new { area = "admin" });
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Student Added Failed";
+                        return RedirectToAction("Index", "Student", new { area = "admin" });
+                    }
+
                 }
                 else
                 {
-                    TempData["Error"] = "Student Added Failed";
+                    TempData["Error"] = "Error In Creating Teacher. Please try again!";
                     return RedirectToAction("Index", "Student", new { area = "admin" });
                 }
+
+
+
+
+
             }
 
             return View();
@@ -286,13 +322,13 @@ namespace LMS.Areas.Admin.Controllers
                 int result = await _StudentClassRepository.AddStudentClass(studentClass);
                 if (result == 1)
                 {
-                    TempData["Success"] = "Class Successfull Assigned To Student";
-                    return RedirectToAction("Index", "Student", new { area = "admin" });
+                    TempData["Success"] = "Class Successfully Assigned To Student";
+                    return RedirectToAction("studentClassDetail", "Student", new { area = "admin" });
                 }
                 else
                 {
                     TempData["Error"] = "Class Assigned To Student Failed";
-                    return RedirectToAction("Index", "Student", new { area = "admin" });
+                    return RedirectToAction("studentClassDetail", "Student", new { area = "admin" });
                 }
 
             }
@@ -338,12 +374,12 @@ namespace LMS.Areas.Admin.Controllers
                 if (result == 1)
                 {
                     TempData["Success"] = "Student Class Updated Successfully";
-                    return RedirectToAction("Index", "Student", new { area = "admin" });
+                    return RedirectToAction("studentClassDetail", "Student", new { area = "admin" });
                 }
                 else
                 {
                     TempData["Error"] = "Failed To Update Student Class";
-                    return RedirectToAction("Index", "Student", new { area = "admin" });
+                    return RedirectToAction("studentClassDetail", "Student", new { area = "admin" });
                 }
 
             }
@@ -364,12 +400,12 @@ namespace LMS.Areas.Admin.Controllers
                 if (result == 1)
                 {
                     TempData["Success"] = "Student Class Delete Successfully";
-                    return RedirectToAction("Index", "Student", new { area = "admin" });
+                    return RedirectToAction("studentClassDetail", "Student", new { area = "admin" });
                 }
                 else
                 {
                     TempData["Error"] = "Failed To Delete Student Class";
-                    return RedirectToAction("Index", "Student", new { area = "admin" });
+                    return RedirectToAction("studentClassDetail", "Student", new { area = "admin" });
                 }
             }
 
@@ -390,7 +426,17 @@ namespace LMS.Areas.Admin.Controllers
 
             ViewBag.Section = _StudentClassRepository.GetAllSections();
 
-            return View(objStudentClassDetail);
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"].ToString();
+            }
+
+            if (TempData["Success"] != null)
+            {
+                ViewBag.Success = TempData["Success"].ToString();
+            }
+
+                return View(objStudentClassDetail);
         }
 
 
