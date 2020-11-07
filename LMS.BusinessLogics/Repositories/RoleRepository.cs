@@ -92,7 +92,7 @@ namespace LMS.BusinessLogics.Repositories
             return Roles;
         }
 
-        public async Task<IdentityRole> FinRoleByName(string roleName)
+        public async Task<IdentityRole> FindRoleByName(string roleName)
         {
             IdentityRole Roles = await _roleManager.FindByNameAsync(roleName);
 

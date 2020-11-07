@@ -16,23 +16,23 @@ namespace LMS.Common
 {
     static public class Utility
     {
-        static public string ProcessUploadedFile(dynamic model, IHostingEnvironment hostingEnvironment)
+        static public string ProcessUploadedFile(dynamic model, IHostingEnvironment hostingEnvironment, string path)
         {
             string uniqueFileName = null;
             if (model != null)
             {
-                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Lectures");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Lecture_File.FileName;
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, path);
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    model.Lecture_File.CopyTo(fileStream);
+                    model.CopyTo(fileStream);
                 }
             }
 
             return uniqueFileName;
         }
 
-        
+
     }
 }

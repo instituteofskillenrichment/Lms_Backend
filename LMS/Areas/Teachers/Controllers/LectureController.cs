@@ -87,7 +87,7 @@ namespace LMS.Areas.Teachers.Controllers
         {
             if (ModelState.IsValid)
             {
-                string uniqueFileName = Utility.ProcessUploadedFile(objLecture, _hostingEnvironment);
+                string uniqueFileName = Utility.ProcessUploadedFile(objLecture.Lecture_File, _hostingEnvironment, "Lectures");
 
                 var classSectionObj = await _StudentClassRepository.GetClassSectionById(objLecture.Class_Id, objLecture.Section_Id);
 
@@ -105,7 +105,7 @@ namespace LMS.Areas.Teachers.Controllers
 
                 await _LectureRepository.AddLecture(newLecture);
 
-                return RedirectToAction("Index", "subject", new { area = "admin" });
+                return RedirectToAction("Index", "subject", new { area = "teachers" });
 
             }
 
@@ -169,7 +169,7 @@ namespace LMS.Areas.Teachers.Controllers
                         System.IO.File.Delete(filePath);
                     }
                     
-                    string uniqueFileName = Utility.ProcessUploadedFile(model, _hostingEnvironment);
+                    string uniqueFileName = Utility.ProcessUploadedFile(model.Lecture_File, _hostingEnvironment, "Lectures");
                     
                     objLecture.Lecture_File = uniqueFileName;
 

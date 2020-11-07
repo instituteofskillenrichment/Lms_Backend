@@ -17,7 +17,7 @@ namespace LMS.BusinessLogics.Interfaces
         Task<int> DeleteRole(string roleId);
         Task<bool> IsRoleExist(string roleName);
         Task<IdentityRole> FindRoleById(string roleId);
-        Task<IdentityRole> FinRoleByName(string roleName);
+        Task<IdentityRole> FindRoleByName(string roleName);
         IQueryable<IdentityRole> GetAllRoles();
 
 

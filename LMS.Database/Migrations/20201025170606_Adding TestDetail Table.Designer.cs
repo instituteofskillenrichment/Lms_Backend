@@ -4,14 +4,16 @@ using LMS.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LMS.Database.Migrations
 {
     [DbContext(typeof(LmsDbContext))]
-    partial class LmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201025170606_Adding TestDetail Table")]
+    partial class AddingTestDetailTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -333,28 +335,11 @@ namespace LMS.Database.Migrations
 
                     b.Property<int>("Test_Id");
 
-                    b.Property<int>("Test_Type_Id");
-
                     b.HasKey("Question_Id");
 
                     b.HasIndex("Test_Id");
 
-                    b.HasIndex("Test_Type_Id");
-
                     b.ToTable("TestDetail");
-                });
-
-            modelBuilder.Entity("LMS.Domain.TestType", b =>
-                {
-                    b.Property<int>("Test_Type_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Test_Type_Name");
-
-                    b.HasKey("Test_Type_Id");
-
-                    b.ToTable("TestType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -629,11 +614,6 @@ namespace LMS.Database.Migrations
                     b.HasOne("LMS.Domain.Test", "Test")
                         .WithMany()
                         .HasForeignKey("Test_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("LMS.Domain.TestType", "TestType")
-                        .WithMany()
-                        .HasForeignKey("Test_Type_Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

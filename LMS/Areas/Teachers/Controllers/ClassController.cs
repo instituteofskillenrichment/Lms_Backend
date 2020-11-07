@@ -27,7 +27,6 @@ namespace LMS.Areas.Teachers.Controllers
         [Route("index")]
         public IActionResult Index()
         {
-
             var TeacherClasses = _TeacherSubjectRepository.GetTeacherClassSubjectstDistinctByTeacherId(HttpContext.Session.GetInt32("UserId")??1);
             
             if (TempData["Error"] != null)
@@ -46,9 +45,9 @@ namespace LMS.Areas.Teachers.Controllers
 
         [Route("")]
         [Route("subjects")]
-        public IActionResult Subjects(int ClassSubjectId)
+        public IActionResult Subjects(int ClassSectionId)
         {
-            var TeacherClassSubjects = _TeacherSubjectRepository.GetTeacherClassSubjectLectures(5, ClassSubjectId);
+            var TeacherClassSubjects = _TeacherSubjectRepository.GetTeacherClassSubjectLectures(2, ClassSectionId);
 
 
             if (TempData["Error"] != null)

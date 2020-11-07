@@ -16,6 +16,7 @@ using LMS.BusinessLogics.Interfaces;
 using LMS.BusinessLogics.Repositories;
 using LMS.Domain.ViewModels;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace LMS
 {
@@ -50,7 +51,7 @@ namespace LMS
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-                options.LoginPath = "/Login/Index"; // Set here your login path.
+                //options.LoginPath = "/Login/Index"; // Set here your login path.
                 //options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // set here your access denied path.
                 options.SlidingExpiration = true;
 
@@ -69,6 +70,12 @@ namespace LMS
                 .AddDefaultTokenProviders();
 
 
+            services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, opt => 
+            {
+                //configure your other properties
+                opt.LoginPath = "/Login/Index";
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddLogging();
             //Added By Absar
@@ -85,6 +92,7 @@ namespace LMS
             services.AddScoped<ISubjectRepository, SubjectRepository>();
             services.AddScoped<ILectureRepository, LectureRepository>();
             services.AddScoped<IGradeRepository, GradeRepository>();
+            services.AddScoped<ITeacherTestRepository, TeacherTestRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,7 +111,7 @@ namespace LMS
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            
+
 
             app.UseAuthentication();
             app.UseSession();

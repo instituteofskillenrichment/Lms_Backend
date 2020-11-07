@@ -1,0 +1,255 @@
+﻿@model LMS.Domain.TestDetail
+@{
+    ViewData["Title"] = "EditTestDetail";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="title">Edit Test</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-controller="Test" asp-action="EditTestDetail">
+                        <div class="row">
+                            <div class="col-md-12 pr-1">
+                                <div class="form-group">
+                                    <label>Question</label>
+                                    <input asp-for="Question_Name" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 pr-1">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        @if (Model.Test_Type_Id == 1)
+                                        {
+
+                                            <div id="qa1" class="col-md-6">
+                                                <input asp-for="Option_1" class="form-control" />
+                                                <input asp-for="Option_2" class="form-control" />
+                                                <input asp-for="Option_3" class="form-control" />
+                                                <input asp-for="Option_4" class="form-control" />
+                                            </div>
+                                        }
+                                        else if (Model.Test_Type_Id == 2)
+                                        {
+                                            <div id="qa1" class="col-md-6">
+                                                <textarea asp-for="Option_1" style="width:100%;" cols="2" rows="10"></textarea>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div id="qa1" class="col-md-6">
+                                                <input asp-for="File" class="form-control" />
+                                            </div>
+                                        }
+
+
+
+                                        <div id="ddlCorrectAnswerDiv" class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Correct Answer</label>
+                                                <select id="ddlCorrectAnswer" asp-for="Correct_Answer" class="form-control" asp-items="@(new SelectList(ViewBag.CorrectAnswerList))"></select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-3">
+                                            <div class="form-group qa1">
+                                                <label>Question Type</label>
+                                                <select asp-for="Test_Type_Id" class="form-control ddlType" asp-items="@(new SelectList(ViewBag.TestTypeList, "Test_Type_Id", "Test_Type_Name"))"></select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <button class="btn btn-primary btn-block" id="btnSubmit">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                        @{ 
+                            TempData["Question_Id"] = Model.Question_Id;
+                        }
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<script>
+
+
+    var data = new FormData();
+
+    $(document).ready(function () {
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+        @if (Model.Test_Type_Id != 1)
+        {
+            <text>
+            $('#ddlCorrectAnswerDiv').css('display', 'none');
+    </text>
+        } else {
+         <text>
+            $('#ddlCorrectAnswerDiv').css('display', 'block');
+    </text>
+
+        }
+
+
+        $('#btnSubmit').click(function () {
+            GetValuesFromForm();
+        });
+
+        $(document).on('change', ".ddlType", function () {
+              var ddl = this.parentNode.parentNode.previousSibling.previousSibling;
+            var id = this.parentNode.parentNode.previousSibling.previousSibling.previousElementSibling.id;
+            generateQuestionsByType(id, this.value, ddl);
+        });
+
+    });
+
+
+    function generateQuestionsByType(id, type, ddl) {
+
+        if (type === '1') {
+            $(ddl).css('display', 'block');
+            generateMultipleTextControl(id);
+        }
+        else if (type === '2') {
+            $(ddl).css('display', 'none');
+
+            generateTextControl(id);
+        } else {
+            $(ddl).css('display', 'none');
+            generateFileControl(id);
+        }
+
+    }
+
+    function generateMultipleTextControl(id) {
+        $('#' + id).empty();
+        $('#' + id).removeClass('col-md-3').addClass('col-md-6');
+        $('#' + id).append(`<input type="text" class="form-control" placeholder="Answer1" value=""><input type="text" class="form-control" placeholder="Answer2" value=""><input type="text" class="form-control" placeholder="Answer3" value=""><input type="text" class="form-control" placeholder="Answer4" value="">`);
+    }
+
+    function generateTextControl(id, ddl) {
+
+        $('#' + id).empty();
+        if ($('#' + id).hasClass('col-md-3')) {
+            $('#' + id).removeClass('col-md-3').addClass('col-md-6');
+        }
+        $('#' + id).append(`<textarea style="width:100%;" cols="2" rows="10"></textarea>`);
+    }
+
+    function generateFileControl(id, ddl) {
+        $('#' + id).empty();
+         if ($('#' + id).hasClass('col-md-3')) {
+            $('#' + id).removeClass('col-md-3').addClass('col-md-6');
+        }
+        $('#' + id).append(`<input type="file" class="form-control"/>`);
+    }
+
+    function getDataFromDiv() {
+
+        var questionObj = {};
+
+        var form = $('form')[1];
+
+        $(form).each(function () {
+
+            var inputs = $(this).find('input');
+
+            var selects = $(this).find('select');
+
+            var textarea = $(this).find('textarea');
+
+            if ($('#Test_Type_Id').val() == 1) {
+                questionObj = {
+                    question:   $(inputs[0]).val(),
+                    option1:    $(inputs[1]).val(),
+                    option2:    $(inputs[2]).val(),
+                    option3:    $(inputs[3]).val(),
+                    option4:    $(inputs[4]).val(),
+                    correctAns: $(selects[0]).val(),
+                    testTypeId: $(selects[1]).val()
+                };
+            }
+             else if ($('#Test_Type_Id').val() == 2) {
+                questionObj = {
+                    question: $(inputs[0]).val(),
+                    option1: textarea.val(),
+                    option2:    '',
+                    option3:    '',
+                    option4:    '',
+                    correctAns: '',
+                    testTypeId: $(selects[1]).val()
+                };
+            }
+            else if ($('#Test_Type_Id').val() == 3) {
+                file = $(inputs[1])[0].files[0];
+                data.append('file', file);
+                questionObj = {
+                    question:   $(inputs[0]).val(),
+                    option1:    '',
+                    option2:    '',
+                    option3:    '',
+                    option4:    '',
+                    correctAns: '',
+                    testTypeId: $(selects[1]).val()
+                };
+            }
+          });
+
+        data.append('tests', JSON.stringify(questionObj));
+    }
+
+    function GetValuesFromForm() {
+
+        getDataFromDiv();
+
+            $.ajax({
+                url: '@Url.Action("edittestdetails", "teachers/test")',
+                method: 'POST',
+                processData: false,
+                contentType: false,
+                data: data,
+                success: function Success(response) {
+                    debugger;
+                    if (response.d == "1") {
+                        toastr.success('Data successfully saved', 'Success')
+                    }
+                    else {
+                        toastr.error('Failed to Save Data', 'Error!')
+                    }
+                },
+                error: function (msg) {
+                    debugger;
+                    toastr.error('Failed to Save Data', 'Error!')
+                }
+            });
+
+        }
+
+</script>
+
+
+

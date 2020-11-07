@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
     <PackageReference Include="MimeKit" Version="2.9.2" />
@@ -19,9 +20,9 @@
     <Folder Include="Areas\Students\Data\" />
     <Folder Include="Areas\Students\Models\" />
     <Folder Include="Areas\Teachers\Data\" />
-    <Folder Include="Areas\Teachers\Models\" />
     <Folder Include="wwwroot\Dashboard\assets\jqueryDataTable\" />
     <Folder Include="wwwroot\Lectures\" />
+    <Folder Include="wwwroot\Tests\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,127 @@
+﻿@model List<LMS.Domain.ViewModels.TestListViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2>Tests <b>View List</b></h2>
+                                    </div>
+                                    <div class="col-md-6 pull-right">
+                                        <a asp-action="AddTest" asp-controller="Test" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add Test</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="test" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Questions</th>
+                                        <th>Options</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Test_Name</td>
+                                            <td>@item.Questions_Count</td>
+                                            <td><a asp-action="ManageTest" asp-controller="Test" asp-route-id="@item.Test_Id" class="btn btn-primary btn-sm">Manage</a></td>
+                                            <td>
+                                                <a href="#deleteTestModal" class="delete" id="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i></a>
+                                                <input type="hidden" class="Test_Id" value="@item.Test_Id" />
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="clearfix">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Delete Modal HTML -->
+                    <div id="deleteTestModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="Test" asp-action="DeleteTest">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Delete Teacher</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to delete these Records?</p>
+                                        <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-danger" value="Delete">
+                                        <input type="hidden" id="Test_Id" name="Test_Id" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+@*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
+<script>
+    $(document).ready(function () {
+
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+
+        if (messageSuccess.length > 0) {
+
+            toastr.success(messageSuccess);
+        }
+        else if (messageError > 0)  {
+            toastr.error(messageError);
+        }
+
+
+
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+
+
+        $('#test #delete').on('click', function () {
+            var Test_Id = $(this).parent().find('.Test_Id').val();
+
+            $('#deleteTestModal #Test_Id').val(Test_Id);
+        });
+
+    });
+</script>

@@ -1,0 +1,257 @@
+﻿@{
+    ViewData["Title"] = "AddTestDetails";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="dashboard" id="dashboard">
+
+    <div class="panel-header panel-header-sm">
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="title">Add Question</h5>
+                    </div>
+                    <div class="card-body">
+                        <form enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>How many Questions you want to create?</label>
+                                        <input type="text" id="txtQuestionCount" class="form-control" placeholder="No of Question">
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="divQuestions">
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button id="btnSubmit" class="btn btn-primary btn-block">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                            @{ 
+                                TempData["TestId"] = ViewBag.TestId;
+                            }
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <footer class="footer">
+        <div class=" container-fluid ">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://www.creative-tim.com">
+                            Karachi Grammar School
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="copyright" id="copyright">
+                &copy;
+                <script>
+                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<script>
+
+    var data = new FormData();
+
+    $(document).ready(function () {
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $("#txtQuestionCount").keyup(function (e) {
+            if (e.keyCode == 8) {
+                if ($(this).length == 1) {
+                    removeTextBoxes();
+                }
+            }
+            if ($(this).val() > 0) {
+                removeTextBoxes();
+                generateTextBoxes($(this).val())
+            }
+        });
+
+        $("#txtQuestionCount").change(function (e) {
+            removeTextBoxes();
+            if ($(this).val() > 0) {
+                removeTextBoxes();
+                generateTextBoxes($(this).val())
+            }
+        });
+
+        $('#btnSubmit').click(function () {
+            GetValuesFromForm();
+        });
+
+        $(document).on('change', ".ddlType", function () {
+            var ddl = this.parentNode.parentNode.previousSibling;
+            var id = this.parentNode.parentNode.previousSibling.previousSibling.id;
+            generateQuestionsByType(id, this.value, ddl);
+        });
+
+    });
+
+    function generateTextBoxes(count) {
+
+        for (var i = 0; i < count; i++) {
+            $('#divQuestions').append(`<div class="questionObj"><div class="row"><div class="col-md-12 pr-1"><div class="form-group"><label>Question ` + (i + 1) + `</label><input type="text" class="form-control" placeholder="Question ` + (i + 1) + `" id="q` + (i + 1) + `"></div></div></div>
+                <div class="row"><div class="col-md-12 pr-1"><div class="form-group"><div class="row"><div id="qa` + (i + 1) + `" class="col-md-6"><input type="text" class="form-control" placeholder="Answer1" value=""><input type="text" class="form-control" placeholder="Answer2" value=""><input type="text" class="form-control" placeholder="Answer3" value=""><input type="text" class="form-control" placeholder="Answer4" value=""></div><div class="col-md-3"><div class="form-group"><label>Correct Answer</label><select class="form-control"><option>A</option><option>B</option><option>C</option><option>D</option></select></div></div><div class="col-md-3"><div class="form-group"><label>Question Type</label><select  class="form-control ddlType"><option value='1'>MCQ</option><option value='2'>Textual answer</option><option value='3'>File upload</option></select></div></div></div></div></div></div></div> <br/>`);
+        }
+
+    }
+
+    function generateQuestionsByType(id, type, ddl) {
+
+        if (type === '1') {
+            $(ddl).css('display', 'block');
+            generateMultipleTextControl(id);
+        }
+        else if (type === '2') {
+            $(ddl).css('display', 'none');
+            generateTextControl(id);
+        } else {
+            $(ddl).css('display', 'none');
+            generateFileControl(id);
+        }
+
+    }
+
+    function removeTextBoxes() {
+        var div = $('#divQuestions');
+        div.empty();
+    }
+
+    function generateMultipleTextControl(id) {
+        $('#' + id).empty();
+        $('#' + id).append(`<input type="text" class="form-control" placeholder="Answer1" value=""><input type="text" class="form-control" placeholder="Answer2" value=""><input type="text" class="form-control" placeholder="Answer3" value=""><input type="text" class="form-control" placeholder="Answer4" value="">`);
+    }
+
+    function generateTextControl(id, ddl) {
+
+        $('#' + id).empty();
+        $('#' + id).append(`<textarea style="width:100%;" cols="2" rows="10"></textarea>`);
+    }
+
+    function generateFileControl(id, ddl) {
+        $('#' + id).empty();
+        $('#' + id).append(`<input type="file" class="form-control"/>`);
+    }
+
+    function getDataFromDiv(questions) {
+
+        var questionObj = {};
+
+        $('#divQuestions').find(".questionObj").each(function () {
+
+            var inputs = $(this).find('input');
+
+            var selects = $(this).find('select');
+
+            var textarea = $(this).find('textarea');
+
+            if (inputs.length > 2) {
+                questionObj = {
+                    question:   $(inputs[0]).val(),
+                    option1:    $(inputs[1]).val(),
+                    option2:    $(inputs[2]).val(),
+                    option3:    $(inputs[3]).val(),
+                    option4:    $(inputs[4]).val(),
+                    correctAns: $(selects[0]).val(),
+                    testTypeId: $(selects[1]).val()
+                };
+            }
+            else if (inputs.length == 2) {
+                file = $(inputs[1])[0].files[0];
+                data.append('file', file);
+                questionObj = {
+                    question:   $(inputs[0]).val(),
+                    option1:    '',
+                    option2:    '',
+                    option3:    '',
+                    option4:    '',
+                    correctAns: '',
+                    testTypeId: $(selects[1]).val()
+                };
+            }
+            else if (textarea.length > 0) {
+                questionObj = {
+                    question: $(inputs[0]).val(),
+                    option1: textarea.val(),
+                    option2:    '',
+                    option3:    '',
+                    option4:    '',
+                    correctAns: '',
+                    testTypeId: $(selects[1]).val()
+                };
+            }
+            questions.push(questionObj);
+        });
+
+        data.append('tests', JSON.stringify(questions));
+    }
+
+    function GetValuesFromForm() {
+
+        var questions = [];
+
+        getDataFromDiv(questions);
+
+            //var data = {
+            //    tests: questions
+            //}
+
+            $.ajax({
+                url: '@Url.Action("addtestdetails", "teachers/test")',
+                method: 'POST',
+                processData: false,
+                contentType: false,
+                data: data,
+                success: function Success(response) {
+                    debugger;
+                    if (response.d == "1") {
+                        toastr.success('Data successfully saved', 'Success')
+                    }
+                    else {
+                        toastr.error('Failed to Save Data', 'Error!')
+                    }
+                },
+                error: function (msg) {
+                    debugger;
+                    toastr.error('Failed to Save Data', 'Error!')
+                }
+            });
+
+        }
+
+</script>
+
+
+
