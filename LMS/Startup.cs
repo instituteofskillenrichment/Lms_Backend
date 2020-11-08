@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,7 +52,7 @@ namespace LMS
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
                 //options.LoginPath = "/Login/Index"; // Set here your login path.
-                //options.AccessDeniedPath = "/Login/Index"; // set here your access denied path.
+
                 options.SlidingExpiration = true;
 
             });
@@ -68,6 +68,7 @@ namespace LMS
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<LmsDbContext>()
                 .AddDefaultTokenProviders();
+
 
 
             services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, opt =>
@@ -93,6 +94,7 @@ namespace LMS
             services.AddScoped<ISubjectRepository, SubjectRepository>();
             services.AddScoped<ILectureRepository, LectureRepository>();
             services.AddScoped<IGradeRepository, GradeRepository>();
+            services.AddScoped<ITeacherTestRepository, TeacherTestRepository>();
             services.AddScoped<ITPClassRepository, TPClassRepository>();
             services.AddScoped<ITPAttendanceRepository, TPAttendanceRepository>();
 
@@ -114,7 +116,7 @@ namespace LMS
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            
+
 
             app.UseAuthentication();
             app.UseSession();

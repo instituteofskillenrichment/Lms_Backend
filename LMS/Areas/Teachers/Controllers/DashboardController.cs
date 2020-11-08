@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LMS.Areas.Teachers.Controllers
 {
-    [Authorize(Roles = "Teacher")]
+    //[Authorize(Roles = "Teacher")]
     [Area("teachers")]
     [Route("teachers/dashboard")]
     public class DashboardController : Controller

@@ -138,6 +138,32 @@ namespace LMS.BusinessLogics.Repositories
             //return -1;
         }
 
+        public async Task<int> AssignToRoleV2(IdentityUser objModel, string UserRole)
+        {
+            IdentityRole getRole = await _RoleRepository.FindRoleById(UserRole);
+
+            IdentityResult result;
+
+            if (getRole == null)
+            {
+                getRole = await _RoleRepository.FindRoleByName(UserRole);
+
+                if (getRole == null)
+                {
+                    return -1;
+                }
+
+                result = await _userManager.AddToRoleAsync(objModel, getRole.Name);
+            }
+            else
+            {
+                result = await _userManager.AddToRoleAsync(objModel, getRole.Name);
+            }
+
+            return result.Succeeded ? 1 : 0;
+
+        }
+
 
         public IQueryable<AppUser> FindUserWithRoleById(string userId)
         {

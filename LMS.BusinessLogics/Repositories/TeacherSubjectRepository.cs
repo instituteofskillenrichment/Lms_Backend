@@ -199,7 +199,7 @@ namespace LMS.BusinessLogics.Repositories
             return TeacherClassSubject;
         }
 
-        
+
 
         public IQueryable<TeacherSubjectViewModel> GetTeacherSubjects()
         {
@@ -232,7 +232,7 @@ namespace LMS.BusinessLogics.Repositories
             return TeacherClass;
         }
 
-        
+
 
         
     }
