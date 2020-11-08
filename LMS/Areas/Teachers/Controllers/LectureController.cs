@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using System;
@@ -59,16 +60,50 @@ namespace LMS.Areas.Teachers.Controllers
         [Route("addLecture")]
         public IActionResult AddLecture()
         {
-            List<Class> classList = _LectureRepository.GetAllClass().ToList();
+            List<SelectListItem> classList = new List<SelectListItem>();
+            var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            foreach (var lstclass in objClassSecSub)
+            {
 
+                var selectListItem = new SelectListItem
+                {
+                    Text = lstclass.Class_Name,
+                    Value = lstclass.Class_Id.ToString(),
+
+                };
+
+                classList.Add(selectListItem);
+            }
             ViewBag.ClassList = classList;
 
-            List<Section> sectionList = _LectureRepository.GetAllSection().ToList();
+            List<SelectListItem> sectionList = new List<SelectListItem>();
+            foreach (var lstSection in objClassSecSub)
+            {
+                var selectListItem = new SelectListItem
+                {
+                    Text = lstSection.Section_Name,
+                    Value = lstSection.Section_Id.ToString(),
 
+                };
+
+                sectionList.Add(selectListItem);
+            }
             ViewBag.SectionList = sectionList;
 
-            List<Subject> subjectList = _LectureRepository.GetAllSubject().ToList();
 
+            List<SelectListItem> subjectList = new List<SelectListItem>();
+            var objSubject = _LectureRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            foreach (var lstSubject in objSubject)
+            {
+                var selectListItem = new SelectListItem
+                {
+                    Text = lstSubject.Subject_Name,
+                    Value = lstSubject.Subject_Id.ToString(),
+
+                };
+
+                subjectList.Add(selectListItem);
+            }
             ViewBag.SubjectList = subjectList;
 
             return View();
@@ -93,7 +128,7 @@ namespace LMS.Areas.Teachers.Controllers
                     Lecture_Name = objLecture.Lecture_Name,
                     Lecture_Detail = objLecture.Lecture_Detail,
                     Lecture_File = uniqueFileName,
-                    LecturePost_Date = DateTime.Now.ToString(),
+                    LecturePost_Date = objLecture.LecturePost_Date.ToString("yyyyMMdd"), //DateTime.Now.ToString(),
                     Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1,
                     ClassSubject_Id = classSubjectObj.ClassSubject_Id
                 };

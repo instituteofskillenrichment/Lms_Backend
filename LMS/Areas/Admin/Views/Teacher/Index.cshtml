@@ -4,16 +4,16 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-    
+
 <div class="panel-header panel-header-sm">
 </div>
 <div class="content">
     @*@if (ViewBag.Error != null)
-    {
-        <script type="text/javascript">
-      alert( "@(ViewBag.Error)");
-        </script>
-    }*@
+        {
+            <script type="text/javascript">
+          alert( "@(ViewBag.Error)");
+            </script>
+        }*@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -27,8 +27,8 @@
                                         <h2>Manage <b>Teachers</b></h2>
                                     </div>
                                     <div class="col-md-6 pull-right">
-                                        <a asp-area="admin" asp-controller="teacher" asp-action="addTeacher" class="btn btn-success" ><i class="material-icons">&#xE147;</i> <span>Add New Teacher</span></a>
-                                       
+                                        <a asp-area="admin" asp-controller="teacher" asp-action="addTeacher" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add New Teacher</span></a>
+
                                     </div>
                                 </div>
                             </div>
@@ -61,16 +61,16 @@
                                             <td>@item.Teacher_City</td>
                                             <td>@item.Teacher_Country</td>
                                             <td>
-                                                
+
                                                 <a asp-area="admin" asp-controller="teacher" asp-action="assignTeacherSubject" asp-route-id="@item.Teacher_Id" class="assignSubject" id="assignSubject">
-                                                    <i class="btn btn-primary"  title="" data-original-title="AssignedSubject" style="line-height: 1em; border-radius: 2em;">Assign Subject</i>
+                                                    <i class="btn btn-primary" title="" data-original-title="AssignedSubject" style="line-height: 1em; border-radius: 2em;">Assign Subject</i>
                                                 </a>
 
                                                 @*Added BY Absar To get parentid*@
                                                 <input type="hidden" class="Teacher_Id" value="@item.Teacher_Id" />
                                             </td>
                                             <td>
-                                                <a asp-area="admin" asp-controller="teacher" asp-action="editTeacher" asp-route-id="@item.Teacher_Id" class="edit" id="edit" >
+                                                <a asp-area="admin" asp-controller="teacher" asp-action="editTeacher" asp-route-id="@item.Teacher_Id" class="edit" id="edit">
                                                     <i class="material-icons" title="" data-original-title="Edit"></i>
                                                 </a>
 
@@ -91,9 +91,9 @@
                             </div>
                         </div>
                     </div>
-                    
 
-                    
+
+
 
                     <!-- Delete Modal HTML -->
                     <div id="deleteTeacherModal" class="modal fade">
@@ -164,10 +164,33 @@
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 <script>
     $(document).ready(function () {
 
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
         
+
+        if (messageSuccess.length > 0) {
+            
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0)  {
+            toastr.error(messageError);
+        }
+
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
@@ -177,7 +200,7 @@
             var Teacher_Id = $(this).parent().find('.Teacher_Id').val();
             $('#deleteTeacherModal #Teacher_Id').val(Teacher_Id);
         });
-        
+
 
         $('#teacherpage').DataTable();
     });

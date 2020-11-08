@@ -212,23 +212,23 @@
     $(document).ready(function () {
 
         toastr.options = {
-            "positionClass": "toast-top-center",
+        "positionClass": "toast-top-center",
             "showDuration": "5000",
             "hideDuration": "5000",
             "timeOut": "5000",
             "extendedTimeOut": "5000",
         };
 
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
 
 
-        var message = '@TempData["Message"]';
+        if (messageSuccess.length > 0) {
 
-        if (message == "Success") {
-            //console.log(message);
-            toastr.success('Record Added Successfully');
+                toastr.success(messageSuccess);
         }
-        else if (message == "Failed")  {
-            toastr.error('Error Occured Whill Adding Record');
+        else if (messageError.length > 0) {
+            toastr.error(messageError);
         }
 
         // Activate tooltip

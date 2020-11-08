@@ -4,14 +4,16 @@ using LMS.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LMS.Database.Migrations
 {
     [DbContext(typeof(LmsDbContext))]
-    partial class LmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201106121713_Update migration4")]
+    partial class Updatemigration4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,8 +33,6 @@ namespace LMS.Database.Migrations
 
                     b.Property<int>("Section_Id");
 
-                    b.Property<int>("Session_Id");
-
                     b.Property<string>("Status");
 
                     b.Property<int>("Student_Id");
@@ -48,8 +48,6 @@ namespace LMS.Database.Migrations
                     b.HasIndex("Class_Id");
 
                     b.HasIndex("Section_Id");
-
-                    b.HasIndex("Session_Id");
 
                     b.HasIndex("Student_Id");
 
@@ -589,11 +587,6 @@ namespace LMS.Database.Migrations
                     b.HasOne("LMS.Domain.Section", "Section")
                         .WithMany()
                         .HasForeignKey("Section_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("LMS.Domain.Session", "Session")
-                        .WithMany()
-                        .HasForeignKey("Session_Id")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("LMS.Domain.Student", "Student")

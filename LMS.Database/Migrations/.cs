@@ -4,61 +4,22 @@ using LMS.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LMS.Database.Migrations
 {
     [DbContext(typeof(LmsDbContext))]
-    partial class LmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201101092705_Create Session Table For Attandence")]
+    partial class CreateSessionTableForAttandence
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("LMS.Domain.Attendance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Class_Id");
-
-                    b.Property<string>("Date");
-
-                    b.Property<int>("Section_Id");
-
-                    b.Property<int>("Session_Id");
-
-                    b.Property<string>("Status");
-
-                    b.Property<int>("Student_Id");
-
-                    b.Property<string>("Student_Name");
-
-                    b.Property<int>("Subject_Id");
-
-                    b.Property<int>("Teacher_Id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Class_Id");
-
-                    b.HasIndex("Section_Id");
-
-                    b.HasIndex("Session_Id");
-
-                    b.HasIndex("Student_Id");
-
-                    b.HasIndex("Subject_Id");
-
-                    b.HasIndex("Teacher_Id");
-
-                    b.ToTable("Attendance");
-                });
 
             modelBuilder.Entity("LMS.Domain.Class", b =>
                 {
@@ -194,13 +155,9 @@ namespace LMS.Database.Migrations
 
                     b.Property<int>("Section_Id");
 
-                    b.Property<string>("Session_Name");
-
                     b.Property<string>("Start_Time");
 
                     b.Property<int>("Subject_Id");
-
-                    b.Property<int>("Teacher_Id");
 
                     b.HasKey("Session_Id");
 
@@ -209,8 +166,6 @@ namespace LMS.Database.Migrations
                     b.HasIndex("Section_Id");
 
                     b.HasIndex("Subject_Id");
-
-                    b.HasIndex("Teacher_Id");
 
                     b.ToTable("Session");
                 });
@@ -579,39 +534,6 @@ namespace LMS.Database.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("LMS.Domain.Attendance", b =>
-                {
-                    b.HasOne("LMS.Domain.Class", "Class")
-                        .WithMany()
-                        .HasForeignKey("Class_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("LMS.Domain.Section", "Section")
-                        .WithMany()
-                        .HasForeignKey("Section_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("LMS.Domain.Session", "Session")
-                        .WithMany()
-                        .HasForeignKey("Session_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("LMS.Domain.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("Student_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("LMS.Domain.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("Subject_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("LMS.Domain.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("Teacher_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("LMS.Domain.ClassSection", b =>
                 {
                     b.HasOne("LMS.Domain.Class", "Class")
@@ -684,11 +606,6 @@ namespace LMS.Database.Migrations
                     b.HasOne("LMS.Domain.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("Subject_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("LMS.Domain.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("Teacher_Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

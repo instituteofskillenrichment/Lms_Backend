@@ -1,6 +1,7 @@
 ﻿using LMS.BusinessLogics.Interfaces;
 using LMS.Database;
 using LMS.Domain;
+using LMS.Domain.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -129,5 +130,51 @@ namespace LMS.BusinessLogics.Repositories
 
             return listOfSubject;
         }
+
+        public IQueryable<LectureViewModel> GetAllClassSectionByTeacherId(int TeacherId)
+        {
+            IQueryable<LectureViewModel> AllClassSection =
+                                                                    (from t in _lmsDbContext.Teacher
+                                                                     join ts in _lmsDbContext.TeacherSubject on t.Teacher_Id equals ts.Teacher_Id
+                                                                     join cs in _lmsDbContext.ClassSubject on ts.ClassSubject_Id equals cs.ClassSubject_Id
+                                                                     join csec in _lmsDbContext.ClassSection on cs.ClassSection_Id equals csec.ClassSection_id
+                                                                     join c in _lmsDbContext.Class on csec.Class_Id equals c.Class_Id
+                                                                     join sec in _lmsDbContext.Section on csec.Section_Id equals sec.Section_Id
+                                                                     where t.Teacher_Id == TeacherId
+                                                                     orderby c.Class_Name, sec.Section_Name
+                                                                     select new LectureViewModel
+                                                                     {
+
+                                                                         Class_Id = c.Class_Id,
+                                                                         Class_Name = c.Class_Name,
+                                                                         Section_Id = sec.Section_Id,
+                                                                         Section_Name = sec.Section_Name,
+
+                                                                     }).AsQueryable().Distinct();
+
+            return AllClassSection;
+        }
+
+        public IQueryable<LectureViewModel> GetAllSubjectByTeacherId(int TeacherId)
+        {
+            IQueryable<LectureViewModel> AllSubject =
+                                                                    (from t in _lmsDbContext.Teacher
+                                                                     join ts in _lmsDbContext.TeacherSubject on t.Teacher_Id equals ts.Teacher_Id
+                                                                     join cs in _lmsDbContext.ClassSubject on ts.ClassSubject_Id equals cs.ClassSubject_Id
+                                                                     join sub in _lmsDbContext.Subject on cs.Subject_Id equals sub.Subject_Id
+                                                                     where t.Teacher_Id == TeacherId
+                                                                     orderby sub.Subject_Name
+                                                                     select new LectureViewModel
+                                                                     {
+
+                                                                         Subject_Id = sub.Subject_Id,
+                                                                         Subject_Name = sub.Subject_Name,
+
+
+                                                                     }).AsQueryable().Distinct();
+
+            return AllSubject;
+        }
+
     }
 }

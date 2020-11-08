@@ -99,7 +99,8 @@
                                                 <div class="col-md-4 pl-1">
                                                     <div class="form-group">
                                                         <label>Date Of Birth</label>
-                                                        <input asp-for="Teacher_DOB" type="text" class="form-control" placeholder="DOB">
+                                                        @*<input asp-for="Teacher_DOB" type="text" class="form-control" placeholder="DOB">*@
+                                                        <input asp-for="Teacher_DOB" class="form-control" type="datetime-local" data-val="true" data-val-required="The Teacher_DOB field is required." id="Teacher_DOB" name="Teacher_DOB" value="">
                                                     </div>
                                                 </div>
 
