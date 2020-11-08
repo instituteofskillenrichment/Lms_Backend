@@ -5,226 +5,191 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="dashboard" id="dashboard">
-    
-    <div class="panel-header panel-header-sm">
-    </div>
-    <div class="content">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
 
-                    <div class="container-fluid">
-                        <div class="table-responsive">
-                            <div class="table-wrapper">
-                                <div class="table-title">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h2>Add <b>Student</b></h2>
-                                        </div>
-                                        <div class="col-md-6 pull-right">
-                                            @* <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Teacher</span></a>*@
-                                            @* <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>*@
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <!-- <div class="clearfix"> -->
-                                <!-- </div> -->
-
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
                                 <div class="row">
+                                    <div class="col-md-6">
+                                        <h2>Edit <b>Student</b></h2>
+                                    </div>
+                                    
+                                </div>
+                            </div>
 
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5 class="title">Edit Profile</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <form asp-action="editStudent" enctype="multipart/form-data">
-                                                <input hidden asp-for="Student_Id" />
-                                                <div class="row">
-                                                    <div class="col-md-4 pr-1">
-                                                        <div class="form-group">
-                                                            <label>Student ID</label>
-                                                            <input asp-for="Student_Id" type="text" class="form-control" placeholder="Student ID" disabled>
-                                                        </div>
+
+                            
+
+                            <div class="row">
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="title">Edit Profile</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form asp-action="editStudent" enctype="multipart/form-data">
+                                            <input hidden asp-for="Student_Id" />
+                                            <div class="row">
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Student ID</label>
+                                                        <input asp-for="Student_Id" type="text" class="form-control" placeholder="Student ID" disabled>
                                                     </div>
-                                                    <div class="col-md-4 px-1">
-                                                        <!-- <div class="form-group"> -->
-                                                        <!-- <label>Teacher Name</label> -->
-                                                        <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
-                                                        <!-- </div> -->
-                                                    </div>
-                                                    <div class="col-md-4 pl-1">
-                                                        <div class="form-group">
-                                                            <img src="@Model.Student_Photo" style="width:150px; height:170px; margin-left:50px;" class="img-thumbnail">
+                                                </div>
+                                                <div class="col-md-4 px-1">
+                                                    
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <img src="@Model.Student_Photo" style="width:150px; height:170px; margin-left:50px;" class="img-thumbnail">
 
 
-                                                            <div class="row">
-                                                                <div class="col-md-2">
+                                                        <div class="row">
+                                                            <div class="col-md-2">
 
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <input asp-for="Student_Photo" type="file" name="files" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;" />
-                                                                    @* <input asp-for="Teacher_Photo" type="file" name="files" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;">*@
-
-                                                                    <!-- <input type="file" name="imageFile" class="btn btn-default btn-sm valid"> -->
-                                                                    <!-- <button type="button" id="ubutton" class="btn btn-default btn-sm">Upload</button> -->
-                                                                    <!-- <button type="button" id="ubutton" class="btn btn-default btn-sm">Upload</button> -->
-                                                                </div>
-
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input asp-for="Student_Photo" type="file" name="files" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;" />
+                                                                
                                                             </div>
 
                                                         </div>
+
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-4 pr-1">
-                                                        <div class="form-group">
-                                                            <label>Student Name</label>
-                                                            <input asp-for="Student_Name" type="text" class="form-control" placeholder="Student Name">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 pl-1">
-                                                        <div class="form-group">
-                                                            <label>Father Name</label>
-                                                            <input asp-for="Student_FatherName" type="text" class="form-control" placeholder="Father Name">
-                                                        </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Student Name</label>
+                                                        <input asp-for="Student_Name" type="text" class="form-control" placeholder="Student Name">
                                                     </div>
                                                 </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label>Student CNIC</label>
-                                                            <input asp-for="Student_Cnic" type="text" class="form-control" placeholder="CNIC">
-                                                        </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label>Father Name</label>
+                                                        <input asp-for="Student_FatherName" type="text" class="form-control" placeholder="Father Name">
                                                     </div>
-                                                    <div class="col-md-4 pl-1">
-                                                        <div class="form-group">
-                                                            <label>Date Of Birth</label>
-                                                            <input asp-for="Student_DOB" type="text" class="form-control" placeholder="DOB">
-                                                        </div>
-                                                    </div>
+                                                </div>
+                                            </div>
 
-                                                    <div class="col-md-4 pl-1">
-                                                        <div class="form-group" style="color:#9A9A9A;">
-                                                            <label>Gender</label><br>
-                                                            Male&nbsp;&nbsp; <input asp-for="Student_Gender" name="Student_Gender" type="radio" value="Male" checked>  &nbsp;
-                                                            Female&nbsp;&nbsp;  <input asp-for="Student_Gender" name="Student_Gender" type="radio" value="Female">
-                                                        </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Student CNIC</label>
+                                                        <input asp-for="Student_Cnic" type="text" class="form-control" placeholder="CNIC">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label>Date Of Birth</label>
+                                                        <input asp-for="Student_DOB" class="form-control" type="datetime-local" data-val="true" data-val-required="The Student_DOB field is required." id="Student_DOB" name="Student_DOB" value="">
+                                                        @*<input asp-for="Student_DOB" type="text" class="form-control" placeholder="DOB">*@
                                                     </div>
                                                 </div>
 
-                                                <div class="row">
-                                                    <div class="col-md-4 pr-1">
-                                                        <div class="form-group">
-                                                            <label>Email</label>
-                                                            <input asp-for="Student_Email" type="text" class="form-control" placeholder="Email">
-                                                        </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group" style="color:#9A9A9A;">
+                                                        <label>Gender</label><br>
+                                                        Male&nbsp;&nbsp; <input asp-for="Student_Gender" name="Student_Gender" type="radio" value="Male" checked>  &nbsp;
+                                                        Female&nbsp;&nbsp;  <input asp-for="Student_Gender" name="Student_Gender" type="radio" value="Female">
                                                     </div>
-                                                    <div class="col-md-4 px-1">
-                                                        <div class="form-group">
-                                                            <label>Mobile Number</label>
-                                                            <input asp-for="Student_MobNumber" type="text" class="form-control" placeholder="Mobile Number">
-                                                        </div>
-                                                    </div>
+                                                </div>
+                                            </div>
 
+                                            <div class="row">
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Email</label>
+                                                        <input asp-for="Student_Email" type="text" class="form-control" placeholder="Email">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label>Mobile Number</label>
+                                                        <input asp-for="Student_MobNumber" type="text" class="form-control" placeholder="Mobile Number">
+                                                    </div>
                                                 </div>
 
-                                                @*<div class="row">
-                                                    <div class="col-md-4 pr-1">
-                                                        <div class="form-group">
-                                                            <label>Designation</label>
-                                                            <input asp-for="Teacher_Designation" type="text" class="form-control" placeholder="Designation">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 px-1">
-                                                        <div class="form-group">
-                                                            <label>Department</label>
-                                                            <input asp-for="Teacher_Department" type="text" class="form-control" placeholder="Department">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 px-1">
-                                                        <div class="form-group">
-                                                            <label>Latest Degree</label>
-                                                            <input asp-for="Teacher_LastDegree" type="text" class="form-control" placeholder="Latest Degree">
-                                                        </div>
-                                                    </div>
+                                            </div>
 
-                                                </div>*@
+                                            
 
-                                                <div class="row">
-                                                    <div class="col-md-12 pr-1">
-                                                        <div class="form-group">
-                                                            <label>Current Address</label>
-                                                            <input asp-for="Student_CurrentAddress" type="text" class="form-control" placeholder="Current Address">
-                                                        </div>
+                                            <div class="row">
+                                                <div class="col-md-12 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Current Address</label>
+                                                        <input asp-for="Student_CurrentAddress" type="text" class="form-control" placeholder="Current Address">
                                                     </div>
-
                                                 </div>
 
-                                                <div class="row">
-                                                    <div class="col-md-12 pr-1">
-                                                        <div class="form-group">
-                                                            <label>Permanent Address</label>
-                                                            <input asp-for="Student_PermenentAddress" type="text" class="form-control" placeholder="Permanent Address">
-                                                        </div>
-                                                    </div>
+                                            </div>
 
+                                            <div class="row">
+                                                <div class="col-md-12 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Permanent Address</label>
+                                                        <input asp-for="Student_PermenentAddress" type="text" class="form-control" placeholder="Permanent Address">
+                                                    </div>
                                                 </div>
 
-                                                <div class="row">
-                                                    <div class="col-md-4 pr-1">
-                                                        <div class="form-group">
-                                                            <label>Home Phone </label>
-                                                            <input asp-for="Student_HomePhone" type="text" class="form-control" placeholder="Home Phone">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 px-1">
-                                                        <div class="form-group">
-                                                            <label>City</label>
-                                                            <input asp-for="Student_City" type="text" class="form-control" placeholder="City">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 px-1">
-                                                        <div class="form-group">
-                                                            <label>Country</label>
-                                                            <input asp-for="Student_Country" type="text" class="form-control" placeholder="Country">
-                                                        </div>
-                                                    </div>
+                                            </div>
 
+                                            <div class="row">
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Home Phone </label>
+                                                        <input asp-for="Student_HomePhone" type="text" class="form-control" placeholder="Home Phone">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label>City</label>
+                                                        <input asp-for="Student_City" type="text" class="form-control" placeholder="City">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label>Country</label>
+                                                        <input asp-for="Student_Country" type="text" class="form-control" placeholder="Country">
+                                                    </div>
                                                 </div>
 
-                                                <div class="row">
-                                                    <div class="col-md-4 pr-1">
-                                                        <div class="form-group">
-                                                            <input type="submit" value="Update" class="btn btn-primary" />
-                                                        </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <input type="submit" value="Update" class="btn btn-primary" />
                                                     </div>
-
-
                                                 </div>
 
-                                            </form>
-                                        </div>
+
+                                            </div>
+
+                                        </form>
                                     </div>
-
                                 </div>
 
-
-
-
                             </div>
-                        </div>
 
+
+
+
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
-
-
 
 
     <footer class="footer">
@@ -257,4 +222,10 @@
         </div>
     </footer>
 </div>
+
+
+
+
+
+
 

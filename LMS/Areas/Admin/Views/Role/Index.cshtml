@@ -5,190 +5,184 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="dashboard" id="dashboard">
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
 
-    <div class="panel-header panel-header-sm">
-    </div>
-    <div class="content">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-
-                    <div class="container-fluid">
-                        <div class="table-responsive">
-                            <div class="table-wrapper">
-                                <div class="table-title">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h2>Manage <b>Roles</b></h2>
-                                        </div>
-                                        <div class="col-md-6 pull-right">
-                                            <a href="#addRoleModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Role</span></a>
-                                            <a href="#deleteRoleModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
-                                        </div>
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2>Manage <b>Roles</b></h2>
+                                    </div>
+                                    <div class="col-md-6 pull-right">
+                                        <a href="#addRoleModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Role</span></a>
+                                        
                                     </div>
                                 </div>
+                            </div>
 
-                                <table id="rolepage" class="display" style="width:100%">
-                                    <thead>
+                            <table id="rolepage" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Role Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Role Name</th>
-                                            <th>Action</th>
+                                            <td>@item.Id</td>
+                                            <td>@item.Name</td>
+                                            <td>
+                                                <a href="#editRoleModal" class="edit" id="edit" data-toggle="modal">
+                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                                </a>
+
+                                                <a href="#deleteRoleModal" class="delete" id="delete" data-toggle="modal">
+                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                                </a>
+
+                                                @*Added BY Absar To get parentid*@
+                                                <input type="hidden" class="Role_Id" value="@item.Id" />
+
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td>@item.Id</td>
-                                                <td>@item.Name</td>
-                                                <td>
-                                                    <a href="#editRoleModal" class="edit" id="edit" data-toggle="modal">
-                                                        <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
-                                                    </a>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="clearfix">
 
-                                                    <a href="#deleteRoleModal" class="delete" id="delete" data-toggle="modal">
-                                                        <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
-                                                    </a>
-
-                                                    @*Added BY Absar To get parentid*@
-                                                    <input type="hidden" class="Role_Id" value="@item.Id" />
-
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                                <div class="clearfix">
-
-                                </div>
                             </div>
                         </div>
-                        <!-- Add Modal HTML -->
-                        <div id="addRoleModal" class="modal fade">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form method="post" asp-controller="role" asp-action="addRole">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Add Role</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            @*<div class="form-group">
-                                                    <label>Class ID</label>
-                                                    <input type="text" class="form-control" required="" name="Role_Id">
-                                                </div>*@
-                                            <div class="form-group">
-                                                <label>Role Name</label>
-                                                <input type="text" class="form-control" required="" name="name">
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input type="submit" class="btn btn-success" value="Add">
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <!-- Edit Modal HTML -->
-                        <div id="editRoleModal" class="modal fade">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form method="post" asp-controller="role" asp-action="editRole">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Edit Role</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label>ID</label>
-                                                <input type="text" class="form-control" required="" id="Role_Id" disabled="disabled">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Role Name</label>
-                                                <input type="text" class="form-control" required="" name="Role_Name" id="Role_Name">
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input type="submit" class="btn btn-info" value="Save">
-                                            @*Added By Absar*@
-                                            <input type="hidden" name="Role_Id" id="Role_Id" />
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <!-- Delete Modal HTML -->
-                        <div id="deleteRoleModal" class="modal fade">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form method="post" asp-controller="role" asp-action="deleteRole">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Delete Role</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Are you sure you want to delete these Records?</p>
-                                            <p class="text-warning"><small>This action cannot be undone.</small></p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input type="submit" class="btn btn-danger" value="Delete">
-
-                                            @*//Added By Absar To Pass Parameter to action method*@
-                                            <input type="hidden" id="Role_Id" name="Role_Id" />
-
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
+                    <!-- Add Modal HTML -->
+                    <div id="addRoleModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="role" asp-action="addRole">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Add Role</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                       
+                                        <div class="form-group">
+                                            <label>Role Name</label>
+                                            <input type="text" class="form-control" required="" name="name">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-success" value="Add">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Edit Modal HTML -->
+                    <div id="editRoleModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="role" asp-action="editRole">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Edit Role</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>ID</label>
+                                            <input type="text" class="form-control" required="" id="Role_Id" disabled="disabled">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Role Name</label>
+                                            <input type="text" class="form-control" required="" name="Role_Name" id="Role_Name">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-info" value="Save">
+                                        @*Added By Absar*@
+                                        <input type="hidden" name="Role_Id" id="Role_Id" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Delete Modal HTML -->
+                    <div id="deleteRoleModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="role" asp-action="deleteRole">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Delete Role</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to delete these Records?</p>
+                                        <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-danger" value="Delete">
+
+                                        @*//Added By Absar To Pass Parameter to action method*@
+                                        <input type="hidden" id="Role_Id" name="Role_Id" />
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
-
-
-
-
-        <footer class="footer">
-            <div class=" container-fluid ">
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="https://www.creative-tim.com">
-                                Karachi Grammar School
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://presentation.creative-tim.com">
-                                About Us
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://blog.creative-tim.com">
-                                Blog
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="copyright" id="copyright">
-                    &copy;
-                    <script>
-                        document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                    </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
-                </div>
-            </div>
-        </footer>
     </div>
+
+
+
+
+    <footer class="footer">
+        <div class=" container-fluid ">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://www.creative-tim.com">
+                            Karachi Grammar School
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="copyright" id="copyright">
+                &copy;
+                <script>
+                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            </div>
+        </div>
+    </footer>
 </div>
 
 <!--   Core JS Files   -->

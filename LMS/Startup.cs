@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,7 +52,7 @@ namespace LMS
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
                 //options.LoginPath = "/Login/Index"; // Set here your login path.
-                //options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // set here your access denied path.
+
                 options.SlidingExpiration = true;
 
             });
@@ -70,11 +70,13 @@ namespace LMS
                 .AddDefaultTokenProviders();
 
 
-            services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, opt => 
+
+            services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, opt =>
             {
                 //configure your other properties
                 opt.LoginPath = "/Login/Index";
             });
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddLogging();
@@ -93,6 +95,9 @@ namespace LMS
             services.AddScoped<ILectureRepository, LectureRepository>();
             services.AddScoped<IGradeRepository, GradeRepository>();
             services.AddScoped<ITeacherTestRepository, TeacherTestRepository>();
+            services.AddScoped<ITPClassRepository, TPClassRepository>();
+            services.AddScoped<ITPAttendanceRepository, TPAttendanceRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

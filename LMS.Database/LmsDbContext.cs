@@ -23,6 +23,12 @@ namespace LMS.Database
         public DbSet<Test> Test { get; set; }
         public DbSet<TestDetail> TestDetail { get; set; }
         public DbSet<TestType> TestType { get; set; }
+        public DbSet<Session> Session { get; set; }
+        public DbSet<Attendance> Attendance { get; set; }
+
+
+
+
 
     }
 }

@@ -1,0 +1,403 @@
+﻿@model LMS.Domain.ViewModels.AttendanceViewModel
+@{
+    ViewData["Title"] = "Session";
+    Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<div class="panel-header panel-header-sm">
+</div>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2>Manage <b>Session</b></h2>
+                                    </div>
+                                    <div class="col-md-6 pull-right">
+                                        <a href="#addSessionModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Session</span></a>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table id="sessionpage" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Session ID</th>
+                                        <th>Session Name</th>
+                                        <th>Date</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Class Name</th>
+                                        <th>Section Name</th>
+                                        <th>Subject Name</th>
+                                        <th>Mark Attendance</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Sessions)
+                                    {
+                                    <tr>
+                                        <td>@item.Session_Id</td>
+                                        <td>@item.Session_Name</td>
+                                        <td>@item.Session_Date</td>
+                                        <td>@item.Session_Start_Time</td>
+                                        <td>@item.Session_End_Time</td>
+                                        <td>@item.Class_Name</td>
+                                        <td>@item.Section_Name</td>
+                                        <td>@item.Subject_Name</td>
+                                        <td>
+                                            @*<a asp-area="teachers" asp-controller="attendance" asp-action="classSubjectDetail" asp-route-id="@item.Session_Id" class="detail" id="detail">
+                                                <i class="fa fa-list" aria-hidden="true" style="font-size:24px;"></i>
+                                            </a>*@
+
+                                            <a asp-controller="attendance" asp-action="markAttendance" asp-route-Session_Id="@item.Session_Id" class="markAttendance" id="markAttendance">
+                                                <i class="btn btn-primary" title="" data-original-title="MarkAttendance" style="line-height: 1em; border-radius: 2em;">Mark Attendance</i>
+                                            </a>
+
+                                            @*Added BY Absar To get parentid*@
+                                            @*<input type="hidden" class="Session_Id" value="@item.Session_Id" />*@
+                                        </td>
+                                        <td>
+                                            <a href="#editSessionModal" class="edit" id="edit" data-toggle="modal">
+                                                <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                            </a>
+
+                                            <a href="#deleteSessionModal" class="delete" id="delete" data-toggle="modal">
+                                                <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                            </a>
+
+                                            @*Added BY Absar To get parentid*@
+                                            <input type="hidden" class="Session_Id" value="@item.Session_Id" />
+
+
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="clearfix">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Add Modal HTML -->
+                    <div id="addSessionModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="attendance" asp-action="addSession">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Add Session</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class=" row">
+                                            <div class="col-md-6 pr-1">
+                                                <div class="form-group">
+                                                    <label>Session Name</label>
+                                                    <input type="text" class="form-control" required="" name="Session_Name">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 pl-1">
+
+                                                <div class="form-group">
+                                                    <label>Date</label>
+                                                    <input class="form-control" type="date" data-val="true" data-val-required="The Date field is required." id="Session_Date" name="Session_Date" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class=" row">
+                                            <div class="col-md-6 pr-1">
+                                                <div class="form-group">
+                                                    <label>Start Time</label>
+                                                    <input class="form-control" type="time" data-val="true" data-val-required="The Session_Start_Time field is required." id="Session_Start_Time" name="Session_Start_Time" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 pl-1">
+
+                                                <div class="form-group">
+                                                    <label>End Time</label>
+                                                    <input class="form-control" type="time" data-val="true" data-val-required="The Session_End_Time field is required." id="Session_End_Time" name="Session_End_Time" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class=" row">
+                                            <div class="col-md-4 pr-1">
+                                                <div class="form-group">
+                                                    <label>Class Name</label>
+                                                    <select id="Class_Id" name="Class_Id" class="form-control" asp-for="Class_Id" asp-items="@Model.Classes"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 pl-1">
+
+                                                <div class="form-group">
+                                                    <label>Section Name</label>
+                                                    <select id="Section_Id" name="Section_Id" class="form-control" asp-for="Section_Id" asp-items="@Model.Sections"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 pl-1">
+
+                                                <div class="form-group">
+                                                    <label>Subject Name</label>
+                                                    <select id="Subject_Id" name="Subject_Id" class="form-control" asp-for="Subject_Id" asp-items="@Model.Subjects"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-success" value="Add">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Edit Modal HTML -->
+                    <div id="editSessionModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="attendance" asp-action="editSession">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Add Session</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class=" row">
+                                            <div class="col-md-6 pr-1">
+                                                <div class="form-group">
+                                                    <label>Session Name</label> 
+                                                    <input type="text" class="form-control" required="" name="Session_Name" id="Session_Name">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 pl-1">
+
+                                                <div class="form-group">
+                                                    <label>Date </label>
+                                                    <input class="form-control" type="date" data-val="true" data-val-required="The Date field is required." id="Session_Date" name="Session_Date" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class=" row">
+                                            <div class="col-md-6 pr-1">
+                                                <div class="form-group">
+                                                    <label>Start Time</label>
+                                                    <input class="form-control" type="time" data-val="true" data-val-required="The Session_Start_Time field is required." id="Session_Start_Time" name="Session_Start_Time" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 pl-1">
+
+                                                <div class="form-group">
+                                                    <label>End Time</label>
+                                                    <input class="form-control" type="time" data-val="true" data-val-required="The Session_End_Time field is required." id="Session_End_Time" name="Session_End_Time" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class=" row">
+                                            <div class="col-md-4 pr-1">
+                                                <div class="form-group">
+                                                    <label>Class Name</label>
+                                                    <select id="Class_Id" name="Class_Id" class="form-control" asp-for="Class_Id" asp-items="@Model.Classes"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 pl-1">
+
+                                                <div class="form-group">
+                                                    <label>Section Name</label>
+                                                    <select id="Section_Id" name="Section_Id" class="form-control" asp-for="Section_Id" asp-items="@Model.Sections"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 pl-1">
+
+                                                <div class="form-group">
+                                                    <label>Subject Name</label>
+                                                    <select id="Subject_Id" name="Subject_Id" class="form-control" asp-for="Subject_Id" asp-items="@Model.Subjects"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-success" value="Add">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Delete Modal HTML -->
+                    <div id="deleteSessionModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="attendance" asp-action="deleteSession">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Delete Session</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to delete these Records?</p>
+                                        <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-danger" value="Delete">
+
+                                        @*//Added By Absar To Pass Parameter to action method*@
+                                        <input type="hidden" id="Session_Id" name="Session_Id" />
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <footer class="footer">
+        <div class=" container-fluid ">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://www.creative-tim.com">
+                            Karachi Grammar School
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="copyright" id="copyright">
+                &copy;
+                <script>
+                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+@*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
+<script>
+    $(document).ready(function () {
+
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+
+        if (messageSuccess.length > 0) {
+
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0)  {
+            toastr.error(messageError);
+        }
+
+
+
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+
+        //Get Session_Id for Delete Added By Absar
+        $('#sessionpage #delete').on('click', function () {
+            var Session_Id = $(this).parent().find('.Session_Id').val();
+
+            $('#deleteSessionModal #Session_Id').val(Session_Id);
+        });
+
+
+
+        $('#sessionpage #edit').on('click', function () {
+
+
+            var id = $(this).parent().find('.Session_Id').val();
+            $.ajax({
+
+                type: 'GET',
+                url: '/teachers/attendance/editSession/' + id,
+                success: function (objSession) {
+
+                
+
+                    $('#editSessionModal #Session_Id').val(objSession.session_Id);
+                    $('#editSessionModal #Session_Name').val(objSession.session_Name);
+
+                    var session_date = objSession.date;
+                    //session_date = session_date.match(/(\d{4})(\d{2})(\d{2})/g).join("-");
+                    session_date = session_date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3')
+
+                    $('#editSessionModal #Session_Date').val(session_date);
+                    var start_time = objSession.start_Time;
+                    start_time = start_time.match(/\d{2}/g).join(":");
+
+                    $('#editSessionModal #Session_Start_Time').val(start_time);
+                    var end_time = objSession.end_Time;
+                    end_time = end_time.match(/\d{2}/g).join(":");
+
+                    $('#editSessionModal #Session_End_Time').val(end_time);
+                    $('#editSessionModal #Class_Id').val(objSession.class_Id);
+                    $('#editSessionModal #Section_Id').val(objSession.section_Id);
+                    $('#editSessionModal #Subject_Id').val(objSession.subject_Id);
+
+                }
+            });
+        });
+
+
+
+        $('#sessionpage').DataTable({
+            /* Disable initial sort */
+           // "aaSorting": []
+        });
+
+
+
+
+    });
+</script>

@@ -1,4 +1,5 @@
 ﻿using LMS.Domain;
+using LMS.Domain.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,18 @@ namespace LMS.BusinessLogics.Interfaces
 {
     public interface ILectureRepository
     {
+        IQueryable<Class> GetAllClass();
+        IQueryable<Section> GetAllSection();
+        IQueryable<Subject> GetAllSubject();
         IQueryable<Lecture> GetAllLecture();
         Task<Lecture> GetLectureById(int Id);
-        Task AddLecture(Lecture objLecture);
-        Task UpdateLecture(Lecture objLecture);
-        Task DeleteLecture(int id);
+        Task<int> AddLecture(Lecture objLecture);
+        Task<int> UpdateLecture(Lecture objLecture);
+        Task<int> DeleteLecture(int id);
         Task<IEnumerable<Lecture>> GetLectureBySubject(int Id);
+
+        //Added BY Absar
+        IQueryable<LectureViewModel> GetAllClassSectionByTeacherId(int TeacherId);
+        IQueryable<LectureViewModel> GetAllSubjectByTeacherId(int TeacherId);
     }
 }

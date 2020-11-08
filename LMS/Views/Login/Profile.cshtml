@@ -1,0 +1,162 @@
+﻿@model IdentityUser
+@{
+    ViewData["Title"] = "Profile";
+    Layout = ViewBag.Layout;
+    //Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel-header panel-header-sm">
+</div>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="title">Edit Profile</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="profile">
+                        <div class="row">
+                            <div class="col-md-5 pr-1">
+                                <div class="form-group">
+                                    <label>Id</label>
+                                    <input type="text" class="form-control" placeholder="Id" asp-for="Id">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>Username</label>
+                                    <input type="text" class="form-control" disabled="" placeholder="Username" asp-for="UserName">
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-1">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Email address</label>
+                                    <input type="email" class="form-control" disabled="" placeholder="Email" asp-for="Email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 pr-1">
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="text" class="form-control" placeholder="Password" id="txtPassword" asp-for="PasswordHash">
+                                    <span id="password_strength"></span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <input type="submit" id="btnUpdate" value="Update" class="btn btn-primary">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-user">
+                <div class="image">
+
+                    <img src="~/Dashboard/assets/img/bg5.jpg" />
+                </div>
+                <div class="card-body">
+                    <div class="author">
+                        <a href="#">
+
+                            <img class="avatar border-gray" src="~/Dashboard/assets/img/mike.jpg" />
+
+                            <h5 class="title">Mike Andrew</h5>
+                        </a>
+                        <p class="description">
+                            michael24
+                        </p>
+                    </div>
+                    <p class="description text-center">
+                        "Lamborghini Mercy <br>
+                        Your chick she so thirsty <br>
+                        I'm in that two seat Lambo"
+                    </p>
+                </div>
+
+
+                <br />
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+        
+
+
+        $("#btnUpdate").on('click', function () {
+
+
+            
+            var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@@#\$%\^&\*])(?=.{8,})");
+
+            //var password = $('#txtPassword').val();
+
+            //$("txtPassword").val().match(strongRegex)
+
+            if (!($('#txtPassword').val().match(strongRegex))) {
+                toastr.error('Password Must Be Greater Than 8 Digit, And Must Contain 1 Upper Case, 1 Lower Case, 1 Numeric And 1 Special Character')
+
+                $('#txtPassword').focus();
+
+                return false;
+            }
+
+            
+        });
+
+
+        
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+        
+
+        if (messageSuccess.length > 0) {
+            //console.log(message);
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0)  {
+            toastr.error(messageError);
+        }
+
+
+    });
+</script>
+
+
+
+

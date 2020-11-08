@@ -576,10 +576,10 @@ fieldset[disabled] .navbar .navbar-nav>a.btn.active {
 .show>.btn-primary.dropdown-toggle,
 .show>.btn-primary.dropdown-toggle:focus,
 .show>.btn-primary.dropdown-toggle:hover {
-  background-color: #fa7a50;
+  background-color: #ae7c38;
   color: #FFFFFF;
   box-shadow: none;
-  border-color: #fa7a50;
+  border-color: #ae7c38;
 }
 
 .btn-primary:not([data-action]):not([class*="btn-outline-"]):hover {
@@ -4202,9 +4202,16 @@ background: linear-gradient(0deg, rgba(12,46,78,1) 0%, rgba(25,77,126,1) 100%);
 }
 
 .main-panel>.content {
+  padding: 0 15px 30px;
+  min-height: calc(100vh - 123px);
+  margin-top: 0px;
+}
+
+
+.main-panel>.content-teacher {
   padding: 0 30px 30px;
   min-height: calc(100vh - 123px);
-  margin-top: -30px;
+  margin-top: 0px;
 }
 
 .main-panel>.navbar {
