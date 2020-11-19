@@ -8,7 +8,7 @@ namespace LMS.Domain
     public class Attendance
     {
         [Key]
-        public int Id { get; set; }
+        public int Attendance_Id { get; set; }
         public string Date { get; set; }
         public string Status { get; set; }
        

@@ -61,6 +61,7 @@ namespace LMS.Areas.Teachers.Controllers
         public IActionResult AddLecture()
         {
             List<SelectListItem> classList = new List<SelectListItem>();
+            classList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
             var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
             foreach (var lstclass in objClassSecSub)
             {
@@ -77,6 +78,7 @@ namespace LMS.Areas.Teachers.Controllers
             ViewBag.ClassList = classList;
 
             List<SelectListItem> sectionList = new List<SelectListItem>();
+            sectionList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
             foreach (var lstSection in objClassSecSub)
             {
                 var selectListItem = new SelectListItem
@@ -92,6 +94,7 @@ namespace LMS.Areas.Teachers.Controllers
 
 
             List<SelectListItem> subjectList = new List<SelectListItem>();
+            subjectList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
             var objSubject = _LectureRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
             foreach (var lstSubject in objSubject)
             {
@@ -121,31 +124,47 @@ namespace LMS.Areas.Teachers.Controllers
 
                 var classSectionObj = await _tPClassReposiroty.GetClassSectionById(objLecture.Class_Id, objLecture.Section_Id);
 
-                var classSubjectObj = await _tPClassReposiroty.GetClassSubjectById(classSectionObj.ClassSection_id);
+                if (classSectionObj != null)
+                { 
 
-                Lecture newLecture = new Lecture
-                {
-                    Lecture_Name = objLecture.Lecture_Name,
-                    Lecture_Detail = objLecture.Lecture_Detail,
-                    Lecture_File = uniqueFileName,
-                    LecturePost_Date = objLecture.LecturePost_Date.ToString("yyyyMMdd"), //DateTime.Now.ToString(),
-                    Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1,
-                    ClassSubject_Id = classSubjectObj.ClassSubject_Id
-                };
+                    var classSubjectObj = await _tPClassReposiroty.GetClassSubjectById(classSectionObj.ClassSection_id, objLecture.Subject_Id);
 
-                int result = await _LectureRepository.AddLecture(newLecture);
-                if (result == 1)
-                {
-                    TempData["Success"] = " Lecture Added Successfully";
-                    return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                    if (classSectionObj != null)
+                    { 
+
+                        Lecture newLecture = new Lecture
+                        {
+                            Lecture_Name = objLecture.Lecture_Name,
+                            Lecture_Detail = objLecture.Lecture_Detail,
+                            Lecture_File = uniqueFileName,
+                            LecturePost_Date = objLecture.LecturePost_Date.ToString("yyyyMMdd"), //DateTime.Now.ToString(),
+                            Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1,
+                            ClassSubject_Id = classSubjectObj.ClassSubject_Id
+                        };
+
+                        int result = await _LectureRepository.AddLecture(newLecture);
+                        if (result == 1)
+                        {
+                            TempData["Success"] = " Lecture Added Successfully";
+                            return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                        }
+                        else
+                        {
+                            TempData["Error"] = "Adding Lecture Failed";
+                            return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                        }
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Class And Section Dont Have Seleceted Subject";
+                        return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                    }
                 }
                 else
                 {
-                    TempData["Error"] = "Adding Lecture Failed";
+                    TempData["Error"] = "Class With Section Didn't Find";
                     return RedirectToAction("Index", "lecture", new { area = "teachers" });
                 }
-
-
 
             }
 
@@ -164,19 +183,57 @@ namespace LMS.Areas.Teachers.Controllers
                 Lecture_Name = objLecture.Lecture_Name,
                 Lecture_Detail = objLecture.Lecture_Detail,
                 ExistingFilePath = objLecture.Lecture_File,
-                LecturePost_Date = Convert.ToDateTime(objLecture.LecturePost_Date)
+                LecturePost_Date = DateTime.ParseExact(objLecture.LecturePost_Date, "yyyyMMdd", null)
+                
             };
 
-            List<Class> classList = _LectureRepository.GetAllClass().ToList();
+            List<SelectListItem> classList = new List<SelectListItem>();
+            classList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
+            var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            foreach (var lstclass in objClassSecSub)
+            {
 
+                var selectListItem = new SelectListItem
+                {
+                    Text = lstclass.Class_Name,
+                    Value = lstclass.Class_Id.ToString(),
+
+                };
+
+                classList.Add(selectListItem);
+            }
             ViewBag.ClassList = classList;
 
-            List<Section> sectionList = _LectureRepository.GetAllSection().ToList();
 
+            List<SelectListItem> sectionList = new List<SelectListItem>();
+            sectionList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
+            foreach (var lstSection in objClassSecSub)
+            {
+                var selectListItem = new SelectListItem
+                {
+                    Text = lstSection.Section_Name,
+                    Value = lstSection.Section_Id.ToString(),
+
+                };
+
+                sectionList.Add(selectListItem);
+            }
             ViewBag.SectionList = sectionList;
 
-            List<Subject> subjectList = _LectureRepository.GetAllSubject().ToList();
+            List<SelectListItem> subjectList = new List<SelectListItem>();
+            subjectList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
+            var objSubject = _LectureRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            foreach (var lstSubject in objSubject)
+            {
+                var selectListItem = new SelectListItem
+                {
+                    Text = lstSubject.Subject_Name,
+                    Value = lstSubject.Subject_Id.ToString(),
 
+                };
+
+                subjectList.Add(selectListItem);
+            }
             ViewBag.SubjectList = subjectList;
 
             return View(model);
@@ -188,45 +245,62 @@ namespace LMS.Areas.Teachers.Controllers
         {
             if (ModelState.IsValid)
             {
-                var objLecture = await _LectureRepository.GetLectureById(model.Id);
-
+                
                 var classSectionObj = await _tPClassReposiroty.GetClassSectionById(model.Class_Id, model.Section_Id);
 
-                var classSubjectObj = await _tPClassReposiroty.GetClassSubjectById(classSectionObj.ClassSection_id);
+                if (classSectionObj != null)
+                { 
 
-                objLecture.Lecture_Name = model.Lecture_Name;
-                objLecture.Lecture_Detail = model.Lecture_Detail;
-                objLecture.LecturePost_Date = DateTime.Now.ToString();
-                objLecture.Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1;
-                objLecture.ClassSubject_Id = classSubjectObj.ClassSubject_Id;
+                    var classSubjectObj = await _tPClassReposiroty.GetClassSubjectById(classSectionObj.ClassSection_id, model.Subject_Id);
 
-                if (model.Lecture_File != null)
-                {
-                    if (model.ExistingFilePath != null)
+                    if (classSubjectObj != null)
                     {
-                        string filePath = Path.Combine(_hostingEnvironment.WebRootPath,
-                            "Lectures", model.ExistingFilePath);
-                        System.IO.File.Delete(filePath);
+                        var objLecture = await _LectureRepository.GetLectureById(model.Id);
+
+                        objLecture.Lecture_Name = model.Lecture_Name;
+                        objLecture.Lecture_Detail = model.Lecture_Detail;
+                        objLecture.LecturePost_Date = DateTime.Now.ToString();
+                        objLecture.Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1;
+                        objLecture.ClassSubject_Id = classSubjectObj.ClassSubject_Id;
+
+                        if (model.Lecture_File != null)
+                        {
+                            if (model.ExistingFilePath != null)
+                            {
+                                string filePath = Path.Combine(_hostingEnvironment.WebRootPath,
+                                    "Lectures", model.ExistingFilePath);
+                                System.IO.File.Delete(filePath);
+                            }
+                            
+                            string uniqueFileName = Utility.ProcessUploadedFile(model.Lecture_File, _hostingEnvironment, "Lectures");
+                            
+                            objLecture.Lecture_File = uniqueFileName;
+
+                        }
+
+                        int result= await _LectureRepository.UpdateLecture(objLecture);
+                        if (result == 1)
+                        {
+                            TempData["Success"] = "Lecture Updated Successfully";
+                            return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                        }
+                        else
+                        {
+                            TempData["Error"] = "Updating Lecture Failed ";
+                            return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                        }
                     }
-                    
-                    string uniqueFileName = Utility.ProcessUploadedFile(model.Lecture_File, _hostingEnvironment, "Lectures");
-                    
-                    objLecture.Lecture_File = uniqueFileName;
-
-                }
-
-                int result= await _LectureRepository.UpdateLecture(objLecture);
-                if (result == 1)
-                {
-                    TempData["Success"] = "Lecture Updated Successfully";
-                    return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                    else
+                    {
+                        TempData["Error"] = "Class And Section Dont Have Seleceted Subject";
+                        return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                    }
                 }
                 else
                 {
-                    TempData["Error"] = "Updating Lecture Failed ";
+                    TempData["Error"] = "Class With Section Didn't Find";
                     return RedirectToAction("Index", "lecture", new { area = "teachers" });
                 }
-                
 
             }
 

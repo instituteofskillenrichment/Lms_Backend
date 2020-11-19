@@ -411,7 +411,6 @@ namespace LMS.Database.Migrations
 
                     b.Property<int>("Test_Id");
 
-
                     b.Property<int>("Test_Type_Id");
 
                     b.HasKey("Question_Id");
@@ -434,11 +433,7 @@ namespace LMS.Database.Migrations
                     b.HasKey("Test_Type_Id");
 
                     b.ToTable("TestType");
-               
-
-                    b.ToTable("TestDetail");
                 });
-
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -770,12 +765,10 @@ namespace LMS.Database.Migrations
                         .HasForeignKey("Test_Id")
                         .OnDelete(DeleteBehavior.Cascade);
 
-
                     b.HasOne("LMS.Domain.TestType", "TestType")
                         .WithMany()
                         .HasForeignKey("Test_Type_Id")
                         .OnDelete(DeleteBehavior.Cascade);
-
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

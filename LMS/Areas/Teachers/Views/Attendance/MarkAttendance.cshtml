@@ -1,4 +1,6 @@
-﻿@model IEnumerable<LMS.Domain.ViewModels.AttendanceViewModel>
+﻿@model LMS.Domain.ViewModels.AttendanceViewModel
+
+
 
 @{
     ViewData["Title"] = "MarkAttendance";
@@ -30,15 +32,15 @@
 
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label>Class Name</label>
+                                    <label>Class </label>
                                     <select id="ddlClass" name="Class_Id" class="form-control" asp-items="@ViewBag.ClassList"></select>
                                 </div>
                                 <div class="col-md-3">
-                                    <label>Section Name</label>
+                                    <label>Section </label>
                                     <select id="ddlSection" name="Section_Id" class="form-control" asp-items="@ViewBag.sectionList"></select>
                                 </div>
                                 <div class="col-md-3">
-                                    <label>Subject Name</label>
+                                    <label>Subject </label>
                                     <select id="ddlSubject" name="Subject_Id" class="form-control" asp-items="@ViewBag.subjectList"></select>
                                 </div>
                             </div>
@@ -46,54 +48,83 @@
                             <br />
                             <br />
                             <br />
-
-                            <table id="AttendancePage" class="display" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Student ID</th>
-                                        <th>Student Name</th>
-                                        <th>ClassName</th>
-                                        <th>Section Name</th>
-                                        <th>Status</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
+                            <form method="post" asp-controller="attendance" asp-action="addAttendance">
+                                <table id="AttendancePage" class="display" style="width:100%">
+                                    <thead>
                                         <tr>
-                                            <td>@item.Session_Id</td>
+                                            
+                                            <th>Student ID</th>
+                                            <th>Student Name</th>
+                                            <th>ClassName</th>
+                                            <th>Section Name</th>
+                                            <th>Subject Name</th>
+                                            <th>Status</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.Sessions)
+                                        {
+                                        <tr>
+                                            
+                                            
                                             <td>@item.Student_Id</td>
                                             <td>@item.Student_Name</td>
-                                            <td>@item.Class_Name</td>
-                                            <td>@item.Section_Name</td>
+                                            <td >
+                                                @item.Class_Name
+                                                @*Added BY Absar To get parentid*@
+                                                <input type="hidden" class="Class_Name" id="Class_Name" value="@item.Class_Id" />
+                                            </td>
+                                            <td>
+                                                @item.Section_Name
+                                                @*Added BY Absar To get parentid*@
+                                                <input type="hidden" class="Section_Name" id="Section_Name" value="@item.Section_Id" />
+                                            </td>
+                                            <td>
+                                                @item.Subject_Name
+                                                
+                                                <input type="hidden" class="Subject_Name" id="Subject_Name" />
+                                            </td>
                                             <td>
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="radio" id="radioStatus" class="form-check-input" name="optradio">Abesnt
+                                                        <input type="radio" id="radStatus" value="Absent" class="form-check-inline" name="@item.Student_Id" >Abesnt
                                                     </label>
                                                 </div>
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="radio" id="radioStatus" class="form-check-input" name="optradio">Present
+                                                        <input type="radio" id="radStatus" value="Present" class="form-check-inline" name="@item.Student_Id" >Present
                                                     </label>
                                                 </div>
                                                 <div class="form-check-inline disabled">
                                                     <label class="form-check-label">
-                                                        <input type="radio" id="radioStatus" class="form-check-input" name="optradio">Leave
+                                                        <input type="radio" id="radStatus" value="Leave" class="form-check-inline" name="@item.Student_Id" >Leave
                                                     </label>
                                                 </div>
+
+                                                <input type="hidden" class="Session_Id" id="Session_Id" value="@ViewBag.Session_Id" />
+
                                             </td>
 
 
                                         </tr>
-                                    }
-                                </tbody>
-                            </table>
-                            <div class="clearfix">
+                                        }
+                                    </tbody>
+                                </table>
+                                <div class="clearfix">
 
-                            </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <input type="submit" value="Submit" id="Submit" class="btn btn-primary" />
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </form>
                         </div>
                     </div>
 
@@ -101,82 +132,9 @@
 
 
 
-                    <!-- Edit Modal HTML -->
-                    <div id="editStudentClassModel" class="modal fade">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <form method="post" asp-controller="student" asp-action="editStudentClass">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Edit Student Class</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label>ID</label>
-                                            <input type="text" class="form-control" required="" id="StudentClass_Id" disabled="disabled">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Student ID</label>
-                                            <input type="text" class="form-control" required="" id="Student_Id" disabled="disabled">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Student Name</label>
-                                            <input type="text" class="form-control" required="" id="Student_Name" disabled="disabled">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Class Name</label>
-                                            @*<select id="Class_Id" name="Class_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Class, "Class_Id", "Class_Name"))"></select>*@
-                                        </div>
+                    
 
-                                        <div class="form-group">
-                                            <label>Section Name</label>
-                                            @*<select id="Section_Id" name="Section_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Section, "Section_Id", "Section_Name"))"></select>*@
-                                        </div>
-
-
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                        <input type="submit" class="btn btn-info" value="Save">
-                                        @*Added By Absar*@
-                                        <input type="hidden" name="StudentClass_Id" id="StudentClass_Id" />
-                                        <input type="hidden" name="Student_Id" id="Student_Id" />
-                                        <input type="hidden" name="Student_Name" id="Student_Name" />
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <!-- Delete Modal HTML -->
-                    <div id="deleteStudentClassModal" class="modal fade">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <form method="post" asp-controller="student" asp-action="deleteStudentClass">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Delete Student Class</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Are you sure you want to delete these Records?</p>
-                                        <p class="text-warning"><small>This action cannot be undone.</small></p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                        <input type="submit" class="btn btn-danger" value="Delete">
-
-                                        @*//Added By Absar To Pass Parameter to action method*@
-                                        <input type="hidden" id="StudentClass_Id" name="StudentClass_Id" />
-                                        <input type="hidden" id="Students_Id" name="Student_Id" />
-
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                    
 
                 </div>
             </div>
@@ -251,11 +209,141 @@
         else if (messageError.length > 0) {
             toastr.error(messageError);
         }
-
-        //$('#AttendancePage').hide();
+        
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
+
+
+        
+
+
+        $("#ddlClass").change(function ()
+        {
+            
+
+            var selectText = $('#ddlClass :selected').text();
+            
+            if (selectText) {
+                $('tr').each(function () {
+                    if ($(this).find('td').length) {
+                        
+                        var txt = $(this).find('td:eq(2)').text();
+                        
+                        if (txt === selectText) {
+                            $(this).show();
+                        }
+                        else {
+                            $(this).hide();
+                        }
+                    }
+                })
+            }
+            else {
+                $('tr').show();
+            }
+
+
+
+        });
+
+
+
+        $("#ddlSection").change(function () {
+
+            
+
+            var selectText = $('#ddlSection :selected').text();
+
+            if (selectText) {
+                $('tr').each(function () {
+                    if ($(this).find('td').length) {
+
+                        var txt = $(this).find('td:eq(3)').text();
+
+                        if (txt === selectText) {
+                            $(this).show();
+                        }
+                        else {
+                            $(this).hide();
+                        }
+                    }
+                })
+            }
+            else {
+                $('tr').show();
+            }
+
+
+
+        });
+
+
+        
+        $("#ddlSubject").change(function ()
+        {
+           
+            var selected = $('#ddlSubject :selected');
+            var val = selected.val();
+            selected = selected.text();
+            
+            var table = $("table tbody");
+
+            table.find('tr').each(function (i) {
+                var $tds = $(this).find('td');
+
+                $tds.eq(4).val(val);
+                $tds.eq(4).html(selected);
+                
+            });
+
+            
+        });
+        
+
+        //Add Attendance Ajax Request Added By Absar
+        $('#Submit').on('click', function () {
+
+            
+
+
+            var attendancearr = [];
+            $("#AttendancePage tbody tr").each(function () {
+                var row = $(this);
+                var atd = {};
+
+                
+
+                atd.ID = "0";
+                atd.Date = "0";
+                atd.Status = row.find('input:radio[id=radStatus]:checked').val(); 
+                atd.Session_Id = $('#Session_Id').val();
+                atd.Student_Id = row.find("td").eq(0).html();
+                atd.Student_Name = row.find("td").eq(1).html();
+                atd.Class_Id = row.find("#Class_Name").val();
+                atd.Section_Id = row.find("#Section_Name").val();
+                atd.Subject_Id = $('#ddlSubject :selected').val();
+                //atd.Subject_Id = "0";
+                atd.Teacher_Id = "0";
+                attendancearr.push(atd);
+            });
+
+            $.ajax({
+
+                url: '/Teachers/Attendance/addAttendance',
+                type: 'POST',
+                contentType: "application/x-www-form-urlencoded",
+                dataType: "html",
+                data: { attendancearr: attendancearr },
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+            
+        });
 
 
         $('#AttendancePage').dataTable({
@@ -267,102 +355,8 @@
         });
 
 
-        //var rows = $("table#AttendancePage tr:not(:first-child)");
 
-        //$("#ddlClass").change(function () {
-        //    var selected = this.value;
-
-        //    if (selected != "All") {
-        //        rows.filter("[ClassName=" + selected + "]").show();
-        //        rows.not("[ClassName=" + selected + "]").hide();
-        //        rows.filter("[ClassName=" + selected + "]");
-
-        //    }
-        //    else {
-        //        rows.show();
-        //    }
-
-
-        //});
-
-        $("#ddlClass").change(function () {
-            var ddlClass = $(this).val();
-            $('table')[ddlClass ? 'show' : 'hide']();
-
-            if (ddlClass) {
-                $.each($('#AttendancePage tbody tr:has(td)'), function (index, item) {
-                    $(item)[$(item).is(':contains(' + ddlClass + ')') ? 'show' : 'hide']();
-                });
-            }
-
-        });
-
-
-        //Get StudentClass_Id for Delete Added By Absar
-        //$('#AttendancePage #delete').on('click', function () {
-        //    var StudentClass_Id = $(this).parent().find('.StudentClass_Id').val();
-        //    $('#deleteStudentClassModal #StudentClass_Id').val(StudentClass_Id);
-        //});
-
-        //Get StudentClass_Id for Edit Added By Absar
-        //$('#AttendancePage #edit').on('click', function () {
-        //    var id = $(this).parent().find('.StudentClass_Id').val();
-        //    $.ajax({
-
-        //        type: 'GET',
-        //        url: '/admin/student/editStudentClass/' + id,
-        //        success: function (objStudentClass) {
-
-        //            // objClass = JSON.stringify(objClass);
-
-        //            //alert(objClass);
-        //            $('#editStudentClassModel #StudentClass_Id').val(objStudentClass.studentClass_Id);
-        //            $('#editStudentClassModel #Class_Id').val(objStudentClass.class_Id);
-        //            $('#editStudentClassModel #Section_Id').val(objStudentClass.section_Id);
-        //            $('#editStudentClassModel #Student_Id').val(objStudentClass.student_Id);
-        //            $('#editStudentClassModel #Student_Name').val(objStudentClass.student_Name);
-
-        //        }
-        //    });
-        //});
-
-
-
-        //$('#AttendancePage').dataTable({
-        //    /* Disable initial sort */
-        //    "aaSorting": [],
-        //    "searching": false,
-        //    "bLengthChange": false,
-
-        //});
-
-        //$('#AttendancePage').DataTable({
-        //    initComplete: function () {
-        //        this.api().columns().every(function () {
-        //            var column = this;
-        //            var select = $('<select><option value=""></option></select>')
-        //                .appendTo($(column.footer()).empty())
-        //                .on('change', function () {
-        //                    var val = $.fn.dataTable.util.escapeRegex(
-        //                        $(this).val()
-        //                    );
-
-        //                    column
-        //                        .search(val ? '^' + val + '$' : '', true, false)
-        //                        .draw();
-        //                });
-
-        //            column.data().unique().sort().each(function (d, j) {
-        //                select.append('<option value="' + d + '">' + d + '</option>')
-        //            });
-        //        });
-        //    }
-        //});
-
-
-
-
-
+        
 
     });
 

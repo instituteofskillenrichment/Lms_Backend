@@ -229,7 +229,7 @@
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function Success(response) {
-                debugger;
+                
                 if (response.d == "1") {
                     toastr.success('Data successfully saved', 'Success')
                 }
@@ -238,7 +238,7 @@
                 }
             },
             error: function (msg) {
-                debugger;
+                
                 toastr.error('Failed to Save Data', 'Error!')
             }
         });

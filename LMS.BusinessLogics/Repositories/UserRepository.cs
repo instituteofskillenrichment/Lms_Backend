@@ -74,7 +74,7 @@ namespace LMS.BusinessLogics.Repositories
 
             if(getRole == null)
             {
-                getRole = await _RoleRepository.FinRoleByName(UserRole);
+                getRole = await _RoleRepository.FindRoleByName(UserRole);
 
                 if(getRole == null)
                 {

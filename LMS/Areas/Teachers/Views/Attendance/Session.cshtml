@@ -48,9 +48,9 @@
                                     <tr>
                                         <td>@item.Session_Id</td>
                                         <td>@item.Session_Name</td>
-                                        <td>@item.Session_Date</td>
-                                        <td>@item.Session_Start_Time</td>
-                                        <td>@item.Session_End_Time</td>
+                                        <td>@item.Session_Date.ToShortDateString()</td>
+                                        <td>@item.Session_Start_Time.ToShortTimeString()</td>
+                                        <td>@item.Session_End_Time.ToShortTimeString()</td>
                                         <td>@item.Class_Name</td>
                                         <td>@item.Section_Name</td>
                                         <td>@item.Subject_Name</td>
@@ -171,7 +171,7 @@
                             <div class="modal-content">
                                 <form method="post" asp-controller="attendance" asp-action="editSession">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Add Session</h4>
+                                        <h4 class="modal-title">Edit Session</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                     </div>
                                     <div class="modal-body">
@@ -233,7 +233,11 @@
                                     </div>
                                     <div class="modal-footer">
                                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                        <input type="submit" class="btn btn-success" value="Add">
+                                        <input type="submit" class="btn btn-success" value="Update">
+
+                                        @*//Added By Absar To Pass Parameter to action method*@
+                                        <input type="hidden" id="Session_Id" name="Session_Id" />
+
                                     </div>
                                 </form>
                             </div>
@@ -363,7 +367,7 @@
                 url: '/teachers/attendance/editSession/' + id,
                 success: function (objSession) {
 
-                
+                    
 
                     $('#editSessionModal #Session_Id').val(objSession.session_Id);
                     $('#editSessionModal #Session_Name').val(objSession.session_Name);

@@ -5,38 +5,39 @@
 }
 
 
-<div class="Dashboard" id="Dashboard">
     
-    <div class="panel-header panel-header-sm">
-    </div>
+<div class="panel-header panel-header-sm">
+</div>
 
-    <div class="content">
+<div class="content">
         <div class="row">
-            <div class="col-md-8 offset-md-2">
+            <div class="col-md-12 ">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="title">Lecture Update</h5>
                     </div>
                     <div class="card-body">
                         <form enctype="multipart/form-data" asp-controller="Lecture" asp-action="EditLecture">
+
                             <div class="row">
-                                <div class="col-md-5 pr-1">
+                                <div class="col-md-4 pr-1">
                                     <div class="form-group">
                                         <label>Class Name</label>
-                                        <select id="ddlClass" asp-for="Class_Id" class="form-control" asp-items="@(new SelectList(ViewBag.ClassList, "Class_Id", "Class_Name"))"></select>
+                                        <select id="ddlClass" asp-for="Class_Id" class="form-control" asp-items="@ViewBag.ClassList"></select>
+                                        
                                     </div>
 
                                 </div>
-                                <div class="col-md-5 pr-1">
+                                <div class="col-md-4 pr-1">
                                     <div class="form-group">
                                         <label>Section Name</label>
-                                        <select id="ddlSection" asp-for="Section_Id" class="form-control" asp-items="@(new SelectList(ViewBag.SectionList, "Section_Id", "Section_Name"))"></select>
+                                        <select id="ddlSection" asp-for="Section_Id" class="form-control" asp-items="@ViewBag.SectionList"></select>
                                     </div>
                                 </div>
-                                <div class="col-md-5 pr-1">
+                                <div class="col-md-4 pr-1">
                                     <div class="form-group">
                                         <label>Subject Name</label>
-                                        <select id="ddlSubject" asp-for="Subject_Id" class="form-control" asp-items="@(new SelectList(ViewBag.SubjectList, "Subject_Id", "Subject_Name"))"></select>
+                                        <select id="ddlSubject" asp-for="Subject_Id" class="form-control" asp-items="@ViewBag.SubjectList"></select>
                                     </div>
                                 </div>
                             </div>
@@ -44,7 +45,7 @@
                                 <div class="col-md-6 pr-1">
                                     <div class="form-group">
                                         <label>Date</label>
-                                        <input asp-for="LecturePost_Date" class="form-control">
+                                        <input asp-for="LecturePost_Date" type="date" class="form-control">
                                         @*<input class="form-control" type="datetime-local" id="birthdaytime" name="birthdaytime">*@
                                     </div>
                                 </div>
@@ -65,15 +66,17 @@
                             </div>
 
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Lecture File</label>
-                                    <br />
-                                    <a asp-controller="teachers/Lecture" asp-action="downloadLecture" asp-route-lectureId="@Model.Id" class="delete"><i class="fas fa-file-archive"></i> @Model.ExistingFilePath</a>
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>Lecture File</label>
+                                        <br />
+                                        <input asp-for="Lecture_File" style="line-height: normal; opacity: 1; height: 28px; width: 70%; border: 1px solid; margin-top: 30px; font-size: 1.3em;" />
+                                        @*<input asp-for="Lecture_File" style="line-height: normal; opacity: 1; height: 28px; width: 70%; border: 1px solid; margin-top: 30px; font-size: 1.3em;" />*@
+                                        @*<a asp-controller="teachers/Lecture" asp-action="downloadLecture" asp-route-lectureId="@Model.Id" class="delete"><i class="fas fa-file-archive"></i> @Model.ExistingFilePath</a>*@
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
 
 
@@ -86,11 +89,12 @@
                                 </div>
                             </div>
 
-                        </div>
-                        <input asp-for="ExistingFilePath" type="hidden" value="@Model.ExistingFilePath" />
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </form>
 
+                            <input asp-for="ExistingFilePath" type="hidden" value="@Model.ExistingFilePath" />
+                            <button type="submit" class="btn btn-primary">Update</button>
+
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -98,4 +102,3 @@
 
 
 
-</div>

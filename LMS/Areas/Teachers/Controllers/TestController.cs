@@ -10,34 +10,45 @@ using LMS.BusinessLogics.Interfaces;
 using LMS.Common;
 using LMS.Domain;
 using LMS.Domain.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Test = LMS.Domain.Test;
 
 namespace LMS.Areas.Teachers.Controllers
 {
+    [Authorize(Roles = "Teacher")]
     [Area("teachers")]
     [Route("teachers/test")]
     public class TestController : Controller
     {
         private readonly ITeacherTestRepository _TeacherTestRepository;
-        private readonly IClassRepository _ClassRepository;
-        private readonly ISectionRepository _SectionRepository;
-        private readonly ISubjectRepository _SubjectRepository;
+        //private readonly IClassRepository _ClassRepository;
+        //private readonly ISectionRepository _SectionRepository;
+        //private readonly ISubjectRepository _SubjectRepository;
+        private readonly ILectureRepository _LectureRepository;
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public TestController(ITeacherTestRepository TeacherTestRepository, IClassRepository ClassRepository,
-            ISectionRepository SectionRepository, ISubjectRepository SubjectRepository, IHostingEnvironment hostingEnvironment)
+        public TestController(ITeacherTestRepository TeacherTestRepository, 
+            //IClassRepository ClassRepository,
+            //ISectionRepository SectionRepository, 
+            //ISubjectRepository SubjectRepository,
+            ILectureRepository LectureRepository,
+            IHostingEnvironment hostingEnvironment)
         {
             _TeacherTestRepository = TeacherTestRepository;
-            _ClassRepository = ClassRepository;
-            _SectionRepository = SectionRepository;
-            _SubjectRepository = SubjectRepository;
+            //_ClassRepository = ClassRepository;
+            //_SectionRepository = SectionRepository;
+           // _SubjectRepository = SubjectRepository;
+            _LectureRepository = LectureRepository;
             _hostingEnvironment = hostingEnvironment;
         }
 
+        [Route("")]
+        [Route("index")]
         public IActionResult Index()
         {
             var Tests = _TeacherTestRepository.GetTestsByTeacher(HttpContext.Session.GetInt32("UserId") ?? 2);
@@ -58,16 +69,53 @@ namespace LMS.Areas.Teachers.Controllers
         [Route("addtest")]
         public IActionResult AddTest()
         {
-            List<Class> classList = _ClassRepository.GetAllClass().ToList();
+            List<SelectListItem> classList = new List<SelectListItem>();
+            classList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
+            var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            foreach (var lstclass in objClassSecSub)
+            {
 
+                var selectListItem = new SelectListItem
+                {
+                    Text = lstclass.Class_Name,
+                    Value = lstclass.Class_Id.ToString(),
+
+                };
+
+                classList.Add(selectListItem);
+            }
             ViewBag.ClassList = classList;
 
-            List<Section> sectionList = _SectionRepository.GetAllSection().ToList();
 
+            List<SelectListItem> sectionList = new List<SelectListItem>();
+            sectionList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
+            foreach (var lstSection in objClassSecSub)
+            {
+                var selectListItem = new SelectListItem
+                {
+                    Text = lstSection.Section_Name,
+                    Value = lstSection.Section_Id.ToString(),
+
+                };
+
+                sectionList.Add(selectListItem);
+            }
             ViewBag.SectionList = sectionList;
 
-            List<Subject> subjectList = _SubjectRepository.GetAllSubject().ToList();
+            List<SelectListItem> subjectList = new List<SelectListItem>();
+            subjectList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
+            var objSubject = _LectureRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            foreach (var lstSubject in objSubject)
+            {
+                var selectListItem = new SelectListItem
+                {
+                    Text = lstSubject.Subject_Name,
+                    Value = lstSubject.Subject_Id.ToString(),
 
+                };
+
+                subjectList.Add(selectListItem);
+            }
             ViewBag.SubjectList = subjectList;
 
             return View();
@@ -94,9 +142,17 @@ namespace LMS.Areas.Teachers.Controllers
                     Subject_Id = objTest.Subject_Id
                 };
 
-                await _TeacherTestRepository.AddTeacherTest(newTest);
-
-                return RedirectToAction("Index", "Test", new { area = "Teachers" });
+                int result = await _TeacherTestRepository.AddTeacherTest(newTest);
+                if (result == 1)
+                {
+                    TempData["Success"] = " Test Added Successfully";
+                    return RedirectToAction("index", "test", new { area = "teachers" });
+                }
+                else
+                {
+                    TempData["Error"] = "Adding Test Failed";
+                    return RedirectToAction("index", "test", new { area = "teachers" });
+                }
             }
 
             return View();
@@ -135,16 +191,53 @@ namespace LMS.Areas.Teachers.Controllers
             }
 
 
-            List<Class> classList = _ClassRepository.GetAllClass().ToList();
+            List<SelectListItem> classList = new List<SelectListItem>();
+            classList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
+            var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            foreach (var lstclass in objClassSecSub)
+            {
 
+                var selectListItem = new SelectListItem
+                {
+                    Text = lstclass.Class_Name,
+                    Value = lstclass.Class_Id.ToString(),
+
+                };
+
+                classList.Add(selectListItem);
+            }
             ViewBag.ClassList = classList;
 
-            List<Section> sectionList = _SectionRepository.GetAllSection().ToList();
 
+            List<SelectListItem> sectionList = new List<SelectListItem>();
+            sectionList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
+            foreach (var lstSection in objClassSecSub)
+            {
+                var selectListItem = new SelectListItem
+                {
+                    Text = lstSection.Section_Name,
+                    Value = lstSection.Section_Id.ToString(),
+
+                };
+
+                sectionList.Add(selectListItem);
+            }
             ViewBag.SectionList = sectionList;
 
-            List<Subject> subjectList = _SubjectRepository.GetAllSubject().ToList();
+            List<SelectListItem> subjectList = new List<SelectListItem>();
+            subjectList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
+            var objSubject = _LectureRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            foreach (var lstSubject in objSubject)
+            {
+                var selectListItem = new SelectListItem
+                {
+                    Text = lstSubject.Subject_Name,
+                    Value = lstSubject.Subject_Id.ToString(),
 
+                };
+
+                subjectList.Add(selectListItem);
+            }
             ViewBag.SubjectList = subjectList;
 
             List<TestType> testTypeList = _TeacherTestRepository.GetAllTestType().ToList();
@@ -217,70 +310,101 @@ namespace LMS.Areas.Teachers.Controllers
 
             ViewBag.TestId = id;
 
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"].ToString();
+                
+            }
+            else if (TempData["Success"] != null)
+            {
+                ViewBag.Success = TempData["Success"].ToString();
+                
+            }
+            
             return View();
+            
+            
         }
 
         [Route("addtestdetails")]
         [HttpPost]
         public async Task<IActionResult> AddTestDetails()
         {
-            try
-            {
-                string test = Request.Form.Where(x => x.Key == "tests").FirstOrDefault().Value;
+            
+              
 
-                var root = JsonConvert.DeserializeObject<List<Models.Test>>(test);
+              if (ModelState.IsValid)
+              {
+                //try
+                //{
 
-                if (ModelState.IsValid)
-                {
-                    for (int i = 0; i < root.Count; i++)
-                    {
-                        TestDetail newTestDetail = new TestDetail();
+                        string test = Request.Form.Where(x => x.Key == "tests").FirstOrDefault().Value;
 
-                        if (root[i].TestTypeId == "3")
+                        var root = JsonConvert.DeserializeObject<List<Models.Test>>(test);
+
+                        int result = 0;
+
+                        for (int i = 0; i < root.Count; i++)
                         {
-                            dynamic file;
-                            string uniqueFileName = string.Empty;
+                            TestDetail newTestDetail = new TestDetail();
 
-                            if (Request.Form.Files.Count > 0)
+                            if (root[i].TestTypeId == "3")
                             {
-                                file = Request.Form.Files[0];
-                                uniqueFileName = Utility.ProcessUploadedFile(file, _hostingEnvironment, "Tests");
+                                dynamic file;
+                                string uniqueFileName = string.Empty;
+
+                                if (Request.Form.Files.Count > 0)
+                                {
+                                    file = Request.Form.Files[0];
+                                    uniqueFileName = Utility.ProcessUploadedFile(file, _hostingEnvironment, "Tests");
+                                }
+                                newTestDetail.Question_Name = root[i].Question;
+                                newTestDetail.Option_1 = uniqueFileName;
+                                newTestDetail.Option_2 = root[i].Option2;
+                                newTestDetail.Option_3 = root[i].Option3;
+                                newTestDetail.Option_4 = root[i].Option4;
+                                newTestDetail.Correct_Answer = root[i].CorrectAns;
+                                newTestDetail.Test_Type_Id = Convert.ToInt32(root[i].TestTypeId);
                             }
-                            newTestDetail.Question_Name = root[i].Question;
-                            newTestDetail.Option_1 = uniqueFileName;
-                            newTestDetail.Option_2 = root[i].Option2;
-                            newTestDetail.Option_3 = root[i].Option3;
-                            newTestDetail.Option_4 = root[i].Option4;
-                            newTestDetail.Correct_Answer = root[i].CorrectAns;
-                            newTestDetail.Test_Type_Id = Convert.ToInt32(root[i].TestTypeId);
+                            else
+                            {
+                                newTestDetail.Question_Name = root[i].Question;
+                                newTestDetail.Option_1 = root[i].Option1;
+                                newTestDetail.Option_2 = root[i].Option2;
+                                newTestDetail.Option_3 = root[i].Option3;
+                                newTestDetail.Option_4 = root[i].Option4;
+                                newTestDetail.Correct_Answer = root[i].CorrectAns;
+                                newTestDetail.Test_Type_Id = Convert.ToInt32(root[i].TestTypeId);
+                            }
+
+                            newTestDetail.Test_Id = Convert.ToInt32(TempData["TestId"] ?? 1);
+
+                            result = await _TeacherTestRepository.AddTeacherTestDetail(newTestDetail);
+                        }
+
+                        if (result > 0)
+                        {
+                            TempData["Success"] = "Test Question Added Successfully";
+                            return RedirectToAction("index", "test", new { area = "teachers" });
                         }
                         else
                         {
-                            newTestDetail.Question_Name = root[i].Question;
-                            newTestDetail.Option_1 = root[i].Option1;
-                            newTestDetail.Option_2 = root[i].Option2;
-                            newTestDetail.Option_3 = root[i].Option3;
-                            newTestDetail.Option_4 = root[i].Option4;
-                            newTestDetail.Correct_Answer = root[i].CorrectAns;
-                            newTestDetail.Test_Type_Id = Convert.ToInt32(root[i].TestTypeId);
+                            TempData["Error"] = "Adding Test Question Failed";
+                            return RedirectToAction("index", "test", new { area = "teachers" });
                         }
+                  //}
+                  //catch (Exception ex)
+                  //{
+                  //    Debug.WriteLine(ex.Message);
+                  //    throw;
+                  //}
 
-                        newTestDetail.Test_Id = Convert.ToInt32(TempData["TestId"] ?? 1);
+                  
 
-                        await _TeacherTestRepository.AddTeacherTestDetail(newTestDetail);
-                    }
+              }
 
-                    return RedirectToAction("Index", "Test", new { area = "Teachers" });
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                throw;
-            }
-
-            return View();
+              return View();
+            
         }
 
         [Route("managetest")]

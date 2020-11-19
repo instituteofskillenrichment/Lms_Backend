@@ -1,8 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-
-
 <!--
 =========================================================
 * Now UI Dashboard - v1.5.0
@@ -50,8 +48,8 @@
     <div class="wrapper ">
         <div class="sidebar" data-color="orange">
             <!--
-        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-    -->
+                Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+            -->
             <div class="logo">
                 <a href="#" class="">
                     <img src="/Dashboard/assets/img/logo-new_03.png" alt="" class="main-logo">
@@ -70,17 +68,21 @@
                     <li class="has-child">
                         <a asp-area="teachers" asp-controller="class" asp-action="index">
                             <i class="now-ui-icons design_app"></i>
-                            
+
                             <p>Classes </p>
                         </a>
+                        
+
 
                     </li>
 
-                    <li>
-                        <a href="#">
+                    <li class="has-child">
+                        <a asp-area="teachers" asp-controller="lecture" asp-action="index">
                             <i class="now-ui-icons design_app"></i>
-                            <p>Lecture </p>
+
+                            <p>Lectures </p>
                         </a>
+
                     </li>
 
                     <li class="has-child">
@@ -91,16 +93,19 @@
                         <ul>
                             <li><a asp-area="teachers" asp-controller="attendance" asp-action="session">Session</a></li>
                         </ul>
+                        <ul>
+                            <li><a asp-area="teachers" asp-controller="attendance" asp-action="attendanceDeatils">Attendance List</a></li>
+                        </ul>
                     </li>
 
                     <li class="has-child">
                         <a href="#">
                             <i class="now-ui-icons design_app"></i>
-                            <p>Quizes</p>
+                            <p>Online Assessment</p>
                         </a>
                         <ul>
-                            <li><a href="#">Assignments</a></li>
-                            <li><a href="#">Tests</a></li>
+                            <li><a href="#">Assessment</a></li>
+                            <li><a asp-area="teachers" asp-controller="test" asp-action="index">Tests</a></li>
                         </ul>
                     </li>
                     <li>
@@ -201,7 +206,6 @@
     <script src="~/Dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
 
     <!--  Google Maps Plugin    -->
-    
     <!-- Chart JS -->
     @*<script src="../assets/js/plugins/chartjs.min.js"></script>*@
     <script src="~/Dashboard/assets/js/plugins/chartjs.min.js"></script>

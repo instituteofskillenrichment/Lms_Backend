@@ -67,6 +67,9 @@ namespace LMS.BusinessLogics.Repositories
                             {
                                 Test_Id = t.Test_Id,
                                 Test_Name = t.Test_Name,
+                                Class_Name = t.Class.Class_Name,
+                                Section_Name = t.Section.Section_Name,
+                                Subject_Name = t.Subject.Subject_Name,
                                 Questions_Count =
                                 (from td in _lmsDbContext.TestDetail
                                 where td.Test_Id == t.Test_Id

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -206,7 +207,10 @@ namespace LMS.Areas.Admin.Controllers
         {
             var objStudent = await _StudentRepository.GetStudentById(id);
 
+            
+
             return View(objStudent);
+            //return View(std);
 
         }
 

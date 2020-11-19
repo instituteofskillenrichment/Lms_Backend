@@ -178,9 +178,9 @@ namespace LMS.Areas.Teachers.Controllers
                 Session objSession = await _tPAttendanceRepository.GetSessionById(sessionModel.Session_Id);
 
                 objSession.Session_Name = sessionModel.Session_Name;
-                objSession.Date = sessionModel.Session_Date.ToString();
-                objSession.Start_Time = sessionModel.Session_Start_Time.ToString();
-                objSession.End_Time = sessionModel.Session_End_Time.ToString();
+                objSession.Date = sessionModel.Session_Date.ToString("yyyyMMdd");
+                objSession.Start_Time = sessionModel.Session_Start_Time.ToString("HHmmss");
+                objSession.End_Time = sessionModel.Session_End_Time.ToString("HHmmss");
                 objSession.Class_Id = sessionModel.Class_Id;
                 objSession.Section_Id = sessionModel.Section_Id;
                 objSession.Subject_Id = sessionModel.Subject_Id;
@@ -205,11 +205,12 @@ namespace LMS.Areas.Teachers.Controllers
         }
 
 
-        [Route("")]
+        //[Route("")]
         [Route("markAttendance")]
         public IActionResult MarkAttendance(int Session_Id)
         {
-            //var TeacherClassSubjects = _tPClassRepository.GetTeacherClassSubjectLectures(HttpContext.Session.GetInt32("UserId") ?? 1, ClassSectionId);
+            ViewBag.Session_Id = Session_Id;
+
             List<SelectListItem> classList = new List<SelectListItem>();
             var objClassSecSub = _tPAttendanceRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
             foreach (var lstclass in objClassSecSub)
@@ -257,9 +258,12 @@ namespace LMS.Areas.Teachers.Controllers
             }
             ViewBag.subjectList = subjectList;
 
-            var objStudentClassDetail = _tPAttendanceRepository.GetAllStudentsClass();
+            var attendanceClassVM = new AttendanceViewModel();
 
-            
+            attendanceClassVM.Sessions = _tPAttendanceRepository.GetAllStudentsClass().ToList();
+            //attendanceClassVM = _tPAttendanceRepository.GetAllStudentsClass().ToList();
+
+
 
             if (TempData["Error"] != null)
             {
@@ -271,7 +275,146 @@ namespace LMS.Areas.Teachers.Controllers
                 ViewBag.Success = TempData["Success"].ToString();
             }
 
-            return View(objStudentClassDetail);
+            return View(attendanceClassVM);
+        }
+
+
+
+
+        [HttpPost]
+        [Route("addAttendance")]
+        public  IActionResult AddAttendance(IEnumerable<AttendanceViewModel> attendancearr)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                List<Attendance> attendance = new List<Attendance>();
+
+                foreach(var atd in attendancearr)
+                {
+                    attendance.Add(new Attendance
+                    {
+                        Date = DateTime.Now.ToString("yyyyMMdd"),
+                        Status = atd.Status,
+                        Session_Id = atd.Session_Id,
+                        Student_Id = atd.Student_Id,
+                        Student_Name = atd.Student_Name,
+                        Class_Id = atd.Class_Id,
+                        Section_Id = atd.Section_Id,
+                        Subject_Id = atd.Subject_Id,
+                        Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1
+                    });
+                }
+
+                int result =  _tPAttendanceRepository.AddAttendance(attendance);
+                if (result == 1)
+                {
+                    TempData["Success"] = " Session Added Successfully";
+                    return RedirectToAction("attendanceDeatils", "attendance", new { area = "teachers" });
+                }
+                else
+                {
+                    TempData["Error"] = "Adding Session Failed";
+                    return RedirectToAction("attendanceDeatils", "attendance", new { area = "teachers" });
+                }
+
+
+
+            }
+
+            return View();
+
+
+        }
+
+
+
+        [HttpGet]
+        [Route("attendanceDeatils")]
+        public IActionResult AttendanceDeatils()
+        {
+            
+            
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"].ToString();
+            }
+
+            if (TempData["Success"] != null)
+            {
+                ViewBag.Success = TempData["Success"].ToString();
+            }
+
+            var objattendanceDetail = _tPAttendanceRepository.GetAttendanceByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1);
+
+            return View(objattendanceDetail);
+        }
+
+
+
+        [HttpGet]
+        [Route("editAttendance/{Attendance_Id}")]
+        public async Task<IActionResult> EditAttendance(int Attendance_Id)
+        {
+            var objAttendance = await _tPAttendanceRepository.GetAttendanceById(Attendance_Id);
+
+            return new JsonResult(objAttendance);
+
+        }
+
+
+        [HttpPost]
+        [Route("editAttendance")]
+        public async Task<IActionResult> EditAttendance(Attendance attendanceModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Attendance objAttendance = await _tPAttendanceRepository.GetAttendanceById(attendanceModel.Attendance_Id);
+
+                objAttendance.Status = attendanceModel.Status;
+
+                int result = await _tPAttendanceRepository.UpdateAttendance(objAttendance);
+
+                if (result == 1)
+                {
+                    TempData["Success"] = "Attendance Updated Successfully";
+                    return RedirectToAction("attendanceDeatils", "attendance", new { area = "teachers" });
+                }
+                else
+                {
+                    TempData["Error"] = "Updating Attendance Failed ";
+                    return RedirectToAction("attendanceDeatils", "attendance", new { area = "teachers" });
+                }
+
+            }
+
+            return View();
+        }
+
+
+
+        [HttpPost]
+        [Route("deleteAttendance")]
+        public async Task<IActionResult> DeleteAttendance(int Attendance_Id)
+        {
+            if (ModelState.IsValid)
+            {
+                int result = await _tPAttendanceRepository.DeleteAttendance(Attendance_Id);
+
+                if (result == 1)
+                {
+                    TempData["Success"] = "Delete Attendance Successfully";
+                    return RedirectToAction("attendanceDeatils", "attendance", new { area = "teachers" });
+                }
+                else
+                {
+                    TempData["Error"] = "Deleting Attendance Failed";
+                    return RedirectToAction("attendanceDeatils", "attendance", new { area = "teachers" });
+                }
+            }
+
+            return View();
+
         }
     }
 }

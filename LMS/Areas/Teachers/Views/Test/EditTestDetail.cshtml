@@ -1,7 +1,7 @@
 ﻿@model LMS.Domain.TestDetail
 @{
     ViewData["Title"] = "EditTestDetail";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
 }
 
 <div class="panel-header panel-header-sm">
@@ -233,7 +233,7 @@
                 contentType: false,
                 data: data,
                 success: function Success(response) {
-                    debugger;
+                    
                     if (response.d == "1") {
                         toastr.success('Data successfully saved', 'Success')
                     }
@@ -242,7 +242,7 @@
                     }
                 },
                 error: function (msg) {
-                    debugger;
+                    
                     toastr.error('Failed to Save Data', 'Error!')
                 }
             });

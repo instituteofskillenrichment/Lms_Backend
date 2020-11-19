@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LMS.Database.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class MyFirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -140,6 +140,19 @@ namespace LMS.Database.Migrations
             //    {
             //        table.PrimaryKey("PK_Teacher", x => x.Teacher_Id);
             //    });
+
+            migrationBuilder.CreateTable(
+                name: "TestType",
+                columns: table => new
+                {
+                    Test_Type_Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Test_Type_Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestType", x => x.Test_Type_Id);
+                });
 
             //migrationBuilder.CreateTable(
             //    name: "AspNetRoleClaims",
@@ -309,49 +322,49 @@ namespace LMS.Database.Migrations
             //            onDelete: ReferentialAction.Cascade);
             //    });
 
-            migrationBuilder.CreateTable(
-                name: "Session",
-                columns: table => new
-                {
-                    Session_Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Session_Name = table.Column<string>(nullable: true),
-                    Date = table.Column<string>(nullable: true),
-                    Start_Time = table.Column<string>(nullable: true),
-                    End_Time = table.Column<string>(nullable: true),
-                    Class_Id = table.Column<int>(nullable: false),
-                    Section_Id = table.Column<int>(nullable: false),
-                    Subject_Id = table.Column<int>(nullable: false),
-                    Teacher_Id = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Session", x => x.Session_Id);
-                    table.ForeignKey(
-                        name: "FK_Session_Class_Class_Id",
-                        column: x => x.Class_Id,
-                        principalTable: "Class",
-                        principalColumn: "Class_Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Session_Section_Section_Id",
-                        column: x => x.Section_Id,
-                        principalTable: "Section",
-                        principalColumn: "Section_Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Session_Subject_Subject_Id",
-                        column: x => x.Subject_Id,
-                        principalTable: "Subject",
-                        principalColumn: "Subject_Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Session_Teacher_Teacher_Id",
-                        column: x => x.Teacher_Id,
-                        principalTable: "Teacher",
-                        principalColumn: "Teacher_Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            //migrationBuilder.CreateTable(
+            //    name: "Session",
+            //    columns: table => new
+            //    {
+            //        Session_Id = table.Column<int>(nullable: false)
+            //            .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+            //        Session_Name = table.Column<string>(nullable: true),
+            //        Date = table.Column<string>(nullable: true),
+            //        Start_Time = table.Column<string>(nullable: true),
+            //        End_Time = table.Column<string>(nullable: true),
+            //        Class_Id = table.Column<int>(nullable: false),
+            //        Section_Id = table.Column<int>(nullable: false),
+            //        Subject_Id = table.Column<int>(nullable: false),
+            //        Teacher_Id = table.Column<int>(nullable: false)
+            //    },
+            //    constraints: table =>
+            //    {
+            //        table.PrimaryKey("PK_Session", x => x.Session_Id);
+            //        table.ForeignKey(
+            //            name: "FK_Session_Class_Class_Id",
+            //            column: x => x.Class_Id,
+            //            principalTable: "Class",
+            //            principalColumn: "Class_Id",
+            //            onDelete: ReferentialAction.Cascade);
+            //        table.ForeignKey(
+            //            name: "FK_Session_Section_Section_Id",
+            //            column: x => x.Section_Id,
+            //            principalTable: "Section",
+            //            principalColumn: "Section_Id",
+            //            onDelete: ReferentialAction.Cascade);
+            //        table.ForeignKey(
+            //            name: "FK_Session_Subject_Subject_Id",
+            //            column: x => x.Subject_Id,
+            //            principalTable: "Subject",
+            //            principalColumn: "Subject_Id",
+            //            onDelete: ReferentialAction.Cascade);
+            //        table.ForeignKey(
+            //            name: "FK_Session_Teacher_Teacher_Id",
+            //            column: x => x.Teacher_Id,
+            //            principalTable: "Teacher",
+            //            principalColumn: "Teacher_Id",
+            //            onDelete: ReferentialAction.Cascade);
+            //    });
 
             //migrationBuilder.CreateTable(
             //    name: "Test",
@@ -509,30 +522,37 @@ namespace LMS.Database.Migrations
             //            onDelete: ReferentialAction.Cascade);
             //    });
 
-            //migrationBuilder.CreateTable(
-            //    name: "TestDetail",
-            //    columns: table => new
-            //    {
-            //        Question_Id = table.Column<int>(nullable: false)
-            //            .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-            //        Question_Name = table.Column<string>(nullable: true),
-            //        Option_1 = table.Column<string>(nullable: true),
-            //        Option_2 = table.Column<string>(nullable: true),
-            //        Option_3 = table.Column<string>(nullable: true),
-            //        Option_4 = table.Column<string>(nullable: true),
-            //        Correct_Answer = table.Column<string>(nullable: true),
-            //        Test_Id = table.Column<int>(nullable: false)
-            //    },
-            //    constraints: table =>
-            //    {
-            //        table.PrimaryKey("PK_TestDetail", x => x.Question_Id);
-            //        table.ForeignKey(
-            //            name: "FK_TestDetail_Test_Test_Id",
-            //            column: x => x.Test_Id,
-            //            principalTable: "Test",
-            //            principalColumn: "Test_Id",
-            //            onDelete: ReferentialAction.Cascade);
-            //    });
+            migrationBuilder.CreateTable(
+                name: "TestDetail",
+                columns: table => new
+                {
+                    Question_Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Question_Name = table.Column<string>(nullable: true),
+                    Option_1 = table.Column<string>(nullable: true),
+                    Option_2 = table.Column<string>(nullable: true),
+                    Option_3 = table.Column<string>(nullable: true),
+                    Option_4 = table.Column<string>(nullable: true),
+                    Correct_Answer = table.Column<string>(nullable: true),
+                    Test_Id = table.Column<int>(nullable: false),
+                    Test_Type_Id = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestDetail", x => x.Question_Id);
+                    table.ForeignKey(
+                        name: "FK_TestDetail_Test_Test_Id",
+                        column: x => x.Test_Id,
+                        principalTable: "Test",
+                        principalColumn: "Test_Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TestDetail_TestType_Test_Type_Id",
+                        column: x => x.Test_Type_Id,
+                        principalTable: "TestType",
+                        principalColumn: "Test_Type_Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             //migrationBuilder.CreateTable(
             //    name: "Lecture",
@@ -704,25 +724,25 @@ namespace LMS.Database.Migrations
             //    table: "Lecture",
             //    column: "Teacher_Id");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Session_Class_Id",
-                table: "Session",
-                column: "Class_Id");
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_Session_Class_Id",
+            //    table: "Session",
+            //    column: "Class_Id");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Session_Section_Id",
-                table: "Session",
-                column: "Section_Id");
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_Session_Section_Id",
+            //    table: "Session",
+            //    column: "Section_Id");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Session_Subject_Id",
-                table: "Session",
-                column: "Subject_Id");
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_Session_Subject_Id",
+            //    table: "Session",
+            //    column: "Subject_Id");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Session_Teacher_Id",
-                table: "Session",
-                column: "Teacher_Id");
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_Session_Teacher_Id",
+            //    table: "Session",
+            //    column: "Teacher_Id");
 
             //migrationBuilder.CreateIndex(
             //    name: "IX_StudentClass_ClassSection_id",
@@ -768,6 +788,11 @@ namespace LMS.Database.Migrations
             //    name: "IX_TestDetail_Test_Id",
             //    table: "TestDetail",
             //    column: "Test_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TestDetail_Test_Type_Id",
+                table: "TestDetail",
+                column: "Test_Type_Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -822,6 +847,9 @@ namespace LMS.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "Test");
+
+            migrationBuilder.DropTable(
+                name: "TestType");
 
             migrationBuilder.DropTable(
                 name: "ClassSection");
