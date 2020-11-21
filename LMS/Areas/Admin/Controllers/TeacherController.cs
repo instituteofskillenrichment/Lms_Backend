@@ -222,7 +222,7 @@ namespace LMS.Areas.Admin.Controllers
         }
 
 
-
+        
         [HttpGet]
         [Route("assignTeacherSubject/{id}")]
         public IActionResult AssignTeacherSubject(int id)
@@ -239,6 +239,7 @@ namespace LMS.Areas.Admin.Controllers
             assignTeacherSubjectVM.Subjects = _TeacherSubjectRepository.GetAllSubjects();
 
             assignTeacherSubjectVM.Classes = new List<SelectListItem>();
+            assignTeacherSubjectVM.Classes.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
 
             var objClass = _TeacherSubjectRepository.GetAllClasses();
 
@@ -256,6 +257,7 @@ namespace LMS.Areas.Admin.Controllers
             }
 
             assignTeacherSubjectVM.Sections = new List<SelectListItem>();
+            assignTeacherSubjectVM.Sections.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
 
             var objSection = _TeacherSubjectRepository.GetAllSections();
 

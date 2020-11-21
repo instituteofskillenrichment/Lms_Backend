@@ -48,8 +48,8 @@
     <div class="wrapper ">
         <div class="sidebar" data-color="orange">
             <!--
-                Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-            -->
+        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+    -->
             <div class="logo">
                 <a href="#" class="">
                     <img src="/Dashboard/assets/img/logo-new_03.png" alt="" class="main-logo">
@@ -57,76 +57,9 @@
                 </a>
 
             </div>
-            <div class="sidebar-wrapper ps" id="sidebar-wrapper">
-                <ul class="nav navigation">
-                    <li class="active">
-                        <a asp-area="teachers" asp-controller="dashboard" asp-action="index">
-                            <i class="now-ui-icons design_app"></i>
-                            <p>Dashboard</p>
-                        </a>
-                    </li>
-                    <li class="has-child">
-                        <a asp-area="teachers" asp-controller="class" asp-action="index">
-                            <i class="now-ui-icons design_app"></i>
-
-                            <p>Classes </p>
-                        </a>
-                        
-
-
-                    </li>
-
-                    <li class="has-child">
-                        <a asp-area="teachers" asp-controller="lecture" asp-action="index">
-                            <i class="now-ui-icons design_app"></i>
-
-                            <p>Lectures </p>
-                        </a>
-
-                    </li>
-
-                    <li class="has-child">
-                        <a href="#">
-                            <i class="now-ui-icons design_app"></i>
-                            <p>Attendance</p>
-                        </a>
-                        <ul>
-                            <li><a asp-area="teachers" asp-controller="attendance" asp-action="session">Session</a></li>
-                        </ul>
-                        <ul>
-                            <li><a asp-area="teachers" asp-controller="attendance" asp-action="attendanceDeatils">Attendance List</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="has-child">
-                        <a href="#">
-                            <i class="now-ui-icons design_app"></i>
-                            <p>Online Assessment</p>
-                        </a>
-                        <ul>
-                            <li><a href="#">Assessment</a></li>
-                            <li><a asp-area="teachers" asp-controller="test" asp-action="index">Tests</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="now-ui-icons design_app"></i>
-                            <p>Grades</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="now-ui-icons design_app"></i>
-                            <p>Announcements</p>
-                        </a>
-                    </li>
-
-
-
-
-                </ul>
-                <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>
-            </div>
+            @*View Component For Teacher Panel Side Bar Added By Absar*@
+            @await Component.InvokeAsync("TPSidebar")
+            
         </div>
         <div class="main-panel" id="main-panel">
 

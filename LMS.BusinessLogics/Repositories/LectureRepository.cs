@@ -45,6 +45,8 @@ namespace LMS.BusinessLogics.Repositories
             {
                 var deleteLecture = await GetLectureById(id);
 
+
+
                 _lmsDbContext.Lecture.Remove(deleteLecture);
 
                 await _lmsDbContext.SaveChangesAsync();
@@ -59,9 +61,11 @@ namespace LMS.BusinessLogics.Repositories
 
 
 
-        public IQueryable<Lecture> GetAllLecture()
+        public async Task<IEnumerable<Lecture>> GetAllLecture(int TeachiId)
         {
-            IQueryable<Lecture> listOfLecture = _lmsDbContext.Lecture.AsQueryable();
+            var listOfLecture = await _lmsDbContext.Lecture
+                                .AsNoTracking()
+                                .Where(l => l.Teacher_Id == TeachiId).ToListAsync(); ;
 
             return listOfLecture;
         }
@@ -73,6 +77,7 @@ namespace LMS.BusinessLogics.Repositories
             var Lecture = await _lmsDbContext.Lecture
                        .AsNoTracking()
                        .FirstOrDefaultAsync(c => c.Lecture_Id == Id);
+            
 
             return Lecture;
         }

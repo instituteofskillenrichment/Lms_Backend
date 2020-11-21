@@ -4,7 +4,7 @@
     Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
 }
 
-    
+
 <div class="panel-header panel-header-sm">
 </div>
 <div class="content">
@@ -18,7 +18,10 @@
                             <div class="table-title">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h2>Class Subject <b>List</b></h2>
+                                        <h2><b>Class Subject List</b></h2>
+                                    </div>
+                                    <div class="col-md-6 pull-right">
+                                        <a asp-action="AddLecture" asp-controller="Lecture" class="btn btn-success"><i class="material-icons"></i> <span>Add New Lesson</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -27,8 +30,8 @@
                                 <thead>
                                     <tr>
                                         <th>Subject ID</th>
-                                        <th>Subject Name</th>
-                                        <th>Class Name</th>
+                                        <th>Subject </th>
+                                        <th>Class </th>
                                         <th>Lesson Uploaded</th>
                                         <th>Details</th>
                                     </tr>
@@ -36,15 +39,15 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                    <tr>
-                                        <td>@item.Subject_Id</td>
-                                        <td>@item.Subject_Name</td>
-                                        <td>@item.Class_Name</td>
-                                        <td>@item.Lecture_Count</td>
-                                        <td>
-                                            <a asp-action="Lectures" asp-controller="Class" asp-route-ClassSubjectId="@item.ClassSubject_Id" class="edit">View More<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>@item.Subject_Id</td>
+                                            <td>@item.Subject_Name</td>
+                                            <td>@item.Class_Name</td>
+                                            <td>@item.Lecture_Count</td>
+                                            <td>
+                                                <a asp-action="Lectures" asp-controller="Class" asp-route-ClassSubjectId="@item.ClassSubject_Id" class="edit">View More<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+                                            </td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
@@ -181,10 +184,30 @@
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 <script>
     $(document).ready(function () {
 
-        
+        toastr.options = {
+        "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+
+        if (messageSuccess.length > 0) {
+
+                toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0) {
+            toastr.error(messageError);
+        }
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();

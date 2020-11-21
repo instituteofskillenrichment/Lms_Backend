@@ -5,7 +5,7 @@
     Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
 }
 
-    
+
 <div class="panel-header panel-header-sm">
 </div>
 <div class="content">
@@ -38,16 +38,16 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                    <tr>
-                                        <td>@item.Class_Id</td>
-                                        <td>@item.Class_Name</td>
-                                        <td>@item.Section_Name</td>
-                                        <td>
-                                            <a asp-action="Subjects" asp-controller="Class" asp-route-ClassSectionId="@item.ClassSection_Id"  class="edit">
-                                            View More <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>@item.Class_Id</td>
+                                            <td>@item.Class_Name</td>
+                                            <td>@item.Section_Name</td>
+                                            <td>
+                                                <a asp-action="Subjects" asp-controller="Class" asp-route-ClassSectionId="@item.ClassSection_Id" class="edit">
+                                                    View More <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
@@ -186,14 +186,39 @@
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 @*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
 <script>
     $(document).ready(function () {
 
-        $('#classpage').DataTable();
+        toastr.options = {
+        "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+
+        if (messageSuccess.length > 0) {
+
+                toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0) {
+            toastr.error(messageError);
+        }
+
+
+        
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
+
+        $('#classpage').DataTable();
 
     });
 </script>

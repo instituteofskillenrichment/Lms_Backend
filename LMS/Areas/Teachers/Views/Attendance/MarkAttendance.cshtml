@@ -33,15 +33,21 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <label>Class </label>
-                                    <select id="ddlClass" name="Class_Id" class="form-control" asp-items="@ViewBag.ClassList"></select>
+                                    <select id="ddlClass" name="Class_Id" class="form-control" asp-items="@ViewBag.ClassList" onchange="ViewChangeClass(this)">
+                                        <option value="0">All</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-3">
                                     <label>Section </label>
-                                    <select id="ddlSection" name="Section_Id" class="form-control" asp-items="@ViewBag.sectionList"></select>
+                                    <select id="ddlSection" name="Section_Id" class="form-control" asp-items="@ViewBag.sectionList" onchange="ViewChangeSection(this)">
+                                        <option value="0">All</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-3">
                                     <label>Subject </label>
-                                    <select id="ddlSubject" name="Subject_Id" class="form-control" asp-items="@ViewBag.subjectList"></select>
+                                    <select id="ddlSubject" name="Subject_Id" class="form-control" asp-items="@ViewBag.subjectList">
+                                        <option value="0">All</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -52,7 +58,7 @@
                                 <table id="AttendancePage" class="display" style="width:100%">
                                     <thead>
                                         <tr>
-                                            
+
                                             <th>Student ID</th>
                                             <th>Student Name</th>
                                             <th>ClassName</th>
@@ -65,49 +71,41 @@
                                     <tbody>
                                         @foreach (var item in Model.Sessions)
                                         {
-                                        <tr>
-                                            
-                                            
-                                            <td>@item.Student_Id</td>
-                                            <td>@item.Student_Name</td>
-                                            <td >
-                                                @item.Class_Name
-                                                @*Added BY Absar To get parentid*@
-                                                <input type="hidden" class="Class_Name" id="Class_Name" value="@item.Class_Id" />
-                                            </td>
-                                            <td>
-                                                @item.Section_Name
-                                                @*Added BY Absar To get parentid*@
-                                                <input type="hidden" class="Section_Name" id="Section_Name" value="@item.Section_Id" />
-                                            </td>
-                                            <td>
-                                                @item.Subject_Name
-                                                
-                                                <input type="hidden" class="Subject_Name" id="Subject_Name" />
-                                            </td>
-                                            <td>
-                                                <div class="form-check-inline">
-                                                    <label class="form-check-label">
-                                                        <input type="radio" id="radStatus" value="Absent" class="form-check-inline" name="@item.Student_Id" >Abesnt
-                                                    </label>
-                                                </div>
-                                                <div class="form-check-inline">
-                                                    <label class="form-check-label">
-                                                        <input type="radio" id="radStatus" value="Present" class="form-check-inline" name="@item.Student_Id" >Present
-                                                    </label>
-                                                </div>
-                                                <div class="form-check-inline disabled">
-                                                    <label class="form-check-label">
-                                                        <input type="radio" id="radStatus" value="Leave" class="form-check-inline" name="@item.Student_Id" >Leave
-                                                    </label>
-                                                </div>
-
-                                                <input type="hidden" class="Session_Id" id="Session_Id" value="@ViewBag.Session_Id" />
-
-                                            </td>
+                                            <tr>
 
 
-                                        </tr>
+                                                <td>@item.Student_Id</td>
+                                                <td>@item.Student_Name</td>
+                                                <td>@item.Class_Name</td>
+                                                <td>@item.Section_Name</td>
+                                                <td>
+                                                    @item.Subject_Name
+
+                                                    <input type="hidden" class="Subject_Name" id="Subject_Name" />
+                                                </td>
+                                                <td>
+                                                    <div class="form-check-inline">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" id="radStatus" value="Absent" class="form-check-inline" name="@item.Student_Id">Abesnt
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check-inline">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" id="radStatus" value="Present" class="form-check-inline" name="@item.Student_Id">Present
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check-inline disabled">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" id="radStatus" value="Leave" class="form-check-inline" name="@item.Student_Id">Leave
+                                                        </label>
+                                                    </div>
+
+                                                    <input type="hidden" class="Session_Id" id="Session_Id" value="@ViewBag.Session_Id" />
+
+                                                </td>
+
+
+                                            </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -132,9 +130,9 @@
 
 
 
-                    
 
-                    
+
+
 
                 </div>
             </div>
@@ -180,11 +178,10 @@
 
 <!--   Core JS Files   -->
 
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-@*<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>*@
-@*<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>*@
-@*<script src="~/Dashboard/assets/datatables.net/js/jquery.dataTables.min.js"></script>*@
+
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/bootstrap.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
 <link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
 <script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 <script>
@@ -209,84 +206,29 @@
         else if (messageError.length > 0) {
             toastr.error(messageError);
         }
-        
+
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
+        //Drop Down selection for class
+        document.getElementById("ddlClass").addEventListener("change", ViewChangeClass);
 
-        
+        //Drop Down selection for section
+        document.getElementById("ddlSection").addEventListener("change", ViewChangeSection);
 
 
-        $("#ddlClass").change(function ()
-        {
-            
-
-            var selectText = $('#ddlClass :selected').text();
-            
-            if (selectText) {
-                $('tr').each(function () {
-                    if ($(this).find('td').length) {
-                        
-                        var txt = $(this).find('td:eq(2)').text();
-                        
-                        if (txt === selectText) {
-                            $(this).show();
-                        }
-                        else {
-                            $(this).hide();
-                        }
-                    }
-                })
-            }
-            else {
-                $('tr').show();
-            }
+       
 
 
 
-        });
-
-
-
-        $("#ddlSection").change(function () {
-
-            
-
-            var selectText = $('#ddlSection :selected').text();
-
-            if (selectText) {
-                $('tr').each(function () {
-                    if ($(this).find('td').length) {
-
-                        var txt = $(this).find('td:eq(3)').text();
-
-                        if (txt === selectText) {
-                            $(this).show();
-                        }
-                        else {
-                            $(this).hide();
-                        }
-                    }
-                })
-            }
-            else {
-                $('tr').show();
-            }
-
-
-
-        });
-
-
-        
         $("#ddlSubject").change(function ()
         {
-           
+
             var selected = $('#ddlSubject :selected');
             var val = selected.val();
             selected = selected.text();
-            
+
             var table = $("table tbody");
 
             table.find('tr').each(function (i) {
@@ -294,17 +236,17 @@
 
                 $tds.eq(4).val(val);
                 $tds.eq(4).html(selected);
-                
+
             });
 
-            
+
         });
-        
+
 
         //Add Attendance Ajax Request Added By Absar
         $('#Submit').on('click', function () {
 
-            
+
 
 
             var attendancearr = [];
@@ -312,11 +254,11 @@
                 var row = $(this);
                 var atd = {};
 
-                
+
 
                 atd.ID = "0";
                 atd.Date = "0";
-                atd.Status = row.find('input:radio[id=radStatus]:checked').val(); 
+                atd.Status = row.find('input:radio[id=radStatus]:checked').val();
                 atd.Session_Id = $('#Session_Id').val();
                 atd.Student_Id = row.find("td").eq(0).html();
                 atd.Student_Name = row.find("td").eq(1).html();
@@ -342,7 +284,7 @@
                     console.log(err);
                 }
             });
-            
+
         });
 
 
@@ -356,10 +298,75 @@
 
 
 
-        
+
 
     });
 
+
+
+    function ViewChangeClass($this) {
+        var $selectText = $('option:selected', $this).text().toLowerCase();
+        var $val = $($this).val();
+
+        if ($selectText != 'all') {
+            $('tr').each(function () {
+                if ($(this).find('td').length) {
+                    var txt = '';
+                    if ($val < 4) {
+                        txt = $(this).find('td:eq(2)').text().toLowerCase();
+                    }
+                    else
+                    {
+                        txt = $(this).find('td:eq(3)').text().toLowerCase();
+                    }
+
+                    if (txt === $selectText) {
+                        $(this).show();
+                    }
+                    else {
+                        $(this).hide();
+                    }
+                }
+            })
+        }
+        else {
+            $('tr').show();
+        }
+
+    }
+
+
+
+
+    function ViewChangeSection($this) {
+        var $selectText = $('option:selected', $this).text().toLowerCase();
+        var $val = $($this).val();
+
+        if ($selectText != 'all') {
+            $('tr').each(function () {
+                if ($(this).find('td').length) {
+                    var txt = '';
+                    if ($val < 4) {
+                        txt = $(this).find('td:eq(3)').text().toLowerCase();
+                    }
+                    else {
+                        txt = $(this).find('td:eq(3)').text().toLowerCase();
+                    }
+
+                    if (txt === $selectText) {
+                        $(this).show();
+                    }
+                    else {
+                        $(this).hide();
+                    }
+                }
+            })
+        }
+        else {
+            $('tr').show();
+        }
+
+    }
 
 
 

@@ -39,9 +39,9 @@ namespace LMS.Areas.Teachers.Controllers
 
         [Route("")]
         [Route("lectures")]
-        public async Task<IActionResult> Index(int ClassSubjectId)
+        public async Task<IActionResult> Index()
         {
-            var Lectures = await _LectureRepository.GetLectureBySubject(ClassSubjectId);
+            var Lectures = await _LectureRepository.GetAllLecture(HttpContext.Session.GetInt32("UserId") ?? 1);
 
             if (TempData["Error"] != null)
             {
@@ -146,24 +146,28 @@ namespace LMS.Areas.Teachers.Controllers
                         if (result == 1)
                         {
                             TempData["Success"] = " Lecture Added Successfully";
-                            return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                            //return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                            return RedirectToAction("subjects", "class", new { ClassSectionId= classSectionObj.ClassSection_id, area = "teachers" });
                         }
                         else
                         {
                             TempData["Error"] = "Adding Lecture Failed";
-                            return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                            ///return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                            return RedirectToAction("subjects", "class", new { ClassSectionId = classSectionObj.ClassSection_id, area = "teachers" });
                         }
                     }
                     else
                     {
                         TempData["Error"] = "Class And Section Dont Have Seleceted Subject";
-                        return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                        //return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                        return RedirectToAction("subjects", "class", new { ClassSectionId = classSectionObj.ClassSection_id, area = "teachers" });
                     }
                 }
                 else
                 {
                     TempData["Error"] = "Class With Section Didn't Find";
-                    return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                    //return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                    return RedirectToAction("subjects", "class", new { ClassSectionId = classSectionObj.ClassSection_id, area = "teachers" });
                 }
 
             }
@@ -317,12 +321,12 @@ namespace LMS.Areas.Teachers.Controllers
                 if (result == 1)
                 {
                     TempData["Success"] = "Delete Lecture Successfully";
-                    return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                    return RedirectToAction("Index", "class", new { area = "teachers" });
                 }
                 else
                 {
                     TempData["Error"] = "Deleting Lecture Failed";
-                    return RedirectToAction("Index", "lecture", new { area = "teachers" });
+                    return RedirectToAction("Index", "class", new { area = "teachers" });
                 }
 
                 
