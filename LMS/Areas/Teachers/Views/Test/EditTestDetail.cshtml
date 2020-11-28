@@ -69,6 +69,8 @@
                                         </div>
 
                                     </div>
+                                    <br />
+                                    <div class="row col-md-3"><input asp-for="Question_Marks" class="form-control" placeholder="Marks"/></div>
                                 </div>
                             </div>
 
@@ -76,7 +78,7 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <button class="btn btn-primary btn-block" id="btnSubmit">Submit</button>
+                                    <button type="button" class="btn btn-primary btn-block" id="btnSubmit">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -97,6 +99,8 @@
 
 
     var data = new FormData();
+
+    var marks = 0;
 
     $(document).ready(function () {
         // Activate tooltip
@@ -172,6 +176,8 @@
 
         var questionObj = {};
 
+         data = new FormData();
+
         var form = $('form')[1];
 
         $(form).each(function () {
@@ -190,7 +196,8 @@
                     option3:    $(inputs[3]).val(),
                     option4:    $(inputs[4]).val(),
                     correctAns: $(selects[0]).val(),
-                    testTypeId: $(selects[1]).val()
+                    testTypeId: $(selects[1]).val(),
+                    marks: $(inputs[5]).val()
                 };
             }
              else if ($('#Test_Type_Id').val() == 2) {
@@ -201,7 +208,8 @@
                     option3:    '',
                     option4:    '',
                     correctAns: '',
-                    testTypeId: $(selects[1]).val()
+                    testTypeId: $(selects[1]).val(),
+                    marks: $(inputs[5]).val()
                 };
             }
             else if ($('#Test_Type_Id').val() == 3) {
@@ -214,7 +222,8 @@
                     option3:    '',
                     option4:    '',
                     correctAns: '',
-                    testTypeId: $(selects[1]).val()
+                    testTypeId: $(selects[1]).val(),
+                    marks: $(inputs[5]).val()
                 };
             }
           });
@@ -226,27 +235,39 @@
 
         getDataFromDiv();
 
+        marks = 0;
+        
+        $("input[name='Question_Marks']").each(function () {
+            marks += parseInt(this.value, 10);
+        });
+
+        var totalMarks = @ViewBag.TotalMarks;
+
+        if (marks > totalMarks) {
+            //alert('Marks can not be more than total marks');
+            toastr.error('Marks can not be more than total marks');
+        } else {
             $.ajax({
                 url: '@Url.Action("edittestdetails", "teachers/test")',
                 method: 'POST',
                 processData: false,
                 contentType: false,
                 data: data,
-                success: function Success(response) {
-                    
-                    if (response.d == "1") {
-                        toastr.success('Data successfully saved', 'Success')
-                    }
-                    else {
-                        toastr.error('Failed to Save Data', 'Error!')
+               success: function Success(response) {
+                    debugger;
+                    if (response == 1) {
+                        window.location.href = "/teachers/test";
+                    } else {
+                        //alert('Failed to Save Data');
+                        toastr.error('Failed to Save Data');
                     }
                 },
-                error: function (msg) {
-                    
-                    toastr.error('Failed to Save Data', 'Error!')
+                error: function(msg) {
+                    //alert('Failed to Save Data');
+                    toastr.error('Failed to Save Data');
                 }
             });
-
+        }
         }
 
 </script>

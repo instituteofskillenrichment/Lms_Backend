@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS.Database.Migrations
 {
     [DbContext(typeof(LmsDbContext))]
-    [Migration("20201108130801_MyFirstMigration")]
-    partial class MyFirstMigration
+    [Migration("20201127121400_Update")]
+    partial class Update
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,9 +21,22 @@ namespace LMS.Database.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("LMS.Domain.AssessmentType", b =>
+                {
+                    b.Property<int>("Assessment_Type_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Assessment_Type_Name");
+
+                    b.HasKey("Assessment_Type_Id");
+
+                    b.ToTable("AssessmentType");
+                });
+
             modelBuilder.Entity("LMS.Domain.Attendance", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Attendance_Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -41,11 +54,9 @@ namespace LMS.Database.Migrations
 
                     b.Property<string>("Student_Name");
 
-                    b.Property<int>("Subject_Id");
-
                     b.Property<int>("Teacher_Id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Attendance_Id");
 
                     b.HasIndex("Class_Id");
 
@@ -54,8 +65,6 @@ namespace LMS.Database.Migrations
                     b.HasIndex("Session_Id");
 
                     b.HasIndex("Student_Id");
-
-                    b.HasIndex("Subject_Id");
 
                     b.HasIndex("Teacher_Id");
 
@@ -358,6 +367,8 @@ namespace LMS.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Assessment_Type_Id");
+
                     b.Property<int>("Class_Id");
 
                     b.Property<string>("End_Time");
@@ -381,6 +392,8 @@ namespace LMS.Database.Migrations
                     b.Property<int>("Weighatge");
 
                     b.HasKey("Test_Id");
+
+                    b.HasIndex("Assessment_Type_Id");
 
                     b.HasIndex("Class_Id");
 
@@ -408,6 +421,8 @@ namespace LMS.Database.Migrations
                     b.Property<string>("Option_3");
 
                     b.Property<string>("Option_4");
+
+                    b.Property<int>("Question_Marks");
 
                     b.Property<string>("Question_Name");
 
@@ -620,11 +635,6 @@ namespace LMS.Database.Migrations
                         .HasForeignKey("Student_Id")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("LMS.Domain.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("Subject_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("LMS.Domain.Teacher", "Teacher")
                         .WithMany()
                         .HasForeignKey("Teacher_Id")
@@ -739,6 +749,11 @@ namespace LMS.Database.Migrations
 
             modelBuilder.Entity("LMS.Domain.Test", b =>
                 {
+                    b.HasOne("LMS.Domain.AssessmentType", "AssessmentType")
+                        .WithMany()
+                        .HasForeignKey("Assessment_Type_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("LMS.Domain.Class", "Class")
                         .WithMany()
                         .HasForeignKey("Class_Id")

@@ -30,30 +30,7 @@
 
                             <br />
 
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label>Class </label>
-                                    <select id="ddlClass" name="Class_Id" class="form-control" asp-items="@ViewBag.ClassList" onchange="ViewChangeClass(this)">
-                                        <option value="0">All</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label>Section </label>
-                                    <select id="ddlSection" name="Section_Id" class="form-control" asp-items="@ViewBag.sectionList" onchange="ViewChangeSection(this)">
-                                        <option value="0">All</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label>Subject </label>
-                                    <select id="ddlSubject" name="Subject_Id" class="form-control" asp-items="@ViewBag.subjectList">
-                                        <option value="0">All</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <br />
-                            <br />
-                            <br />
+                            
                             <form method="post" asp-controller="attendance" asp-action="addAttendance">
                                 <table id="AttendancePage" class="display" style="width:100%">
                                     <thead>
@@ -63,7 +40,7 @@
                                             <th>Student Name</th>
                                             <th>ClassName</th>
                                             <th>Section Name</th>
-                                            <th>Subject Name</th>
+                                            @*<th>Subject Name</th>*@
                                             <th>Status</th>
 
                                         </tr>
@@ -76,13 +53,19 @@
 
                                                 <td>@item.Student_Id</td>
                                                 <td>@item.Student_Name</td>
-                                                <td>@item.Class_Name</td>
-                                                <td>@item.Section_Name</td>
-                                                <td>
+                                                <td >
+                                                    @item.Class_Name
+                                                    <input type="hidden" class="Class_Id" id="Class_Id" value="@item.Class_Id" />
+                                                </td>
+                                                <td >
+                                                    @item.Section_Name
+                                                    <input type="hidden" class="Section_Id" id="Section_Id" value="@item.Section_Id" />
+                                                </td>
+                                                @*<td>
                                                     @item.Subject_Name
 
                                                     <input type="hidden" class="Subject_Name" id="Subject_Name" />
-                                                </td>
+                                                </td>*@
                                                 <td>
                                                     <div class="form-check-inline">
                                                         <label class="form-check-label">
@@ -177,11 +160,8 @@
 
 
 <!--   Core JS Files   -->
-
-
-<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
-<script src="~/Dashboard/assets/jqueryDataTable/bootstrap.min.js"></script>
-<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<script src="~/Dashboard/assets/js/core/jquery-3.5.1.js"></script>
+<script src="~/Dashboard/assets/datatables.net/js/jquery.dataTables.min.js"></script>
 <link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
 <script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 <script>
@@ -210,12 +190,7 @@
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
-
-        //Drop Down selection for class
-        document.getElementById("ddlClass").addEventListener("change", ViewChangeClass);
-
-        //Drop Down selection for section
-        document.getElementById("ddlSection").addEventListener("change", ViewChangeSection);
+        
 
 
        
@@ -254,7 +229,7 @@
                 var row = $(this);
                 var atd = {};
 
-
+                
 
                 atd.ID = "0";
                 atd.Date = "0";
@@ -262,9 +237,9 @@
                 atd.Session_Id = $('#Session_Id').val();
                 atd.Student_Id = row.find("td").eq(0).html();
                 atd.Student_Name = row.find("td").eq(1).html();
-                atd.Class_Id = row.find("#Class_Name").val();
-                atd.Section_Id = row.find("#Section_Name").val();
-                atd.Subject_Id = $('#ddlSubject :selected').val();
+                atd.Class_Id = $('#Class_Id').val();
+                atd.Section_Id = $('#Section_Id').val();
+                //atd.Subject_Id = $('#ddlSubject :selected').val();
                 //atd.Subject_Id = "0";
                 atd.Teacher_Id = "0";
                 attendancearr.push(atd);
@@ -278,24 +253,58 @@
                 dataType: "html",
                 data: { attendancearr: attendancearr },
                 success: function (data) {
-                    alert(data);
+                    
                 },
                 error: function (err) {
-                    console.log(err);
+                    //console.log(err);
+                    toastr.error("Adding Attendance Failed");
                 }
             });
 
         });
 
 
-        $('#AttendancePage').dataTable({
-            /* Disable initial sort */
-            "aaSorting": [],
-            "searching": false,
-            "bLengthChange": false,
+        //$('#AttendancePage').dataTable({
+        //    /* Disable initial sort */
+        //    "aaSorting": [],
+        //    "searching": false,
+        //    "bLengthChange": false,
 
+        //});
+
+
+        $('#AttendancePage').DataTable({
+
+            //"paging": false,
+            "fixedHeader": { header: true, footer: true },
+            
+            //responsive: false,
+            //autoWidth: false,
+            //aaSorting: [[2, 'asc']],
+            //cache: true,
+
+
+            initComplete: function () {
+                this.api().columns([2,3]).every(function () {
+                    var column = this;
+                    var select = $(' <select><option value="">ALL</option></select>')
+                        .appendTo($(column.header()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
         });
-
 
 
 
@@ -304,69 +313,69 @@
 
 
 
-    function ViewChangeClass($this) {
-        var $selectText = $('option:selected', $this).text().toLowerCase();
-        var $val = $($this).val();
+    //function ViewChangeClass($this) {
+    //    var $selectText = $('option:selected', $this).text().toLowerCase();
+    //    var $val = $($this).val();
 
-        if ($selectText != 'all') {
-            $('tr').each(function () {
-                if ($(this).find('td').length) {
-                    var txt = '';
-                    if ($val < 4) {
-                        txt = $(this).find('td:eq(2)').text().toLowerCase();
-                    }
-                    else
-                    {
-                        txt = $(this).find('td:eq(3)').text().toLowerCase();
-                    }
+    //    if ($selectText != 'all') {
+    //        $('tr').each(function () {
+    //            if ($(this).find('td').length) {
+    //                var txt = '';
+    //                if ($val < 4) {
+    //                    txt = $(this).find('td:eq(2)').text().toLowerCase();
+    //                }
+    //                else
+    //                {
+    //                    txt = $(this).find('td:eq(3)').text().toLowerCase();
+    //                }
 
-                    if (txt === $selectText) {
-                        $(this).show();
-                    }
-                    else {
-                        $(this).hide();
-                    }
-                }
-            })
-        }
-        else {
-            $('tr').show();
-        }
+    //                if (txt === $selectText) {
+    //                    $(this).show();
+    //                }
+    //                else {
+    //                    $(this).hide();
+    //                }
+    //            }
+    //        })
+    //    }
+    //    else {
+    //        $('tr').show();
+    //    }
 
-    }
-
-
+    //}
 
 
-    function ViewChangeSection($this) {
-        var $selectText = $('option:selected', $this).text().toLowerCase();
-        var $val = $($this).val();
 
-        if ($selectText != 'all') {
-            $('tr').each(function () {
-                if ($(this).find('td').length) {
-                    var txt = '';
-                    if ($val < 4) {
-                        txt = $(this).find('td:eq(3)').text().toLowerCase();
-                    }
-                    else {
-                        txt = $(this).find('td:eq(3)').text().toLowerCase();
-                    }
 
-                    if (txt === $selectText) {
-                        $(this).show();
-                    }
-                    else {
-                        $(this).hide();
-                    }
-                }
-            })
-        }
-        else {
-            $('tr').show();
-        }
+    //function ViewChangeSection($this) {
+    //    var $selectText = $('option:selected', $this).text().toLowerCase();
+    //    var $val = $($this).val();
 
-    }
+    //    if ($selectText != 'all') {
+    //        $('tr').each(function () {
+    //            if ($(this).find('td').length) {
+    //                var txt = '';
+    //                if ($val < 4) {
+    //                    txt = $(this).find('td:eq(3)').text().toLowerCase();
+    //                }
+    //                else {
+    //                    txt = $(this).find('td:eq(3)').text().toLowerCase();
+    //                }
+
+    //                if (txt === $selectText) {
+    //                    $(this).show();
+    //                }
+    //                else {
+    //                    $(this).hide();
+    //                }
+    //            }
+    //        })
+    //    }
+    //    else {
+    //        $('tr').show();
+    //    }
+
+    //}
 
 
 

@@ -27,8 +27,8 @@ namespace LMS.Domain
         public Section Section { get; set; }
         public int Section_Id { get; set; }
 
-        public Subject Subject { get; set; }
-        public int Subject_Id { get; set; }
+        //public Subject Subject { get; set; }
+        //public int Subject_Id { get; set; }
 
         public Teacher Teacher { get; set; }
         public int Teacher_Id { get; set; }

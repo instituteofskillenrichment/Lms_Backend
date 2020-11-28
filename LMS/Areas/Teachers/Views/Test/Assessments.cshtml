@@ -1,12 +1,13 @@
-﻿@model IEnumerable<LMS.Domain.ViewModels.StudentClassViewModel>
+﻿@model IEnumerable<LMS.Domain.AssessmentType>
 
 @{
-    ViewData["Title"] = "StudentClassDetail";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Assessments";
+    Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
 }
 
 <div class="panel-header panel-header-sm">
 </div>
+
 <div class="content">
     <div class="row">
         <div class="col-md-12">
@@ -18,23 +19,20 @@
                             <div class="table-title">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h2><b>Student Class Details With Subjects</b></h2>
+                                        <h2><b>Manage Assessment Type</b></h2>
                                     </div>
                                     <div class="col-md-6 pull-right">
+                                        <a href="#addAssessmentModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add Assessment Type</span></a>
 
                                     </div>
                                 </div>
                             </div>
 
-                            <table id="StudentClassPage" class="display" style="width:100%">
+                            <table id="AssessmentPage" class="display" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Student ID</th>
-                                        <th>Student Name</th>
-                                        <th>Class Name</th>
-                                        <th>Section Name</th>
-                                        <th>Enroll Subjects</th>
+                                        <th>Assessment Type Name</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -42,34 +40,19 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <td>@item.StudentClass_Id</td>
-                                            <td>@item.Student_Id</td>
-                                            <td>@item.Student_Name</td>
-                                            <td>@item.Class_Name</td>
-                                            <td>@item.Section_Name</td>
+                                            <td>@item.Assessment_Type_Id</td>
+                                            <td>@item.Assessment_Type_Name</td>
                                             <td>
-                                                <a asp-area="admin" asp-controller="student" asp-action="studentSubjectDetail" asp-route-id="@item.Student_Id" class="studentSubject" id="studentSubject">
-                                                    <i class="btn btn-primary" data-toggle="tooltip" title="" data-original-title="AssignedSubjects" style="line-height: 1em; border-radius: 2em;">Subjects</i>
-                                                </a>
-
-
-
-                                            </td>
-                                            <td>
-                                                <a href="#editStudentClassModel" class="edit" id="edit" data-toggle="modal">
+                                                <a href="#editAssessmentModal" class="edit" id="edit" data-toggle="modal">
                                                     <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
                                                 </a>
 
-                                                <a href="#deleteStudentClassModal" class="delete" id="delete" data-toggle="modal">
+                                                <a href="#deleteAssessmentModal" class="delete" id="delete" data-toggle="modal">
                                                     <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
                                                 </a>
 
-
-
                                                 @*Added BY Absar To get parentid*@
-                                                <input type="hidden" class="StudentClass_Id" value="@item.StudentClass_Id" />
-                                                <input type="hidden" class="Student_Id" value="@item.Student_Id" />
-
+                                                <input type="hidden" class="Assessment_Type_Id" value="@item.Assessment_Type_Id" />
 
                                             </td>
                                         </tr>
@@ -81,57 +64,25 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
-
-                    <!-- Edit Modal HTML -->
-                    <div id="editStudentClassModel" class="modal fade">
+                    <!-- Add Modal HTML -->
+                    <div id="addAssessmentModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form method="post" asp-controller="student" asp-action="editStudentClass">
+                                <form method="post" asp-controller="test" asp-action="addAssessmentType">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Edit Student Class</h4>
+                                        <h4 class="modal-title">Add Assessment Type</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                     </div>
                                     <div class="modal-body">
+                                        
                                         <div class="form-group">
-                                            <label>ID</label>
-                                            <input type="text" class="form-control" required="" id="StudentClass_Id" disabled="disabled">
+                                            <label>Assessment Type Name</label>
+                                            <input type="text" class="form-control" required="" name="Assessment_Type_Name">
                                         </div>
-                                        <div class="form-group">
-                                            <label>Student ID</label>
-                                            <input type="text" class="form-control" required="" id="Student_Id" disabled="disabled">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Student Name</label>
-                                            <input type="text" class="form-control" required="" id="Student_Name" disabled="disabled">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Class Name</label>
-                                            <select id="Class_Id" name="Class_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Class, "Class_Id", "Class_Name"))">
-                                            <option value="0">--Select--</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Section Name</label>
-                                            <select id="Section_Id" name="Section_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Section, "Section_Id", "Section_Name"))">
-                                            <option value="0">--Select--</option>
-                                            </select>
-                                        </div>
-
-
-
                                     </div>
                                     <div class="modal-footer">
                                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                        <input type="submit" class="btn btn-info" value="Update">
-                                        @*Added By Absar*@
-                                        <input type="hidden" name="StudentClass_Id" id="StudentClass_Id" />
-                                        <input type="hidden" name="Student_Id" id="Student_Id" />
-                                        <input type="hidden" name="Student_Name" id="Student_Name" />
+                                        <input type="submit" class="btn btn-success" value="Add">
                                     </div>
                                 </form>
                             </div>
@@ -139,14 +90,44 @@
                     </div>
 
 
-
-                    <!-- Delete Modal HTML -->
-                    <div id="deleteStudentClassModal" class="modal fade">
+                    <!-- Edit Modal HTML -->
+                    <div id="editAssessmentModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form method="post" asp-controller="student" asp-action="deleteStudentClass">
+                                <form method="post" asp-controller="test" asp-action="editAssessmentType">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Delete Student Class</h4>
+                                        <h4 class="modal-title">Edit Assessment Type</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>ID</label>
+                                            <input type="text" class="form-control" required="" id="Assessment_Type_Id" disabled="disabled">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Assessment Type Name</label>
+                                            <input type="text" class="form-control" required="" name="Assessment_Type_Name" id="Assessment_Type_Name">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-info" value="Update">
+                                        @*Added By Absar*@
+                                        <input type="hidden" name="Assessment_Type_Id" id="Assessment_Type_Id" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Delete Modal HTML -->
+                    <div id="deleteAssessmentModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="test" asp-action="DeleteAssessmentType">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Delete Assessment Type</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                     </div>
                                     <div class="modal-body">
@@ -158,8 +139,7 @@
                                         <input type="submit" class="btn btn-danger" value="Delete">
 
                                         @*//Added By Absar To Pass Parameter to action method*@
-                                        <input type="hidden" id="StudentClass_Id" name="StudentClass_Id" />
-                                        <input type="hidden" id="Students_Id" name="Student_Id" />
+                                        <input type="hidden" id="Assessment_Type_Id" name="Assessment_Type_Id" />
 
                                     </div>
                                 </form>
@@ -199,7 +179,7 @@
             <div class="copyright" id="copyright">
                 &copy;
                 <script>
-                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                        document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
                 </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
             </div>
         </div>
@@ -212,6 +192,7 @@
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
 <link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
 <script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+@*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
 <script>
     $(document).ready(function () {
 
@@ -223,6 +204,8 @@
             "extendedTimeOut": "5000",
         };
 
+
+
         var messageError = '@(ViewBag.Error)';
         var messageSuccess = '@(ViewBag.Success)';
 
@@ -231,7 +214,7 @@
 
             toastr.success(messageSuccess);
         }
-        else if (messageError.length > 0) {
+        else if (messageError.length > 0)  {
             toastr.error(messageError);
         }
 
@@ -241,27 +224,27 @@
         $('[data-toggle="tooltip"]').tooltip();
 
 
-        //Get StudentClass_Id for Delete Added By Absar
-        $('#StudentClassPage #delete').on('click', function () {
-            var StudentClass_Id = $(this).parent().find('.StudentClass_Id').val();
-            $('#deleteStudentClassModal #StudentClass_Id').val(StudentClass_Id);
+        //Get Assessment_Id for Delete Added By Absar
+        $('#AssessmentPage #delete').on('click', function () {
+            var Assessment_Type_Id = $(this).parent().find('.Assessment_Type_Id').val();
+
+            $('#deleteAssessmentModal #Assessment_Type_Id').val(Assessment_Type_Id);
         });
 
-        //Get StudentClass_Id for Edit Added By Absar
-        $('#StudentClassPage #edit').on('click', function () {
-            var id = $(this).parent().find('.StudentClass_Id').val();
+
+
+        $('#AssessmentPage #edit').on('click', function () {
+
+
+            var id = $(this).parent().find('.Assessment_Type_Id').val();
             $.ajax({
 
                 type: 'GET',
-                url: '/admin/student/editStudentClass/' + id,
-                success: function (objStudentClass) {
-
+                url: '/teachers/test/editAssessmentType/' + id,
+                success: function (objAssessment) {
                     
-                    $('#editStudentClassModel #StudentClass_Id').val(objStudentClass.studentClass_Id);
-                    $('#editStudentClassModel #Class_Id').val(objStudentClass.class_Id);
-                    $('#editStudentClassModel #Section_Id').val(objStudentClass.section_Id);
-                    $('#editStudentClassModel #Student_Id').val(objStudentClass.student_Id);
-                    $('#editStudentClassModel #Student_Name').val(objStudentClass.student_Name);
+                    $('#editAssessmentModal #Assessment_Type_Id').val(objAssessment.assessment_Type_Id);
+                    $('#editAssessmentModal #Assessment_Type_Name').val(objAssessment.assessment_Type_Name);
 
                 }
             });
@@ -269,10 +252,13 @@
 
 
 
-        $('#StudentClassPage').dataTable({
+        $('#AssessmentPage').DataTable({
             /* Disable initial sort */
-            "aaSorting": []
+           // "aaSorting": []
         });
+
+
+
+
     });
 </script>
-

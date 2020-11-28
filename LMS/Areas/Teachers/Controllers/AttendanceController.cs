@@ -195,7 +195,7 @@ namespace LMS.Areas.Teachers.Controllers
                 }
                 else
                 {
-                    TempData["Error"] = "Session Class Failed ";
+                    TempData["Error"] = "Updating Session Failed ";
                     return RedirectToAction("session", "attendance", new { area = "teachers" });
                 }
 
@@ -261,6 +261,7 @@ namespace LMS.Areas.Teachers.Controllers
             var attendanceClassVM = new AttendanceViewModel();
 
             attendanceClassVM.Sessions = _tPAttendanceRepository.GetAllStudentsClass().ToList();
+           
             //attendanceClassVM = _tPAttendanceRepository.GetAllStudentsClass().ToList();
 
 
@@ -301,7 +302,7 @@ namespace LMS.Areas.Teachers.Controllers
                         Student_Name = atd.Student_Name,
                         Class_Id = atd.Class_Id,
                         Section_Id = atd.Section_Id,
-                        Subject_Id = atd.Subject_Id,
+                        //Subject_Id = 0,
                         Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1
                     });
                 }

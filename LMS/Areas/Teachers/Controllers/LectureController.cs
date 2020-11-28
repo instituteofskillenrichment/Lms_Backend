@@ -263,7 +263,7 @@ namespace LMS.Areas.Teachers.Controllers
 
                         objLecture.Lecture_Name = model.Lecture_Name;
                         objLecture.Lecture_Detail = model.Lecture_Detail;
-                        objLecture.LecturePost_Date = DateTime.Now.ToString();
+                        objLecture.LecturePost_Date = model.LecturePost_Date.ToString("yyyyMMdd");
                         objLecture.Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1;
                         objLecture.ClassSubject_Id = classSubjectObj.ClassSubject_Id;
 

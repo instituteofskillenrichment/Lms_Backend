@@ -72,22 +72,25 @@
                                         <label>Lecture File</label>
                                         <br />
                                         <input asp-for="Lecture_File" style="line-height: normal; opacity: 1; height: 28px; width: 70%; border: 1px solid; margin-top: 30px; font-size: 1.3em;" />
-                                        @*<input asp-for="Lecture_File" style="line-height: normal; opacity: 1; height: 28px; width: 70%; border: 1px solid; margin-top: 30px; font-size: 1.3em;" />*@
-                                        @*<a asp-controller="teachers/Lecture" asp-action="downloadLecture" asp-route-lectureId="@Model.Id" class="delete"><i class="fas fa-file-archive"></i> @Model.ExistingFilePath</a>*@
+                                        <br /><br />
+                                        <a asp-controller="teachers/Lecture" asp-action="downloadLecture" asp-route-lectureId="@Model.Id" class="delete">
+                                        <i class="fas fa-file-archive"></i> 
+                                        <label>@Model.ExistingFilePath</label>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
 
 
 
-                            <div class="row">
+                            @*<div class="row">
                                 <div class="col-md-4 pr-1">
                                     <div class="form-group">
                                         <label>File Upload</label>
                                         <input asp-for="Lecture_File" class="form-control">
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
 
 
                             <input asp-for="ExistingFilePath" type="hidden" value="@Model.ExistingFilePath" />

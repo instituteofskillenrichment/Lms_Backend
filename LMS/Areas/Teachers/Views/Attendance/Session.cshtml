@@ -35,9 +35,9 @@
                                         <th>Date</th>
                                         <th>Start Time</th>
                                         <th>End Time</th>
-                                        <th>Class Name</th>
-                                        <th>Section Name</th>
-                                        <th>Subject Name</th>
+                                        <th>Class</th>
+                                        <th>Section</th>
+                                        <th>Subject</th>
                                         <th>Mark Attendance</th>
                                         <th>Action</th>
                                     </tr>
@@ -60,7 +60,7 @@
                                             </a>*@
 
                                             <a asp-controller="attendance" asp-action="markAttendance" asp-route-Session_Id="@item.Session_Id" class="markAttendance" id="markAttendance">
-                                                <i class="btn btn-primary" title="" data-original-title="MarkAttendance" style="line-height: 1em; border-radius: 2em;">Mark Attendance</i>
+                                                <i class="btn btn-primary" title="" data-original-title="MarkAttendance" style="line-height: 1em; border-radius: 2em; background-color:#ae7c38;">Mark Attendance</i>
                                             </a>
 
                                             @*Added BY Absar To get parentid*@
@@ -135,21 +135,27 @@
                                             <div class="col-md-4 pr-1">
                                                 <div class="form-group">
                                                     <label>Class Name</label>
-                                                    <select id="Class_Id" name="Class_Id" class="form-control" asp-for="Class_Id" asp-items="@Model.Classes"></select>
+                                                    <select id="Class_Id" name="Class_Id" class="form-control" asp-for="Class_Id" asp-items="@Model.Classes">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 pl-1">
 
                                                 <div class="form-group">
                                                     <label>Section Name</label>
-                                                    <select id="Section_Id" name="Section_Id" class="form-control" asp-for="Section_Id" asp-items="@Model.Sections"></select>
+                                                    <select id="Section_Id" name="Section_Id" class="form-control" asp-for="Section_Id" asp-items="@Model.Sections">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 pl-1">
 
                                                 <div class="form-group">
                                                     <label>Subject Name</label>
-                                                    <select id="Subject_Id" name="Subject_Id" class="form-control" asp-for="Subject_Id" asp-items="@Model.Subjects"></select>
+                                                    <select id="Subject_Id" name="Subject_Id" class="form-control" asp-for="Subject_Id" asp-items="@Model.Subjects">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>

@@ -218,8 +218,8 @@ namespace LMS.BusinessLogics.Repositories
                                                                      Class_Name = atd.Class.Class_Name,
                                                                      Section_Id = atd.Section_Id,
                                                                      Section_Name = atd.Section.Section_Name,
-                                                                     Subject_Id = atd.Subject_Id,
-                                                                     Subject_Name = atd.Subject.Subject_Name,
+                                                                     Subject_Id = atd.Session.Subject_Id,
+                                                                     Subject_Name = atd.Session.Subject.Subject_Name,
                                                                      Session_Date = DateTime.ParseExact(atd.Date, "yyyyMMd", null),
                                                                      Status = atd.Status
                                                                  }).AsQueryable();

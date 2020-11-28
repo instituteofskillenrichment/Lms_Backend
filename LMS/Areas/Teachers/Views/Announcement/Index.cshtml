@@ -1,0 +1,293 @@
+﻿@model LMS.Domain.ViewModels.AnnouncementViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2><b>Announcements List</b></h2>
+                                    </div>
+                                    <div class="col-md-6 pull-right">
+                                        <a href="#addAnnouncementModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Announcement</span></a>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table id="announcementPage" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Announcement Id</th>
+                                        <th>Announcement Detail</th>
+                                        <th>Announcement_Date</th>
+                                        <th>Class</th>
+                                        <th>Section</th>
+                                        <th>Subject</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Announcement)
+                                    {
+                                        <tr>
+                                            <td>@item.Announcement_Id</td>
+                                            <td>@item.Announcement_Detail</td>
+                                            <td>@item.Announcement_Date.ToShortDateString()</td>
+                                            <td>@item.Class_Name</td>
+                                            <td>@item.Section_Name</td>
+                                            <td>@item.Subject_Name</td>
+                                            
+                                            <td>
+                                                <a href="#editAnnouncementModal" class="edit" id="edit" data-toggle="modal">
+                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                                </a>
+
+                                                <a href="#deleteClassModal" class="delete" id="delete" data-toggle="modal">
+                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                                </a>
+
+                                                @*Added BY Absar To get parentid*@
+                                                <input type="hidden" class="Announcement_Id" value="@item.Announcement_Id" />
+
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="clearfix">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Add Modal HTML -->
+                    <div id="addAnnouncementModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="announcement" asp-action="addAnnouncement">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Add Announcement</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-4 pr-1">
+                                                <div class="form-group">
+                                                    <label>Class</label>
+                                                    <select id="Class_Id" name="Class_Id" class="form-control" asp-for="Class_Id" asp-items="@Model.Classes">
+                                                    <option value="0">--Select--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 pl-1">
+                                                <div class="form-group">
+                                                    <label>Section</label>
+                                                    <select id="Section_Id" name="Section_Id" class="form-control" asp-for="Section_Id" asp-items="@Model.Sections">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 pl-1">
+                                                <div class="form-group">
+                                                    <label>Subject</label>
+                                                    <select id="Subject_Id" name="Subject_Id" class="form-control" asp-for="Subject_Id" asp-items="@Model.Subjects">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 pl-1">
+                                                <div class="form-group">
+                                                    <label>Announcement Detail</label>
+                                                    <textarea name="Announcement_Detail" class="form-control" style="border: 1px solid #174876; border-radius: .25rem;"></textarea>
+                                                </div>
+                                            </div>
+                                                
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-success" value="Add">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Edit Modal HTML -->
+                    <div id="editAnnouncementModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="announcement" asp-action="editClass">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Edit Announcement</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-4 pr-1">
+                                                <div class="form-group">
+                                                    <label>Class</label>
+                                                    <select id="Class_Id" name="Class_Id" class="form-control" asp-for="Class_Id" asp-items="@Model.Classes">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 pl-1">
+                                                <div class="form-group">
+                                                    <label>Section</label>
+                                                    <select id="Section_Id" name="Section_Id" class="form-control" asp-for="Section_Id" asp-items="@Model.Sections">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 pl-1">
+                                                <div class="form-group">
+                                                    <label>Subject</label>
+                                                    <select id="Subject_Id" name="Subject_Id" class="form-control" asp-for="Subject_Id" asp-items="@Model.Subjects">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 pl-1">
+                                                <div class="form-group">
+                                                    <label>Announcement Detail</label>
+                                                    <textarea name="Announcement_Detail" class="form-control" style="border: 1px solid #174876; border-radius: .25rem;"></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-info" value="Save">
+                                        @*Added By Absar*@
+                                        <input type="hidden" name="Class_Id" id="Class_Id" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Delete Modal HTML -->
+                    <div id="deleteClassModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="class" asp-action="deleteClass">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Delete Class</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to delete these Records?</p>
+                                        <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-danger" value="Delete">
+
+                                        @*//Added By Absar To Pass Parameter to action method*@
+                                        <input type="hidden" id="Class_Id" name="Class_Id" />
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <footer class="footer">
+        <div class=" container-fluid ">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://www.creative-tim.com">
+                            Karachi Grammar School
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="copyright" id="copyright">
+                &copy;
+                <script>
+                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+<script>
+    $(document).ready(function () {
+
+        toastr.options = {
+        "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+
+        if (messageSuccess.length > 0) {
+
+                toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0) {
+            toastr.error(messageError);
+        }
+
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+
+        $('#announcementPage').DataTable();
+    });
+</script>
+
+
+
+

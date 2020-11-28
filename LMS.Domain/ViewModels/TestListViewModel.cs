@@ -1,4 +1,6 @@
-﻿namespace LMS.Domain.ViewModels
+﻿using System;
+
+namespace LMS.Domain.ViewModels
 {
     public class TestListViewModel
     {
@@ -11,6 +13,8 @@
         public string Section_Name { get; set; }
         public int Subject_Id { get; set; }
         public string Subject_Name { get; set; }
+        //Added By Absar
+        public DateTime Assessment_Date { get; set; }
 
     }
 }

@@ -31,7 +31,7 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <button id="btnSubmit" class="btn btn-primary btn-block">Submit</button>
+                                        <button type="button" id="btnSubmit" class="btn btn-primary btn-block">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -85,6 +85,8 @@
 
 
     var data = new FormData();
+
+    var marks = 0;
 
     $(document).ready(function () {
 
@@ -150,7 +152,7 @@
 
         for (var i = 0; i < count; i++) {
             $('#divQuestions').append(`<div class="questionObj"><div class="row"><div class="col-md-12 pr-1"><div class="form-group"><label>Question ` + (i + 1) + `</label><input type="text" class="form-control" placeholder="Question ` + (i + 1) + `" id="q` + (i + 1) + `"></div></div></div>
-                <div class="row"><div class="col-md-12 pr-1"><div class="form-group"><div class="row"><div id="qa` + (i + 1) + `" class="col-md-6"><input type="text" class="form-control" placeholder="Answer1" value=""><input type="text" class="form-control" placeholder="Answer2" value=""><input type="text" class="form-control" placeholder="Answer3" value=""><input type="text" class="form-control" placeholder="Answer4" value=""></div><div class="col-md-3"><div class="form-group"><label>Correct Answer</label><select class="form-control"><option>A</option><option>B</option><option>C</option><option>D</option></select></div></div><div class="col-md-3"><div class="form-group"><label>Question Type</label><select  class="form-control ddlType"><option value='1'>MCQ</option><option value='2'>Textual answer</option><option value='3'>File upload</option></select></div></div></div></div></div></div></div> <br/>`);
+                <div class="row"><div class="col-md-12 pr-1"><div class="form-group"><div class="row"><div id="qa` + (i + 1) + `" class="col-md-6"><input type="text" class="form-control" placeholder="Answer1" value=""><input type="text" class="form-control" placeholder="Answer2" value=""><input type="text" class="form-control" placeholder="Answer3" value=""><input type="text" class="form-control" placeholder="Answer4" value=""></div><div class="col-md-3"><div class="form-group"><label>Correct Answer</label><select class="form-control"><option>A</option><option>B</option><option>C</option><option>D</option></select></div></div><div class="col-md-3"><div class="form-group"><label>Question Type</label><select  class="form-control ddlType"><option value='1'>MCQ</option><option value='2'>Textual answer</option><option value='3'>File upload</option></select></div></div></div><br/><div class="row col-md-3"><input type="number" class="form-control" name="marks" placeholder="Marks"></div></div></div></div></div> <br/>`);
         }
 
     }
@@ -200,6 +202,8 @@
 
         var questionObj = {};
 
+        data = new FormData();
+
         $('#divQuestions').find(".questionObj").each(function () {
 
             var inputs = $(this).find('input');
@@ -208,7 +212,7 @@
 
             var textarea = $(this).find('textarea');
 
-            if (inputs.length > 2) {
+            if (inputs.length > 3) {
                 questionObj = {
                     question:   $(inputs[0]).val(),
                     option1:    $(inputs[1]).val(),
@@ -216,10 +220,13 @@
                     option3:    $(inputs[3]).val(),
                     option4:    $(inputs[4]).val(),
                     correctAns: $(selects[0]).val(),
-                    testTypeId: $(selects[1]).val()
+                    testTypeId: $(selects[1]).val(),
+                    marks: $(inputs[5]).val()
                 };
+
+               // marks += parseInt($(inputs[5]).val(), 10);
             }
-            else if (inputs.length == 2) {
+            else if (inputs.length == 3) {
                 file = $(inputs[1])[0].files[0];
                 data.append('file', file);
                 questionObj = {
@@ -229,8 +236,11 @@
                     option3:    '',
                     option4:    '',
                     correctAns: '',
-                    testTypeId: $(selects[1]).val()
+                    testTypeId: $(selects[1]).val(),
+                    marks: $(inputs[2]).val()
                 };
+
+               // marks += parseInt($(inputs[2]).val(), 10);
             }
             else if (textarea.length > 0) {
                 questionObj = {
@@ -240,8 +250,10 @@
                     option3:    '',
                     option4:    '',
                     correctAns: '',
-                    testTypeId: $(selects[1]).val()
+                    testTypeId: $(selects[1]).val(),
+                    marks: $(inputs[1]).val()
                 };
+               // marks += parseInt($(inputs[1]).val(), 10);
             }
             questions.push(questionObj);
         });
@@ -255,9 +267,18 @@
 
         getDataFromDiv(questions);
 
-            //var data = {
-            //    tests: questions
-            //}
+        marks = 0;
+
+        $("input[name='marks']").each(function () {
+            marks += parseInt(this.value, 10);
+        });
+
+        var totalMarks = @ViewBag.TotalMarks;
+
+        if (marks > totalMarks) {
+            //alert('Marks can not be more than total marks');
+            toastr.error("Marks can not be more than total marks");
+        } else {
 
             $.ajax({
                 url: '@Url.Action("addtestdetails", "teachers/test")',
@@ -266,21 +287,22 @@
                 contentType: false,
                 data: data,
                 success: function Success(response) {
+                    debugger;
+                    if (response == 1) {
+                        window.location.href = "/teachers/test";
+                    } else {
+                        //alert('Failed to Save Data');
+                        toastr.error("Failed to Save Data");
 
-                    if (response.d == "1") {
-                        toastr.success('Data successfully saved', 'Success')
-                    }
-                    else {
-                        toastr.error('Failed to Save Data', 'Error!')
                     }
                 },
-                error: function (msg) {
-
-                    toastr.error('Failed to Save Data', 'Error!')
+                error: function(msg) {
+                    //alert('Failed to Save Data');
+                    toastr.error('Failed to Save Data');
                 }
             });
-
         }
+    }
 
 </script>
 

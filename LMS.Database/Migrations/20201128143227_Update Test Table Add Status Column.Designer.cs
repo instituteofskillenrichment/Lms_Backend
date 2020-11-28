@@ -4,51 +4,22 @@ using LMS.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LMS.Database.Migrations
 {
     [DbContext(typeof(LmsDbContext))]
-    partial class LmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201128143227_Update Test Table Add Status Column")]
+    partial class UpdateTestTableAddStatusColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("LMS.Domain.Announcement", b =>
-                {
-                    b.Property<int>("Announcement_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Announcement_Date");
-
-                    b.Property<string>("Announcement_Detail");
-
-                    b.Property<int>("Class_Id");
-
-                    b.Property<int>("Section_Id");
-
-                    b.Property<int>("Subject_Id");
-
-                    b.Property<int>("Teacher_Id");
-
-                    b.HasKey("Announcement_Id");
-
-                    b.HasIndex("Class_Id");
-
-                    b.HasIndex("Section_Id");
-
-                    b.HasIndex("Subject_Id");
-
-                    b.HasIndex("Teacher_Id");
-
-                    b.ToTable("Announcement");
-                });
 
             modelBuilder.Entity("LMS.Domain.AssessmentType", b =>
                 {
@@ -396,8 +367,6 @@ namespace LMS.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Assessment_Date");
-
                     b.Property<int>("Assessment_Status");
 
                     b.Property<int>("Assessment_Type_Id");
@@ -644,29 +613,6 @@ namespace LMS.Database.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("LMS.Domain.Announcement", b =>
-                {
-                    b.HasOne("LMS.Domain.Class", "Class")
-                        .WithMany()
-                        .HasForeignKey("Class_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("LMS.Domain.Section", "Section")
-                        .WithMany()
-                        .HasForeignKey("Section_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("LMS.Domain.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("Subject_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("LMS.Domain.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("Teacher_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("LMS.Domain.Attendance", b =>

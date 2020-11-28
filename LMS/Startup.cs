@@ -97,6 +97,7 @@ namespace LMS
             services.AddScoped<ITeacherTestRepository, TeacherTestRepository>();
             services.AddScoped<ITPClassRepository, TPClassRepository>();
             services.AddScoped<ITPAttendanceRepository, TPAttendanceRepository>();
+            services.AddScoped<IAnnouncementReporitory, AnnouncementReporitory>();
 
         }
 

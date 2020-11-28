@@ -16,10 +16,10 @@
                             <div class="table-title">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h2><b>Tests View List</b></h2>
+                                        <h2><b>Assessment View List</b></h2>
                                     </div>
                                     <div class="col-md-6 pull-right">
-                                        <a asp-action="AddTest" asp-controller="Test" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add Test</span></a>
+                                        <a asp-action="AddTest" asp-controller="Test" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add Assessment</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -30,6 +30,7 @@
                                         <th>Class</th>
                                         <th>Section</th>
                                         <th>Subject</th>
+                                        <th>Date</th>
                                         <th>Questions</th>
                                         <th>Options</th>
                                         <th>Action</th>
@@ -43,9 +44,13 @@
                                             <td>@item.Class_Name</td>
                                             <td>@item.Section_Name</td>
                                             <td>@item.Subject_Name</td>
+                                            <td>@item.Assessment_Date.ToShortDateString()</td>
                                             <td>@item.Questions_Count</td>
                                             <td><a asp-action="ManageTest" asp-controller="Test" asp-route-id="@item.Test_Id" class="btn btn-primary btn-sm" style="background-color:#ae7c38;">Manage Questions</a></td>
                                             <td>
+                                                <a asp-action="editTest" asp-controller="Test" asp-route-id="@item.Test_Id" class="edit" id="edit">
+                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                                </a>
                                                 <a href="#deleteTestModal" class="delete" id="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i></a>
                                                 <input type="hidden" class="Test_Id" value="@item.Test_Id" />
                                             </td>

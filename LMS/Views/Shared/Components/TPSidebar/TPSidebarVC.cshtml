@@ -33,7 +33,7 @@
                 <a asp-area="teachers" asp-controller="lecture" asp-action="index">
                     <i class="now-ui-icons design_app"></i>
 
-                    <p>Lectures </p>
+                    <p>Lessons List </p>
                 </a>
 
             </li>
@@ -57,8 +57,8 @@
                     <p>Online Assessment</p>
                 </a>
                 <ul>
-                    <li><a href="#">Assessment</a></li>
-                    <li><a asp-area="teachers" asp-controller="test" asp-action="index">Tests</a></li>
+                    <li><a asp-area="teachers" asp-controller="test" asp-action="assessments">Assessment Type</a></li>
+                    <li><a asp-area="teachers" asp-controller="test" asp-action="index">Assessment List</a></li>
                 </ul>
             </li>
             <li>
@@ -68,7 +68,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a asp-area="teachers" asp-controller="announcement" asp-action="index">
                     <i class="now-ui-icons design_app"></i>
                     <p>Announcements</p>
                 </a>

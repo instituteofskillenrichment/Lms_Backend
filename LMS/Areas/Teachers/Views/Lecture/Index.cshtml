@@ -4,7 +4,7 @@
     Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
 }
 
-  
+
 <div class="panel-header panel-header-sm">
 </div>
 <div class="content">
@@ -41,7 +41,8 @@
                                         <tr>
                                             <td>@item.Lecture_Id</td>
                                             <td>@item.Lecture_Name</td>
-                                            <td>@item.LecturePost_Date</td>
+
+                                            <td>@(DateTime.ParseExact(item.LecturePost_Date, "yyyyMMd", null).ToShortDateString())</td>
                                             <td style="font-size:16px;">
                                                 <a asp-controller="lecture" asp-action="editLecture" asp-route-id="@item.Lecture_Id" class="edit" id="edit">
                                                     <i class="fas fa-pen"></i>
@@ -137,11 +138,29 @@
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
-@*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 <script>
     $(document).ready(function () {
 
+        toastr.options = {
+        "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
 
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+        if (messageSuccess.length > 0) {
+
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0) {
+            toastr.error(messageError);
+        }
 
         //Get Class_Id for Delete Added By Absar
         $('#classpage #delete').on('click', function () {
@@ -150,7 +169,7 @@
             $('#deleteLectureModal #Lecture_Id').val(Lecture_Id);
         });
 
-        
+
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
