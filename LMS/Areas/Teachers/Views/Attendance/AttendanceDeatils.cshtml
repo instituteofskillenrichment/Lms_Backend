@@ -26,52 +26,87 @@
                                     </div>
                                 </div>
                             </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>From Date</label>
+                                        <input id="datepicker_from" type="date" class="form-control">
 
-                            <table id="AttendanceDetailPage" class="display" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>Session Id</th>
-                                        <th>Session Name</th>
-                                        <th>Student Id</th>
-                                        <th>Student Name</th>
-                                        <th>Class</th>
-                                        <th>Section</th>
-                                        <th>Subject</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>To Date</label>
+                                        <input id="datepicker_to" type="date" class="form-control">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="row">
+                                <table id="AttendanceDetailPage" class="display" style="width:100%">
+                                    <thead>
                                         <tr>
-                                            <td>@item.Session_Id</td>
-                                            <td>@item.Session_Name</td>
-                                            <td>@item.Student_Id</td>
-                                            <td>@item.Student_Name</td>
-                                            <td>@item.Class_Name</td>
-                                            <td>@item.Section_Name</td>
-                                            <td>@item.Subject_Name</td>
-                                            <td>@item.Session_Date.ToShortDateString()</td>
-                                            <td>@item.Status</td>
-                                            <td>
-                                                <a href="#editAttendanceModal" class="edit" id="edit" data-toggle="modal">
-                                                    <i class="material-icons" title="" data-original-title="Edit"></i>
-                                                </a>
-
-                                                <a href="#deleteAttendanceModal" class="delete" id="delete" data-toggle="modal">
-                                                    <i class="material-icons" title="" data-original-title="Delete"></i>
-                                                </a>
-
-                                                @*Added BY Absar To get parentid*@
-                                                <input type="hidden" class="Attendance_Id" value="@item.Attendance_Id" />
-
-                                            </td>
+                                            <th>Session Id</th>
+                                            <th>Session Name</th>
+                                            <th>Student Id</th>
+                                            <th>Student Name</th>
+                                            <th>Class</th>
+                                            <th>Section</th>
+                                            <th>Subject</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
                                         </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.Session_Id</td>
+                                                <td>@item.Session_Name</td>
+                                                <td>@item.Student_Id</td>
+                                                <td>@item.Student_Name</td>
+                                                <td>@item.Class_Name</td>
+                                                <td>@item.Section_Name</td>
+                                                <td>@item.Subject_Name</td>
+                                                <td>@item.Session_Date.ToShortDateString()</td>
+                                                <td>@item.Status</td>
+                                                <td>
+                                                    <a href="#editAttendanceModal" class="edit" id="edit" data-toggle="modal">
+                                                        <i class="material-icons" title="" data-original-title="Edit"></i>
+                                                    </a>
+
+                                                    <a href="#deleteAttendanceModal" class="delete" id="delete" data-toggle="modal">
+                                                        <i class="material-icons" title="" data-original-title="Delete"></i>
+                                                    </a>
+
+                                                    @*Added BY Absar To get parentid*@
+                                                    <input type="hidden" class="Attendance_Id" value="@item.Attendance_Id" />
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    @*<tfoot>
+                                            <tr>
+                                                <th>Session Id</th>
+                                                <th>Session Name</th>
+                                                <th>Student Id</th>
+                                                <th>Student Name</th>
+                                                <th>Class</th>
+                                                <th>Section</th>
+                                                <th>Subject</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </tfoot>*@
+                                </table>
+                            </div>
+
                             <div class="clearfix">
 
                             </div>
@@ -190,13 +225,56 @@
 </div>
 
 
+@*Added For Date FIlter*@
+<link href="~/Dashboard/assets/js/core/jquery-ui.css" rel="stylesheet" />
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
 
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/js/core/jquery-3.5.1.js"></script>
+@*<script src="~/Dashboard/assets/js/core/jquery-ui.js"></script>*@
 <script src="~/Dashboard/assets/datatables.net/js/jquery.dataTables.min.js"></script>
-<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+@*<script src="~/Dashboard/assets/js/core/dataTables.buttons.min.js"></script>*@
+@*<script src="~/Dashboard/assets/js/core/dataTables.select.min.js"></script>*@
 <script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+
+
 <script>
+    // The plugin function for adding a new filtering routine
+    $.fn.dataTableExt.afnFiltering.push(
+        function (oSettings, aData, iDataIndex) {
+            var dateStart = parseDateValue($("#datepicker_from").val());
+            var dateEnd = parseDateValue($("#datepicker_to").val());
+            // aData represents the table structure as an array of columns, so the script access the date value
+            // in the first column of the table via aData[0]
+            var evalDate = parseDateValue(aData[7]);
+
+            if (evalDate >= dateStart && evalDate <= dateEnd) {
+                return true;
+            }
+            else {
+                return false;
+            }
+
+        });
+
+
+
+    // Function for converting a dd M yyyy date value into a numeric string for comparison (example 12 Oct 2010 becomes 20101012
+    function parseDateValue(rawDate) {
+        var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var dateArray = rawDate.split(" ");
+        var numMonth = Number(month.indexOf(dateArray[1])) + 1;
+        if (numMonth.toString().length < 2) {
+            numMonth = "0" + numMonth;
+        } else {
+            numMonth = numMonth.toString();
+        }
+        var parsedDate = dateArray[2] + numMonth + dateArray[0];
+        return parsedDate;
+    }
+
+
+
     $(document).ready(function () {
 
         toastr.options = {
@@ -221,6 +299,19 @@
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
+
+
+        //$('#datepicker_from').datepicker({
+        //    format: "dd M yyyy",
+        //    weekStart: 1,
+        //    daysOfWeekHighlighted: "0",
+        //    autoclose: true,
+        //    todayHighlight: true
+        //});
+
+        //// Add event listeners to the two range filtering inputs
+        //$('#datepicker_from,#datepicker_to').change(function () { $('#AttendanceDetailPage').DataTable().fnDraw(); });
+
 
 
         //Get Id for Delete Added By Absar
@@ -251,25 +342,23 @@
         });
 
 
-        //$('#AttendanceDetailPage').dataTable({
-        //    /* Disable initial sort */
-        //    "aaSorting": []
-        //});
+
 
         $('#AttendanceDetailPage').DataTable({
 
-            //"paging": false,
+            "bLengthChange": false,
             "fixedHeader": { header: true, footer: true },
 
-            //responsive: false,
+            responsive: false,
             //autoWidth: false,
             //aaSorting: [[2, 'asc']],
             //cache: true,
 
 
             initComplete: function () {
-                this.api().columns([2, 3,4,5,6]).every(function () {
+                this.api().columns([2, 3, 4, 5, 6]).every(function () {
                     var column = this;
+                    //var theadname = $('#AttendanceDetailPage th').eq([d]).text();
                     var select = $(' <select><option value="">ALL</option></select>')
                         .appendTo($(column.header()).empty())
                         .on('change', function () {
@@ -290,7 +379,14 @@
         });
 
 
+        
+
     });
+
+
+
+
+
 </script>
 
 

@@ -46,8 +46,19 @@ namespace LMS.BusinessLogics.Repositories
                 var deleteLecture = await GetLectureById(id);
 
 
+                Lecture lecture = new Lecture
+                {
+                    Lecture_Id = deleteLecture.Id,
+                    Lecture_Name = deleteLecture.Lecture_Name,
+                    Lecture_Detail = deleteLecture.Lecture_Detail,
+                    LecturePost_Date = deleteLecture.LecturePost_Date.ToShortDateString(),
+                    Lecture_File = deleteLecture.ExistingFilePath,
+                    Teacher_Id = deleteLecture.Teacher_Id
 
-                _lmsDbContext.Lecture.Remove(deleteLecture);
+                };
+
+
+                _lmsDbContext.Lecture.Remove(lecture);
 
                 await _lmsDbContext.SaveChangesAsync();
 
@@ -61,23 +72,81 @@ namespace LMS.BusinessLogics.Repositories
 
 
 
-        public async Task<IEnumerable<Lecture>> GetAllLecture(int TeachiId)
+        public async Task<IEnumerable<EditLectureViewModel>> GetAllLecture(int TeachiId)
         {
-            var listOfLecture = await _lmsDbContext.Lecture
-                                .AsNoTracking()
-                                .Where(l => l.Teacher_Id == TeachiId).ToListAsync(); ;
+            //var listOfLecture = await _lmsDbContext.Lecture
+            //                    .AsNoTracking()
+            //                    .Where(l => l.Teacher_Id == TeachiId).ToListAsync(); 
+
+            var listOfLecture = await (
+                                       from l in _lmsDbContext.Lecture
+                                       join tsub in _lmsDbContext.TeacherSubject
+                                             on new { l.Teacher.Teacher_Id, l.ClassSubject_Id }
+                                         equals new { tsub.Teacher_Id, tsub.ClassSubject_Id }
+                                       join csub in _lmsDbContext.ClassSubject
+                                             on new { tsub.ClassSubject_Id, Column1 = l.ClassSubject_Id }
+                                         equals new { csub.ClassSubject_Id, Column1 = csub.ClassSubject_Id }
+                                       where
+                                         l.Teacher_Id == TeachiId &&
+                                         l.ClassSubject_Id == tsub.ClassSubject_Id &&
+                                         tsub.ClassSubject_Id == csub.ClassSubject_Id &&
+                                         csub.ClassSection.Section_Id == csub.ClassSection.Section.Section_Id &&
+                                         csub.ClassSection.Class_Id == csub.ClassSection.Class.Class_Id &&
+                                         csub.Subject_Id == csub.Subject.Subject_Id
+                                       orderby
+                                         l.Lecture_Id
+                                       select new EditLectureViewModel
+                                       {
+                                           Id= l.Lecture_Id,
+                                           Lecture_Name= l.Lecture_Name,
+                                           Lecture_Detail = l.Lecture_Detail,
+                                           LecturePost_Date = DateTime.ParseExact(l.LecturePost_Date, "yyyyMMdd", null),
+                                           ExistingFilePath = l.Lecture_File,
+                                           Class_Name = csub.ClassSection.Class.Class_Name,
+                                           Section_Name = csub.ClassSection.Section.Section_Name,
+                                           Subject_Name = csub.Subject.Subject_Name
+                                       }
+                                       ).ToListAsync();
+
 
             return listOfLecture;
         }
 
 
 
-        public async Task<Lecture> GetLectureById(int Id)
+        public async Task<EditLectureViewModel> GetLectureById(int Id)
         {
-            var Lecture = await _lmsDbContext.Lecture
-                       .AsNoTracking()
-                       .FirstOrDefaultAsync(c => c.Lecture_Id == Id);
-            
+            //var Lecture = await _lmsDbContext.Lecture
+            //           .AsNoTracking()
+            //           .FirstOrDefaultAsync(c => c.Lecture_Id == Id);
+
+            var Lecture = await (
+                                    from l in _lmsDbContext.Lecture
+                                    where
+                                      l.Lecture_Id == Id &&
+                                      l.ClassSubject_Id == l.ClassSubject.ClassSubject_Id &&
+                                      l.ClassSubject.ClassSection_Id == l.ClassSubject.ClassSection.ClassSection_id &&
+                                      l.ClassSubject.ClassSection.Section_Id == l.ClassSubject.ClassSection.Section.Section_Id &&
+                                      l.ClassSubject.ClassSection.Class_Id == l.ClassSubject.ClassSection.Class.Class_Id &&
+                                      l.ClassSubject.Subject_Id == l.ClassSubject.Subject.Subject_Id
+                                    orderby
+                                      l.Lecture_Id
+                                    select new EditLectureViewModel
+                                    {
+                                       Id = l.Lecture_Id,
+                                       Lecture_Name = l.Lecture_Name,
+                                       Lecture_Detail = l.Lecture_Detail,
+                                       LecturePost_Date = DateTime.ParseExact(l.LecturePost_Date, "yyyyMMdd", null),
+                                       ExistingFilePath = l.Lecture_File,
+                                       Class_Id = l.ClassSubject.ClassSection.Class.Class_Id,
+                                       Class_Name = l.ClassSubject.ClassSection.Class.Class_Name,
+                                       Section_Id = l.ClassSubject.ClassSection.Section.Section_Id,
+                                       Section_Name = l.ClassSubject.ClassSection.Section.Section_Name,
+                                       Subject_Id = l.ClassSubject.Subject.Subject_Id,
+                                       Subject_Name = l.ClassSubject.Subject.Subject_Name
+                                    }
+                                ).AsNoTracking().FirstOrDefaultAsync();
+
 
             return Lecture;
         }

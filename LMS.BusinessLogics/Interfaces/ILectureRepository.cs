@@ -13,8 +13,8 @@ namespace LMS.BusinessLogics.Interfaces
         IQueryable<Class> GetAllClass();
         IQueryable<Section> GetAllSection();
         IQueryable<Subject> GetAllSubject();
-        Task<IEnumerable<Lecture>> GetAllLecture(int TeachiId);
-        Task<Lecture> GetLectureById(int Id);
+        Task<IEnumerable<EditLectureViewModel>> GetAllLecture(int TeachiId);
+        Task<EditLectureViewModel> GetLectureById(int Id);
         Task<int> AddLecture(Lecture objLecture);
         Task<int> UpdateLecture(Lecture objLecture);
         Task<int> DeleteLecture(int id);

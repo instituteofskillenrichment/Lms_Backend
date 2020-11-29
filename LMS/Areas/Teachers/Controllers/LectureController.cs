@@ -183,12 +183,17 @@ namespace LMS.Areas.Teachers.Controllers
 
             EditLectureViewModel model = new EditLectureViewModel
             {
-                Id = objLecture.Lecture_Id,
+                //Id = objLecture.Lecture_Id,
+                Id = objLecture.Id,
                 Lecture_Name = objLecture.Lecture_Name,
                 Lecture_Detail = objLecture.Lecture_Detail,
-                ExistingFilePath = objLecture.Lecture_File,
-                LecturePost_Date = DateTime.ParseExact(objLecture.LecturePost_Date, "yyyyMMdd", null)
-                
+                //ExistingFilePath = objLecture.Lecture_File,
+                ExistingFilePath = objLecture.ExistingFilePath,
+                LecturePost_Date = objLecture.LecturePost_Date,
+                Class_Id = objLecture.Class_Id,
+                Section_Id = objLecture.Section_Id,
+                Subject_Id = objLecture.Subject_Id
+
             };
 
             List<SelectListItem> classList = new List<SelectListItem>();
@@ -261,11 +266,21 @@ namespace LMS.Areas.Teachers.Controllers
                     {
                         var objLecture = await _LectureRepository.GetLectureById(model.Id);
 
-                        objLecture.Lecture_Name = model.Lecture_Name;
-                        objLecture.Lecture_Detail = model.Lecture_Detail;
-                        objLecture.LecturePost_Date = model.LecturePost_Date.ToString("yyyyMMdd");
-                        objLecture.Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1;
-                        objLecture.ClassSubject_Id = classSubjectObj.ClassSubject_Id;
+                        //objLecture.Lecture_Name = model.Lecture_Name;
+                        //objLecture.Lecture_Detail = model.Lecture_Detail;
+                        //objLecture.LecturePost_Date = model.LecturePost_Date;
+                        //objLecture.Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1;
+                        //objLecture.ClassSubject_Id = classSubjectObj.ClassSubject_Id;
+
+                        Lecture Lecture = new Lecture();
+                        Lecture.Lecture_Id = model.Id;
+                        Lecture.Lecture_Name = model.Lecture_Name;
+                        Lecture.Lecture_Detail = model.Lecture_Detail;
+                        Lecture.LecturePost_Date = model.LecturePost_Date.ToString("yyyyMMdd");
+                        Lecture.Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1;
+                        Lecture.ClassSubject_Id = classSubjectObj.ClassSubject_Id;
+                        
+
 
                         if (model.Lecture_File != null)
                         {
@@ -277,12 +292,17 @@ namespace LMS.Areas.Teachers.Controllers
                             }
                             
                             string uniqueFileName = Utility.ProcessUploadedFile(model.Lecture_File, _hostingEnvironment, "Lectures");
-                            
-                            objLecture.Lecture_File = uniqueFileName;
+
+                            //objLecture.Lecture_File = uniqueFileName;
+                            Lecture.Lecture_File = uniqueFileName;
 
                         }
+                        else
+                        {
+                            Lecture.Lecture_File = objLecture.ExistingFilePath;
+                        }
 
-                        int result= await _LectureRepository.UpdateLecture(objLecture);
+                        int result= await _LectureRepository.UpdateLecture(Lecture);
                         if (result == 1)
                         {
                             TempData["Success"] = "Lecture Updated Successfully";
@@ -321,12 +341,12 @@ namespace LMS.Areas.Teachers.Controllers
                 if (result == 1)
                 {
                     TempData["Success"] = "Delete Lecture Successfully";
-                    return RedirectToAction("Index", "class", new { area = "teachers" });
+                    return RedirectToAction("Index", "lecture", new { area = "teachers" });
                 }
                 else
                 {
                     TempData["Error"] = "Deleting Lecture Failed";
-                    return RedirectToAction("Index", "class", new { area = "teachers" });
+                    return RedirectToAction("Index", "lecture", new { area = "teachers" });
                 }
 
                 
@@ -342,11 +362,14 @@ namespace LMS.Areas.Teachers.Controllers
         {
             var lectureFile = await _LectureRepository.GetLectureById(lectureId);
 
-            string fileName = lectureFile.Lecture_File.Split('_')[1];
+            //string fileName = lectureFile.Lecture_File.Split('_')[1];
+            string fileName = lectureFile.ExistingFilePath.Split('_')[1];
 
-            lectureFile.Lecture_File = _hostingEnvironment.WebRootPath + _config.GetSection("AppSettings").GetSection("LectureFilesPath").Value + lectureFile.Lecture_File;
+            //lectureFile.Lecture_File = _hostingEnvironment.WebRootPath + _config.GetSection("AppSettings").GetSection("LectureFilesPath").Value + lectureFile.Lecture_File;
+            lectureFile.ExistingFilePath = _hostingEnvironment.WebRootPath + _config.GetSection("AppSettings").GetSection("LectureFilesPath").Value + lectureFile.ExistingFilePath;
 
-            return PhysicalFile(lectureFile.Lecture_File, MimeTypes.GetMimeType(lectureFile.Lecture_File), fileName);
+           // return PhysicalFile(lectureFile.Lecture_File, MimeTypes.GetMimeType(lectureFile.Lecture_File), fileName);
+            return PhysicalFile(lectureFile.ExistingFilePath, MimeTypes.GetMimeType(lectureFile.ExistingFilePath), fileName);
         }
     }
 }

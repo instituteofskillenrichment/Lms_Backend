@@ -38,6 +38,33 @@ namespace LMS.BusinessLogics.Repositories
             }
         }
 
+        public async Task<int> DeleteAnnouncement(int id)
+        {
+            try
+            {
+                var deleteAnnouncement = await GetAnnouncementById(id);
+
+                _lmsDbContext.Announcement.Remove(deleteAnnouncement);
+
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
+        public async Task<Announcement> GetAnnouncementById(int Id)
+        {
+            var Announcement = await _lmsDbContext.Announcement
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(a => a.Announcement_Id == Id);
+
+            return Announcement;
+        }
+
         public IQueryable<AnnouncementViewModel> GetAnnouncementtByTeacherId(int TeacherId)
         {
             var AnnouncementList = (
@@ -72,6 +99,22 @@ namespace LMS.BusinessLogics.Repositories
             
 
             return AnnouncementList;
+        }
+
+        public async Task<int> UpdateAnnouncement(Announcement objAnnouncement)
+        {
+            try
+            {
+                _lmsDbContext.Announcement.Update(objAnnouncement);
+
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
         }
     }
 

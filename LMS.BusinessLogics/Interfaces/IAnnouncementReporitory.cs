@@ -12,5 +12,8 @@ namespace LMS.BusinessLogics.Interfaces
     {
         IQueryable<AnnouncementViewModel> GetAnnouncementtByTeacherId(int TeacherId);
         Task<int> AddAnnouncement(Announcement objAnnouncement);
+        Task<int> DeleteAnnouncement(int id);
+        Task<Announcement> GetAnnouncementById(int Id);
+        Task<int> UpdateAnnouncement(Announcement objAnnouncement);
     }
 }

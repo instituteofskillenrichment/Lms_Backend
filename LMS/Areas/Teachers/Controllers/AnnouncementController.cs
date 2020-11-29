@@ -128,5 +128,75 @@ namespace LMS.Areas.Teachers.Controllers
 
             return View();
         }
+
+
+
+        [HttpPost]
+        [Route("deleteAnnouncement")]
+        public async Task<IActionResult> DeleteAnnouncement(int Announcement_Id)
+        {
+            if (ModelState.IsValid)
+            {
+                int result = await _AnnouncementRepository.DeleteAnnouncement(Announcement_Id);
+
+                if (result == 1)
+                {
+                    TempData["Success"] = "Delete Announcement Successfully";
+                    return RedirectToAction("Index", "announcement", new { area = "teachers" });
+                }
+                else
+                {
+                    TempData["Error"] = "Deleting Announcement Failed";
+                    return RedirectToAction("Index", "announcement", new { area = "teachers" });
+                }
+            }
+
+            return View();
+
+        }
+
+
+        [HttpGet]
+        [Route("editAnnouncement/{id}")]
+        public async Task<IActionResult> EditAnnouncement(int id)
+        {
+            var objAnnouncement = await _AnnouncementRepository.GetAnnouncementById(id);
+
+            return new JsonResult(objAnnouncement);
+
+        }
+
+
+        [HttpPost]
+        [Route("editAnnouncement")]
+        public async Task<IActionResult> EditAnnouncement(AnnouncementViewModel announcementModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Announcement objAnnouncement = await _AnnouncementRepository.GetAnnouncementById(announcementModel.Announcement_Id);
+
+                objAnnouncement.Announcement_Detail = announcementModel.Announcement_Detail;
+                objAnnouncement.Announcement_Date = announcementModel.Announcement_Date.ToString("yyyyMMdd");
+                objAnnouncement.Class_Id = announcementModel.Class_Id;
+                objAnnouncement.Section_Id = announcementModel.Section_Id;
+                objAnnouncement.Subject_Id = announcementModel.Subject_Id;
+
+                int result = await _AnnouncementRepository.UpdateAnnouncement(objAnnouncement);
+
+                if (result == 1)
+                {
+                    TempData["Success"] = "Announcement Updated Successfully";
+                    return RedirectToAction("Index", "announcement", new { area = "teachers" });
+                }
+                else
+                {
+                    TempData["Error"] = "Updating Announcement Failed ";
+                    return RedirectToAction("Index", "announcement", new { area = "teachers" });
+                }
+
+            }
+
+            return View();
+        }
     }
 }

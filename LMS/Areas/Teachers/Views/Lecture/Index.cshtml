@@ -1,4 +1,5 @@
-﻿@model List<LMS.Domain.Lecture>
+﻿@*@model List<LMS.Domain.Lecture>*@
+@model List<LMS.Domain.ViewModels.EditLectureViewModel>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
@@ -31,7 +32,12 @@
                                     <tr>
                                         <th>Lesson ID</th>
                                         <th>Lesson Name</th>
+                                        <th>Lesson Detail</th>
                                         <th>Date</th>
+                                        <th>File</th>
+                                        <th>Class</th>
+                                        <th>Section</th>
+                                        <th>Subject</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -39,12 +45,16 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <td>@item.Lecture_Id</td>
+                                            <td>@item.Id</td>
                                             <td>@item.Lecture_Name</td>
-
-                                            <td>@(DateTime.ParseExact(item.LecturePost_Date, "yyyyMMd", null).ToShortDateString())</td>
+                                            <td>@item.Lecture_Detail</td>
+                                            <td>@item.LecturePost_Date.ToShortDateString()</td>
+                                            <td>@item.ExistingFilePath</td>
+                                            <td>@item.Class_Name</td>
+                                            <td>@item.Section_Name</td>
+                                            <td>@item.Subject_Name</td>
                                             <td style="font-size:16px;">
-                                                <a asp-controller="lecture" asp-action="editLecture" asp-route-id="@item.Lecture_Id" class="edit" id="edit">
+                                                <a asp-controller="lecture" asp-action="editLecture" asp-route-id="@item.Id" class="edit" id="edit">
                                                     <i class="fas fa-pen"></i>
                                                 </a>
 
@@ -52,11 +62,11 @@
                                                     <i class="fas fa-trash"></i>
                                                 </a>
 
-                                                <a asp-controller="teachers/Lecture" asp-action="downloadLecture" asp-route-lectureId="@item.Lecture_Id" class="delete"><i class="fas fa-file-archive"></i></a>
+                                                <a asp-controller="teachers/Lecture" asp-action="downloadLecture" asp-route-lectureId="@item.Id" class="delete"><i class="fas fa-file-archive"></i></a>
 
 
                                                 @*Added BY Absar To get parentid*@
-                                                <input type="hidden" class="Lecture_Id" value="@item.Lecture_Id" />
+                                                <input type="hidden" class="Lecture_Id" value="@item.Id" />
                                             </td>
                                         </tr>
                                     }
@@ -136,8 +146,10 @@
 </div>
 
 <!--   Core JS Files   -->
-<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
-<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<script src="~/Dashboard/assets/js/core/jquery-3.5.1.js"></script>
+@*<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>*@
+<script src="~/Dashboard/assets/datatables.net/js/jquery.dataTables.min.js"></script>
+@*<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>*@
 <link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
 <script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 <script>
@@ -175,7 +187,39 @@
         $('[data-toggle="tooltip"]').tooltip();
 
 
-        $('#classpage').DataTable();
+        $('#classpage').DataTable({
+
+            "bLengthChange": false,
+            "fixedHeader": { header: true, footer: true },
+
+            responsive: false,
+            //autoWidth: false,
+            //aaSorting: [[2, 'asc']],
+            //cache: true,
+
+
+            initComplete: function () {
+                this.api().columns([5, 6, 7]).every(function () {
+                    var column = this;
+                    //var theadname = $('#AttendanceDetailPage th').eq([d]).text();
+                    var select = $(' <select><option value="">ALL</option></select>')
+                        .appendTo($(column.header()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
 
     });
 </script>
