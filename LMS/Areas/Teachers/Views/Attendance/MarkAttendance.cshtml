@@ -276,7 +276,7 @@
         $('#AttendancePage').DataTable({
 
             //"paging": false,
-            "fixedHeader": { header: true, footer: true },
+            //"fixedHeader": { header: true, footer: true },
             
             //responsive: false,
             //autoWidth: false,
@@ -285,8 +285,9 @@
 
 
             initComplete: function () {
-                this.api().columns([2,3]).every(function () {
+                this.api().columns([2, 3]).every(function () {
                     var column = this;
+                    
                     var select = $(' <select><option value="">ALL</option></select>')
                         .appendTo($(column.header()).empty())
                         .on('change', function () {

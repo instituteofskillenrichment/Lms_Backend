@@ -21,7 +21,7 @@ namespace LMS.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var TeacherClasses = _tPClassRepository.GetTeacherClassSubjectstDistinctByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1);
+            var TeacherClasses = _tPClassRepository.GetTeacherClassSubjectstDistinctByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0);
 
             return View("TPSidebarVC", TeacherClasses);
         }

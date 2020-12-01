@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LMS.Areas.Teachers.Controllers
+namespace LMS.Areas.Students.Controllers
 {
-    [Authorize(Roles = "Teacher")]
-    [Area("teachers")]
-    [Route("teachers/dashboard")]
+    [Authorize(Roles = "Student")]
+    [Area("students")]
+    [Route("students/dashboard")]
     public class DashboardController : Controller
     {
+
         [Route("")]
         [Route("index")]
         public IActionResult Index()

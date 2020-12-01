@@ -90,7 +90,11 @@
                                                 <div class="col-md-4 pl-1">
                                                     <div class="form-group">
                                                         <label>Date Of Birth</label>
-                                                        <input asp-for="Student_DOB" class="form-control" type="date" data-val="true" data-val-required="The Student_DOB field is required." id="Student_DOB" name="Student_DOB" value="">
+                                                        @{
+                                                            var S_Date = Model.Student_DOB;
+                                                            DateTime Student_DOB = DateTime.ParseExact(S_Date, "yyyyMMdd", null).Date;
+                                                        }
+                                                        <input asp-for="@Student_DOB" class="form-control" type="date" data-val-required="The Student_DOB field is required." id="Student_DOB" name="Student_DOB">
                                                         @*<input asp-for="Student_DOB" type="text" class="form-control" placeholder="DOB">*@
                                                     </div>
                                                 </div>

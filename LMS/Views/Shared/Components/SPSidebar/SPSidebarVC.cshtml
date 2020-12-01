@@ -1,0 +1,69 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<div class="sidebar-wrapper" id="sidebar-wrapper">
+    <ul class="nav navigation">
+        <li class="active">
+            <a asp-area="students" asp-controller="dashboard" asp-action="index">
+                <i class="now-ui-icons design_app"></i>
+                <p>Dashboard</p>
+            </a>
+        </li>
+
+        <li class="has-child">
+            <a href='#'>
+                <i class="now-ui-icons education_atom"></i>
+                <p>Class / Subjects </p>
+            </a>
+            <ul>
+                @foreach (var StudentSubjects in Model)
+                {
+                    <li><a asp-area="teachers" asp-controller="Class" asp-action="Subjects" asp-route-ClassSectionId="@StudentSubjects.Class_Id"> @StudentSubjects.Subject_Name</a></li>
+                }
+
+            </ul>
+
+        </li>
+
+
+
+
+
+
+
+        <li class="has-child">
+            <a href='#'>
+                <i class="now-ui-icons education_atom"></i>
+                <p>Assessments </p>
+            </a>
+
+
+        </li>
+        <li class="has-child">
+            <a href='#'>
+                <i class="now-ui-icons education_atom"></i>
+                <p>Attendance </p>
+            </a>
+
+
+        </li>
+
+        <li class="has-child">
+            <a href='#'>
+                <i class="now-ui-icons education_atom"></i>
+                <p>Announcements </p>
+            </a>
+
+
+        </li>
+
+
+
+
+
+
+    </ul>
+</div>

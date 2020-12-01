@@ -97,7 +97,7 @@ namespace LMS.Areas.Admin.Controllers
                         Teacher_Cnic = objTeacher.Teacher_Cnic,
                         Teacher_Country = objTeacher.Teacher_Country,
                         Teacher_CurrentAddress = objTeacher.Teacher_CurrentAddress,
-                        Teacher_DOB = objTeacher.Teacher_DOB.Substring(0,10),
+                        Teacher_DOB = Convert.ToDateTime(objTeacher.Teacher_DOB).ToString("yyyyMMdd"),
                         Teacher_Department = objTeacher.Teacher_Department,
                         Teacher_Designation = objTeacher.Teacher_Designation,
                         Teacher_Email = objTeacher.Teacher_Email,
@@ -188,7 +188,7 @@ namespace LMS.Areas.Admin.Controllers
                 objTeacher.Teacher_Cnic = TeacherModel.Teacher_Cnic;
                 objTeacher.Teacher_Country = TeacherModel.Teacher_Country;
                 objTeacher.Teacher_CurrentAddress = TeacherModel.Teacher_CurrentAddress;
-                objTeacher.Teacher_DOB = TeacherModel.Teacher_DOB.Substring(0, 10);
+                objTeacher.Teacher_DOB = Convert.ToDateTime(TeacherModel.Teacher_DOB).ToString("yyyyMMdd");
                 objTeacher.Teacher_Department = TeacherModel.Teacher_Department;
                 objTeacher.Teacher_Designation = TeacherModel.Teacher_Designation;
                 objTeacher.Teacher_Email = TeacherModel.Teacher_Email;
