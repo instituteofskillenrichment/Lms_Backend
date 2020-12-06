@@ -32,10 +32,10 @@ namespace LMS.Areas.Teachers.Controllers
         public IActionResult Index()
         {
             var announcementVM = new AnnouncementViewModel();
-            announcementVM.Announcement = _AnnouncementRepository.GetAnnouncementtByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            announcementVM.Announcement = _AnnouncementRepository.GetAnnouncementtByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
 
             announcementVM.Classes = new List<SelectListItem>();
-            var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
             foreach (var lstclass in objClassSecSub)
             {
 
@@ -107,7 +107,7 @@ namespace LMS.Areas.Teachers.Controllers
                     Class_Id = objAnnouncement.Class_Id,
                     Section_Id = objAnnouncement.Section_Id,
                     Subject_Id = objAnnouncement.Subject_Id,
-                    Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1
+                    Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 0
                 };
 
                 int result = await _AnnouncementRepository.AddAnnouncement(newAnnouncement);

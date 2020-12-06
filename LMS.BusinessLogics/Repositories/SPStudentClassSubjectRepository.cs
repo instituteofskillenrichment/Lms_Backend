@@ -37,12 +37,12 @@ namespace LMS.BusinessLogics.Repositories
                                                   //StudentClass_Id = sc.StudentClass_Id,
                                                   Student_Id = s.Student_Id,
                                                   Student_Name = s.Student_Name,
-                                                  //ClassSection_Id = cs.ClassSection_id,
+                                                  ClassSection_Id = cs.ClassSection_id,
                                                   Class_Id = c.Class_Id,
                                                   Class_Name = c.Class_Name,
                                                   Section_Id = sec.Section_Id,
                                                   Section_Name = sec.Section_Name,
-                                                  //ClassSubject_Id = csub.ClassSubject_Id,
+                                                  ClassSubject_Id = csub.ClassSubject_Id,
                                                   Subject_Id = sub.Subject_Id,
                                                   Subject_Name = sub.Subject_Name
 

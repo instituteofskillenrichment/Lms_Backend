@@ -98,7 +98,7 @@ namespace LMS.BusinessLogics.Repositories
         {
             IQueryable<AttendanceViewModel> Session = (from sess in _lmsDbContext.Session
                                                        where
-                                                         sess.Teacher_Id == 5
+                                                         sess.Teacher_Id == TeacherId
                                                        select new AttendanceViewModel
                                                        {
                                                            Session_Id = sess.Session_Id,
@@ -157,12 +157,12 @@ namespace LMS.BusinessLogics.Repositories
             }
         }
 
-        public IQueryable<AttendanceViewModel> GetAllStudentsClass()
+        public IQueryable<AttendanceViewModel> GetAllStudentsClass(int TeacherId)
         {
             IQueryable<AttendanceViewModel> StudentClass = (from tsub in _lmsDbContext.TeacherSubject
                                                             join sc in _lmsDbContext.StudentClass on new { ClassSection_Id = tsub.ClassSubject.ClassSection_Id } equals new { ClassSection_Id = sc.ClassSection_id }
                                                             where
-                                                              tsub.Teacher.Teacher_Id == 5
+                                                              tsub.Teacher.Teacher_Id == TeacherId
                                                             orderby
                                                               tsub.ClassSubject.ClassSection.Class.Class_Id,
                                                               tsub.ClassSubject.ClassSection.Section.Section_Id

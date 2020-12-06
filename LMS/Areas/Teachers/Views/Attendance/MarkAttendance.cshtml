@@ -30,7 +30,7 @@
 
                             <br />
 
-                            
+
                             <form method="post" asp-controller="attendance" asp-action="addAttendance">
                                 <table id="AttendancePage" class="display" style="width:100%">
                                     <thead>
@@ -38,7 +38,9 @@
 
                                             <th>Student ID</th>
                                             <th>Student Name</th>
-                                            <th>ClassName</th>
+                                            <th class="Class_Id">ClassID</th>
+                                            <th>Class Name</th>
+                                            <th class="Section_Id">SectionID</th>
                                             <th>Section Name</th>
                                             @*<th>Subject Name</th>*@
                                             <th>Status</th>
@@ -53,19 +55,15 @@
 
                                                 <td>@item.Student_Id</td>
                                                 <td>@item.Student_Name</td>
-                                                <td >
-                                                    @item.Class_Name
-                                                    <input type="hidden" class="Class_Id" id="Class_Id" value="@item.Class_Id" />
-                                                </td>
-                                                <td >
-                                                    @item.Section_Name
-                                                    <input type="hidden" class="Section_Id" id="Section_Id" value="@item.Section_Id" />
-                                                </td>
+                                                <td class="Class_Id">@item.Class_Id</td>
+                                                <td>@item.Class_Name</td>
+                                                <td class="Section_Id">@item.Section_Id</td>
+                                                <td>@item.Section_Name</td>
                                                 @*<td>
-                                                    @item.Subject_Name
+                        @item.Subject_Name
 
-                                                    <input type="hidden" class="Subject_Name" id="Subject_Name" />
-                                                </td>*@
+                        <input type="hidden" class="Subject_Name" id="Subject_Name" />
+                    </td>*@
                                                 <td>
                                                     <div class="form-check-inline">
                                                         <label class="form-check-label">
@@ -91,6 +89,20 @@
                                             </tr>
                                         }
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+
+                                            <th>Student ID</th>
+                                            <th>Student Name</th>
+                                            <th class="Class_Id">ClassID</th>
+                                            <th>Class Name</th>
+                                            <th class="Section_Id">SectionID</th>
+                                            <th>Section Name</th>
+                                            @*<th>Subject Name</th>*@
+                                            <th>Status</th>
+
+                                        </tr>
+                                    </tfoot>
                                 </table>
                                 <div class="clearfix">
 
@@ -160,8 +172,11 @@
 
 
 <!--   Core JS Files   -->
+<!--   Core JS Files   -->
 <script src="~/Dashboard/assets/js/core/jquery-3.5.1.js"></script>
+@*<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>*@
 <script src="~/Dashboard/assets/datatables.net/js/jquery.dataTables.min.js"></script>
+@*<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>*@
 <link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
 <script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 <script>
@@ -190,32 +205,32 @@
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
-        
 
 
-       
+        $(".Section_Id, .Class_Id").hide()
 
 
 
-        $("#ddlSubject").change(function ()
-        {
 
-            var selected = $('#ddlSubject :selected');
-            var val = selected.val();
-            selected = selected.text();
+        //$("#ddlSubject").change(function ()
+        //{
 
-            var table = $("table tbody");
+        //    var selected = $('#ddlSubject :selected');
+        //    var val = selected.val();
+        //    selected = selected.text();
 
-            table.find('tr').each(function (i) {
-                var $tds = $(this).find('td');
+        //    var table = $("table tbody");
 
-                $tds.eq(4).val(val);
-                $tds.eq(4).html(selected);
+        //    table.find('tr').each(function (i) {
+        //        var $tds = $(this).find('td');
 
-            });
+        //        $tds.eq(4).val(val);
+        //        $tds.eq(4).html(selected);
+
+        //    });
 
 
-        });
+        //});
 
 
         //Add Attendance Ajax Request Added By Absar
@@ -229,7 +244,7 @@
                 var row = $(this);
                 var atd = {};
 
-                
+
 
                 atd.ID = "0";
                 atd.Date = "0";
@@ -237,8 +252,8 @@
                 atd.Session_Id = $('#Session_Id').val();
                 atd.Student_Id = row.find("td").eq(0).html();
                 atd.Student_Name = row.find("td").eq(1).html();
-                atd.Class_Id = $('#Class_Id').val();
-                atd.Section_Id = $('#Section_Id').val();
+                atd.Class_Id = row.find("td").eq(2).html();
+                atd.Section_Id = row.find("td").eq(4).html();
                 //atd.Subject_Id = $('#ddlSubject :selected').val();
                 //atd.Subject_Id = "0";
                 atd.Teacher_Id = "0";
@@ -253,7 +268,7 @@
                 dataType: "html",
                 data: { attendancearr: attendancearr },
                 success: function (data) {
-                    
+
                 },
                 error: function (err) {
                     //console.log(err);
@@ -275,19 +290,19 @@
 
         $('#AttendancePage').DataTable({
 
-            //"paging": false,
-            //"fixedHeader": { header: true, footer: true },
-            
-            //responsive: false,
+            "bLengthChange": false,
+            "fixedHeader": { header: true, footer: true },
+
+            responsive: false,
             //autoWidth: false,
             //aaSorting: [[2, 'asc']],
             //cache: true,
 
 
             initComplete: function () {
-                this.api().columns([2, 3]).every(function () {
+                this.api().columns([3,5]).every(function () {
                     var column = this;
-                    
+                    //var theadname = $('#AttendanceDetailPage th').eq([d]).text();
                     var select = $(' <select><option value="">ALL</option></select>')
                         .appendTo($(column.header()).empty())
                         .on('change', function () {

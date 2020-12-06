@@ -51,7 +51,7 @@ namespace LMS.Areas.Teachers.Controllers
         [Route("index")]
         public IActionResult Index()
         {
-            var Tests = _TeacherTestRepository.GetTestsByTeacher(HttpContext.Session.GetInt32("UserId") ?? 2);
+            var Tests = _TeacherTestRepository.GetTestsByTeacher(HttpContext.Session.GetInt32("UserId") ?? 0);
 
             if (TempData["Error"] != null)
             {
@@ -76,7 +76,7 @@ namespace LMS.Areas.Teachers.Controllers
 			
             List<SelectListItem> classList = new List<SelectListItem>();
             classList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
-            var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
             foreach (var lstclass in objClassSecSub)
             {
 
@@ -109,7 +109,7 @@ namespace LMS.Areas.Teachers.Controllers
 
             List<SelectListItem> subjectList = new List<SelectListItem>();
             subjectList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
-            var objSubject = _LectureRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            var objSubject = _LectureRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
             foreach (var lstSubject in objSubject)
             {
                 var selectListItem = new SelectListItem
@@ -141,7 +141,7 @@ namespace LMS.Areas.Teachers.Controllers
                     Total_Makrs = objTest.Total_Makrs,
                     Passing_Makrs = objTest.Passing_Makrs,
                     Weighatge = objTest.Weighatge,
-                    Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 2,
+                    Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 0,
                     Class_Id = objTest.Class_Id,
                     Section_Id = objTest.Section_Id,
                     Subject_Id = objTest.Subject_Id,
@@ -179,7 +179,7 @@ namespace LMS.Areas.Teachers.Controllers
 
             List<SelectListItem> classList = new List<SelectListItem>();
             classList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
-            var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
             foreach (var lstclass in objClassSecSub)
             {
 
@@ -213,7 +213,7 @@ namespace LMS.Areas.Teachers.Controllers
 
             List<SelectListItem> subjectList = new List<SelectListItem>();
             subjectList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
-            var objSubject = _LectureRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            var objSubject = _LectureRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
             foreach (var lstSubject in objSubject)
             {
                 var selectListItem = new SelectListItem
@@ -315,7 +315,7 @@ namespace LMS.Areas.Teachers.Controllers
 
             List<SelectListItem> classList = new List<SelectListItem>();
             classList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
-            var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
             foreach (var lstclass in objClassSecSub)
             {
 
@@ -348,7 +348,7 @@ namespace LMS.Areas.Teachers.Controllers
 
             List<SelectListItem> subjectList = new List<SelectListItem>();
             subjectList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
-            var objSubject = _LectureRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            var objSubject = _LectureRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
             foreach (var lstSubject in objSubject)
             {
                 var selectListItem = new SelectListItem

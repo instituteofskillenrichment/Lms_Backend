@@ -14,7 +14,7 @@ namespace LMS.BusinessLogics.Interfaces
         IQueryable<AttendanceViewModel> GetAllClassSectionByTeacherId(int TeacherId);
         IQueryable<AttendanceViewModel> GetAllSubjectByTeacherId(int TeacherId);
 
-        IQueryable<AttendanceViewModel> GetAllStudentsClass();
+        IQueryable<AttendanceViewModel> GetAllStudentsClass(int TeacherId);
 
         Task<Session> GetSessionById(int Id);
 

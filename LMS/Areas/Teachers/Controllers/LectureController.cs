@@ -41,7 +41,7 @@ namespace LMS.Areas.Teachers.Controllers
         [Route("lectures")]
         public async Task<IActionResult> Index()
         {
-            var Lectures = await _LectureRepository.GetAllLecture(HttpContext.Session.GetInt32("UserId") ?? 1);
+            var Lectures = await _LectureRepository.GetAllLecture(HttpContext.Session.GetInt32("UserId") ?? 0);
 
             if (TempData["Error"] != null)
             {
@@ -62,7 +62,7 @@ namespace LMS.Areas.Teachers.Controllers
         {
             List<SelectListItem> classList = new List<SelectListItem>();
             classList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
-            var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
             foreach (var lstclass in objClassSecSub)
             {
 
@@ -95,7 +95,7 @@ namespace LMS.Areas.Teachers.Controllers
 
             List<SelectListItem> subjectList = new List<SelectListItem>();
             subjectList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
-            var objSubject = _LectureRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            var objSubject = _LectureRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
             foreach (var lstSubject in objSubject)
             {
                 var selectListItem = new SelectListItem
@@ -138,7 +138,7 @@ namespace LMS.Areas.Teachers.Controllers
                             Lecture_Detail = objLecture.Lecture_Detail,
                             Lecture_File = uniqueFileName,
                             LecturePost_Date = objLecture.LecturePost_Date.ToString("yyyyMMdd"), //DateTime.Now.ToString(),
-                            Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1,
+                            Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 0,
                             ClassSubject_Id = classSubjectObj.ClassSubject_Id
                         };
 
@@ -198,7 +198,7 @@ namespace LMS.Areas.Teachers.Controllers
 
             List<SelectListItem> classList = new List<SelectListItem>();
             classList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
-            var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            var objClassSecSub = _LectureRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
             foreach (var lstclass in objClassSecSub)
             {
 
@@ -231,7 +231,7 @@ namespace LMS.Areas.Teachers.Controllers
 
             List<SelectListItem> subjectList = new List<SelectListItem>();
             subjectList.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
-            var objSubject = _LectureRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            var objSubject = _LectureRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
             foreach (var lstSubject in objSubject)
             {
                 var selectListItem = new SelectListItem
@@ -277,7 +277,7 @@ namespace LMS.Areas.Teachers.Controllers
                         Lecture.Lecture_Name = model.Lecture_Name;
                         Lecture.Lecture_Detail = model.Lecture_Detail;
                         Lecture.LecturePost_Date = model.LecturePost_Date.ToString("yyyyMMdd");
-                        Lecture.Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1;
+                        Lecture.Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 0;
                         Lecture.ClassSubject_Id = classSubjectObj.ClassSubject_Id;
                         
 

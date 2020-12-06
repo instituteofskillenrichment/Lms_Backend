@@ -31,7 +31,7 @@ namespace LMS.Areas.Teachers.Controllers
         {
 
 
-            var TeacherClasses = _tPClassRepository.GetTeacherClassSubjectstDistinctByTeacherId(HttpContext.Session.GetInt32("UserId")??1);
+            var TeacherClasses = _tPClassRepository.GetTeacherClassSubjectstDistinctByTeacherId(HttpContext.Session.GetInt32("UserId")??0);
             
             if (TempData["Error"] != null)
             {
@@ -52,7 +52,7 @@ namespace LMS.Areas.Teachers.Controllers
         public IActionResult Subjects(int ClassSectionId)
         {
 
-            var TeacherClassSubjects = _tPClassRepository.GetTeacherClassSubjectLectures(HttpContext.Session.GetInt32("UserId") ?? 1, ClassSectionId);
+            var TeacherClassSubjects = _tPClassRepository.GetTeacherClassSubjectLectures(HttpContext.Session.GetInt32("UserId") ?? 0, ClassSectionId);
 
 
 

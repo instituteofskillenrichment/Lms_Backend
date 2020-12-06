@@ -28,10 +28,10 @@ namespace LMS.Areas.Teachers.Controllers
         public IActionResult Session()
         {
             var sessionClassVM = new AttendanceViewModel();
-            sessionClassVM.Sessions = _tPAttendanceRepository.GetAllSessionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            sessionClassVM.Sessions = _tPAttendanceRepository.GetAllSessionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
 
             sessionClassVM.Classes = new List<SelectListItem>();
-            var objClassSecSub = _tPAttendanceRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            var objClassSecSub = _tPAttendanceRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
             foreach (var lstclass in objClassSecSub)
             {
 
@@ -62,7 +62,7 @@ namespace LMS.Areas.Teachers.Controllers
 
 
             sessionClassVM.Subjects = new List<SelectListItem>();
-            var objSubject = _tPAttendanceRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            var objSubject = _tPAttendanceRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
             foreach (var lstSubject in objSubject)
             {
                 var selectListItem = new SelectListItem
@@ -105,7 +105,7 @@ namespace LMS.Areas.Teachers.Controllers
                     Section_Id = objVM.Section_Id,
                     Class_Id = objVM.Class_Id,
                     Subject_Id = objVM.Subject_Id,
-                    Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1
+                    Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 0
                 };
 
                 int result = await _tPAttendanceRepository.AddSession(newSession);
@@ -124,7 +124,8 @@ namespace LMS.Areas.Teachers.Controllers
 
             }
 
-            return View();
+            TempData["Error"] = "Adding Session Failed";
+            return RedirectToAction("session", "attendance", new { area = "teachers" });
         }
 
 
@@ -212,7 +213,7 @@ namespace LMS.Areas.Teachers.Controllers
             ViewBag.Session_Id = Session_Id;
 
             List<SelectListItem> classList = new List<SelectListItem>();
-            var objClassSecSub = _tPAttendanceRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            var objClassSecSub = _tPAttendanceRepository.GetAllClassSectionByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
             foreach (var lstclass in objClassSecSub)
             {
 
@@ -244,7 +245,7 @@ namespace LMS.Areas.Teachers.Controllers
 
 
             List<SelectListItem> subjectList = new List<SelectListItem>();
-            var objSubject = _tPAttendanceRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1).ToList();
+            var objSubject = _tPAttendanceRepository.GetAllSubjectByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
             foreach (var lstSubject in objSubject)
             {
                 var selectListItem = new SelectListItem
@@ -260,7 +261,7 @@ namespace LMS.Areas.Teachers.Controllers
 
             var attendanceClassVM = new AttendanceViewModel();
 
-            attendanceClassVM.Sessions = _tPAttendanceRepository.GetAllStudentsClass().ToList();
+            attendanceClassVM.Sessions = _tPAttendanceRepository.GetAllStudentsClass(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
            
             //attendanceClassVM = _tPAttendanceRepository.GetAllStudentsClass().ToList();
 
@@ -303,19 +304,19 @@ namespace LMS.Areas.Teachers.Controllers
                         Class_Id = atd.Class_Id,
                         Section_Id = atd.Section_Id,
                         //Subject_Id = 0,
-                        Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 1
+                        Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 0
                     });
                 }
 
                 int result =  _tPAttendanceRepository.AddAttendance(attendance);
                 if (result == 1)
                 {
-                    TempData["Success"] = " Session Added Successfully";
+                    TempData["Success"] = " Attendance Added Successfully";
                     return RedirectToAction("attendanceDeatils", "attendance", new { area = "teachers" });
                 }
                 else
                 {
-                    TempData["Error"] = "Adding Session Failed";
+                    TempData["Error"] = "Adding Attendance Failed";
                     return RedirectToAction("attendanceDeatils", "attendance", new { area = "teachers" });
                 }
 
@@ -346,7 +347,7 @@ namespace LMS.Areas.Teachers.Controllers
                 ViewBag.Success = TempData["Success"].ToString();
             }
 
-            var objattendanceDetail = _tPAttendanceRepository.GetAttendanceByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 1);
+            var objattendanceDetail = _tPAttendanceRepository.GetAttendanceByTeacherId(HttpContext.Session.GetInt32("UserId") ?? 0);
 
             return View(objattendanceDetail);
         }

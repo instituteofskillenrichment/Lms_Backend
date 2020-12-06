@@ -231,12 +231,14 @@
 
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/js/core/jquery-3.5.1.js"></script>
-@*<script src="~/Dashboard/assets/js/core/jquery-ui.js"></script>*@
+
 <script src="~/Dashboard/assets/datatables.net/js/jquery.dataTables.min.js"></script>
 @*<script src="~/Dashboard/assets/js/core/dataTables.buttons.min.js"></script>*@
 @*<script src="~/Dashboard/assets/js/core/dataTables.select.min.js"></script>*@
+
 <script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 
+@*For Date Picker*@
 
 <script>
     // The plugin function for adding a new filtering routine
@@ -359,7 +361,7 @@
                 this.api().columns([2, 3, 4, 5, 6]).every(function () {
                     var column = this;
                     //var theadname = $('#AttendanceDetailPage th').eq([d]).text();
-                    var select = $(' <select><option value="">ALL</option></select>')
+                    var select = $('<select><option value="">ALL</option></select>')
                         .appendTo($(column.header()).empty())
                         .on('change', function () {
                             var val = $.fn.dataTable.util.escapeRegex(
@@ -379,7 +381,16 @@
         });
 
 
-        
+        //$('#datepicker_from,#datepicker_to').datepicker({
+        //    format: "dd M yyyy",
+        //    weekStart: 1,
+        //    daysOfWeekHighlighted: "0",
+        //    autoclose: true,
+        //    todayHighlight: true
+        //});
+
+        //// Add event listeners to the two range filtering inputs
+        //$('#datepicker_from,#datepicker_to').change(function () { $('#AttendanceDetailPage').DataTable().fnDraw(); });
 
     });
 

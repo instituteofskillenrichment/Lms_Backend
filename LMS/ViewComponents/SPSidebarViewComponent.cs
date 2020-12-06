@@ -22,7 +22,7 @@ namespace LMS.ViewComponents
         {
             var StudentSubjects = _StudentClassSubject.GetStudentClassSubjectstDistinctByStudentId(HttpContext.Session.GetInt32("UserId") ?? 0);
 
-            //return View("TPSidebarVC", TeacherClasses);
+            
 
             return View("SPSidebarVC", StudentSubjects);
         }

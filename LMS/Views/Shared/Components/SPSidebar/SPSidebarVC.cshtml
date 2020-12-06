@@ -1,6 +1,7 @@
 ﻿
 @{
     Layout = null;
+    int ClassSection_id =0;
 }
 
 
@@ -21,7 +22,9 @@
             <ul>
                 @foreach (var StudentSubjects in Model)
                 {
-                    <li><a asp-area="teachers" asp-controller="Class" asp-action="Subjects" asp-route-ClassSectionId="@StudentSubjects.Class_Id"> @StudentSubjects.Subject_Name</a></li>
+                    ClassSection_id = StudentSubjects.ClassSection_Id;
+
+                    <li><a asp-area="students" asp-controller="lecture" asp-action="lectures" asp-route-ClassSubjectId="@StudentSubjects.ClassSubject_Id"> @StudentSubjects.Subject_Name</a></li>
                 }
 
             </ul>
@@ -43,7 +46,7 @@
 
         </li>
         <li class="has-child">
-            <a href='#'>
+            <a asp-area="students" asp-controller="attendance" asp-action="attendances" >
                 <i class="now-ui-icons education_atom"></i>
                 <p>Attendance </p>
             </a>
@@ -51,8 +54,12 @@
 
         </li>
 
+
+       
+
+
         <li class="has-child">
-            <a href='#'>
+            <a asp-area="students" asp-controller="announcement" asp-action="announcements" asp-route-ClassSection_Id="@ClassSection_id">
                 <i class="now-ui-icons education_atom"></i>
                 <p>Announcements </p>
             </a>
