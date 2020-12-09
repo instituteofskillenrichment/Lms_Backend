@@ -1,0 +1,310 @@
+﻿@model IEnumerable<LMS.Domain.TestDetail>
+@inject IJsonHelper Json;
+@{
+    ViewData["Title"] = "AttemptTest";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+  /* The container */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+}
+</style>
+<div class="dashboard" id="dashboard">
+
+    <div class="panel-header panel-header-sm">
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="title">Add Answer(s)</h5>
+                    </div>
+                    <div class="card-body">
+                        <form enctype="multipart/form-data">
+                            <div id="divQuestions">
+                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+                                <script type='text/javascript'>
+                                    $.getScript("/js/StudentTest.js")
+                                        .done(function (script, textStatus) {
+                                            @foreach (var item in Model.Select((value, i) => new { i, value }))
+                                            {
+                                                @:$('#divQuestions').append(generateQuestions('@item.value.Test_Type_Id', '@item.value.Question_Name', '@item.i', '@Html.Raw(Json.Serialize(item.value))', '@item.value.Question_Id'));
+                                            }
+                                        })
+                                        .fail(function (jqxhr, settings, exception) {
+                                            console.log('failed to load script');
+                                        });
+                                </script>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button id="btnSubmit" class="btn btn-primary btn-block" type="button">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                            @{
+                                TempData["TestId"] = ViewBag.TestId;
+                            }
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <footer class="footer">
+        <div class=" container-fluid ">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://www.creative-tim.com">
+                            Karachi Grammar School
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="copyright" id="copyright">
+                &copy;
+                <script>
+                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<script>
+    var data = new FormData();
+
+    $(document).ready(function () {
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $('#btnSubmit').click(function () {
+            getValuesFromForm();
+        });
+
+         $(document).on('change', ".ddlType", function () {
+            var id =  this.parentNode.parentNode.previousSibling.id;;
+            generateQuestionsByType(id, this.value);
+        });
+
+    });
+
+    function generateQuestionsByType(id, type) {
+
+        if (type === '2') {
+            reGenerateTextControl(id);
+        } else if (type === '3') {
+            reGenerateFileControl(id);
+        }
+
+    }
+
+    function generateMultipleTextControl(obj, i) {
+        let filteredNames = filtered_keys(JSON.parse(obj), /Option/i );
+        var content = `<div  id="qa` + (parseInt(i, 10) + 1) + `" class="row"><div class="col-md-6">`;
+        for (var i = 0; i < filteredNames.length; i++) {
+             content += `<label class="container" style="color: #2c2c2c">` + filteredNames[i] + `<input type="radio" name="radio" value=` + filteredNames[i] + `><span class="checkmark"></span></label>`
+        }
+        content += `</div></div>`
+        return content;
+    }
+
+    function generateTextControl(i, typeId) {
+        return `<div class="row"><div  id="qa` + (parseInt(i, 10) + 1) + `" class="col-md-6"><textarea style="width:100%;" cols="2" rows="10"></textarea></div><div class="col-md-3"><div class="form-group"><label>Answer Type</label>` + buildSelect(typeId) + `</div></div></div>`;
+    }
+
+    function generateFileControl(i, typeId) {
+        return `<div class="row"><div  id="qa` + (parseInt(i, 10) + 1) + `" class="col-md-6"><input type="file" class="form-control"/></div><div class="col-md-3"><div class="form-group"><label>Answer Type</label>` +  buildSelect(typeId)  + `</div></div></div>`;
+    }
+
+    function buildSelect(value) {
+        var options = ['Textual answer', 'File upload']
+        var content = `<select class="form-control ddlType">`;
+        var $option;
+        for (var i = 0; i < options.length; i++) {
+            $option = $('<option value="' + (i+2) + '">' + options[i] + '</option>');
+            if ((i+2) == value) {
+                $option.attr('selected', 'selected');
+            }
+            content += $option[0].outerHTML;
+        }
+
+    return content + `</select>`;
+}
+
+    function filtered_keys(obj, filter) {
+        var key, keys = [];
+        for (key in obj) {
+            if (obj.hasOwnProperty(key) && filter.test(key)) {
+                keys.push(obj[key]);
+            }
+        }
+        return keys;
+    }
+
+    function reGenerateTextControl(id) {
+         $('#' + id).empty();
+         $('#' + id).append(`<textarea style="width:100%;" cols="2" rows="10"></textarea>`);
+     }
+
+    function reGenerateFileControl(id) {
+        $('#' + id).empty();
+        $('#' + id).append(`<input type="file" class="form-control"/>`);
+    }
+
+    function getDataFromDiv(answers, testId) {
+
+        var answerObj = {};
+
+        $('#divQuestions').find(".questionObj").each(function () {
+            debugger;
+            var inputs = $(this).find('input');
+
+            var selects = $(this).find('select');
+
+            var textarea = $(this).find('textarea');
+
+            if (inputs.length > 3) {
+                answerObj = {
+                    questionId: this.id,
+                    answer: $('input[name="radio"]:checked').val(),
+                    testId: testId,
+                    answerTypeId: 1 //which is MCQ
+                };
+            }
+            else if (inputs.length == 1) {
+                file = $(inputs[0])[0].files[0];
+                data.append('file', file);
+                answerObj = {
+                    questionId: this.id,
+                    answer: $(inputs[0]).val(),
+                    testId: testId,
+                    answerTypeId: $(selects[0]).val()
+                };
+            }
+            else if (textarea.length > 0) {
+                answerObj = {
+                    questionId: this.id,
+                    answer: textarea.val(),
+                    testId: testId,
+                    answerTypeId: $(selects[0]).val()
+                };
+            }
+            answers.push(answerObj);
+        });
+
+        data.append('tests', JSON.stringify(answers));
+    }
+
+    function getValuesFromForm() {
+
+        var testId = window.location.pathname.split('/')[4];
+        var answers = [];
+
+          getDataFromDiv(answers, testId);
+
+            $.ajax({
+                url: '@Url.Action("attempttest", "students/test")',
+                method: 'POST',
+                processData: false,
+                contentType: false,
+                data: data,
+                success: function Success(response) {
+                    debugger;
+                    if (response.d == "1") {
+                        toastr.success('Data successfully saved', 'Success')
+                    }
+                    else {
+                        toastr.error('Failed to Save Data', 'Error!')
+                    }
+                },
+                error: function (msg) {
+                    debugger;
+                    toastr.error('Failed to Save Data', 'Error!')
+                }
+            });
+
+        }
+
+</script>
+
+
+

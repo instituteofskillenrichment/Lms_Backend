@@ -1,0 +1,207 @@
+﻿@model IEnumerable<LMS.Domain.Teacher>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    @*@if (ViewBag.Error != null)
+        {
+            <script type="text/javascript">
+          alert( "@(ViewBag.Error)");
+            </script>
+        }*@
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2>Manage <b>Teachers</b></h2>
+                                    </div>
+                                    <div class="col-md-6 pull-right">
+                                        <a asp-area="admin" asp-controller="teacher" asp-action="addTeacher" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add New Teacher</span></a>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table id="teacherpage" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Designation</th>
+                                        <th>Department</th>
+                                        <th>Email</th>
+                                        <th>Mobile Number</th>
+                                        <th>City</th>
+                                        <th>Country</th>
+                                        <th>OfferSubject</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Teacher_Id</td>
+                                            <td>@item.Teacher_Name</td>
+                                            <td>@item.Teacher_Designation</td>
+                                            <td>@item.Teacher_Department</td>
+                                            <td>@item.Teacher_Email</td>
+                                            <td>@item.Teacher_MobNumber</td>
+                                            <td>@item.Teacher_City</td>
+                                            <td>@item.Teacher_Country</td>
+                                            <td>
+
+                                                <a asp-area="admin" asp-controller="teacher" asp-action="assignTeacherSubject" asp-route-id="@item.Teacher_Id" class="assignSubject" id="assignSubject">
+                                                    <i class="btn btn-primary" title="" data-original-title="AssignedSubject" style="line-height: 1em; border-radius: 2em;">Assign Subject</i>
+                                                </a>
+
+                                                @*Added BY Absar To get parentid*@
+                                                <input type="hidden" class="Teacher_Id" value="@item.Teacher_Id" />
+                                            </td>
+                                            <td>
+                                                <a asp-area="admin" asp-controller="teacher" asp-action="editTeacher" asp-route-id="@item.Teacher_Id" class="edit" id="edit">
+                                                    <i class="material-icons" title="" data-original-title="Edit"></i>
+                                                </a>
+
+                                                <a href="#deleteTeacherModal" class="delete" id="delete" data-toggle="modal">
+                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                                </a>
+
+                                                @*Added BY Absar To get parentid*@
+                                                <input type="hidden" class="Teacher_Id" value="@item.Teacher_Id" />
+
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="clearfix">
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <!-- Delete Modal HTML -->
+                    <div id="deleteTeacherModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="teacher" asp-action="deleteTeacher">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Delete Class</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to delete these Records?</p>
+                                        <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-danger" value="Delete">
+
+                                        @*//Added By Absar To Pass Parameter to action method*@
+                                        <input type="hidden" id="Teacher_Id" name="Teacher_Id" />
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <footer class="footer">
+        <div class=" container-fluid ">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://www.creative-tim.com">
+                            Karachi Grammar School
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="copyright" id="copyright">
+                &copy;
+                <script>
+                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+<script>
+    $(document).ready(function () {
+
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+        
+
+        if (messageSuccess.length > 0) {
+            
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0)  {
+            toastr.error(messageError);
+        }
+
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+
+        //Get Teacher_Id for Delete Added By Absar
+        $('#teacherpage #delete').on('click', function () {
+            var Teacher_Id = $(this).parent().find('.Teacher_Id').val();
+            $('#deleteTeacherModal #Teacher_Id').val(Teacher_Id);
+        });
+
+
+        $('#teacherpage').DataTable();
+    });
+</script>

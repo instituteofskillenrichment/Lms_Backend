@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LMS.BusinessLogics.Interfaces;
+﻿using LMS.BusinessLogics.Interfaces;
 using LMS.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace LMS.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("admin")]
     [Route("admin/class")]
     public class ClassController : Controller
@@ -26,6 +25,16 @@ namespace LMS.Areas.Admin.Controllers
         {
             var Class = _ClassRepository.GetAllClass();
 
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"].ToString();
+            }
+
+            if (TempData["Success"] != null)
+            {
+                ViewBag.Success = TempData["Success"].ToString();
+            }
+
             return View(Class);
         }
 
@@ -41,9 +50,19 @@ namespace LMS.Areas.Admin.Controllers
                     Class_Name = objClass.Class_Name
                 };
 
-                await _ClassRepository.AddClass(newClass);
+                int result =  await _ClassRepository.AddClass(newClass);
+                if(result == 1)
+                {
+                    TempData["Success"] = " Class Added Successfully"; 
+                    return RedirectToAction("Index", "class", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Error"] = "Adding Class Failed";
+                    return RedirectToAction("Index", "class", new { area = "admin" });
+                }
 
-                return RedirectToAction("Index", "class", new { area = "admin" });
+                
 
             }
 
@@ -55,10 +74,24 @@ namespace LMS.Areas.Admin.Controllers
         [Route("deleteClass")]
         public async Task<IActionResult> DeleteClass(int Class_Id)
         {
-                await _ClassRepository.DeleteClass(Class_Id);
+            if (ModelState.IsValid)
+            {
+               int result = await _ClassRepository.DeleteClass(Class_Id);
 
-                return RedirectToAction("Index", "class", new { area = "admin" });
-            
+                if (result == 1)
+                {
+                    TempData["Success"] = "Delete Class Successfully";
+                    return RedirectToAction("Index", "class", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Error"] = "Deleting Class Failed";
+                    return RedirectToAction("Index", "class", new { area = "admin" });
+                }
+            }
+
+            return View();
+
         }
 
 
@@ -85,9 +118,18 @@ namespace LMS.Areas.Admin.Controllers
 
                 objClass.Class_Name = classModel.Class_Name;
 
-                await _ClassRepository.UpdateClass(objClass);
+                int result = await _ClassRepository.UpdateClass(objClass);
 
-                return RedirectToAction("Index", "class", new { area = "admin" });
+                if (result == 1)
+                {
+                    TempData["Success"] = "Class Updated Successfully";
+                    return RedirectToAction("Index", "class", new { area = "admin" });
+                }
+                else
+                {
+                    TempData["Error"] = "Updating Class Failed ";
+                    return RedirectToAction("Index", "class", new { area = "admin" });
+                }
 
             }
 

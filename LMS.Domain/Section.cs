@@ -9,6 +9,6 @@ namespace LMS.Domain
     {
         [Key]
         public int Section_Id { get; set; }
-        public int Section_Name { get; set; }
+        public string Section_Name { get; set; }
     }
 }

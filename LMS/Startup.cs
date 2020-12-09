@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +14,9 @@ using Microsoft.Extensions.DependencyInjection;
 using LMS.Database;
 using LMS.BusinessLogics.Interfaces;
 using LMS.BusinessLogics.Repositories;
+using LMS.Domain.ViewModels;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace LMS
 {
@@ -29,6 +32,11 @@ namespace LMS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(600);
+            });
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -36,16 +44,60 @@ namespace LMS
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                //options.LoginPath = "/Login/Index"; // Set here your login path.
+
+                options.SlidingExpiration = true;
+
+            });
+
+
+
             services.AddDbContext<LmsDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<LmsDbContext>();
+
+            //services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<LmsDbContext>();
+            //added By absar
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<LmsDbContext>()
+                .AddDefaultTokenProviders();
+
+
+
+            services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, opt =>
+            {
+                //configure your other properties
+                opt.LoginPath = "/Login/Index";
+            });
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddLogging();
             //Added By Absar
             services.AddScoped<IClassRepository, ClassRepository>();
+            services.AddScoped<ITeacherRepository, TeacherRepository>();
+            services.AddScoped<ITeacherSubjectRepository, TeacherSubjectRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IStudentClassRepository, StudentClassRepository>();
+            services.AddScoped<ISectionRepository, SectionRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAssignSectionRepository, AssignSectionRepository>();
+            services.AddScoped<IAssignSubjectRepository, AssignSubjectRepository>();
+            services.AddScoped<ISubjectRepository, SubjectRepository>();
+            services.AddScoped<ILectureRepository, LectureRepository>();
+            services.AddScoped<IGradeRepository, GradeRepository>();
+            services.AddScoped<ITeacherTestRepository, TeacherTestRepository>();
+            services.AddScoped<ITPClassRepository, TPClassRepository>();
+            services.AddScoped<ITPAttendanceRepository, TPAttendanceRepository>(); 
+            services.AddScoped<IStudentTestRepository, StudentTestRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,22 +110,23 @@ namespace LMS
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+
 
             app.UseAuthentication();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Login}/{action=Index}/{id?}");
             });
+            app.UseCookiePolicy();
             //app.UseMvc(routes =>
             //{
             //    routes.MapRoute(

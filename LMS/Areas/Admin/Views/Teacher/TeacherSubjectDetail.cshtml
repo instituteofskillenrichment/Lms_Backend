@@ -1,0 +1,273 @@
+﻿@model IEnumerable<LMS.Domain.ViewModels.TeacherSubjectViewModel>
+
+@{
+    ViewData["Title"] = "TeacherSubjectDetail";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2>Teacher Subject Details <b>With Classes</b></h2>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                            <table id="TeacherSubjectPage" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Teacher ID</th>
+                                        <th>Teacher Name</th>
+                                        <th>Class Name</th>
+                                        <th>Section Name</th>
+                                        <th>Subject Name</th>
+                                        <th>Enroll Subjects</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.TeacherSubject_Id</td>
+                                            <td>@item.Teacher_Id</td>
+                                            <td>@item.Teacher_Name</td>
+                                            <td>@item.Class_Name</td>
+                                            <td>@item.Section_Name</td>
+                                            <td>@item.Subject_Name</td>
+                                            <td>
+                                                <a asp-area="admin" asp-controller="teacher" asp-action="teacherClassesSubjects" asp-route-id="@item.Teacher_Id" class="studentSubject" id="studentSubject">
+                                                    <i class="btn btn-primary" data-toggle="tooltip" title="" data-original-title="AssignedSubject" style="line-height: 1em; border-radius: 2em;">Subjects</i>
+                                                </a>
+
+                                            </td>
+                                            <td>
+                                                <a href="#editTeacherSubjectModel" class="edit" id="edit" data-toggle="modal">
+                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                                </a>
+
+                                                <a href="#deleteTeacherSubjectModal" class="delete" id="delete" data-toggle="modal">
+                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                                </a>
+
+
+
+                                                @*Added BY Absar To get parentid*@
+                                                <input type="hidden" class="TeacherSubject_Id" value="@item.TeacherSubject_Id" />
+                                                <input type="hidden" class="Teacher_Id" value="@item.Teacher_Id" />
+
+
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="clearfix">
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    @* Edit Modal HTML*@
+                    <div id="editTeacherSubjectModel" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="teacher" asp-action="editTeacherSubject">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Edit Teacher Subject</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>Teacher ID</label>
+                                            <input type="text" class="form-control" required="" id="Teacher_Id" disabled="disabled">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Teacher Name</label>
+                                            <input type="text" class="form-control" required="" id="Teacher_Name" disabled="disabled">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Class Name</label>
+                                            <select id="Class_Id" name="Class_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Class, "Class_Id", "Class_Name"))"></select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Section Name</label>
+                                            <select id="Section_Id" name="Section_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Section, "Section_Id", "Section_Name"))"></select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Subject Name</label>
+                                            <select id="Subject_Id" name="Subject_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Subjects, "Subject_Id", "Subject_Name"))"></select>
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-info" value="Save">
+
+                                        <input type="hidden" name="TeacherSubject_Id" id="TeacherSubject_Id" />
+                                        <input type="hidden" name="Teacher_Id" id="Teacher_Id" />
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Delete Modal HTML -->
+                    <div id="deleteTeacherSubjectModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="teacher" asp-action="deleteTeacherSubject">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Delete Teacher Subject</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to delete these Records?</p>
+                                        <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-danger" value="Delete">
+
+                                        @*//Added By Absar To Pass Parameter to action method*@
+                                        <input type="hidden" id="TeacherSubject_Id" name="TeacherSubject_Id" />
+
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <footer class="footer">
+        <div class=" container-fluid ">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://www.creative-tim.com">
+                            Karachi Grammar School
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="copyright" id="copyright">
+                &copy;
+                <script>
+                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+<script>
+    $(document).ready(function () {
+
+        toastr.options = {
+        "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+
+        if (messageSuccess.length > 0) {
+
+                toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0) {
+            toastr.error(messageError);
+        }
+
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+
+        //Get TeacherSubject_Id for Delete Added By Absar
+        $('#TeacherSubjectPage #delete').on('click', function () {
+            var TeacherSubject_Id = $(this).parent().find('.TeacherSubject_Id').val();
+            $('#deleteTeacherSubjectModal #TeacherSubject_Id').val(TeacherSubject_Id);
+        });
+
+        //Get TeacherSubject_Id for Edit Added By Absar
+        $('#TeacherSubjectPage #edit').on('click', function () {
+            var id = $(this).parent().find('.TeacherSubject_Id').val();
+            $.ajax({
+
+                type: 'GET',
+                url: '/admin/teacher/editTeacherSubject/' + id,
+                success: function (objTeacherSubject) {
+
+
+                    $('#editTeacherSubjectModel #TeacherSubject_Id').val(objTeacherSubject.teacherSubject_Id);
+                    $('#editTeacherSubjectModel #Teacher_Id').val(objTeacherSubject.teacher_Id);
+                    $('#editTeacherSubjectModel #Teacher_Name').val(objTeacherSubject.teacher_Name);
+                    $('#editTeacherSubjectModel #Class_Id').val(objTeacherSubject.class_Id);
+                    $('#editTeacherSubjectModel #Section_Id').val(objTeacherSubject.section_Id);
+                    $('#editTeacherSubjectModel #Subject_Id').val(objTeacherSubject.subject_Id);
+
+
+                }
+            });
+        });
+
+
+        $('#TeacherSubjectPage').dataTable({
+            /* Disable initial sort */
+            "aaSorting": []
+        });
+
+    });
+</script>

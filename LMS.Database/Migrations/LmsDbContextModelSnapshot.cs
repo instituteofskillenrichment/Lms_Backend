@@ -19,6 +19,47 @@ namespace LMS.Database.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("LMS.Domain.Attendance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Class_Id");
+
+                    b.Property<string>("Date");
+
+                    b.Property<int>("Section_Id");
+
+                    b.Property<int>("Session_Id");
+
+                    b.Property<string>("Status");
+
+                    b.Property<int>("Student_Id");
+
+                    b.Property<string>("Student_Name");
+
+                    b.Property<int>("Subject_Id");
+
+                    b.Property<int>("Teacher_Id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Class_Id");
+
+                    b.HasIndex("Section_Id");
+
+                    b.HasIndex("Session_Id");
+
+                    b.HasIndex("Student_Id");
+
+                    b.HasIndex("Subject_Id");
+
+                    b.HasIndex("Teacher_Id");
+
+                    b.ToTable("Attendance");
+                });
+
             modelBuilder.Entity("LMS.Domain.Class", b =>
                 {
                     b.Property<int>("Class_Id")
@@ -70,17 +111,198 @@ namespace LMS.Database.Migrations
                     b.ToTable("ClassSubject");
                 });
 
+            modelBuilder.Entity("LMS.Domain.Grade", b =>
+                {
+                    b.Property<int>("Grade_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Class_Id");
+
+                    b.Property<int>("End_On");
+
+                    b.Property<string>("Grade_Name");
+
+                    b.Property<int>("Section_Id");
+
+                    b.Property<int>("Start_From");
+
+                    b.Property<int>("Subject_Id");
+
+                    b.HasKey("Grade_Id");
+
+                    b.HasIndex("Class_Id");
+
+                    b.HasIndex("Section_Id");
+
+                    b.HasIndex("Subject_Id");
+
+                    b.ToTable("Grade");
+                });
+
+            modelBuilder.Entity("LMS.Domain.Lecture", b =>
+                {
+                    b.Property<int>("Lecture_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClassSubject_Id");
+
+                    b.Property<string>("LecturePost_Date");
+
+                    b.Property<string>("Lecture_Detail");
+
+                    b.Property<string>("Lecture_File");
+
+                    b.Property<string>("Lecture_Name");
+
+                    b.Property<int>("Teacher_Id");
+
+                    b.HasKey("Lecture_Id");
+
+                    b.HasIndex("ClassSubject_Id");
+
+                    b.HasIndex("Teacher_Id");
+
+                    b.ToTable("Lecture");
+                });
+
             modelBuilder.Entity("LMS.Domain.Section", b =>
                 {
                     b.Property<int>("Section_Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Section_Name");
+                    b.Property<string>("Section_Name");
 
                     b.HasKey("Section_Id");
 
                     b.ToTable("Section");
+                });
+
+            modelBuilder.Entity("LMS.Domain.Session", b =>
+                {
+                    b.Property<int>("Session_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Class_Id");
+
+                    b.Property<string>("Date");
+
+                    b.Property<string>("End_Time");
+
+                    b.Property<int>("Section_Id");
+
+                    b.Property<string>("Session_Name");
+
+                    b.Property<string>("Start_Time");
+
+                    b.Property<int>("Subject_Id");
+
+                    b.Property<int>("Teacher_Id");
+
+                    b.HasKey("Session_Id");
+
+                    b.HasIndex("Class_Id");
+
+                    b.HasIndex("Section_Id");
+
+                    b.HasIndex("Subject_Id");
+
+                    b.HasIndex("Teacher_Id");
+
+                    b.ToTable("Session");
+                });
+
+            modelBuilder.Entity("LMS.Domain.Student", b =>
+                {
+                    b.Property<int>("Student_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Student_City");
+
+                    b.Property<string>("Student_Cnic");
+
+                    b.Property<string>("Student_Country");
+
+                    b.Property<string>("Student_CurrentAddress");
+
+                    b.Property<string>("Student_DOB");
+
+                    b.Property<string>("Student_Email");
+
+                    b.Property<string>("Student_FatherName");
+
+                    b.Property<string>("Student_Gender");
+
+                    b.Property<string>("Student_HomePhone");
+
+                    b.Property<string>("Student_MobNumber");
+
+                    b.Property<string>("Student_Name");
+
+                    b.Property<string>("Student_PermenentAddress");
+
+                    b.Property<string>("Student_Photo");
+
+                    b.Property<string>("Student_Ref_Id");
+
+                    b.HasKey("Student_Id");
+
+                    b.ToTable("Student");
+                });
+
+            modelBuilder.Entity("LMS.Domain.StudentClass", b =>
+                {
+                    b.Property<int>("StudentClass_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClassSection_id");
+
+                    b.Property<int>("Student_Id");
+
+                    b.HasKey("StudentClass_Id");
+
+                    b.HasIndex("ClassSection_id");
+
+                    b.HasIndex("Student_Id");
+
+                    b.ToTable("StudentClass");
+                });
+
+            modelBuilder.Entity("LMS.Domain.StudentTestDetail", b =>
+                {
+                    b.Property<int>("Answer_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Answer");
+
+                    b.Property<int>("Answer_Type_Id");
+
+                    b.Property<int>("Question_Id");
+
+                    b.Property<int>("Student_Id");
+
+                    b.Property<DateTime>("SubmittedOn")
+                        .HasColumnType("DateTime");
+
+                    b.Property<int>("Test_Id");
+
+                    b.HasKey("Answer_Id");
+
+                    b.HasIndex("Answer_Type_Id");
+
+                    b.HasIndex("Question_Id");
+
+                    b.HasIndex("Student_Id");
+
+                    b.HasIndex("Test_Id");
+
+                    b.ToTable("StudentTestDetail");
                 });
 
             modelBuilder.Entity("LMS.Domain.Subject", b =>
@@ -89,11 +311,160 @@ namespace LMS.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Suject_Name");
+                    b.Property<string>("Subject_Name");
 
                     b.HasKey("Subject_Id");
 
                     b.ToTable("Subject");
+                });
+
+            modelBuilder.Entity("LMS.Domain.Teacher", b =>
+                {
+                    b.Property<int>("Teacher_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Teacher_City");
+
+                    b.Property<string>("Teacher_Cnic");
+
+                    b.Property<string>("Teacher_Country");
+
+                    b.Property<string>("Teacher_CurrentAddress");
+
+                    b.Property<string>("Teacher_DOB");
+
+                    b.Property<string>("Teacher_Department");
+
+                    b.Property<string>("Teacher_Designation");
+
+                    b.Property<string>("Teacher_Email");
+
+                    b.Property<string>("Teacher_FatherName");
+
+                    b.Property<string>("Teacher_Gender");
+
+                    b.Property<string>("Teacher_HomePhone");
+
+                    b.Property<string>("Teacher_LastDegree");
+
+                    b.Property<string>("Teacher_MobNumber");
+
+                    b.Property<string>("Teacher_Name");
+
+                    b.Property<string>("Teacher_PermenentAddress");
+
+                    b.Property<string>("Teacher_Photo");
+
+                    b.Property<string>("Teacher_Ref_Id");
+
+                    b.HasKey("Teacher_Id");
+
+                    b.ToTable("Teacher");
+                });
+
+            modelBuilder.Entity("LMS.Domain.TeacherSubject", b =>
+                {
+                    b.Property<int>("TeacherSubject_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClassSubject_Id");
+
+                    b.Property<int>("Teacher_Id");
+
+                    b.HasKey("TeacherSubject_Id");
+
+                    b.HasIndex("ClassSubject_Id");
+
+                    b.HasIndex("Teacher_Id");
+
+                    b.ToTable("TeacherSubject");
+                });
+
+            modelBuilder.Entity("LMS.Domain.Test", b =>
+                {
+                    b.Property<int>("Test_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Class_Id");
+
+                    b.Property<string>("End_Time");
+
+                    b.Property<int>("Passing_Makrs");
+
+                    b.Property<int>("Section_Id");
+
+                    b.Property<string>("Start_Time");
+
+                    b.Property<int>("Subject_Id");
+
+                    b.Property<int>("Teacher_Id");
+
+                    b.Property<string>("Test_Instruction");
+
+                    b.Property<string>("Test_Name");
+
+                    b.Property<int>("Total_Makrs");
+
+                    b.Property<int>("Weighatge");
+
+                    b.HasKey("Test_Id");
+
+                    b.HasIndex("Class_Id");
+
+                    b.HasIndex("Section_Id");
+
+                    b.HasIndex("Subject_Id");
+
+                    b.HasIndex("Teacher_Id");
+
+                    b.ToTable("Test");
+                });
+
+            modelBuilder.Entity("LMS.Domain.TestDetail", b =>
+                {
+                    b.Property<int>("Question_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Correct_Answer");
+
+                    b.Property<string>("Option_1");
+
+                    b.Property<string>("Option_2");
+
+                    b.Property<string>("Option_3");
+
+                    b.Property<string>("Option_4");
+
+                    b.Property<string>("Question_Name");
+
+                    b.Property<int>("Test_Id");
+
+                    b.Property<int>("Test_Type_Id");
+
+                    b.HasKey("Question_Id");
+
+                    b.HasIndex("Test_Id");
+
+                    b.HasIndex("Test_Type_Id");
+
+                    b.ToTable("TestDetail");
+                });
+
+            modelBuilder.Entity("LMS.Domain.TestType", b =>
+                {
+                    b.Property<int>("Test_Type_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Test_Type_Name");
+
+                    b.HasKey("Test_Type_Id");
+
+                    b.ToTable("TestType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -213,11 +584,9 @@ namespace LMS.Database.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -248,17 +617,48 @@ namespace LMS.Database.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("LMS.Domain.Attendance", b =>
+                {
+                    b.HasOne("LMS.Domain.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("Class_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Section", "Section")
+                        .WithMany()
+                        .HasForeignKey("Section_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Session", "Session")
+                        .WithMany()
+                        .HasForeignKey("Session_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("Student_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("Subject_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("Teacher_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("LMS.Domain.ClassSection", b =>
@@ -284,6 +684,145 @@ namespace LMS.Database.Migrations
                     b.HasOne("LMS.Domain.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("Subject_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LMS.Domain.Grade", b =>
+                {
+                    b.HasOne("LMS.Domain.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("Class_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Section", "Section")
+                        .WithMany()
+                        .HasForeignKey("Section_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("Subject_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LMS.Domain.Lecture", b =>
+                {
+                    b.HasOne("LMS.Domain.ClassSubject", "ClassSubject")
+                        .WithMany()
+                        .HasForeignKey("ClassSubject_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("Teacher_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LMS.Domain.Session", b =>
+                {
+                    b.HasOne("LMS.Domain.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("Class_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Section", "Section")
+                        .WithMany()
+                        .HasForeignKey("Section_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("Subject_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("Teacher_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LMS.Domain.StudentClass", b =>
+                {
+                    b.HasOne("LMS.Domain.ClassSection", "ClassSection")
+                        .WithMany()
+                        .HasForeignKey("ClassSection_id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("Student_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LMS.Domain.StudentTestDetail", b =>
+                {
+                    b.HasOne("LMS.Domain.TestType", "AnswerType")
+                        .WithMany("StudentTestDetailAnswerType")
+                        .HasForeignKey("Answer_Type_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.TestDetail", "TestDetail")
+                        .WithMany()
+                        .HasForeignKey("Question_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("Student_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Test", "Test")
+                        .WithMany()
+                        .HasForeignKey("Test_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LMS.Domain.TeacherSubject", b =>
+                {
+                    b.HasOne("LMS.Domain.ClassSubject", "ClassSubject")
+                        .WithMany()
+                        .HasForeignKey("ClassSubject_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("Teacher_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LMS.Domain.Test", b =>
+                {
+                    b.HasOne("LMS.Domain.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("Class_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Section", "Section")
+                        .WithMany()
+                        .HasForeignKey("Section_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("Subject_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("Teacher_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LMS.Domain.TestDetail", b =>
+                {
+                    b.HasOne("LMS.Domain.Test", "Test")
+                        .WithMany()
+                        .HasForeignKey("Test_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.TestType", "TestType")
+                        .WithMany()
+                        .HasForeignKey("Test_Type_Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
