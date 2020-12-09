@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LMS.Areas.Teachers.Controllers
 {
-    [Authorize(Roles = "Teacher")]
+    //[Authorize(Roles = "Teacher")]
     [Area("teachers")]
     [Route("teachers/attendance")]
     public class AttendanceController : Controller

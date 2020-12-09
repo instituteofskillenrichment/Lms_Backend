@@ -6,7 +6,7 @@
 
 
 <div class="Dashboard" id="Dashboard">
-    
+
     <div class="panel-header panel-header-sm">
     </div>
 
@@ -65,15 +65,15 @@
                             </div>
 
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Lecture File</label>
-                                    <br />
-                                    <a asp-controller="teachers/Lecture" asp-action="downloadLecture" asp-route-lectureId="@Model.Id" class="delete"><i class="fas fa-file-archive"></i> @Model.ExistingFilePath</a>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Lecture File</label>
+                                        <br />
+                                        <a asp-controller="teachers/Lecture" asp-action="downloadLecture" asp-route-lectureId="@Model.Id" class="delete"><i class="fas fa-file-archive"></i> @Model.ExistingFilePath</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
 
 
@@ -86,16 +86,14 @@
                                 </div>
                             </div>
 
-                        </div>
-                        <input asp-for="ExistingFilePath" type="hidden" value="@Model.ExistingFilePath" />
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </form>
 
+                            <input asp-for="ExistingFilePath" type="hidden" value="@Model.ExistingFilePath" />
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </form>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-</div>
+ </div>

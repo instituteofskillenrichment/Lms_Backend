@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.902
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS", "LMS\LMS.csproj", "{6C33EEF9-1BA7-4DF1-B89D-7F9909F4AB84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS", "LMS\LMS.csproj", "{6C33EEF9-1BA7-4DF1-B89D-7F9909F4AB84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.BusinessLogics", "LMS.BusinessLogics\LMS.BusinessLogics.csproj", "{E9FCA895-E94A-4311-997B-0F758E632292}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS.BusinessLogics", "LMS.BusinessLogics\LMS.BusinessLogics.csproj", "{E9FCA895-E94A-4311-997B-0F758E632292}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Database", "LMS.Database\LMS.Database.csproj", "{45558B2F-39CE-4143-80A3-0088EB0985D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS.Database", "LMS.Database\LMS.Database.csproj", "{45558B2F-39CE-4143-80A3-0088EB0985D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Domain", "LMS.Domain\LMS.Domain.csproj", "{B79FB6DC-F944-4E94-AE80-4C3D6FA1178B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS.Domain", "LMS.Domain\LMS.Domain.csproj", "{B79FB6DC-F944-4E94-AE80-4C3D6FA1178B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

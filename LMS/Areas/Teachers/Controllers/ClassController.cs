@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LMS.Areas.Teachers.Controllers
 {
-    [Authorize(Roles = "Teacher")]
+    //[Authorize(Roles = "Teacher")]
     [Area("teachers")]
     [Route("teachers/class")]
     public class ClassController : Controller

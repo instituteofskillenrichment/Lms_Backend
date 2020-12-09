@@ -273,6 +273,38 @@ namespace LMS.Database.Migrations
                     b.ToTable("StudentClass");
                 });
 
+            modelBuilder.Entity("LMS.Domain.StudentTestDetail", b =>
+                {
+                    b.Property<int>("Answer_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Answer");
+
+                    b.Property<int>("Answer_Type_Id");
+
+                    b.Property<int>("Question_Id");
+
+                    b.Property<int>("Student_Id");
+
+                    b.Property<DateTime>("SubmittedOn")
+                        .HasColumnType("DateTime");
+
+                    b.Property<int>("Test_Id");
+
+                    b.HasKey("Answer_Id");
+
+                    b.HasIndex("Answer_Type_Id");
+
+                    b.HasIndex("Question_Id");
+
+                    b.HasIndex("Student_Id");
+
+                    b.HasIndex("Test_Id");
+
+                    b.ToTable("StudentTestDetail");
+                });
+
             modelBuilder.Entity("LMS.Domain.Subject", b =>
                 {
                     b.Property<int>("Subject_Id")
@@ -411,7 +443,6 @@ namespace LMS.Database.Migrations
 
                     b.Property<int>("Test_Id");
 
-
                     b.Property<int>("Test_Type_Id");
 
                     b.HasKey("Question_Id");
@@ -434,11 +465,7 @@ namespace LMS.Database.Migrations
                     b.HasKey("Test_Type_Id");
 
                     b.ToTable("TestType");
-               
-
-                    b.ToTable("TestDetail");
                 });
-
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -727,6 +754,29 @@ namespace LMS.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("LMS.Domain.StudentTestDetail", b =>
+                {
+                    b.HasOne("LMS.Domain.TestType", "AnswerType")
+                        .WithMany("StudentTestDetailAnswerType")
+                        .HasForeignKey("Answer_Type_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.TestDetail", "TestDetail")
+                        .WithMany()
+                        .HasForeignKey("Question_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("Student_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Test", "Test")
+                        .WithMany()
+                        .HasForeignKey("Test_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("LMS.Domain.TeacherSubject", b =>
                 {
                     b.HasOne("LMS.Domain.ClassSubject", "ClassSubject")
@@ -770,12 +820,10 @@ namespace LMS.Database.Migrations
                         .HasForeignKey("Test_Id")
                         .OnDelete(DeleteBehavior.Cascade);
 
-
                     b.HasOne("LMS.Domain.TestType", "TestType")
                         .WithMany()
                         .HasForeignKey("Test_Type_Id")
                         .OnDelete(DeleteBehavior.Cascade);
-
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -25,10 +25,7 @@ namespace LMS.Database
         public DbSet<TestType> TestType { get; set; }
         public DbSet<Session> Session { get; set; }
         public DbSet<Attendance> Attendance { get; set; }
-
-
-
-
+        public DbSet<StudentTestDetail> StudentTestDetail { get; set; }
 
     }
 }

@@ -18,10 +18,10 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Students\Data\" />
-    <Folder Include="Areas\Students\Models\" />
     <Folder Include="Areas\Teachers\Data\" />
     <Folder Include="wwwroot\Dashboard\assets\jqueryDataTable\" />
     <Folder Include="wwwroot\Lectures\" />
+    <Folder Include="wwwroot\Answers\" />
     <Folder Include="wwwroot\Tests\" />
   </ItemGroup>
 

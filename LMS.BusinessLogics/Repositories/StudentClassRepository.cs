@@ -203,6 +203,35 @@ namespace LMS.BusinessLogics.Repositories
             }
         }
 
+        //created by arib
+        public IEnumerable<StudentTestViewModel> GetTestsByStudentId(int StudentId)
+        {
+            IEnumerable<StudentTestViewModel> StudentClass = (
+                                                                 from s in _lmsDbContext.Student
+                                                                 join sc in _lmsDbContext.StudentClass on s.Student_Id equals sc.Student_Id
+                                                                 join cs in _lmsDbContext.ClassSection on sc.ClassSection_id equals cs.ClassSection_id
+                                                                 join c in _lmsDbContext.Class on cs.Class_Id equals c.Class_Id
+                                                                 join sec in _lmsDbContext.Section on cs.Section_Id equals sec.Section_Id
+                                                                 join csub in _lmsDbContext.ClassSubject on cs.ClassSection_id equals csub.ClassSection_Id
+                                                                 join sub in _lmsDbContext.Subject on csub.Subject_Id equals sub.Subject_Id
+                                                                 join test in _lmsDbContext.Test on csub.Subject_Id equals test.Subject_Id
+                                                                 join stdtest in _lmsDbContext.StudentTestDetail on test.Test_Id equals stdtest.Test_Id
+                                                                 where s.Student_Id == StudentId && s.Student_Id != stdtest.Student_Id
+                                                                 select new StudentTestViewModel
+                                                                 {
+                                                                     Class_Name = c.Class_Name,
+                                                                 
+                                                                     Section_Name = sec.Section_Name,
+                                                               
+                                                                     Subject_Name = sub.Subject_Name,
+
+                                                                     Test_Id = test.Test_Id
+
+
+                                                                 }).ToList();
+
+            return StudentClass;
+        }
 
     }
 }
