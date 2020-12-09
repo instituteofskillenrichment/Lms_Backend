@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -128,7 +129,7 @@ namespace LMS.Areas.Admin.Controllers
                         Student_Cnic = objStudent.Student_Cnic,
                         Student_Country = objStudent.Student_Country,
                         Student_CurrentAddress = objStudent.Student_CurrentAddress,
-                        Student_DOB = objStudent.Student_DOB.Substring(0,10),
+                        Student_DOB = Convert.ToDateTime(objStudent.Student_DOB).ToString("yyyyMMdd"),
                         Student_Email = objStudent.Student_Email,
                         Student_FatherName = objStudent.Student_FatherName,
                         Student_Gender = objStudent.Student_Gender,
@@ -206,7 +207,10 @@ namespace LMS.Areas.Admin.Controllers
         {
             var objStudent = await _StudentRepository.GetStudentById(id);
 
+            
+
             return View(objStudent);
+            //return View(std);
 
         }
 
@@ -225,7 +229,7 @@ namespace LMS.Areas.Admin.Controllers
                 objStudent.Student_Cnic = StudentModel.Student_Cnic;
                 objStudent.Student_Country = StudentModel.Student_Country;
                 objStudent.Student_CurrentAddress = StudentModel.Student_CurrentAddress;
-                objStudent.Student_DOB = StudentModel.Student_DOB.Substring(0, 10);
+                objStudent.Student_DOB = Convert.ToDateTime(StudentModel.Student_DOB).ToString("yyyyMMdd");
               //  objStudent.Student_Department = TeacherModel.Teacher_Department;
              //   objStudent.Student_Designation = TeacherModel.Teacher_Designation;
                 objStudent.Student_Email = StudentModel.Student_Email;

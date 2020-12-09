@@ -1,0 +1,149 @@
+﻿@model LMS.Domain.Test
+@{
+    ViewData["Title"] = "EditTest";
+    Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="title">Edit Assessment</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-controller="Test" asp-action="EditTest" asp-area="teachers">
+                        <div class="row">
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>Assessment Name</label>
+                                    <input asp-for="Test_Name" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-1">
+                                <div class="form-group">
+                                    <label>Assessment Type</label>
+                                    <select id="ddlAssessmentType" asp-for="Assessment_Type_Id" class="form-control" asp-items="@(new SelectList(ViewBag.AssessmentTypeList, "Assessment_Type_Id", "Assessment_Type_Name"))">
+                                        <option value="0">--Select--</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Class</label>
+                                    <select id="ddlClass" asp-for="Class_Id" class="form-control" asp-items="@ViewBag.ClassList"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-1">
+                                <div class="form-group">
+                                    <label>Section</label>
+                                    <select id="ddlSection" asp-for="Section_Id" class="form-control" asp-items="@ViewBag.SectionList"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-1">
+                                <div class="form-group">
+                                    <label>Subject</label>
+                                    <select id="ddlSubject" asp-for="Subject_Id" class="form-control" asp-items="@ViewBag.SubjectList"></select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>Start Time</label>
+                                    @{
+                                        var S_Time = Model.Start_Time;
+                                        DateTime Start_Time = DateTime.ParseExact(S_Time, "HHmmss", null);
+                                    }
+                                    <input asp-for="@Start_Time" type="time" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-1">
+                                <div class="form-group">
+                                    <label>End Time</label>
+                                    @{
+                                        var E_Time = Model.End_Time;
+                                        DateTime End_Time = DateTime.ParseExact(E_Time, "HHmmss", null);
+
+                                    }
+                                    <input asp-for="@End_Time" type="time" class="form-control">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>Assessment Datee</label>
+                                    @{
+                                        var A_Date = Model.Assessment_Date;
+                                        DateTime Assessment_Date = DateTime.ParseExact(A_Date, "yyyyMMdd", null).Date;
+                                    }
+                                    <input asp-for="@Assessment_Date" type="date" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-1">
+                                <div class="form-group">
+                                    <label>End Time</label>
+                                    <select id="ddlAssessmentStatus" asp-for="Assessment_Status" class="form-control">
+                                        <option value="-1">--Select--</option>
+                                        <option value="1">Active</option>
+                                        <option value="0">De-Active</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Total Marks</label>
+                                    <input asp-for="Total_Makrs" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Passing Marks</label>
+                                    <input asp-for="Passing_Makrs" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Weightage(%)</label>
+                                    <input asp-for="Weighatge" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 pr-1">
+                                <div class="form-group">
+                                    <label>Instructions</label>
+                                    <textarea asp-for="Test_Instruction" class="form-control" style="border: 1px solid #174876; border-radius: .25rem;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+
+                                    <input type="hidden" asp-for="Test_Id" />
+
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

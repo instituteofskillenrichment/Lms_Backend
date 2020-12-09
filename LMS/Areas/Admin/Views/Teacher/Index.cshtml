@@ -8,12 +8,7 @@
 <div class="panel-header panel-header-sm">
 </div>
 <div class="content">
-    @*@if (ViewBag.Error != null)
-        {
-            <script type="text/javascript">
-          alert( "@(ViewBag.Error)");
-            </script>
-        }*@
+    
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -24,7 +19,7 @@
                             <div class="table-title">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h2>Manage <b>Teachers</b></h2>
+                                        <h2><b>Manage Teachers</b></h2>
                                     </div>
                                     <div class="col-md-6 pull-right">
                                         <a asp-area="admin" asp-controller="teacher" asp-action="addTeacher" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add New Teacher</span></a>
@@ -75,7 +70,7 @@
                                                 </a>
 
                                                 <a href="#deleteTeacherModal" class="delete" id="delete" data-toggle="modal">
-                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                                    <i class="material-icons" title="" data-original-title="Delete"></i>
                                                 </a>
 
                                                 @*Added BY Absar To get parentid*@
@@ -101,7 +96,7 @@
                             <div class="modal-content">
                                 <form method="post" asp-controller="teacher" asp-action="deleteTeacher">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Delete Class</h4>
+                                        <h4 class="modal-title">Delete Teacher</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                     </div>
                                     <div class="modal-body">

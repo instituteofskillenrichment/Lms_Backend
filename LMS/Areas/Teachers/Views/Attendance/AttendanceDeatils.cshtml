@@ -1,0 +1,403 @@
+﻿@model IQueryable<LMS.Domain.ViewModels.AttendanceViewModel>
+
+@{
+    ViewData["Title"] = "AttendanceDeatils";
+    Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<div class="panel-header panel-header-sm">
+</div>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2>Manage <b>Attendance</b></h2>
+                                    </div>
+                                    <div class="col-md-6 pull-right">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>From Date</label>
+                                        <input id="datepicker_from" type="date" class="form-control">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>To Date</label>
+                                        <input id="datepicker_to" type="date" class="form-control">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="row">
+                                <table id="AttendanceDetailPage" class="display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Session Id</th>
+                                            <th>Session Name</th>
+                                            <th>Student Id</th>
+                                            <th>Student Name</th>
+                                            <th>Class</th>
+                                            <th>Section</th>
+                                            <th>Subject</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.Session_Id</td>
+                                                <td>@item.Session_Name</td>
+                                                <td>@item.Student_Id</td>
+                                                <td>@item.Student_Name</td>
+                                                <td>@item.Class_Name</td>
+                                                <td>@item.Section_Name</td>
+                                                <td>@item.Subject_Name</td>
+                                                <td>@item.Session_Date.ToShortDateString()</td>
+                                                <td>@item.Status</td>
+                                                <td>
+                                                    <a href="#editAttendanceModal" class="edit" id="edit" data-toggle="modal">
+                                                        <i class="material-icons" title="" data-original-title="Edit"></i>
+                                                    </a>
+
+                                                    <a href="#deleteAttendanceModal" class="delete" id="delete" data-toggle="modal">
+                                                        <i class="material-icons" title="" data-original-title="Delete"></i>
+                                                    </a>
+
+                                                    @*Added BY Absar To get parentid*@
+                                                    <input type="hidden" class="Attendance_Id" value="@item.Attendance_Id" />
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    @*<tfoot>
+                                            <tr>
+                                                <th>Session Id</th>
+                                                <th>Session Name</th>
+                                                <th>Student Id</th>
+                                                <th>Student Name</th>
+                                                <th>Class</th>
+                                                <th>Section</th>
+                                                <th>Subject</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </tfoot>*@
+                                </table>
+                            </div>
+
+                            <div class="clearfix">
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Edit Modal HTML -->
+                    <div id="editAttendanceModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="attendance" asp-action="editAttendance">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Edit Attendance</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>Attendance ID</label>
+                                            <input type="text" class="form-control" required="" id="Attendance_Id" disabled="disabled">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Student Id </label>
+                                            <input type="text" class="form-control" required="" name="Student_Id" id="Student_Id">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Student Name </label>
+                                            <input type="text" class="form-control" required="" name="Student_Name" id="Student_Name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Status</label>
+                                            <select id="Status" name="Status" class="form-control">
+                                                <option value="Absent">Absent</option>
+                                                <option value="Present">Present</option>
+                                                <option value="Leave">Leave</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-info" value="Update">
+                                        @*Added By Absar*@
+                                        <input type="hidden" name="Attendance_Id" id="Attendance_Id" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Delete Modal HTML -->
+                    <div id="deleteAttendanceModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="attendance" asp-action="deleteAttendance">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Delete Attendance</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to delete these Records?</p>
+                                        <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-danger" value="Delete">
+
+                                        @*//Added By Absar To Pass Parameter to action method*@
+                                        <input type="hidden" id="Attendance_Id" name="Attendance_Id" />
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <footer class="footer">
+        <div class=" container-fluid ">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://www.creative-tim.com">
+                            Karachi Grammar School
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="copyright" id="copyright">
+                &copy;
+                <script>
+                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+@*Added For Date FIlter*@
+<link href="~/Dashboard/assets/js/core/jquery-ui.css" rel="stylesheet" />
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/js/core/jquery-3.5.1.js"></script>
+
+<script src="~/Dashboard/assets/datatables.net/js/jquery.dataTables.min.js"></script>
+@*<script src="~/Dashboard/assets/js/core/dataTables.buttons.min.js"></script>*@
+@*<script src="~/Dashboard/assets/js/core/dataTables.select.min.js"></script>*@
+
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+
+@*For Date Picker*@
+
+<script>
+    // The plugin function for adding a new filtering routine
+    $.fn.dataTableExt.afnFiltering.push(
+        function (oSettings, aData, iDataIndex) {
+            var dateStart = parseDateValue($("#datepicker_from").val());
+            var dateEnd = parseDateValue($("#datepicker_to").val());
+            // aData represents the table structure as an array of columns, so the script access the date value
+            // in the first column of the table via aData[0]
+            var evalDate = parseDateValue(aData[7]);
+
+            if (evalDate >= dateStart && evalDate <= dateEnd) {
+                return true;
+            }
+            else {
+                return false;
+            }
+
+        });
+
+
+
+    // Function for converting a dd M yyyy date value into a numeric string for comparison (example 12 Oct 2010 becomes 20101012
+    function parseDateValue(rawDate) {
+        var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var dateArray = rawDate.split(" ");
+        var numMonth = Number(month.indexOf(dateArray[1])) + 1;
+        if (numMonth.toString().length < 2) {
+            numMonth = "0" + numMonth;
+        } else {
+            numMonth = numMonth.toString();
+        }
+        var parsedDate = dateArray[2] + numMonth + dateArray[0];
+        return parsedDate;
+    }
+
+
+
+    $(document).ready(function () {
+
+        toastr.options = {
+        "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+
+        if (messageSuccess.length > 0) {
+
+                toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0) {
+            toastr.error(messageError);
+        }
+
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+
+        //$('#datepicker_from').datepicker({
+        //    format: "dd M yyyy",
+        //    weekStart: 1,
+        //    daysOfWeekHighlighted: "0",
+        //    autoclose: true,
+        //    todayHighlight: true
+        //});
+
+        //// Add event listeners to the two range filtering inputs
+        //$('#datepicker_from,#datepicker_to').change(function () { $('#AttendanceDetailPage').DataTable().fnDraw(); });
+
+
+
+        //Get Id for Delete Added By Absar
+        $('#AttendanceDetailPage #delete').on('click', function () {
+            var Attendance_Id = $(this).parent().find('.Attendance_Id').val();
+            $('#deleteAttendanceModal #Attendance_Id').val(Attendance_Id);
+        });
+
+        //Get TeacherSubject_Id for Edit Added By Absar
+        $('#AttendanceDetailPage #edit').on('click', function () {
+            var Attendance_Id = $(this).parent().find('.Attendance_Id').val();
+            $.ajax({
+
+                type: 'GET',
+                url: '/teachers/attendance/editAttendance/' + Attendance_Id,
+                success: function (objAttendance) {
+
+
+
+                    $('#editAttendanceModal #Attendance_Id').val(objAttendance.attendance_Id);
+                    $('#editAttendanceModal #Student_Id').val(objAttendance.student_Id);
+                    $('#editAttendanceModal #Student_Name').val(objAttendance.student_Name);
+                    $('#editAttendanceModal #Status').val(objAttendance.status);
+
+
+                }
+            });
+        });
+
+
+
+
+        $('#AttendanceDetailPage').DataTable({
+
+            "bLengthChange": false,
+            "fixedHeader": { header: true, footer: true },
+
+            responsive: false,
+            //autoWidth: false,
+            //aaSorting: [[2, 'asc']],
+            //cache: true,
+
+
+            initComplete: function () {
+                this.api().columns([2, 3, 4, 5, 6]).every(function () {
+                    var column = this;
+                    //var theadname = $('#AttendanceDetailPage th').eq([d]).text();
+                    var select = $('<select><option value="">ALL</option></select>')
+                        .appendTo($(column.header()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+
+
+        //$('#datepicker_from,#datepicker_to').datepicker({
+        //    format: "dd M yyyy",
+        //    weekStart: 1,
+        //    daysOfWeekHighlighted: "0",
+        //    autoclose: true,
+        //    todayHighlight: true
+        //});
+
+        //// Add event listeners to the two range filtering inputs
+        //$('#datepicker_from,#datepicker_to').change(function () { $('#AttendanceDetailPage').DataTable().fnDraw(); });
+
+    });
+
+
+
+
+
+</script>
+
+

@@ -36,7 +36,7 @@ namespace LMS.BusinessLogics.Repositories
 
                 return 1;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return -1;
 
@@ -67,6 +67,10 @@ namespace LMS.BusinessLogics.Repositories
                             {
                                 Test_Id = t.Test_Id,
                                 Test_Name = t.Test_Name,
+                                Class_Name = t.Class.Class_Name,
+                                Section_Name = t.Section.Section_Name,
+                                Subject_Name = t.Subject.Subject_Name,
+                                Assessment_Date = DateTime.ParseExact(t.Assessment_Date, "yyyyMMdd", null),
                                 Questions_Count =
                                 (from td in _lmsDbContext.TestDetail
                                 where td.Test_Id == t.Test_Id
@@ -87,7 +91,8 @@ namespace LMS.BusinessLogics.Repositories
                            {
                                Question_Id = t.Question_Id,
                                Question_Name = t.Question_Name,
-                               Options_Count = t.Test_Type_Id != 1 ? 0 : string.IsNullOrEmpty(t.Option_2) ? 1 : string.IsNullOrEmpty(t.Option_3) ? 2 : string.IsNullOrEmpty(t.Option_4) ? 3 : 4
+                               Options_Count = t.Test_Type_Id != 1 ? 0 : string.IsNullOrEmpty(t.Option_2) ? 1 : string.IsNullOrEmpty(t.Option_3) ? 2 : string.IsNullOrEmpty(t.Option_4) ? 3 : 4,
+                               Options_Marks = t.Question_Marks
                            }).ToList();
 
             return Questions;
@@ -151,6 +156,87 @@ namespace LMS.BusinessLogics.Repositories
             {
                  _lmsDbContext.Test.Update(objTest);
                 
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
+        public IQueryable<AssessmentType> GetAllAssessmentType()
+        {
+            IQueryable<AssessmentType> listOfAssessmentType = _lmsDbContext.AssessmentType.AsQueryable();
+
+            return listOfAssessmentType;
+        }
+
+        public async Task<int> GetTestTotalMarks(int Id)
+        {
+            var Marks = await _lmsDbContext.Test
+                      .AsNoTracking()
+                      .FirstOrDefaultAsync(t => t.Test_Id == Id);
+
+            return Marks.Total_Makrs;
+        }
+
+
+        public async Task<int> AddAssessmentType(AssessmentType objAssessment)
+        {
+            try
+            {
+                await _lmsDbContext.AssessmentType.AddAsync(objAssessment);
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogError($"The message is {ex.Message}. " + $"Stack trace is {ex.StackTrace}");
+                return -1;
+
+            }
+        }
+
+
+        public async Task<AssessmentType> GetAssessmentById(int Id)
+        {
+            var Assessment = await _lmsDbContext.AssessmentType
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(a => a.Assessment_Type_Id == Id);
+
+            return Assessment;
+        }
+
+
+        public async Task<int> UpdateAssessmentType(AssessmentType objAssessment)
+        {
+            try
+            {
+                _lmsDbContext.AssessmentType.Update(objAssessment);
+
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
+
+        public async Task<int> DeleteAssessmentType(int id)
+        {
+            try
+            {
+                var deleteAssessment = await GetAssessmentById(id);
+
+                _lmsDbContext.AssessmentType.Remove(deleteAssessment);
+
                 await _lmsDbContext.SaveChangesAsync();
 
                 return 1;

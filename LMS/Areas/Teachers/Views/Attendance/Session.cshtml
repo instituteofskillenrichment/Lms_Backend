@@ -35,9 +35,9 @@
                                         <th>Date</th>
                                         <th>Start Time</th>
                                         <th>End Time</th>
-                                        <th>Class Name</th>
-                                        <th>Section Name</th>
-                                        <th>Subject Name</th>
+                                        <th>Class</th>
+                                        <th>Section</th>
+                                        <th>Subject</th>
                                         <th>Mark Attendance</th>
                                         <th>Action</th>
                                     </tr>
@@ -48,9 +48,9 @@
                                     <tr>
                                         <td>@item.Session_Id</td>
                                         <td>@item.Session_Name</td>
-                                        <td>@item.Session_Date</td>
-                                        <td>@item.Session_Start_Time</td>
-                                        <td>@item.Session_End_Time</td>
+                                        <td>@item.Session_Date.ToShortDateString()</td>
+                                        <td>@item.Session_Start_Time.ToShortTimeString()</td>
+                                        <td>@item.Session_End_Time.ToShortTimeString()</td>
                                         <td>@item.Class_Name</td>
                                         <td>@item.Section_Name</td>
                                         <td>@item.Subject_Name</td>
@@ -60,7 +60,7 @@
                                             </a>*@
 
                                             <a asp-controller="attendance" asp-action="markAttendance" asp-route-Session_Id="@item.Session_Id" class="markAttendance" id="markAttendance">
-                                                <i class="btn btn-primary" title="" data-original-title="MarkAttendance" style="line-height: 1em; border-radius: 2em;">Mark Attendance</i>
+                                                <i class="btn btn-primary" title="" data-original-title="MarkAttendance" style="line-height: 1em; border-radius: 2em; background-color:#ae7c38;">Mark Attendance</i>
                                             </a>
 
                                             @*Added BY Absar To get parentid*@
@@ -68,11 +68,11 @@
                                         </td>
                                         <td>
                                             <a href="#editSessionModal" class="edit" id="edit" data-toggle="modal">
-                                                <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                                <i class="material-icons" title="" data-original-title="Edit"></i>
                                             </a>
 
                                             <a href="#deleteSessionModal" class="delete" id="delete" data-toggle="modal">
-                                                <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                                <i class="material-icons" title="" data-original-title="Delete"></i>
                                             </a>
 
                                             @*Added BY Absar To get parentid*@
@@ -135,21 +135,27 @@
                                             <div class="col-md-4 pr-1">
                                                 <div class="form-group">
                                                     <label>Class Name</label>
-                                                    <select id="Class_Id" name="Class_Id" class="form-control" asp-for="Class_Id" asp-items="@Model.Classes"></select>
+                                                    <select id="Class_Id" name="Class_Id" class="form-control" asp-for="Class_Id" asp-items="@Model.Classes">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 pl-1">
 
                                                 <div class="form-group">
                                                     <label>Section Name</label>
-                                                    <select id="Section_Id" name="Section_Id" class="form-control" asp-for="Section_Id" asp-items="@Model.Sections"></select>
+                                                    <select id="Section_Id" name="Section_Id" class="form-control" asp-for="Section_Id" asp-items="@Model.Sections">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 pl-1">
 
                                                 <div class="form-group">
                                                     <label>Subject Name</label>
-                                                    <select id="Subject_Id" name="Subject_Id" class="form-control" asp-for="Subject_Id" asp-items="@Model.Subjects"></select>
+                                                    <select id="Subject_Id" name="Subject_Id" class="form-control" asp-for="Subject_Id" asp-items="@Model.Subjects">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -171,7 +177,7 @@
                             <div class="modal-content">
                                 <form method="post" asp-controller="attendance" asp-action="editSession">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Add Session</h4>
+                                        <h4 class="modal-title">Edit Session</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                     </div>
                                     <div class="modal-body">
@@ -233,7 +239,11 @@
                                     </div>
                                     <div class="modal-footer">
                                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                        <input type="submit" class="btn btn-success" value="Add">
+                                        <input type="submit" class="btn btn-success" value="Update">
+
+                                        @*//Added By Absar To Pass Parameter to action method*@
+                                        <input type="hidden" id="Session_Id" name="Session_Id" />
+
                                     </div>
                                 </form>
                             </div>
@@ -363,7 +373,7 @@
                 url: '/teachers/attendance/editSession/' + id,
                 success: function (objSession) {
 
-                
+                    
 
                     $('#editSessionModal #Session_Id').val(objSession.session_Id);
                     $('#editSessionModal #Session_Name').val(objSession.session_Name);

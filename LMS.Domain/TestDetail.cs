@@ -19,7 +19,7 @@ namespace LMS.Domain
         public string Option_3 { get; set; }
         public string Option_4 { get; set; }
         public string Correct_Answer { get; set; }
-
+        public int Question_Marks { get; set; }
 
         public Test Test { get; set; }
         public int Test_Id { get; set; }

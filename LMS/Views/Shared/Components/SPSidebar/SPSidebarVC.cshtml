@@ -1,0 +1,76 @@
+﻿
+@{
+    Layout = null;
+    int ClassSection_id =0;
+}
+
+
+<div class="sidebar-wrapper" id="sidebar-wrapper">
+    <ul class="nav navigation">
+        <li class="active">
+            <a asp-area="students" asp-controller="dashboard" asp-action="index">
+                <i class="now-ui-icons design_app"></i>
+                <p>Dashboard</p>
+            </a>
+        </li>
+
+        <li class="has-child">
+            <a href='#'>
+                <i class="now-ui-icons education_atom"></i>
+                <p>Class / Subjects </p>
+            </a>
+            <ul>
+                @foreach (var StudentSubjects in Model)
+                {
+                    ClassSection_id = StudentSubjects.ClassSection_Id;
+
+                    <li><a asp-area="students" asp-controller="lecture" asp-action="lectures" asp-route-ClassSubjectId="@StudentSubjects.ClassSubject_Id"> @StudentSubjects.Subject_Name</a></li>
+                }
+
+            </ul>
+
+        </li>
+
+
+
+
+
+
+
+        <li class="has-child">
+            <a href='#'>
+                <i class="now-ui-icons education_atom"></i>
+                <p>Assessments </p>
+            </a>
+
+
+        </li>
+        <li class="has-child">
+            <a asp-area="students" asp-controller="attendance" asp-action="attendances" >
+                <i class="now-ui-icons education_atom"></i>
+                <p>Attendance </p>
+            </a>
+
+
+        </li>
+
+
+       
+
+
+        <li class="has-child">
+            <a asp-area="students" asp-controller="announcement" asp-action="announcements" asp-route-ClassSection_Id="@ClassSection_id">
+                <i class="now-ui-icons education_atom"></i>
+                <p>Announcements </p>
+            </a>
+
+
+        </li>
+
+
+
+
+
+
+    </ul>
+</div>

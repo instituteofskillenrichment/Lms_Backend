@@ -1,7 +1,7 @@
 ﻿@model List<LMS.Domain.ViewModels.TestDetailViewModel>
 @{
     ViewData["Title"] = "ManageTest";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
 }
 
 <div class="panel-header panel-header-sm">
@@ -16,7 +16,7 @@
                             <div class="table-title">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h2>Manage <b>Tests</b></h2>
+                                        <h2><b> Manage Assessment Questions</b></h2>
                                     </div>
                                     <div class="col-md-6 pull-right">
                                         <a asp-action="AddTestDetails" asp-controller="Test" asp-route-id="@ViewBag.TestId" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add Questions</span></a>
@@ -28,6 +28,7 @@
                                     <tr>
                                         <th>Question</th>
                                         <th>Options</th>
+                                        <th>Marks</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -37,8 +38,9 @@
                                         <tr>
                                             <td>@item.Question_Name</td>
                                             <td>@item.Options_Count</td>
+                                            <td>@item.Options_Marks</td>
                                             <td>
-                                                <a asp-action="EditTestDetail" asp-controller="Test" asp-route-id="@item.Question_Id" class="edit"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i></a>
+                                                <a asp-action="EditTestDetail" asp-controller="Test" asp-route-id="@item.Question_Id" asp-route-testId="@ViewBag.TestId" class="edit"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i></a>
                                                 <a href="#deleteQuestionModal" class="delete" id="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i></a>
                                                 <input type="hidden" class="Question_Id" value="@item.Question_Id" />
                                             </td>

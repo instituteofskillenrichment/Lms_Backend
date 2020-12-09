@@ -12,7 +12,7 @@ namespace LMS.BusinessLogics.Interfaces
     {
         IQueryable<TeacherSubjectViewModel> GetTeacherClassSubjectstDistinctByTeacherId(int TeacherId);
         IEnumerable<SubjectLectureViewModel> GetTeacherClassSubjectLectures(int TeacherId, int classSectionId);
-        Task<ClassSubject> GetClassSubjectById(int classSectionId);
+        Task<ClassSubject> GetClassSubjectById(int classSectionId, int subjectId);
         Task<ClassSection> GetClassSectionById(int classId, int sectionId);
 
 

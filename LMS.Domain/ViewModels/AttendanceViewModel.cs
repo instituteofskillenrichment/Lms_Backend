@@ -7,8 +7,11 @@ namespace LMS.Domain.ViewModels
 {
     public class AttendanceViewModel
     {
+
+        public int Attendance_Id { get; set; }
         public int Session_Id { get; set; }
         public string Session_Name { get; set; }
+        public string Status { get; set; }
         public DateTime Session_Date { get; set; }
         public DateTime Session_Start_Time { get; set; }
         public DateTime Session_End_Time { get; set; }

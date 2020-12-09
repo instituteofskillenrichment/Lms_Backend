@@ -28,6 +28,7 @@ namespace LMS.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var Grade = _GradeRepository.GetAllGrades();
+            
 
             if (TempData["Error"] != null)
             {

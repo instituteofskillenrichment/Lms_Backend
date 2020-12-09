@@ -96,8 +96,14 @@ namespace LMS
             services.AddScoped<IGradeRepository, GradeRepository>();
             services.AddScoped<ITeacherTestRepository, TeacherTestRepository>();
             services.AddScoped<ITPClassRepository, TPClassRepository>();
-            services.AddScoped<ITPAttendanceRepository, TPAttendanceRepository>(); 
             services.AddScoped<IStudentTestRepository, StudentTestRepository>();
+            services.AddScoped<ITPAttendanceRepository, TPAttendanceRepository>();
+            services.AddScoped<IAnnouncementReporitory, AnnouncementReporitory>();
+            services.AddScoped<ISPStudentClassSubjectRepository, SPStudentClassSubjectRepository>();
+            services.AddScoped<ISPSubjectLectureRepository, SPSubjectLectureRepository>();
+            services.AddScoped<ISPAnnouncementRepository, SPAnnouncementRepository>();
+            services.AddScoped<ISPStudentAttendanceRepository, SPStudentAttendanceRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

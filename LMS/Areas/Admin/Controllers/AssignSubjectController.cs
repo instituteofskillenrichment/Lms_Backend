@@ -76,7 +76,8 @@ namespace LMS.Areas.Admin.Controllers
             assignSubjectVM.Subjects = _AssignSubjectRepository.GetAllSubjects();
             
             assignSubjectVM.Classes = new List<SelectListItem>();
-            
+            assignSubjectVM.Classes.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
+
             var objClass = _AssignSubjectRepository.GetAllClasses().ToList();
 
             foreach(var lstclass in objClass)
@@ -93,7 +94,8 @@ namespace LMS.Areas.Admin.Controllers
             }
 
             assignSubjectVM.Sections = new List<SelectListItem>();
-            
+            assignSubjectVM.Sections.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
+
             var objSection = _AssignSubjectRepository.GetAllSections().ToList();
 
             foreach(var lstSection in objSection)
