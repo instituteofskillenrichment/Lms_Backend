@@ -29,6 +29,8 @@ namespace LMS.Database
         public DbSet<StudentTestDetail> StudentTestDetail { get; set; }
 		public DbSet<AssessmentType> AssessmentType { get; set; }
         public DbSet<Announcement> Announcement { get; set; }
+        public DbSet<BookCategory> BookCategory { get; set; }
+        public DbSet<Library> Library { get; set; }
 
     }
 }

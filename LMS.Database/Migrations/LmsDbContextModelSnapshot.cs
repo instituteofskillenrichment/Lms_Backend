@@ -100,6 +100,19 @@ namespace LMS.Database.Migrations
                     b.ToTable("Attendance");
                 });
 
+            modelBuilder.Entity("LMS.Domain.BookCategory", b =>
+                {
+                    b.Property<int>("BookCategory_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BookCategory_Name");
+
+                    b.HasKey("BookCategory_Id");
+
+                    b.ToTable("BookCategory");
+                });
+
             modelBuilder.Entity("LMS.Domain.Class", b =>
                 {
                     b.Property<int>("Class_Id")
@@ -205,6 +218,29 @@ namespace LMS.Database.Migrations
                     b.HasIndex("Teacher_Id");
 
                     b.ToTable("Lecture");
+                });
+
+            modelBuilder.Entity("LMS.Domain.Library", b =>
+                {
+                    b.Property<int>("Book_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BookCategory_Id");
+
+                    b.Property<string>("Book_Detail");
+
+                    b.Property<string>("Book_File");
+
+                    b.Property<string>("Book_Image");
+
+                    b.Property<string>("Book_Name");
+
+                    b.HasKey("Book_Id");
+
+                    b.HasIndex("BookCategory_Id");
+
+                    b.ToTable("Library");
                 });
 
             modelBuilder.Entity("LMS.Domain.Section", b =>
@@ -327,8 +363,7 @@ namespace LMS.Database.Migrations
 
                     b.Property<int>("Student_Id");
 
-                    b.Property<DateTime>("SubmittedOn")
-                        .HasColumnType("DateTime");
+                    b.Property<string>("SubmittedOn");
 
                     b.Property<int>("Test_Id");
 
@@ -783,6 +818,14 @@ namespace LMS.Database.Migrations
                     b.HasOne("LMS.Domain.Teacher", "Teacher")
                         .WithMany()
                         .HasForeignKey("Teacher_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LMS.Domain.Library", b =>
+                {
+                    b.HasOne("LMS.Domain.BookCategory", "BookCategory")
+                        .WithMany()
+                        .HasForeignKey("BookCategory_Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

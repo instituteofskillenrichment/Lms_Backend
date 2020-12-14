@@ -29,7 +29,7 @@ namespace LMS.Domain
         public TestType AnswerType { get; set; }
         
         
-        [Column(TypeName = "DateTime")]
-        public DateTime SubmittedOn { get; set; }
+        //[Column(TypeName = "DateTime")]
+        public string SubmittedOn { get; set; }
     }
 }

@@ -13,7 +13,6 @@
                 <p>Dashboard</p>
             </a>
         </li>
-
         <li class="has-child">
             <a href='#'>
                 <i class="now-ui-icons education_atom"></i>
@@ -30,15 +29,8 @@
             </ul>
 
         </li>
-
-
-
-
-
-
-
         <li class="has-child">
-            <a href='#'>
+            <a asp-area="students" asp-controller="test" asp-action="index">
                 <i class="now-ui-icons education_atom"></i>
                 <p>Assessments </p>
             </a>
@@ -46,22 +38,25 @@
 
         </li>
         <li class="has-child">
-            <a asp-area="students" asp-controller="attendance" asp-action="attendances" >
+            <a asp-area="students" asp-controller="attendance" asp-action="attendances">
                 <i class="now-ui-icons education_atom"></i>
                 <p>Attendance </p>
             </a>
 
 
         </li>
-
-
-       
-
-
-        <li class="has-child">
+         <li class="has-child">
             <a asp-area="students" asp-controller="announcement" asp-action="announcements" asp-route-ClassSection_Id="@ClassSection_id">
                 <i class="now-ui-icons education_atom"></i>
                 <p>Announcements </p>
+            </a>
+
+
+        </li>
+        <li class="has-child">
+            <a asp-controller="Library" asp-action="Index" >
+                <i class="now-ui-icons education_atom"></i>
+                <p>Library </p>
             </a>
 
 

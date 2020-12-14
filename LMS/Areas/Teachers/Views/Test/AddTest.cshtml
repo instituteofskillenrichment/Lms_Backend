@@ -57,7 +57,11 @@
                             <div class="col-md-6 pr-1">
                                 <div class="form-group">
                                     <label>Start Time</label>
-                                    <input asp-for="Start_Time" type="time" class="form-control">
+                                    @{ 
+                                        var C_Time = DateTime.Now.ToShortTimeString();
+                                        DateTime currentTime = DateTime.Now.ToLocalTime();
+                                    }
+                                    <input asp-for="Start_Time" type="time" class="form-control" value="">
                                 </div>
                             </div>
                             <div class="col-md-6 pl-1">

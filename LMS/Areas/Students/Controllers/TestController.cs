@@ -1,6 +1,7 @@
 ﻿using LMS.BusinessLogics.Interfaces;
 using LMS.Common;
 using LMS.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace LMS.Areas.Students.Controllers
 {
+    [Authorize(Roles = "Student")]
     [Area("students")]
     [Route("students/test")]
     public class TestController : Controller
@@ -35,9 +37,10 @@ namespace LMS.Areas.Students.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
+        [Route("index")]
         public IActionResult Index()
         {
-            var Tests = _StudentClassRepository.GetTestsByStudentId(HttpContext.Session.GetInt32("UserId") ?? 1);
+            var Tests = _StudentClassRepository.GetTestsByStudentId(HttpContext.Session.GetInt32("UserId") ?? 0);
 
             if (TempData["Error"] != null)
             {
@@ -62,7 +65,7 @@ namespace LMS.Areas.Students.Controllers
 
         [Route("attempttest")]
         [HttpPost]
-        public async Task<IActionResult> AttemptTest()
+        public async Task<int> AttemptTest()
         {
             try
             {
@@ -72,6 +75,8 @@ namespace LMS.Areas.Students.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    int result = 0;
+
                     for (int i = 0; i < root.Count; i++)
                     {
                         StudentTestDetail newStudentTestDetail = new StudentTestDetail();
@@ -90,8 +95,8 @@ namespace LMS.Areas.Students.Controllers
                             newStudentTestDetail.Answer = uniqueFileName;
                             newStudentTestDetail.Test_Id = Convert.ToInt32(root[i].TestId);
                             newStudentTestDetail.Answer_Type_Id = Convert.ToInt32(root[i].AnswerTypeId);
-                            newStudentTestDetail.Student_Id = 1;
-                            newStudentTestDetail.SubmittedOn = DateTime.Now;
+                            newStudentTestDetail.Student_Id = HttpContext.Session.GetInt32("UserId") ?? 0;
+                            newStudentTestDetail.SubmittedOn = DateTime.Now.ToString("yyyyMMdd");
                         }
                         else
                         {
@@ -99,15 +104,26 @@ namespace LMS.Areas.Students.Controllers
                             newStudentTestDetail.Answer = root[i].Answer;
                             newStudentTestDetail.Test_Id = Convert.ToInt32(root[i].TestId);
                             newStudentTestDetail.Answer_Type_Id = Convert.ToInt32(root[i].AnswerTypeId);
-                            newStudentTestDetail.Student_Id = 1;
-                            newStudentTestDetail.SubmittedOn = DateTime.Now;
+                            newStudentTestDetail.Student_Id = HttpContext.Session.GetInt32("UserId") ?? 0;
+                            newStudentTestDetail.SubmittedOn = DateTime.Now.ToString("yyyyMMdd");
                         }
 
-                        await _StudentTestRepository.AddStudentTestDetail(newStudentTestDetail);
+                        result = await _StudentTestRepository.AddStudentTestDetail(newStudentTestDetail);
                     }
 
-                    return RedirectToAction("Index", "Test", new { area = "Students" });
+                    if (result > 0)
+                    {
+                        TempData["Success"] = " Assessment Submitted Successfully";
+                        return 1;
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Assessment Submittion Failed";
+                        return -1;
+                    }
 
+                    //return RedirectToAction("Index", "Test", new { area = "Students" });
+                   
                 }
             }
             catch (Exception ex)
@@ -116,7 +132,8 @@ namespace LMS.Areas.Students.Controllers
                 throw;
             }
 
-            return View();
+            //return View();
+            return -1; 
         }
     }
 }

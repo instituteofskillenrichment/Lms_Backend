@@ -206,7 +206,7 @@ namespace LMS.BusinessLogics.Repositories
         //created by arib
         public IEnumerable<StudentTestViewModel> GetTestsByStudentId(int StudentId)
         {
-            IEnumerable<StudentTestViewModel> StudentClass = (
+            IEnumerable<StudentTestViewModel> StudentClass =  (
                                                                  from s in _lmsDbContext.Student
                                                                  join sc in _lmsDbContext.StudentClass on s.Student_Id equals sc.Student_Id
                                                                  join cs in _lmsDbContext.ClassSection on sc.ClassSection_id equals cs.ClassSection_id
@@ -214,18 +214,39 @@ namespace LMS.BusinessLogics.Repositories
                                                                  join sec in _lmsDbContext.Section on cs.Section_Id equals sec.Section_Id
                                                                  join csub in _lmsDbContext.ClassSubject on cs.ClassSection_id equals csub.ClassSection_Id
                                                                  join sub in _lmsDbContext.Subject on csub.Subject_Id equals sub.Subject_Id
-                                                                 join test in _lmsDbContext.Test on csub.Subject_Id equals test.Subject_Id
-                                                                 join stdtest in _lmsDbContext.StudentTestDetail on test.Test_Id equals stdtest.Test_Id
-                                                                 where s.Student_Id == StudentId && s.Student_Id != stdtest.Student_Id
+                                                                 join t in _lmsDbContext.Test on csub.Subject_Id equals t.Subject_Id
+                                                                 join td in _lmsDbContext.TestDetail on t.Test_Id equals td.Test_Id
+                                                                 where 
+                                                                 s.Student_Id == StudentId
+                                                                 && t.Subject_Id == sub.Subject_Id
+                                                                 && t.Class_Id == cs.Class_Id
+                                                                 && t.Section_Id == cs.Section_Id
+                                                                 group new { t.Test_Id, sc.ClassSection.Class, sc.ClassSection.Section, csub.Subject } 
+                                                                 by new
+                                                                 {
+                                                                     t.Test_Id,
+                                                                     t.Test_Name,
+                                                                     t.Class_Id,
+                                                                     csub.ClassSection.Class.Class_Name,
+                                                                     t.Section_Id,
+                                                                     csub.ClassSection.Section.Section_Name,
+                                                                     t.Subject_Id,
+                                                                     csub.Subject.Subject_Name,
+                                                                     t.Assessment_Date
+                                                                 } into g
+                                                                 orderby g.Key.Assessment_Date descending
                                                                  select new StudentTestViewModel
                                                                  {
-                                                                     Class_Name = c.Class_Name,
-                                                                 
-                                                                     Section_Name = sec.Section_Name,
-                                                               
-                                                                     Subject_Name = sub.Subject_Name,
 
-                                                                     Test_Id = test.Test_Id
+                                                                     Class_Id = g.Key.Class_Id,
+                                                                     Class_Name = g.Key.Class_Name,
+                                                                     Section_Id = g.Key.Section_Id,
+                                                                     Section_Name = g.Key.Section_Name,
+                                                                     Subject_Id = g.Key.Subject_Id,
+                                                                     Subject_Name = g.Key.Subject_Name,
+                                                                     Test_Name = g.Key.Test_Name,
+                                                                     Test_Id = g.Key.Test_Id,
+                                                                     Assessment_Date = DateTime.ParseExact(g.Key.Assessment_Date, "yyyyMMdd", null)
 
 
                                                                  }).ToList();

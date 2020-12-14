@@ -45,7 +45,11 @@
                             <div class="col-md-6 pr-1">
                                 <div class="form-group">
                                     <label>Date</label>
-                                    <input asp-for="LecturePost_Date" type="date" class="form-control">
+                                    @{
+                                        var A_Date = DateTime.Now.Date;
+                                       // DateTime Assessment_Date = DateTime.ParseExact(A_Date, "yyyy-MM-dd", null).Date;
+                                    }
+                                    <input asp-for="LecturePost_Date" type="date" class="form-control" value="@DateTime.Today">
                                     @*<input class="form-control" type="datetime-local" id="birthdaytime" name="birthdaytime">*@
                                 </div>
                             </div>
