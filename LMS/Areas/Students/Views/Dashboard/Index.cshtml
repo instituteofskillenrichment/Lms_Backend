@@ -4,7 +4,7 @@
     Layout = "~/Areas/Students/Views/Shared/_Studentayout.cshtml";
 }
 
-<div class="panel-header panel-header-lg">
+<div class="panel-header panel-header-lg" style="background-image: url('/dashboard/assets/img/stdheader.png');">
     <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
     <canvas id="bigDashboardChart" width="1106" height="10" class="chartjs-render-monitor" style="display: block; width: 1106px; height: 10px;"></canvas>
 </div>
@@ -20,10 +20,10 @@
                     <div class="card card-chart">
                         <div class="card-header">
                             <h5 class="card-category"></h5>
-                            <h4 class="card-title">Total Classes</h4>
+                            <h4 class="card-title">Total Subjects</h4>
                         </div>
                         <div class="card-body">
-                            <h1>160</h1>
+                            <h1>8</h1>
                         </div>
 
                     </div>
@@ -32,7 +32,7 @@
                     <div class="card card-chart">
                         <div class="card-header">
                             <h5 class="card-category"></h5>
-                            <h4 class="card-title">Total Subject</h4>
+                            <h4 class="card-title">Total Assessments</h4>
                         </div>
                         <div class="card-body">
                             <h1>50</h1>
@@ -44,7 +44,7 @@
                     <div class="card card-chart">
                         <div class="card-header">
                             <h5 class="card-category"></h5>
-                            <h4 class="card-title">Total Classes</h4>
+                            <h4 class="card-title">Total Announcements</h4>
                         </div>
                         <div class="card-body">
                             <h1>160</h1>
@@ -59,8 +59,8 @@
                     <div class="card  card-tasks">
 
                         <div class="card-header ">
-                            <h5 class="card-category">Backend development</h5>
-                            <h4 class="card-title">Tasks</h4>
+                            @*<h5 class="card-category">Backend development</h5>*@
+                            <h4 class="card-title">Announcements</h4>
                         </div>
 
                         <div class="card-body ">
@@ -78,7 +78,7 @@
                                                 </div>
                                             </td>
 
-                                            <td class="text-left">Sign contract for "What are conference organizers afraid of?"</td>
+                                            <td class="text-left">Winter Break Will Begin From 24th December 2020.</td>
                                             <td class="td-actions text-right">
                                                 <button type="button" rel="tooltip" title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Edit Task">
                                                     <i class="now-ui-icons ui-2_settings-90"></i>
@@ -98,7 +98,7 @@
                                                 </div>
                                             </td>
 
-                                            <td class="text-left">Lines From Great Russian Literature? Or E-mails From My Boss?</td>
+                                            <td class="text-left">Virtual Assembly Will Be Held At 9am Tomorrow.</td>
                                             <td class="td-actions text-right">
                                                 <button type="button" rel="tooltip" title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Edit Task">
                                                     <i class="now-ui-icons ui-2_settings-90"></i>
@@ -108,7 +108,7 @@
                                                 </button>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        @*<tr>
                                             <td>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
@@ -129,7 +129,7 @@
                                                     <i class="now-ui-icons ui-1_simple-remove"></i>
                                                 </button>
                                             </td>
-                                        </tr>
+                                        </tr>*@
                                     </tbody>
                                 </table>
                             </div>
@@ -153,8 +153,8 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-category">All Persons List</h5>
-                            <h4 class="card-title"> Employees Stats</h4>
+                            @*<h5 class="card-category">All Persons List</h5>*@
+                            <h4 class="card-title"> Recent Posts</h4>
 
                         </div>
                         <div class="card-body">
@@ -163,49 +163,49 @@
                                     <thead class=" text-primary">
                                         <tr>
                                             <th>
-                                                Name
+                                                Type
                                             </th>
                                             <th>
-                                                Country
+                                                Title
                                             </th>
-                                            <th>
+                                            @*<th>
                                                 City
-                                            </th>
+                                            </th>*@
                                             <th class="text-right">
-                                                Salary
+                                                Date
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td>
-                                                Dakota Rice
+                                                Lesson
                                             </td>
                                             <td>
-                                                Niger
+                                                Julius Caesar Act IV, Secen iii
                                             </td>
-                                            <td>
-                                                Oud-Turnhout
-                                            </td>
+                                            @*<td>
+            Oud-Turnhout
+        </td>*@
                                             <td class="text-right">
-                                                $36,738
+                                                20201214
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                Minerva Hooper
+                                                E-Book
                                             </td>
                                             <td>
-                                                Curaçao
+                                                To Kill A Mockingbird
                                             </td>
-                                            <td>
-                                                Sinaai-Waas
-                                            </td>
+                                            @*<td>
+            Sinaai-Waas
+        </td>*@
                                             <td class="text-right">
-                                                $23,789
+                                                20201216
                                             </td>
                                         </tr>
-                                        <tr>
+                                        @*<tr>
                                             <td>
                                                 Sage Rodriguez
                                             </td>
@@ -246,7 +246,7 @@
                                             <td class="text-right">
                                                 $78,615
                                             </td>
-                                        </tr>
+                                        </tr>*@
                                     </tbody>
                                 </table>
                             </div>

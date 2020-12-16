@@ -45,30 +45,34 @@
                                             </div>
                                         }
                                         else
-                                        {
+                                        { 
                                             <div id="qa1" class="col-md-6">
-                                                <input asp-for="File" class="form-control" />
-                                            </div>
+                                                
+                                                    <label>File Upload</label>
+                                                    <input asp-for="File" class="form-control" style="opacity: 1;margin-top: 30px;height: 40px;font-size: 1.3em;" />
+                                                
+                                                </div>
+
                                         }
 
 
 
-                                        <div id="ddlCorrectAnswerDiv" class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Correct Answer</label>
-                                                <select id="ddlCorrectAnswer" asp-for="Correct_Answer" class="form-control" asp-items="@(new SelectList(ViewBag.CorrectAnswerList))"></select>
+                                                <div id="ddlCorrectAnswerDiv" class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Correct Answer</label>
+                                                        <select id="ddlCorrectAnswer" asp-for="Correct_Answer" class="form-control" asp-items="@(new SelectList(ViewBag.CorrectAnswerList))"></select>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group qa1">
+                                                        <label>Question Type</label>
+                                                        <select asp-for="Test_Type_Id" class="form-control ddlType" asp-items="@(new SelectList(ViewBag.TestTypeList, "Test_Type_Id", "Test_Type_Name"))"></select>
+                                                    </div>
+                                                </div>
+
                                             </div>
-                                        </div>
-
-
-                                        <div class="col-md-3">
-                                            <div class="form-group qa1">
-                                                <label>Question Type</label>
-                                                <select asp-for="Test_Type_Id" class="form-control ddlType" asp-items="@(new SelectList(ViewBag.TestTypeList, "Test_Type_Id", "Test_Type_Name"))"></select>
-                                            </div>
-                                        </div>
-
-                                    </div>
                                     <br />
                                     <div class="row col-md-3"><input asp-for="Question_Marks" class="form-control" placeholder="Marks"/></div>
                                 </div>
@@ -169,7 +173,11 @@
          if ($('#' + id).hasClass('col-md-3')) {
             $('#' + id).removeClass('col-md-3').addClass('col-md-6');
         }
-        $('#' + id).append(`<input type="file" class="form-control"/>`);
+        $('#' + id).append(`<div class="form-group">
+                            <label>File Upload</label>
+                            <br />
+                            <input type="file" class="form-control" style="opacity: 1;margin-top: 30px;height: 40px;font-size: 1.3em;" />
+                            </div>`);
     }
 
     function getDataFromDiv() {
@@ -254,7 +262,7 @@
                 contentType: false,
                 data: data,
                success: function Success(response) {
-                    debugger;
+                    //debugger;
                     if (response == 1) {
                         window.location.href = "/teachers/test";
                     } else {
