@@ -28,6 +28,7 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Questions</th>
+                                        <th>Attempts</th>
                                         <th>Options</th>
                                         <th>Action</th>
                                     </tr>
@@ -35,15 +36,23 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                        <tr>
-                                            <td>@item.Test_Name</td>
-                                            <td>@item.Questions_Count</td>
-                                            <td><a asp-action="ManageTest" asp-controller="Test" asp-route-id="@item.Test_Id" class="btn btn-primary btn-sm">Manage</a></td>
-                                            <td>
-                                                <a href="#deleteTestModal" class="delete" id="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i></a>
-                                                <input type="hidden" class="Test_Id" value="@item.Test_Id" />
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td>@item.Test_Name</td>
+                                        <td>@item.Questions_Count</td>
+                                        @if (item.Attempts != 0)
+                                        {
+                                            <td><a asp-action="Students" asp-controller="Test" asp-route-id="@item.Test_Id" class="btn btn-primary btn-sm">@(item.Attempts.ToString() + " (View)")</a></td>
+                                        }
+                                        else
+                                        {
+                                            <td>@item.Attempts</td>
+                                        }
+                                        <td><a asp-action="ManageTest" asp-controller="Test" asp-route-id="@item.Test_Id" class="btn btn-primary btn-sm">Manage</a></td>
+                                        <td>
+                                            <a href="#deleteTestModal" class="delete" id="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i></a>
+                                            <input type="hidden" class="Test_Id" value="@item.Test_Id" />
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>

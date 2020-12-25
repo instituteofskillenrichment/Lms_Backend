@@ -62,18 +62,25 @@ namespace LMS.BusinessLogics.Repositories
         {
             var Tests = (
                             from t in _lmsDbContext.Test
-                            where t.Teacher_Id == TeacherId 
+                            where t.Teacher_Id == TeacherId
                             select new TestListViewModel
                             {
                                 Test_Id = t.Test_Id,
                                 Test_Name = t.Test_Name,
+                                Attempts =
+                                (from std in _lmsDbContext.StudentTestDetail
+                                 where std.Test_Id == t.Test_Id
+                                 select new
+                                 {
+                                     std.Answer
+                                 }).Count(p => p.Answer != null),
                                 Questions_Count =
                                 (from td in _lmsDbContext.TestDetail
-                                where td.Test_Id == t.Test_Id
-                                select new
-                                {
-                                    td.Question_Name
-                                }).Count(p => p.Question_Name != null)
+                                 where td.Test_Id == t.Test_Id
+                                 select new
+                                 {
+                                     td.Question_Name
+                                 }).Count(p => p.Question_Name != null)
                             }).ToList();
             return Tests;
         }
@@ -149,8 +156,8 @@ namespace LMS.BusinessLogics.Repositories
         {
             try
             {
-                 _lmsDbContext.Test.Update(objTest);
-                
+                _lmsDbContext.Test.Update(objTest);
+
                 await _lmsDbContext.SaveChangesAsync();
 
                 return 1;
@@ -159,6 +166,46 @@ namespace LMS.BusinessLogics.Repositories
             {
                 return -1;
             }
+        }
+
+        public IEnumerable<StudentAttemptTestViewModel> GetStudentsByTest(int TestId)
+        {
+            var Students = (
+                            from std in _lmsDbContext.StudentTestDetail
+                            where std.Test_Id == TestId
+                            select new StudentAttemptTestViewModel
+                            {
+                                Test_Id = std.Test_Id,
+                                Student_Id = std.Student_Id,
+                                Student_Name = std.Student.Student_Name,
+                                SubmittedOn = std.SubmittedOn
+                            }).ToList();
+
+            return Students;
+        }
+
+        public IEnumerable<StudentTestResultViewModel> GetStudentTestResult(int StudentId, int TestId)
+        {
+            var TestResult = (
+                                from std in _lmsDbContext.StudentTestDetail
+                                join t in _lmsDbContext.TestDetail 
+                                on new { std.Test_Id, std.Question_Id } equals new { t.Test_Id, t.Question_Id }
+                                where std.Test_Id == TestId && std.Student_Id == StudentId
+                                select new StudentTestResultViewModel
+                                {
+                                    Test_Id = std.Test_Id,
+                                    Student_Id = std.Student_Id,
+                                    Student_Name = std.Student.Student_Name,
+                                    Question = t.Question_Name,
+                                    Answer = std.Answer,
+                                    CorrectAnswer = t.Correct_Answer ?? "Subjected on Teacher",
+                                    Answer_Type_Id = std.Answer_Type_Id,
+                                    Marks_Obtained = std.Marks_Obtained,
+                                    Marks = t.
+                                }
+                             ).ToList();
+
+            return TestResult;
         }
     }
 }

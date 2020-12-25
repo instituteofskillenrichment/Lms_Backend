@@ -5,5 +5,6 @@
         public int Test_Id { get; set; }
         public string Test_Name { get; set; }
         public int Questions_Count { get; set; }
+        public int Attempts { get; set; }
     }
 }

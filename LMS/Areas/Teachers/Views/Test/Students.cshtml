@@ -1,0 +1,56 @@
+﻿@model List<LMS.Domain.ViewModels.StudentAttemptTestViewModel>
+@{
+    ViewData["Title"] = "Students";
+    Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
+}
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2>Student <b>List</b></h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="test" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Student Name</th>
+                                        <th>Submitted On</th>
+                                        <th>Score</th>
+                                        <th>View Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Student_Name</td>
+                                            <td>@item.SubmittedOn</td>
+                                            <td>100</td>
+                                            <td><a asp-action="ViewTestResult" asp-controller="Test" asp-route-studentId="@item.Student_Id" asp-route-testId="@item.Test_Id" class="btn btn-primary btn-sm">Manage</a></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="clearfix">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+

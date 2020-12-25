@@ -178,10 +178,11 @@
     }
 
     function generateMultipleTextControl(obj, i) {
+        var index = i;
         let filteredNames = filtered_keys(JSON.parse(obj), /Option/i );
         var content = `<div  id="qa` + (parseInt(i, 10) + 1) + `" class="row"><div class="col-md-6">`;
         for (var i = 0; i < filteredNames.length; i++) {
-             content += `<label class="container" style="color: #2c2c2c">` + filteredNames[i] + `<input type="radio" name="radio" value=` + filteredNames[i] + `><span class="checkmark"></span></label>`
+            content += `<label class="container" style="color: #2c2c2c">` + filteredNames[i] + `<input type="radio" name="radio` + index + `" value=` + filteredNames[i] + `><span class="checkmark"></span></label>`
         }
         content += `</div></div>`
         return content;
@@ -243,9 +244,10 @@
             var textarea = $(this).find('textarea');
 
             if (inputs.length > 3) {
+                var radioButtonName = inputs[0].name;
                 answerObj = {
                     questionId: this.id,
-                    answer: $('input[name="radio"]:checked').val(),
+                    answer: $('input[name=' + radioButtonName + ']:checked').val(),
                     testId: testId,
                     answerTypeId: 1 //which is MCQ
                 };

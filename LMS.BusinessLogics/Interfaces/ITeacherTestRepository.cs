@@ -21,5 +21,7 @@ namespace LMS.BusinessLogics.Interfaces
         Task DeleteQuestion(int QuestionId);
         Task<int> UpdateTeacherTestDetail(TestDetail objTestDetail);
         Task<int> UpdateTeacherTest(Test objTest);
+        IEnumerable<StudentAttemptTestViewModel> GetStudentsByTest(int TestId);
+        IEnumerable<StudentTestResultViewModel> GetStudentTestResult(int StudentId, int TestId);
     }
 }

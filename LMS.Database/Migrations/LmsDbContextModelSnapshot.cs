@@ -283,6 +283,8 @@ namespace LMS.Database.Migrations
 
                     b.Property<int>("Answer_Type_Id");
 
+                    b.Property<int>("Marks_Obtained");
+
                     b.Property<int>("Question_Id");
 
                     b.Property<int>("Student_Id");

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS.Database.Migrations
 {
     [DbContext(typeof(LmsDbContext))]
-    [Migration("20201208040246_RemoveColumnFromStudentTestDetailTable")]
-    partial class RemoveColumnFromStudentTestDetailTable
+    [Migration("20201225182139_AddedMarksObtainedColumnInStudentTestDetailTable")]
+    partial class AddedMarksObtainedColumnInStudentTestDetailTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -284,6 +284,8 @@ namespace LMS.Database.Migrations
                     b.Property<string>("Answer");
 
                     b.Property<int>("Answer_Type_Id");
+
+                    b.Property<int>("Marks_Obtained");
 
                     b.Property<int>("Question_Id");
 

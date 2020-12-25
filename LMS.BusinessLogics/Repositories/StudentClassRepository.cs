@@ -216,7 +216,8 @@ namespace LMS.BusinessLogics.Repositories
                                                                  join sub in _lmsDbContext.Subject on csub.Subject_Id equals sub.Subject_Id
                                                                  join test in _lmsDbContext.Test on csub.Subject_Id equals test.Subject_Id
                                                                  join stdtest in _lmsDbContext.StudentTestDetail on test.Test_Id equals stdtest.Test_Id
-                                                                 where s.Student_Id == StudentId && s.Student_Id != stdtest.Student_Id
+                                                                 where s.Student_Id == StudentId
+
                                                                  select new StudentTestViewModel
                                                                  {
                                                                      Class_Name = c.Class_Name,

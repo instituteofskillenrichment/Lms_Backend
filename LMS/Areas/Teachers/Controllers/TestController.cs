@@ -13,6 +13,7 @@ using LMS.Domain.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Test = LMS.Domain.Test;
 
@@ -27,15 +28,18 @@ namespace LMS.Areas.Teachers.Controllers
         private readonly ISectionRepository _SectionRepository;
         private readonly ISubjectRepository _SubjectRepository;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IConfiguration _config;
 
         public TestController(ITeacherTestRepository TeacherTestRepository, IClassRepository ClassRepository,
-            ISectionRepository SectionRepository, ISubjectRepository SubjectRepository, IHostingEnvironment hostingEnvironment)
+            ISectionRepository SectionRepository, ISubjectRepository SubjectRepository, IHostingEnvironment hostingEnvironment,
+            IConfiguration config)
         {
             _TeacherTestRepository = TeacherTestRepository;
             _ClassRepository = ClassRepository;
             _SectionRepository = SectionRepository;
             _SubjectRepository = SubjectRepository;
             _hostingEnvironment = hostingEnvironment;
+            _config = config;
         }
 
         public IActionResult Index()
@@ -311,6 +315,28 @@ namespace LMS.Areas.Teachers.Controllers
 
             return RedirectToAction("Index", "Test", new { area = "Teachers" });
 
+        }
+
+        [Route("students")]
+        public IActionResult Students(int id)
+        {
+            var Students = _TeacherTestRepository.GetStudentsByTest(id);
+
+            ViewBag.TestId = id;
+
+            return View(Students);
+        }
+
+        [Route("viewTestResult")]
+        public IActionResult ViewTestResult(int studentId, int testId)
+        {
+            var TestResults = _TeacherTestRepository.GetStudentTestResult(studentId, testId);
+
+            TestResults.ToList().ForEach(x => x.Answer = x.Answer_Type_Id == 3 ? _config.GetSection("AppSettings").GetSection("AnswerFilesPath").Value + x.Answer : x.Answer);
+
+            ViewBag.TestId = testId;
+
+            return View(TestResults);
         }
     }
 }
