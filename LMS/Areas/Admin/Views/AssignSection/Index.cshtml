@@ -29,7 +29,7 @@
                             </div>
 
                             <table id="assignClassSectionpage" class="display" style="width:100%">
-                                <thead>
+                                <thead class="aThead">
                                     <tr>
                                         <th>ID</th>
                                         <th>Class Name</th>
@@ -62,9 +62,17 @@
 
                                             </td>
                                         </tr>
-                                        
-                                     }
+
+                                    }
                                 </tbody>
+                                <tfoot class="aThead">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Class Name</th>
+                                        <th>Section Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                             <div class="clearfix">
 
@@ -75,7 +83,7 @@
                     <div id="addClassSectionModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form method="post" asp-controller="assignSection" asp-action="addClassSection">
+                                <form method="post" asp-controller="assignSection" asp-action="addClassSection" id="addForm">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Add Class Section</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -99,7 +107,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                        <input type="submit" class="btn btn-success" value="Add">
+                                        <input id="add" type="submit" class="btn btn-success" value="Add">
                                     </div>
                                 </form>
                             </div>
@@ -186,10 +194,11 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="https://www.creative-tim.com">
-                            Karachi Grammar School
+                        <a href="#">
+                            APEX E-LEARNING
                         </a>
                     </li>
+                    @*
                     <li>
                         <a href="http://presentation.creative-tim.com">
                             About Us
@@ -199,14 +208,14 @@
                         <a href="http://blog.creative-tim.com">
                             Blog
                         </a>
-                    </li>
+                    </li>*@
                 </ul>
             </nav>
             <div class="copyright" id="copyright">
                 &copy;
                 <script>
                     document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+                </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
             </div>
         </div>
     </footer>
@@ -246,6 +255,21 @@
         $('[data-toggle="tooltip"]').tooltip();
 
 
+        //Check If Class and Section Is Selected
+        $("#addForm").submit(function (event) {
+            
+            if ($("#Class_Id").val() === "0" || $("#Section_Id").val() === "0") {
+
+                event.preventDefault();
+                toastr.error("Kindly Select Class And Section");
+                
+            }
+            
+
+        });
+
+
+
         //Get ClassSection_Id for Delete Added By Absar
         $('#assignClassSectionpage #delete').on('click', function () {
             var ClassSection_Id = $(this).parent().find('.ClassSection_Id').val();
@@ -271,11 +295,49 @@
 
         
 
-        $('#assignClassSectionpage').dataTable({
-            /* Disable initial sort */
+        //$('#assignClassSectionpage').dataTable({
+        //    /* Disable initial sort */
+        //    "aaSorting": [],
+        //    //"pageLength":25
+        //});
+
+
+
+
+        $('#assignClassSectionpage').DataTable({
             "aaSorting": [],
-            //"pageLength":25
+            "bLengthChange": false,
+            "fixedHeader": { header: true, footer: true },
+
+            responsive: false,
+            //autoWidth: false,
+            //aaSorting: [[2, 'asc']],
+            //cache: true,
+
+
+            initComplete: function () {
+                this.api().columns([1,2]).every(function () {
+                    var column = this;
+                    //var theadname = $('#AttendanceDetailPage th').eq([d]).text();
+                    var select = $('<select><option value="">ALL</option></select>')
+                        .appendTo($(column.header()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
         });
+
 
     });
 </script>

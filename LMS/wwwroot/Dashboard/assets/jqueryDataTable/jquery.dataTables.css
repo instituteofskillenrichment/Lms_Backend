@@ -49,6 +49,10 @@ table.dataTable thead .sorting_desc_disabled {
     table.dataTable thead .sorting_asc {
         background-image: url("../img/sort_asc.png");
     }
+    table.dataTable .aThead {
+        font-size: 15px;
+        color: #184a79;
+    }
 table.dataTable thead .sorting_desc {
   background-image: url("../images/sort_desc.png");
 }
@@ -426,6 +430,8 @@ table.dataTable td {
   clear: both;
   height: 0;
 }
+
+
 
 @media screen and (max-width: 767px) {
   .dataTables_wrapper .dataTables_info,

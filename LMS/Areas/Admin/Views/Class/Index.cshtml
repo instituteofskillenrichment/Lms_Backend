@@ -32,7 +32,7 @@
                             </div>
 
                             <table id="classpage" class="display" style="width:100%">
-                                <thead>
+                                <thead class="aThead">
                                     <tr>
                                         <th>ID</th>
                                         <th>Class Name</th>
@@ -61,6 +61,13 @@
                                         </tr>
                                     }
                                 </tbody>
+                                @*<tfoot class="aThead">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Class Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>*@
                             </table>
                             <div class="clearfix">
 
@@ -71,7 +78,7 @@
                     <div id="addClassModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form method="post" asp-controller="class" asp-action="addClass">
+                                <form method="post" asp-controller="class" asp-action="addClass" id="addForm">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Add Class</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -83,7 +90,7 @@
                                             </div>*@
                                         <div class="form-group">
                                             <label>Class Name</label>
-                                            <input type="text" class="form-control" required="" name="Class_Name">
+                                            <input type="text" class="form-control" required="" name="Class_Name" id="Class_Name">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -100,7 +107,7 @@
                     <div id="editClassModal" class="modal fade">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form method="post" asp-controller="class" asp-action="editClass">
+                                    <form method="post" asp-controller="class" asp-action="editClass" id="addForm">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Edit Class</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -162,34 +169,34 @@
 
 
     <footer class="footer">
-            <div class=" container-fluid ">
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="https://www.creative-tim.com">
-                                Karachi Grammar School
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://presentation.creative-tim.com">
-                                About Us
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://blog.creative-tim.com">
-                                Blog
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="copyright" id="copyright">
-                    &copy;
-                    <script>
-                        document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                    </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
-                </div>
+        <div class=" container-fluid ">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#">
+                            APEX E-LEARNING
+                        </a>
+                    </li>
+                    @*<li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>*@
+                </ul>
+            </nav>
+            <div class="copyright" id="copyright">
+                &copy;
+                <script>
+                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
             </div>
-        </footer>
+        </div>
+    </footer>
 </div>
 
 
@@ -198,7 +205,7 @@
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
 <link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
 <script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
-@*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
+
 <script>
     $(document).ready(function () {
         
@@ -228,6 +235,30 @@
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
+
+
+        //Check If Class Name non Negative
+        $("#addForm, #editForm").submit(function (event) {
+            
+            var ClassName = $('#Class_Name').val();
+
+            if (ClassName === '')
+            {
+                var ClassName = $('#editClassModal #Class_Name').val();
+            }
+            
+            //Regex for Valid Characters i.e. Alphabets and Numbers.
+            var letters = /^[0-9a-zA-Z]+$/;
+            
+            if (ClassName.length < 0 || !(ClassName.match(letters))) {
+                
+                event.preventDefault();
+                toastr.error("Cannot Insert Null, Negative Values And Special Characters");
+
+            }
+
+
+        });
 
 
         //Get Class_Id for Delete Added By Absar

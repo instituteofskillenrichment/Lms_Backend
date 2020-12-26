@@ -29,7 +29,7 @@
                             </div>
 
                             <table id="subjectpage" class="display" style="width:100%">
-                                <thead>
+                                <thead class="aThead">
                                     <tr>
                                         <th>ID</th>
                                         <th>Subject Name</th>
@@ -68,7 +68,7 @@
                     <div id="addSubjectModal" class="modal fade">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form method="post" asp-controller="subject" asp-action="addSubject">
+                                    <form method="post" asp-controller="subject" asp-action="addSubject" id="addForm">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Add Subject</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -80,7 +80,7 @@
                                                 </div>*@
                                             <div class="form-group">
                                                 <label>Subject Name</label>
-                                                <input type="text" class="form-control" required="" name="Subject_Name">
+                                                <input type="text" class="form-control" required="" name="Subject_Name" id="Subject_Name">
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -97,7 +97,7 @@
                     <div id="editSubjectModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form method="post" asp-controller="subject" asp-action="editSubject">
+                                <form method="post" asp-controller="subject" asp-action="editSubject" id="editForm">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Edit Subject</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -163,11 +163,11 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="https://www.creative-tim.com">
-                            Karachi Grammar School
+                        <a href="#">
+                            APEX E-LEARNING
                         </a>
                     </li>
-                    <li>
+                    @*<li>
                         <a href="http://presentation.creative-tim.com">
                             About Us
                         </a>
@@ -176,14 +176,14 @@
                         <a href="http://blog.creative-tim.com">
                             Blog
                         </a>
-                    </li>
+                    </li>*@
                 </ul>
             </nav>
             <div class="copyright" id="copyright">
                 &copy;
                 <script>
                     document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+                </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
             </div>
         </div>
     </footer>
@@ -213,12 +213,37 @@
             //console.log(message);
             toastr.success(messageSuccess);
         }
-        else if (messageError > 0)  {
+        else if (messageError.length > 0)  {
             toastr.error(messageError);
         }
         
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
+
+
+
+        //Check If Class Name non Negative
+        $("#addForm, #editForm").submit(function (event) {
+
+            
+            var SubjectName = $('#Subject_Name').val();
+
+            if (SubjectName === '') {
+                var SubjectName = $('#editSubjectModal #Subject_Name').val();
+            }
+
+            //Regex for Valid Characters i.e. Alphabets and Numbers.
+            var letters = /^[a-zA-Z ]+$/;
+
+            if (SubjectName.length < 0 || !(SubjectName.match(letters))) {
+
+                event.preventDefault();
+                toastr.error("Cannot Insert Null And Special Characters");
+
+            }
+
+
+        });
 
 
         //Get Subject_Id for Delete Added By Absar

@@ -32,5 +32,9 @@ namespace LMS.Database
         public DbSet<BookCategory> BookCategory { get; set; }
         public DbSet<Library> Library { get; set; }
 
+
+
+        
+
     }
 }

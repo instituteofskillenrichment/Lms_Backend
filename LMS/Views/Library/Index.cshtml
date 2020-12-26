@@ -86,9 +86,9 @@
                                 <div class="overlay">
                                     <h2>@Books.Book_Name</h2>
                                     <a asp-controller="Library" asp-action="DownloadBook" asp-route-Id="@Books.Book_Id">
-                                        <button class="info " data-toggle="modal" data-target="#modal14">
-                                            Download
-                                        </button>
+                                        <input type="button" value="Download" class="info " data-toggle="modal" data-target="#modal14" style="background-color: transparent;border: 1px solid white;color: white;font-weight: 600; font-size:18px;">
+                                            
+                                        
                                     </a>
                                 </div>
                             </div>
@@ -117,27 +117,27 @@
         <nav>
             <ul>
                 <li>
-                    <a href="https://www.creative-tim.com">
-                        Karachi Grammar School
+                    <a href="#">
+                        APEX E-LEARNING
                     </a>
                 </li>
-                <li>
-                    <a href="http://presentation.creative-tim.com">
-                        About Us
-                    </a>
-                </li>
-                <li>
-                    <a href="http://blog.creative-tim.com">
-                        Blog
-                    </a>
-                </li>
+                @*<li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>*@
             </ul>
         </nav>
         <div class="copyright" id="copyright">
             &copy;
             <script>
                 document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-            </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
         </div>
     </div>
 </footer>

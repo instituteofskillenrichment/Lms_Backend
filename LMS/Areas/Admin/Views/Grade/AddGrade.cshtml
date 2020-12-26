@@ -26,34 +26,34 @@
                                     </div>
                                 </div>
                             </div>
-                            <form asp-action="addGrade" method="post">
+                            <form asp-action="addGrade" method="post" id="addForm">
 
                                 <br /><br />
-                                      <div class="row">
-                                          <div class="col-md-4 pr-1">
-                                              <div class="form-group">
-                                                  <label>Grade Name</label>
-                                                  <input asp-for="Grade_Name" type="text" class="form-control" placeholder="Grade Name">
-                                              </div>
-                                          </div>
+                                <div class="row">
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Grade Name *</label>
+                                            <input asp-for="Grade_Name" type="text" class="form-control" placeholder="Grade Name" required="required" id="Grade_Name">
+                                        </div>
+                                    </div>
 
-                                          <div class="col-md-4 pr-1">
-                                              <div class="form-group">
-                                                  <label>Start From </label>
-                                                  <input asp-for="Start_From" type="text" class="form-control" placeholder="Start Range">
-                                              </div>
-                                          </div>
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Start From *</label>
+                                            <input asp-for="Start_From" type="number" class="form-control" placeholder="Start Range" required="required" id="Start_From">
+                                        </div>
+                                    </div>
 
-                                          <div class="col-md-4 pr-1">
-                                              <div class="form-group">
-                                                  <label>End On </label>
-                                                  <input asp-for="End_On" type="text" class="form-control" placeholder="End Range">
-                                              </div>
-                                          </div>
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>End On *</label>
+                                            <input asp-for="End_On" type="number" class="form-control" placeholder="End Range" required="required" id="End_On">
+                                        </div>
+                                    </div>
 
-                                      </div>
+                                </div>
 
-                                
+
 
                                 <br />
 
@@ -64,7 +64,7 @@
                                         <table id="gradepage" class="table table-striped table-hover table-sm" style="width:100%">
                                             <thead>
                                                 <tr>
-                                                    <th><input type="checkbox" class="checkbox-radios" id="selectAllClasses"/></th>
+                                                    <th><input type="checkbox" class="checkbox-radios" id="selectAllClasses" /></th>
                                                     <th>Class Name</th>
                                                     <th></th>
 
@@ -77,7 +77,7 @@
                                                     @for (int item = 0; item < Model.Classes.Count; item++)
                                                     {
                                                         <tr>
-                                                            <td><input type="checkbox" class="checkbox-radios" name="lstClass" value="@Model.Classes[item].Class_Id" /></td>
+                                                            <td><input type="checkbox" class="checkbox-radios" name="lstClass" value="@Model.Classes[item].Class_Id" id="chkClass"/></td>
                                                             <td>@Model.Classes[item].Class_Name</td>
                                                             <td><input type="hidden" class="Subject_Id" value="@Model.Classes[item].Class_Id" /></td>
                                                         </tr>
@@ -109,7 +109,7 @@
                                                     @for (int item = 0; item < Model.Subjects.Count; item++)
                                                     {
                                                         <tr>
-                                                            <td><input type="checkbox" class="checkbox-radios" name="lstSubject" value="@Model.Subjects[item].Subject_Id" /></td>
+                                                            <td><input type="checkbox" class="checkbox-radios" name="lstSubject" value="@Model.Subjects[item].Subject_Id" id="chkSubject"/></td>
                                                             <td>@Model.Subjects[item].Subject_Name</td>
                                                             <td><input type="hidden" class="Subject_Id" value="@Model.Subjects[item].Subject_Id" /></td>
                                                         </tr>
@@ -126,18 +126,18 @@
 
 
 
-                                    </div>
+                                </div>
 
 
-                                    <div class="row">
-                                        <div class="col-md-4 pr-1">
-                                            <div class="form-group">
-                                                <input type="submit" value="Add Grade" class="btn btn-primary" />
-                                            </div>
+                                <div class="row">
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <input type="submit" value="Add Grade" class="btn btn-primary" />
                                         </div>
-
-
                                     </div>
+
+
+                                </div>
 
                             </form>
                         </div>
@@ -166,11 +166,11 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="https://www.creative-tim.com">
-                            Karachi Grammar School
+                        <a href="#">
+                            APEX E-LEARNING
                         </a>
                     </li>
-                    <li>
+                    @*<li>
                         <a href="http://presentation.creative-tim.com">
                             About Us
                         </a>
@@ -179,14 +179,14 @@
                         <a href="http://blog.creative-tim.com">
                             Blog
                         </a>
-                    </li>
+                    </li>*@
                 </ul>
             </nav>
             <div class="copyright" id="copyright">
                 &copy;
                 <script>
                     document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+                </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
             </div>
         </div>
     </footer>
@@ -194,9 +194,55 @@
 
 
 <script src="~/Dashboard/assets/js/core/jquery.min.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 <script>
 
     $(document).ready(function () {
+
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+        
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+        
+
+        if (messageSuccess.length > 0) {
+            
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0) {
+            toastr.error(messageError);
+        }
+
+
+
+
+        //Check If Class And Subject Is Selected
+        $("#addForm").submit(function (event) {
+
+           
+            var GradeName = $('#Grade_Name').val();
+            var StartFrom = $('#Start_From').val();
+            var EnOn = $('#End_On').val();
+
+            if (GradeName.length <= 0 || StartFrom.length <= 0 || EnOn.length <= 0)
+            {
+
+                event.preventDefault();
+                toastr.error("Grade Cannot Be Null, Range Sholdn't Be Less Than 0 and Greater Than 100");
+
+            }
+
+
+        });
+
+
 
 
         $('#selectAllClasses').click(function (e) {

@@ -104,8 +104,8 @@ namespace LMS.Areas.Admin.Controllers
             {
                 IdentityUser User = new IdentityUser
                 {
-                    UserName = objStudent.Student_Email,
-                    Email = objStudent.Student_Email,
+                    UserName = objStudent.Student_Email.ToLower(),
+                    Email = objStudent.Student_Email.ToLower(),
                     //PasswordHash = objTeacher.Teacher_Password
                 };
 
@@ -124,18 +124,18 @@ namespace LMS.Areas.Admin.Controllers
 
                     Student newStudent = new Student
                     {
-                        Student_Name = objStudent.Student_Name,
-                        Student_City = objStudent.Student_City,
+                        Student_Name = objStudent.Student_Name.ToUpper(),
+                        Student_City = objStudent.Student_City.ToUpper(),
                         Student_Cnic = objStudent.Student_Cnic,
-                        Student_Country = objStudent.Student_Country,
-                        Student_CurrentAddress = objStudent.Student_CurrentAddress,
+                        Student_Country = objStudent.Student_Country.ToUpper(),
+                        Student_CurrentAddress = objStudent.Student_CurrentAddress.ToUpper(),
                         Student_DOB = Convert.ToDateTime(objStudent.Student_DOB).ToString("yyyyMMdd"),
-                        Student_Email = objStudent.Student_Email,
-                        Student_FatherName = objStudent.Student_FatherName,
-                        Student_Gender = objStudent.Student_Gender,
+                        Student_Email = objStudent.Student_Email.ToLower(),
+                        Student_FatherName = objStudent.Student_FatherName.ToUpper(),
+                        Student_Gender = objStudent.Student_Gender.ToUpper(),
                         Student_HomePhone = objStudent.Student_HomePhone,
                         Student_MobNumber = objStudent.Student_MobNumber,
-                        Student_PermenentAddress = objStudent.Student_PermenentAddress,
+                        Student_PermenentAddress = objStudent.Student_PermenentAddress.ToUpper(),
                         Student_Ref_Id = User.Id
                     };
 
@@ -160,7 +160,7 @@ namespace LMS.Areas.Admin.Controllers
                 }
                 else
                 {
-                    TempData["Error"] = "Error In Creating Teacher. Please try again!";
+                    TempData["Error"] = "Error In Creating Student. Please try again!";
                     return RedirectToAction("Index", "Student", new { area = "admin" });
                 }
 
@@ -224,21 +224,21 @@ namespace LMS.Areas.Admin.Controllers
             {
                 Student objStudent = await _StudentRepository.GetStudentById(StudentModel.Student_Id);
 
-                objStudent.Student_Name = StudentModel.Student_Name;
-                objStudent.Student_City = StudentModel.Student_City;
+                objStudent.Student_Name = StudentModel.Student_Name.ToUpper();
+                objStudent.Student_City = StudentModel.Student_City.ToUpper();
                 objStudent.Student_Cnic = StudentModel.Student_Cnic;
-                objStudent.Student_Country = StudentModel.Student_Country;
-                objStudent.Student_CurrentAddress = StudentModel.Student_CurrentAddress;
+                objStudent.Student_Country = StudentModel.Student_Country.ToUpper();
+                objStudent.Student_CurrentAddress = StudentModel.Student_CurrentAddress.ToUpper();
                 objStudent.Student_DOB = Convert.ToDateTime(StudentModel.Student_DOB).ToString("yyyyMMdd");
               //  objStudent.Student_Department = TeacherModel.Teacher_Department;
              //   objStudent.Student_Designation = TeacherModel.Teacher_Designation;
-                objStudent.Student_Email = StudentModel.Student_Email;
-                objStudent.Student_FatherName = StudentModel.Student_FatherName;
-                objStudent.Student_Gender = StudentModel.Student_Gender;
+                objStudent.Student_Email = StudentModel.Student_Email.ToLower();
+                objStudent.Student_FatherName = StudentModel.Student_FatherName.ToUpper();
+                objStudent.Student_Gender = StudentModel.Student_Gender.ToUpper();
                 objStudent.Student_HomePhone = StudentModel.Student_HomePhone;
             //    objStudent.Student_LastDegree = TeacherModel.Teacher_LastDegree;
                 objStudent.Student_MobNumber = StudentModel.Student_MobNumber;
-                objStudent.Student_PermenentAddress = StudentModel.Student_PermenentAddress;
+                objStudent.Student_PermenentAddress = StudentModel.Student_PermenentAddress.ToUpper();
                 
                int Id = await _StudentRepository.UpdateStudent(objStudent);
                 

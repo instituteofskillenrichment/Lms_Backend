@@ -5,7 +5,7 @@
 }
 
 
-    
+
 <div class="panel-header panel-header-sm">
 </div>
 <div class="content">
@@ -16,7 +16,7 @@
                     <h5 class="title">Add Lesson</h5>
                 </div>
                 <div class="card-body">
-                    <form enctype="multipart/form-data" asp-controller="Lecture" asp-action="AddLecture">
+                    <form enctype="multipart/form-data" asp-controller="Lecture" asp-action="AddLecture" id="addForm">
                         <div class="row">
                             <div class="col-md-4 pr-1">
                                 <div class="form-group">
@@ -47,7 +47,7 @@
                                     <label>Date</label>
                                     @{
                                         var A_Date = DateTime.Now.Date;
-                                       // DateTime Assessment_Date = DateTime.ParseExact(A_Date, "yyyy-MM-dd", null).Date;
+                                        // DateTime Assessment_Date = DateTime.ParseExact(A_Date, "yyyy-MM-dd", null).Date;
                                     }
                                     <input asp-for="LecturePost_Date" type="date" class="form-control" value="@DateTime.Today">
                                     @*<input class="form-control" type="datetime-local" id="birthdaytime" name="birthdaytime">*@
@@ -73,11 +73,11 @@
                                 <div class="form-group">
                                     <label>File Upload</label>
                                     <br />
-                                    <input asp-for="Lecture_File" style="line-height: normal; opacity: 1; height: 28px; width: 70%; border: 1px solid; margin-top: 30px; font-size: 1.3em;" />
+                                    <input asp-for="Lecture_File" id="fileUpload" style="line-height: normal; opacity: 1; height: 28px; width: 70%; border: 1px solid; margin-top: 30px; font-size: 1.3em;" />
                                 </div>
                             </div>
                         </div>
-                       
+
                         <br />
                         <br />
                         <button type="submit" class="btn btn-primary">Add</button>
@@ -88,3 +88,65 @@
     </div>
 </div>
 
+
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+
+        if (messageSuccess.length > 0) {
+
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0) {
+            toastr.error(messageError);
+        }
+
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+
+        //Check If File Upload IS Empty
+        $("#addForm").submit(function (event) {
+            
+            var fileInput = $("#fileUpload").val();
+
+            if (fileInput === '')
+            {
+
+                event.preventDefault();
+                toastr.error("Kindly Select File");
+
+            }
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+    });
+</script>

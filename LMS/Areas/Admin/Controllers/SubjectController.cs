@@ -51,7 +51,7 @@ namespace LMS.Areas.Admin.Controllers
             {
                 Subject newSubject = new Subject
                 {
-                    Subject_Name = objSubject.Subject_Name
+                    Subject_Name = objSubject.Subject_Name.ToUpper()
                 };
 
                 int result =  await _SubjectRepository.AddSubject(newSubject);
@@ -92,7 +92,7 @@ namespace LMS.Areas.Admin.Controllers
             {
                 Subject objSubject = await _SubjectRepository.GetSubjectById(subjectModel.Subject_Id);
 
-                objSubject.Subject_Name = subjectModel.Subject_Name;
+                objSubject.Subject_Name = subjectModel.Subject_Name.ToUpper();
 
                 int result = await _SubjectRepository.UpdateSubject(objSubject);
 

@@ -120,27 +120,27 @@
         <nav>
             <ul>
                 <li>
-                    <a href="https://www.creative-tim.com">
-                        Karachi Grammar School
+                    <a href="#">
+                        APEX E-LEARNING
                     </a>
                 </li>
-                <li>
-                    <a href="http://presentation.creative-tim.com">
-                        About Us
-                    </a>
-                </li>
-                <li>
-                    <a href="http://blog.creative-tim.com">
-                        Blog
-                    </a>
-                </li>
+                @*<li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>*@
             </ul>
         </nav>
         <div class="copyright" id="copyright">
             &copy;
             <script>
                 document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-            </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
         </div>
     </div>
 </footer>
@@ -246,7 +246,7 @@
         var answerObj = {};
 
         $('#divQuestions').find(".questionObj").each(function () {
-            //debugger;
+            
             var inputs = $(this).find('input');
 
             var selects = $(this).find('select');
@@ -299,7 +299,7 @@
                 contentType: false,
                 data: data,
                 success: function Success(response) {
-                    debugger;
+                    
                     if (response == 1) {
                         window.location.href = "/students/test/index";
                     }
@@ -308,7 +308,7 @@
                     }
                 },
                 error: function (msg) {
-                    //debugger;
+                    
                     toastr.error('Failed to Submit Assessment', 'Error!')
                 }
             });

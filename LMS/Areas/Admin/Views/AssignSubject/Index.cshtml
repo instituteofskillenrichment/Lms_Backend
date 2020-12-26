@@ -30,7 +30,7 @@
                             </div>
 
                             <table id="assignClassSubjectpage" class="display" style="width:100%">
-                                <thead>
+                                <thead class="aThead">
                                     <tr>
                                         <th>ID</th>
                                         <th>Class Name</th>
@@ -68,6 +68,15 @@
                                         </tr>
                                     }
                                 </tbody>
+                                <tfoot class="aThead">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Class Name</th>
+                                        <th>Section Name</th>
+                                        <th>Subject Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                             <div class="clearfix">
 
@@ -167,11 +176,11 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="https://www.creative-tim.com">
-                            Karachi Grammar School
+                        <a href="#">
+                            APEX E-LEARNING
                         </a>
                     </li>
-                    <li>
+                    @*<li>
                         <a href="http://presentation.creative-tim.com">
                             About Us
                         </a>
@@ -180,14 +189,14 @@
                         <a href="http://blog.creative-tim.com">
                             Blog
                         </a>
-                    </li>
+                    </li>*@
                 </ul>
             </nav>
             <div class="copyright" id="copyright">
                 &copy;
                 <script>
                     document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+                </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
             </div>
         </div>
     </footer>
@@ -254,9 +263,43 @@
         });
 
 
-        $('#assignClassSubjectpage').dataTable({
-            /* Disable initial sort */
-            "aaSorting": []
+        //$('#assignClassSubjectpage').dataTable({
+        //    /* Disable initial sort */
+        //    "aaSorting": []
+        //});
+
+        $('#assignClassSubjectpage').DataTable({
+            "aaSorting": [],
+            "bLengthChange": false,
+            "fixedHeader": { header: true, footer: true },
+
+            responsive: false,
+            //autoWidth: false,
+            //aaSorting: [[2, 'asc']],
+            //cache: true,
+
+
+            initComplete: function () {
+                this.api().columns([1, 2, 3]).every(function () {
+                    var column = this;
+                    //var theadname = $('#AttendanceDetailPage th').eq([d]).text();
+                    var select = $('<select><option value="">ALL</option></select>')
+                        .appendTo($(column.header()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
         });
 
     });

@@ -77,8 +77,8 @@ namespace LMS.Controllers
 
                 if (result.IsLockedOut)
                 {
-                    //need to create
-                    return View("AccountLocked");
+                    ModelState.AddModelError(string.Empty, "Account Has Been Locked");
+                    return View(model);
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");

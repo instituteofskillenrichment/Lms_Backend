@@ -14,7 +14,7 @@
                     <h5 class="title">Add Book</h5>
                 </div>
                 <div class="card-body">
-                    <form enctype="multipart/form-data" asp-controller="Library" asp-action="AddBook">
+                    <form enctype="multipart/form-data" asp-controller="Library" asp-action="AddBook" id="addForm">
 
                         <div class="row">
                             <div class="col-md-6 pr-1">
@@ -35,7 +35,9 @@
                             </div>
                             <div class="col-md-4 pl-1">
                                 <div class="form-group">
-                                    <img id="book_image" src="~/Dashboard/assets/img/unnamed.png" style="width:150px; height:170px; margin-left:50px;" class="img-thumbnail">
+
+                                    
+                                    <img id="book_image" src="~/Dashboard/assets/img/noPhotoFound.png" style="width:150px; height:170px; margin-left:50px;" class="img-thumbnail">
 
 
                                     <div class="row">
@@ -43,7 +45,7 @@
 
                                         </div>
                                         <div class="col-md-4">
-                                            <input asp-for="Book_Image" type="file" name="image" value="unnamed.png" onchange="readURL(this);" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;" />
+                                            <input asp-for="Book_Image" type="file" name="image" value="noPhotoFound.png" onchange="readURL(this);" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;" />
 
                                         </div>
 
@@ -58,7 +60,7 @@
                                 <div class="form-group">
                                     <label>File Upload</label>
                                     <br />
-                                    <input asp-for="Book_File" style="line-height: normal; opacity: 1; height: 28px; width: 70%; border: 1px solid; margin-top: 30px; font-size: 1.3em;" />
+                                    <input asp-for="Book_File" id="fileUpload" style="line-height: normal; opacity: 1; height: 28px; width: 70%; border: 1px solid; margin-top: 30px; font-size: 1.3em;" />
                                 </div>
                             </div>
                             <div class="col-md-4 pl-1">
@@ -112,6 +114,23 @@
         else if (messageError.length > 0) {
             toastr.error(messageError);
         }
+
+
+    //Check If Cetogaye and File Is Selected
+    $("#addForm").submit(function (event) {
+
+        var fileInput = $("#fileUpload").val();
+
+        if ($("#BookCategory_Id").val() === "0" || fileInput === '') {
+
+            event.preventDefault();
+            toastr.error("Kindly Category And File To Upload");
+
+        }
+
+
+    });
+
 
 
     //function to show imae in div after browse

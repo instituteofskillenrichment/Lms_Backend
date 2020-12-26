@@ -94,7 +94,7 @@ namespace LMS.Areas.Admin.Controllers
             {
                 Section objSection = await _SectionRepository.GetSectionById(sectionModel.Section_Id);
 
-                objSection.Section_Name = sectionModel.Section_Name;
+                objSection.Section_Name = sectionModel.Section_Name.ToUpper();
 
                 int result = await _SectionRepository.UpdateSection(objSection);
 

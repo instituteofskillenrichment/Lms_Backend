@@ -5,7 +5,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-   
+
 <div class="panel-header panel-header-sm">
 </div>
 <div class="content">
@@ -21,7 +21,7 @@
                                     <div class="col-md-6">
                                         <h2><b>Add Teacher</b></h2>
                                     </div>
-                                    
+
                                 </div>
                             </div>
 
@@ -33,7 +33,7 @@
                                         <h5 class="title">Create Profile</h5>
                                     </div>
                                     <div class="card-body">
-                                        <form asp-action="addTeacher" enctype="multipart/form-data">
+                                        <form asp-action="addTeacher" enctype="multipart/form-data" id="addForm">
                                             <div class="row">
                                                 <div class="col-md-4 pr-1">
                                                     <div class="form-group">
@@ -42,7 +42,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 px-1">
-                                                   
+
                                                 </div>
                                                 <div class="col-md-4 pl-1">
                                                     <div class="form-group">
@@ -54,8 +54,8 @@
 
                                                             </div>
                                                             <div class="col-md-4">
-                                                                <input asp-for="Teacher_Photo" type="file" name="files" onchange="readURL(this);" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;"/>
-                                                               
+                                                                <input asp-for="Teacher_Photo" type="file" name="files" onchange="readURL(this);" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;" />
+
                                                             </div>
 
                                                         </div>
@@ -66,8 +66,8 @@
                                             <div class="row">
                                                 <div class="col-md-4 pr-1">
                                                     <div class="form-group">
-                                                        <label>Teacher Name</label>
-                                                        <input asp-for="Teacher_Name" type="text" class="form-control" placeholder="Teacher Name">
+                                                        <label>Teacher Name *</label>
+                                                        <input id="Teacher_Name" asp-for="Teacher_Name" type="text" class="form-control" placeholder="Teacher Name">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 pl-1">
@@ -81,25 +81,21 @@
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label>Teacher CNIC</label>
-                                                        <input asp-for="Teacher_Cnic" type="text" class="form-control" placeholder="CNIC">
+                                                        <label>Teacher CNIC *</label>
+                                                        <input id="Teacher_Cnic" asp-for="Teacher_Cnic" type="text" class="form-control" placeholder="CNIC">
                                                     </div>
                                                 </div>
-                                                @*<div class="col-md-4 pl-1">
+                                                
+                                                <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label>Date Of Birth</label>
-                                                        <input asp-for="Teacher_DOB" type="text" class="form-control" placeholder="DOB">
+                                                        <label>Date OF Birth</label>
+                                                        <input asp-for="Teacher_DOB" class="form-control" type="date" data-val="true" data-val-required="The Teacher_DOB field is required." id="Teacher_DOB" name="Teacher_DOB">
                                                     </div>
-                                                </div>*@
-
-                                                <div class="form-group">
-                                                    <label>Date</label>
-                                                    <input asp-for="Teacher_DOB" class="form-control" type="datetime-local" data-val="true" data-val-required="The Teacher_DOB field is required." id="Teacher_DOB" name="Teacher_DOB" value="">
                                                 </div>
 
                                                 <div class="col-md-4 pl-1">
                                                     <div class="form-group" style="color:#9A9A9A;">
-                                                        <label>Gender</label><br>
+                                                        <label>Gender *</label><br>
                                                         Male&nbsp;&nbsp; <input asp-for="Teacher_Gender" name="Teacher_Gender" type="radio" value="Male" checked>  &nbsp;
                                                         Female&nbsp;&nbsp;  <input asp-for="Teacher_Gender" name="Teacher_Gender" type="radio" value="Female">
                                                     </div>
@@ -109,20 +105,20 @@
                                             <div class="row">
                                                 <div class="col-md-4 pr-1">
                                                     <div class="form-group">
-                                                        <label>Email (Login Id)</label>
-                                                        <input asp-for="Teacher_Email" type="text" class="form-control" placeholder="Email">
+                                                        <label>Email (Login Id) *</label>
+                                                        <input id="Teacher_Email" asp-for="Teacher_Email" type="email" class="form-control" placeholder="Email">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 px-1">
                                                     <div class="form-group">
-                                                        <label>Mobile Number</label>
-                                                        <input asp-for="Teacher_MobNumber" type="text" class="form-control" placeholder="Mobile Number">
+                                                        <label>Mobile Number *</label>
+                                                        <input id="Teacher_MobNumber" asp-for="Teacher_MobNumber" type="text" class="form-control" placeholder="Mobile Number">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 px-1">
                                                     <div class="form-group">
-                                                        <label>Password</label>
-                                                        <input asp-for="Teacher_Password" type="text" class="form-control" placeholder="Password">
+                                                        <label>Password *</label>
+                                                        <input asp-for="Teacher_Password" type="text" class="form-control" placeholder="Password" value="Teacher@123" readonly="readonly">
                                                     </div>
                                                 </div>
                                             </div>
@@ -130,20 +126,20 @@
                                             <div class="row">
                                                 <div class="col-md-4 pr-1">
                                                     <div class="form-group">
-                                                        <label>Designation</label>
-                                                        <input asp-for="Teacher_Designation" type="text" class="form-control" placeholder="Designation">
+                                                        <label>Designation *</label>
+                                                        <input id="Teacher_Designation" asp-for="Teacher_Designation" type="text" class="form-control" placeholder="Designation">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 px-1">
                                                     <div class="form-group">
-                                                        <label>Department</label>
-                                                        <input asp-for="Teacher_Department" type="text" class="form-control" placeholder="Department" >
+                                                        <label>Department *</label>
+                                                        <input id="Teacher_Department" asp-for="Teacher_Department" type="text" class="form-control" placeholder="Department">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 px-1">
                                                     <div class="form-group">
                                                         <label>Latest Degree</label>
-                                                        <input asp-for="Teacher_LastDegree" type="text" class="form-control" placeholder="Latest Degree" >
+                                                        <input asp-for="Teacher_LastDegree" type="text" class="form-control" placeholder="Latest Degree">
                                                     </div>
                                                 </div>
 
@@ -153,7 +149,7 @@
                                                 <div class="col-md-12 pr-1">
                                                     <div class="form-group">
                                                         <label>Current Address</label>
-                                                        <input asp-for="Teacher_CurrentAddress" type="text" class="form-control" placeholder="Current Address" >
+                                                        <input asp-for="Teacher_CurrentAddress" type="text" class="form-control" placeholder="Current Address">
                                                     </div>
                                                 </div>
 
@@ -163,7 +159,7 @@
                                                 <div class="col-md-12 pr-1">
                                                     <div class="form-group">
                                                         <label>Permanent Address</label>
-                                                        <input asp-for="Teacher_PermenentAddress" type="text" class="form-control" placeholder="Permanent Address" >
+                                                        <input asp-for="Teacher_PermenentAddress" type="text" class="form-control" placeholder="Permanent Address">
                                                     </div>
                                                 </div>
 
@@ -173,19 +169,19 @@
                                                 <div class="col-md-4 pr-1">
                                                     <div class="form-group">
                                                         <label>Home Phone </label>
-                                                        <input asp-for="Teacher_HomePhone" type="text" class="form-control" placeholder="Home Phone" >
+                                                        <input asp-for="Teacher_HomePhone" type="text" class="form-control" placeholder="Home Phone">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 px-1">
                                                     <div class="form-group">
                                                         <label>City</label>
-                                                        <input asp-for="Teacher_City" type="text" class="form-control" placeholder="City" >
+                                                        <input asp-for="Teacher_City" type="text" class="form-control" placeholder="City">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 px-1">
                                                     <div class="form-group">
                                                         <label>Country</label>
-                                                        <input asp-for="Teacher_Country" type="text" class="form-control" placeholder="Country" >
+                                                        <input asp-for="Teacher_Country" type="text" class="form-control" placeholder="Country">
                                                     </div>
                                                 </div>
 
@@ -197,7 +193,7 @@
                                                         <input type="submit" value="Create" class="btn btn-primary" />
                                                     </div>
                                                 </div>
-                                                
+
 
                                             </div>
 
@@ -223,27 +219,27 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="https://www.creative-tim.com">
-                            Karachi Grammar School
+                        <a href="#">
+                            APEX E-LEARNING
                         </a>
                     </li>
-                    <li>
-                        <a href="http://presentation.creative-tim.com">
-                            About Us
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://blog.creative-tim.com">
-                            Blog
-                        </a>
-                    </li>
+                    @*<li>
+                            <a href="http://presentation.creative-tim.com">
+                                About Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://blog.creative-tim.com">
+                                Blog
+                            </a>
+                        </li>*@
                 </ul>
             </nav>
             <div class="copyright" id="copyright">
                 &copy;
                 <script>
                     document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+                </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
             </div>
         </div>
     </footer>
@@ -252,35 +248,119 @@
 
 
 
-    
+
 
 
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+
 <script>
     $(document).ready(function () {
 
-        //$('#classpage').DataTable();
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+        
+
+        if (messageSuccess.length > 0) {
+            
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0)  {
+            toastr.error(messageError);
+        }
+
+        
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
-        
+
+        //Check If Mandatory Fields are Filled Or Not
+        $("#addForm").submit(function (event) {
+
+          
+
+            var TeacherName = $('#Teacher_Name').val();
+            var TeacherCnic = $('#Teacher_Cnic').val();
+            var TeacherEmail = $('#Teacher_Email').val();
+            var TeacherMobNumber = $('#Teacher_MobNumber').val();
+            var TeacherDesignation = $('#Teacher_Designation').val();
+            var TeacherDepartment = $('#Teacher_Department').val();
+
+           
+
+            //Regex for Valid Characters i.e. Alphabets and Numbers.
+            var letters = /^[a-zA-Z ]+$/;
+            var cnic = /^[0-9-]+$/;
+            var email = /^(([^<>()[\]\\.,;:\s@@"]+(\.[^<>()[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+            if (TeacherName.length < 0 || !(TeacherName.match(letters))) {
+
+                event.preventDefault();
+                toastr.error("Cannot Insert Numeric And Special Characters Into Name");
+
+            }
+            if (TeacherCnic.length < 0 || !(TeacherCnic.match(cnic))) {
+
+                event.preventDefault();
+                toastr.error("Cannot Insert Alphabet And Special Characters Into Cnic");
+
+            }
+            if (TeacherEmail.length < 0 || !(TeacherEmail.match(email))) {
+
+                event.preventDefault();
+                toastr.error("Incorrect Email Format");
+
+            }
+            if (TeacherMobNumber.length < 0 || !(TeacherMobNumber.match(cnic))) {
+
+                event.preventDefault();
+                toastr.error("Cannot Insert Alphabet And Special Characters Into MibileNumber");
+
+            }
+            if (TeacherDesignation.length < 0 || !(TeacherDesignation.match(letters))) {
+
+                event.preventDefault();
+                toastr.error("Cannot Insert Numeric And Special Characters Into Designation");
+
+            }
+            if (TeacherDepartment.length < 0 || !(TeacherDepartment.match(letters))) {
+
+                event.preventDefault();
+                toastr.error("Cannot Insert Numeric And Special Characters Into Department");
+
+            }
+
+        });
+
+
     });
 
 
 
 
     //function to show imae in div after browse
-     function readURL(input) {
+    function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
             reader.onload = function (e) {
                 $('#teacher_image')
                     .attr('src', e.target.result)
-                   // .width(150)
-                   // .height(170)
+                // .width(150)
+                // .height(170)
             };
 
             reader.readAsDataURL(input.files[0]);
