@@ -20,12 +20,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <table id="test" class="display" style="width:100%">
+                            <table id="tblViewResult" class="display" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Question</th>
                                         <th>Answer</th>
                                         <th>CorrectAnswer</th>
+                                        <th>Marks</th>
                                         <th>Marks Obtained</th>
                                     </tr>
                                 </thead>
@@ -43,7 +44,8 @@
                                                 <td>@item.Answer</td>
                                             }
                                             <td>@item.CorrectAnswer</td>
-                                            <td><input asp-for="@item.Marks_Obtained" class="form-control"></td>
+                                            <td data-marks="@item.Marks">@item.Marks</td>
+                                            <td><input data-question-id="@item.Question_Id" asp-for="@item.Marks_Obtained" class="form-control"></td>
                                         </tr>
                                     }
                                 </tbody>
@@ -53,10 +55,14 @@
                     <div class="row">
                         <div class="col-md-2">
                             <div class="form-group">
-                                <button id="btnSave" class="btn btn-primary btn-block">Save</button>
+                                <button id="btnSave" type="button" class="btn btn-primary btn-block">Save</button>
                             </div>
                         </div>
                     </div>
+                    @{
+                        TempData["TestId"] = ViewBag.TestId;
+                        TempData["StudentId"] = ViewBag.StudentId;
+                    }
                 </div>
             </div>
         </div>
@@ -65,4 +71,79 @@
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<script>
+
+    var data = new FormData();
+
+    $(document).ready(function () {
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+
+        $('#btnSave').click(function () {
+            GetValuesFromForm();
+        });
+
+    });
+
+    function getDataFromDiv(results) {
+
+        data = new FormData();
+
+        var isFailed = false;
+
+        $('#tblViewResult > tbody  > tr').each(function (index, tr) {
+            var marks = '';
+            $(tr).find("td").each(function () {
+                if ($(this).attr('data-marks') != undefined) {
+                    marks = $(this).attr('data-marks');
+                }
+                if ($(this).find("input").length > 0) {
+                    if (parseInt($($(this).find("input")[0]).val(), 10) > parseInt(marks, 10)) {
+                        isFailed = true;
+                        results = [];
+                        return isFailed;
+                    }
+                    var resultObj = {
+                        marksObtained: $($(this).find("input")[0]).val(),
+                        questionId: $(this).find("input").attr("data-question-id")
+                    };
+                    results.push(resultObj)
+                }
+            });
+        });
+
+        data.append('results', JSON.stringify(results));
+
+        return isFailed;
+    }
+
+    function GetValuesFromForm() {
+
+        var results = [];
+
+        var res = getDataFromDiv(results);
+
+        if (!res) {
+            $.ajax({
+                url: '@Url.Action("viewTestResult", "teachers/test")',
+                method: 'POST',
+                processData: false,
+                contentType: false,
+                data: data,
+                success: function Success(response) {
+                    alert('Data successfully saved');
+                },
+                error: function (msg) {
+                    alert('Failed to Save Data');
+                }
+            });
+        } else {
+            alert("Marks obtained can't be greater than total marks");
+        }
+
+
+    }
+
+</script>
 

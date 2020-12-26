@@ -201,11 +201,37 @@ namespace LMS.BusinessLogics.Repositories
                                     CorrectAnswer = t.Correct_Answer ?? "Subjected on Teacher",
                                     Answer_Type_Id = std.Answer_Type_Id,
                                     Marks_Obtained = std.Marks_Obtained,
-                                    Marks = t.
+                                    Marks = t.Question_Marks,
+                                    Question_Id = std.Question_Id
                                 }
                              ).ToList();
 
             return TestResult;
+        }
+
+        public async Task<StudentTestDetail> GetStudentTestDetailById(int StudentId, int TestId, int QuestionId)
+        {
+            var studentTestDetail = await _lmsDbContext.StudentTestDetail
+                     .AsNoTracking()
+                     .FirstOrDefaultAsync(s => s.Student_Id == StudentId && s.Test_Id == TestId && s.Question_Id == QuestionId);
+
+            return studentTestDetail;
+        }
+
+        public async Task<int> UpdateStudentTestDetail(StudentTestDetail objStudentTestDetail)
+        {
+            try
+            {
+                _lmsDbContext.StudentTestDetail.Update(objStudentTestDetail);
+
+                await _lmsDbContext.SaveChangesAsync();
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
         }
     }
 }

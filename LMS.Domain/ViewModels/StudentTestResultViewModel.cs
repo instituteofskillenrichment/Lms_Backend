@@ -4,6 +4,7 @@ namespace LMS.Domain.ViewModels
 {
     public class StudentTestResultViewModel
     {
+        public int Question_Id { get; set; }
         public int Student_Id { get; set; }
         public int Test_Id { get; set; }
         public string Student_Name { get; set; }

@@ -335,8 +335,43 @@ namespace LMS.Areas.Teachers.Controllers
             TestResults.ToList().ForEach(x => x.Answer = x.Answer_Type_Id == 3 ? _config.GetSection("AppSettings").GetSection("AnswerFilesPath").Value + x.Answer : x.Answer);
 
             ViewBag.TestId = testId;
+            ViewBag.StudentId = studentId;
 
             return View(TestResults);
+        }
+
+        [Route("viewTestResult")]
+        [HttpPost]
+        public async Task<IActionResult> ViewTestResult()
+        {
+            try
+            {
+                string result = Request.Form.Where(x => x.Key == "results").FirstOrDefault().Value;
+
+                var root = JsonConvert.DeserializeObject<List<Result>>(result);
+
+                if (ModelState.IsValid)
+                {
+                    for (int i = 0; i < root.Count; i++)
+                    {
+                        var newStudentTestDetail = await _TeacherTestRepository.GetStudentTestDetailById(Convert.ToInt32(TempData["StudentId"]), Convert.ToInt32(TempData["TestId"]), root[i].QuestionId);
+                        
+                        newStudentTestDetail.Marks_Obtained = root[i].MarksObtained;
+
+                        await _TeacherTestRepository.UpdateStudentTestDetail(newStudentTestDetail);
+                    }
+
+                    return RedirectToAction("Index", "Test", new { area = "Teachers" });
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw;
+            }
+
+            return View();
         }
     }
 }

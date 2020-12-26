@@ -35,7 +35,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @{ 
+                            @{
                                 TempData["TestId"] = ViewBag.TestId;
                             }
                         </form>
@@ -223,10 +223,6 @@
         var questions = [];
 
         getDataFromDiv(questions);
-
-            //var data = {
-            //    tests: questions
-            //}
 
             $.ajax({
                 url: '@Url.Action("addtestdetails", "teachers/test")',
