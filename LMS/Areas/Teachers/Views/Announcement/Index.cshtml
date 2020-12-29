@@ -75,7 +75,7 @@
                     <div id="addAnnouncementModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form method="post" asp-controller="announcement" asp-action="addAnnouncement">
+                                <form method="post" asp-controller="announcement" asp-action="addAnnouncement" id="addForm">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Add Announcement</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -121,7 +121,7 @@
                                             <div class="col-md-12 pl-1">
                                                 <div class="form-group">
                                                     <label>Announcement Detail</label>
-                                                    <textarea name="Announcement_Detail" class="form-control" style="border: 1px solid #174876; border-radius: .25rem;"></textarea>
+                                                    <textarea id="Announcement_Detail" name="Announcement_Detail" class="form-control" style="border: 1px solid #174876; border-radius: .25rem;"></textarea>
                                                 </div>
                                             </div>
 
@@ -142,7 +142,7 @@
                     <div id="editAnnouncementModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form method="post" asp-controller="announcement" asp-action="editAnnouncement">
+                                <form method="post" asp-controller="announcement" asp-action="editAnnouncement" id="editForm">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Edit Announcement</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -302,6 +302,60 @@
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
+
+
+        $("#addForm, #editForm").submit(function (event) {
+
+           
+
+            var AnnouncementDetail = $('#Announcement_Detail').val();
+            var ClassName = $('#Class_Id').val();
+            var SectioName = $('#Section_Id').val();
+            var SubjecName = $('#Subject_Id').val();
+            var AnnouncementDate = $('#Announcement_Date').val();
+
+
+            if (ClassName === "0" || SectioName === "0" || SubjecName === "0")
+            {
+                
+                ClassName = $('#editAnnouncementModal #Class_Id').val();
+                SectioName = $('#editAnnouncementModal #Section_Id').val();
+                SubjecName = $('#editAnnouncementModal #Subject_Id').val();
+            } 
+            if (AnnouncementDate === '' ) {
+
+                AnnouncementDate = $('#editAnnouncementModal #Announcement_Date').val();
+            } 
+            if (AnnouncementDetail === '') {
+
+                AnnouncementDetail = $('#editAnnouncementModal #Announcement_Detail').val();
+                
+            } 
+
+
+            if (ClassName === "0" || SectioName === "0" || SubjecName === "0") {
+
+                event.preventDefault();
+                toastr.error("Kindly Select Class, Section, Subject");
+
+            }
+            if (AnnouncementDate === '' ) {
+
+                event.preventDefault();
+                toastr.error("Date and Time Is Not Selected");
+
+            }
+            if (AnnouncementDetail.length < 0 || AnnouncementDetail === '') {
+
+                event.preventDefault();
+                toastr.error("Announcement Detail Cannot Be Empty");
+
+            }
+            
+
+
+        });
+
 
 
         //Get ClassSection_Id for Delete Added By Absar

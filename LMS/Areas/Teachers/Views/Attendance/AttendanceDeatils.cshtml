@@ -47,11 +47,10 @@
                             <br />
                             <div class="row">
                                 <table id="AttendanceDetailPage" class="display" style="width:100%">
-                                    <thead>
+                                    <thead class="aThead">
                                         <tr>
                                             <th>Session Id</th>
                                             <th>Session Name</th>
-                                            <th>Student Id</th>
                                             <th>Student Name</th>
                                             <th>Class</th>
                                             <th>Section</th>
@@ -67,7 +66,6 @@
                                             <tr>
                                                 <td>@item.Session_Id</td>
                                                 <td>@item.Session_Name</td>
-                                                <td>@item.Student_Id</td>
                                                 <td>@item.Student_Name</td>
                                                 <td>@item.Class_Name</td>
                                                 <td>@item.Section_Name</td>
@@ -90,20 +88,19 @@
                                             </tr>
                                         }
                                     </tbody>
-                                    @*<tfoot>
-                                            <tr>
-                                                <th>Session Id</th>
-                                                <th>Session Name</th>
-                                                <th>Student Id</th>
-                                                <th>Student Name</th>
-                                                <th>Class</th>
-                                                <th>Section</th>
-                                                <th>Subject</th>
-                                                <th>Date</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </tfoot>*@
+                                    <tfoot class="aThead">
+                                        <tr>
+                                            <th>Session Id</th>
+                                            <th>Session Name</th>
+                                            <th>Student Name</th>
+                                            <th>Class</th>
+                                            <th>Section</th>
+                                            <th>Subject</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
 
@@ -118,7 +115,7 @@
                     <div id="editAttendanceModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form method="post" asp-controller="attendance" asp-action="editAttendance">
+                                <form method="post" asp-controller="attendance" asp-action="editAttendance" id="editForm">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Edit Attendance</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -131,15 +128,16 @@
 
                                         <div class="form-group">
                                             <label>Student Id </label>
-                                            <input type="text" class="form-control" required="" name="Student_Id" id="Student_Id">
+                                            <input type="text" class="form-control" required="" name="Student_Id" id="Student_Id" readonly>
                                         </div>
                                         <div class="form-group">
                                             <label>Student Name </label>
-                                            <input type="text" class="form-control" required="" name="Student_Name" id="Student_Name">
+                                            <input type="text" class="form-control" required="" name="Student_Name" id="Student_Name" readonly>
                                         </div>
                                         <div class="form-group">
                                             <label>Status</label>
                                             <select id="Status" name="Status" class="form-control">
+                                                <option value="0">--Select--</option>
                                                 <option value="Absent">Absent</option>
                                                 <option value="Present">Present</option>
                                                 <option value="Leave">Leave</option>
@@ -303,17 +301,49 @@
         $('[data-toggle="tooltip"]').tooltip();
 
 
-        //$('#datepicker_from').datepicker({
-        //    format: "dd M yyyy",
-        //    weekStart: 1,
-        //    daysOfWeekHighlighted: "0",
-        //    autoclose: true,
-        //    todayHighlight: true
-        //});
+        //Check If Form Validation for Add
+        $("#editForm").submit(function (event) {
 
-        //// Add event listeners to the two range filtering inputs
-        //$('#datepicker_from,#datepicker_to').change(function () { $('#AttendanceDetailPage').DataTable().fnDraw(); });
 
+
+            var StdId = $("#Student_Id").val();
+            var StudentName = $("#Student_Name").val();
+            var AtdStatus = $("#Status").val();
+            
+
+            
+
+            if (StdId === '' || StudentName === '') {
+
+
+                var letters = /^[a-zA-Z ]+$/;
+
+                if (StdId.length < 0 || !(StdId.match(letters)) || StudentName.length < 0 || !(StudentName.match(letters))) {
+
+
+                    event.preventDefault();
+                    toastr.error("Cannot Insert Null, Negative Values And Special Characters Into Student Name");
+
+                }
+                else
+                {
+                    event.preventDefault();
+                    toastr.error("Student Id And Name Cannot Be Null");
+                }
+
+
+                
+
+            }
+            if (AtdStatus === "0") {
+
+                event.preventDefault();
+                toastr.error("Kindly Select Status");
+
+            }
+            
+            
+        });
 
 
         //Get Id for Delete Added By Absar

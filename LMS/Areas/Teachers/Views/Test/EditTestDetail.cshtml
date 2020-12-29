@@ -11,7 +11,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="title">Edit Test</h5>
+                    <h5 class="title">Edit Assessment</h5>
                 </div>
                 <div class="card-body">
                     <form asp-controller="Test" asp-action="EditTestDetail">
@@ -49,9 +49,9 @@
                                             <div id="qa1" class="col-md-6">
                                                 
                                                     <label>File Upload</label>
-                                                    <input asp-for="File" class="form-control" style="opacity: 1;margin-top: 30px;height: 40px;font-size: 1.3em;" />
+                                                    <input asp-for="File" class="form-control" style="opacity: 1;margin-top: 30px;height: 40px;font-size: 1.2em;margin-left:15px;" />
                                                 
-                                                </div>
+                                            </div>
 
                                         }
 
@@ -65,7 +65,7 @@
                                                 </div>
 
 
-                                                <div class="col-md-3">
+                                                <div class="col-md-3" style="margin-left:15px;">
                                                     <div class="form-group qa1">
                                                         <label>Question Type</label>
                                                         <select asp-for="Test_Type_Id" class="form-control ddlType" asp-items="@(new SelectList(ViewBag.TestTypeList, "Test_Type_Id", "Test_Type_Name"))"></select>

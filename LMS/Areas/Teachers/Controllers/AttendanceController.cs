@@ -98,7 +98,7 @@ namespace LMS.Areas.Teachers.Controllers
             {
                 Session newSession = new Session
                 {
-                    Session_Name = objVM.Session_Name,
+                    Session_Name = objVM.Session_Name.ToUpper(),
                     Date = objVM.Session_Date.ToString("yyyyMMdd"),
                     Start_Time = objVM.Session_Start_Time.ToString("HHmmss"),
                     End_Time = objVM.Session_End_Time.ToString("HHmmss"),
@@ -178,7 +178,7 @@ namespace LMS.Areas.Teachers.Controllers
             {
                 Session objSession = await _tPAttendanceRepository.GetSessionById(sessionModel.Session_Id);
 
-                objSession.Session_Name = sessionModel.Session_Name;
+                objSession.Session_Name = sessionModel.Session_Name.ToUpper();
                 objSession.Date = sessionModel.Session_Date.ToString("yyyyMMdd");
                 objSession.Start_Time = sessionModel.Session_Start_Time.ToString("HHmmss");
                 objSession.End_Time = sessionModel.Session_End_Time.ToString("HHmmss");
@@ -300,7 +300,7 @@ namespace LMS.Areas.Teachers.Controllers
                         Status = atd.Status,
                         Session_Id = atd.Session_Id,
                         Student_Id = atd.Student_Id,
-                        Student_Name = atd.Student_Name,
+                        Student_Name = atd.Student_Name.ToUpper(),
                         Class_Id = atd.Class_Id,
                         Section_Id = atd.Section_Id,
                         //Subject_Id = 0,

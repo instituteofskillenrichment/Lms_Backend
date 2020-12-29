@@ -21,7 +21,7 @@
                                 <div class="form-group">
                                     <label>Book Name</label>
 
-                                    <input asp-for="Book_Name" type="text" class="form-control" placeholder="Book Name">
+                                    <input asp-for="Book_Name" type="text" class="form-control" placeholder="Book Name" id="Book_Name">
 
                                 </div>
                                 <div class="form-group">
@@ -120,14 +120,27 @@
     $("#addForm").submit(function (event) {
 
         var fileInput = $("#fileUpload").val();
+        var BookName = $("#Book_Name").val();
+        var Category = $("#BookCategory_Id").val();
 
-        if ($("#BookCategory_Id").val() === "0" || fileInput === '') {
+        if (Category === "-1" ) {
 
             event.preventDefault();
-            toastr.error("Kindly Category And File To Upload");
+            toastr.error("Kindly Select Category");
 
         }
+        if (fileInput === '') {
 
+            event.preventDefault();
+            toastr.error("Kindly Upload Any File");
+
+        }
+        if (BookName === '') {
+
+            event.preventDefault();
+            toastr.error("Book Name Cannot Be Empty");
+
+        }
 
     });
 

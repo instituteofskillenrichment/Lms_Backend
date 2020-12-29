@@ -68,7 +68,7 @@
                     <div id="addAssessmentModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form method="post" asp-controller="test" asp-action="addAssessmentType">
+                                <form method="post" asp-controller="test" asp-action="addAssessmentType" id="addForm">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Add Assessment Type</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -76,8 +76,8 @@
                                     <div class="modal-body">
                                         
                                         <div class="form-group">
-                                            <label>Assessment Type Name</label>
-                                            <input type="text" class="form-control" required="" name="Assessment_Type_Name">
+                                            <label>Assessment Type Name *</label>
+                                            <input type="text" class="form-control" required="" name="Assessment_Type_Name" id="Assessment_Type_Name">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -94,7 +94,7 @@
                     <div id="editAssessmentModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form method="post" asp-controller="test" asp-action="editAssessmentType">
+                                <form method="post" asp-controller="test" asp-action="editAssessmentType" id="editForm">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Edit Assessment Type</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -105,7 +105,7 @@
                                             <input type="text" class="form-control" required="" id="Assessment_Type_Id" disabled="disabled">
                                         </div>
                                         <div class="form-group">
-                                            <label>Assessment Type Name</label>
+                                            <label>Assessment Type Name *</label>
                                             <input type="text" class="form-control" required="" name="Assessment_Type_Name" id="Assessment_Type_Name">
                                         </div>
                                     </div>
@@ -217,11 +217,34 @@
         else if (messageError.length > 0)  {
             toastr.error(messageError);
         }
-
-
+        
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
+
+        //Check If Class Name non Negative
+        $("#addForm, #editForm").submit(function (event) {
+
+           
+
+            var AssessmentName = $('#Assessment_Type_Name').val();
+
+            if (AssessmentName === '') {
+                var AssessmentName = $('#editAssessmentModal #Assessment_Type_Name').val();
+            }
+
+            //Regex for Valid Characters i.e. Alphabets and Numbers.
+            var letters = /^[0-9a-zA-Z _-]+$/;
+
+            if (AssessmentName.length < 0 || !(AssessmentName.match(letters))) {
+
+                event.preventDefault();
+                toastr.error("Cannot Insert Special Characters");
+
+            }
+
+
+        });
 
 
         //Get Assessment_Id for Delete Added By Absar

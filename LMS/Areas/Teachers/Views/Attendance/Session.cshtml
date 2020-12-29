@@ -28,7 +28,7 @@
                             </div>
 
                             <table id="sessionpage" class="display" style="width:100%">
-                                <thead>
+                                <thead class="aThead">
                                     <tr>
                                         <th>Session ID</th>
                                         <th>Session Title</th>
@@ -45,44 +45,58 @@
                                 <tbody>
                                     @foreach (var item in Model.Sessions)
                                     {
-                                    <tr>
-                                        <td>@item.Session_Id</td>
-                                        <td>@item.Session_Name</td>
-                                        <td>@item.Session_Date.ToShortDateString()</td>
-                                        <td>@item.Session_Start_Time.ToShortTimeString()</td>
-                                        <td>@item.Session_End_Time.ToShortTimeString()</td>
-                                        <td>@item.Class_Name</td>
-                                        <td>@item.Section_Name</td>
-                                        <td>@item.Subject_Name</td>
-                                        <td>
-                                            @*<a asp-area="teachers" asp-controller="attendance" asp-action="classSubjectDetail" asp-route-id="@item.Session_Id" class="detail" id="detail">
-                                                <i class="fa fa-list" aria-hidden="true" style="font-size:24px;"></i>
-                                            </a>*@
+                                        <tr>
+                                            <td>@item.Session_Id</td>
+                                            <td>@item.Session_Name</td>
+                                            <td>@item.Session_Date.ToShortDateString()</td>
+                                            <td>@item.Session_Start_Time.ToShortTimeString()</td>
+                                            <td>@item.Session_End_Time.ToShortTimeString()</td>
+                                            <td>@item.Class_Name</td>
+                                            <td>@item.Section_Name</td>
+                                            <td>@item.Subject_Name</td>
+                                            <td>
+                                                @*<a asp-area="teachers" asp-controller="attendance" asp-action="classSubjectDetail" asp-route-id="@item.Session_Id" class="detail" id="detail">
+                            <i class="fa fa-list" aria-hidden="true" style="font-size:24px;"></i>
+                        </a>*@
 
-                                            <a asp-controller="attendance" asp-action="markAttendance" asp-route-Session_Id="@item.Session_Id" class="markAttendance" id="markAttendance">
-                                                <i class="btn btn-primary" title="" data-original-title="MarkAttendance" style="line-height: 1em; border-radius: 2em; background-color:#ae7c38;">Mark Attendance</i>
-                                            </a>
+                                                <a asp-controller="attendance" asp-action="markAttendance" asp-route-Session_Id="@item.Session_Id" class="markAttendance" id="markAttendance">
+                                                    <i class="btn btn-primary" title="" data-original-title="MarkAttendance" style="line-height: 1em; border-radius: 2em; background-color:#ae7c38;">Mark Attendance</i>
+                                                </a>
 
-                                            @*Added BY Absar To get parentid*@
-                                            @*<input type="hidden" class="Session_Id" value="@item.Session_Id" />*@
-                                        </td>
-                                        <td>
-                                            <a href="#editSessionModal" class="edit" id="edit" data-toggle="modal">
-                                                <i class="material-icons" title="" data-original-title="Edit"></i>
-                                            </a>
+                                                @*Added BY Absar To get parentid*@
+                                                @*<input type="hidden" class="Session_Id" value="@item.Session_Id" />*@
+                                            </td>
+                                            <td>
+                                                <a href="#editSessionModal" class="edit" id="edit" data-toggle="modal">
+                                                    <i class="material-icons" title="" data-original-title="Edit"></i>
+                                                </a>
 
-                                            <a href="#deleteSessionModal" class="delete" id="delete" data-toggle="modal">
-                                                <i class="material-icons" title="" data-original-title="Delete"></i>
-                                            </a>
+                                                <a href="#deleteSessionModal" class="delete" id="delete" data-toggle="modal">
+                                                    <i class="material-icons" title="" data-original-title="Delete"></i>
+                                                </a>
 
-                                            @*Added BY Absar To get parentid*@
-                                            <input type="hidden" class="Session_Id" value="@item.Session_Id" />
+                                                @*Added BY Absar To get parentid*@
+                                                <input type="hidden" class="Session_Id" value="@item.Session_Id" />
 
 
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
                                     }
                                 </tbody>
+                                <tfoot class="aThead">
+                                    <tr>
+                                        <th>Session ID</th>
+                                        <th>Session Title</th>
+                                        <th>Date</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Class</th>
+                                        <th>Section</th>
+                                        <th>Subject</th>
+                                        <th>Mark Attendance</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                             <div class="clearfix">
 
@@ -93,7 +107,7 @@
                     <div id="addSessionModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form method="post" asp-controller="attendance" asp-action="addSession">
+                                <form method="post" asp-controller="attendance" asp-action="addSession" id="addForm">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Add Session</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -102,15 +116,15 @@
                                         <div class=" row">
                                             <div class="col-md-6 pr-1">
                                                 <div class="form-group">
-                                                    <label>Session Title</label>
-                                                    <input type="text" class="form-control" required="" name="Session_Name">
+                                                    <label>Session Title *</label>
+                                                    <input type="text" class="form-control" required="" name="Session_Name" id="Session_Name">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 pl-1">
 
                                                 <div class="form-group">
-                                                    <label>Date</label>
-                                                    <input class="form-control" type="date" data-val="true" data-val-required="The Date field is required." id="Session_Date" name="Session_Date" value="">
+                                                    <label>Date *</label>
+                                                    <input  class="form-control" type="date" data-val="true" data-val-required="The Date field is required." id="Session_Date" name="Session_Date" value="">
                                                 </div>
                                             </div>
                                         </div>
@@ -118,14 +132,14 @@
                                         <div class=" row">
                                             <div class="col-md-6 pr-1">
                                                 <div class="form-group">
-                                                    <label>Start Time</label>
+                                                    <label>Start Time *</label>
                                                     <input class="form-control" type="time" data-val="true" data-val-required="The Session_Start_Time field is required." id="Session_Start_Time" name="Session_Start_Time" value="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 pl-1">
 
                                                 <div class="form-group">
-                                                    <label>End Time</label>
+                                                    <label>End Time *</label>
                                                     <input class="form-control" type="time" data-val="true" data-val-required="The Session_End_Time field is required." id="Session_End_Time" name="Session_End_Time" value="">
                                                 </div>
                                             </div>
@@ -134,7 +148,7 @@
                                         <div class=" row">
                                             <div class="col-md-4 pr-1">
                                                 <div class="form-group">
-                                                    <label>Class </label>
+                                                    <label>Class *</label>
                                                     <select id="Class_Id" name="Class_Id" class="form-control" asp-for="Class_Id" asp-items="@Model.Classes">
                                                         <option value="0">--Select--</option>
                                                     </select>
@@ -143,7 +157,7 @@
                                             <div class="col-md-4 pl-1">
 
                                                 <div class="form-group">
-                                                    <label>Section </label>
+                                                    <label>Section *</label>
                                                     <select id="Section_Id" name="Section_Id" class="form-control" asp-for="Section_Id" asp-items="@Model.Sections">
                                                         <option value="0">--Select--</option>
                                                     </select>
@@ -152,7 +166,7 @@
                                             <div class="col-md-4 pl-1">
 
                                                 <div class="form-group">
-                                                    <label>Subject </label>
+                                                    <label>Subject *</label>
                                                     <select id="Subject_Id" name="Subject_Id" class="form-control" asp-for="Subject_Id" asp-items="@Model.Subjects">
                                                         <option value="0">--Select--</option>
                                                     </select>
@@ -175,7 +189,7 @@
                     <div id="editSessionModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form method="post" asp-controller="attendance" asp-action="editSession">
+                                <form method="post" asp-controller="attendance" asp-action="editSession" id="editForm">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Edit Session</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -184,14 +198,14 @@
                                         <div class=" row">
                                             <div class="col-md-6 pr-1">
                                                 <div class="form-group">
-                                                    <label>Session Title</label> 
+                                                    <label>Session Title *</label> 
                                                     <input type="text" class="form-control" required="" name="Session_Name" id="Session_Name">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 pl-1">
 
                                                 <div class="form-group">
-                                                    <label>Date </label>
+                                                    <label>Date *</label>
                                                     <input class="form-control" type="date" data-val="true" data-val-required="The Date field is required." id="Session_Date" name="Session_Date" value="">
                                                 </div>
                                             </div>
@@ -200,14 +214,14 @@
                                         <div class=" row">
                                             <div class="col-md-6 pr-1">
                                                 <div class="form-group">
-                                                    <label>Start Time</label>
+                                                    <label>Start Time *</label>
                                                     <input class="form-control" type="time" data-val="true" data-val-required="The Session_Start_Time field is required." id="Session_Start_Time" name="Session_Start_Time" value="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 pl-1">
 
                                                 <div class="form-group">
-                                                    <label>End Time</label>
+                                                    <label>End Time *</label>
                                                     <input class="form-control" type="time" data-val="true" data-val-required="The Session_End_Time field is required." id="Session_End_Time" name="Session_End_Time" value="">
                                                 </div>
                                             </div>
@@ -216,22 +230,28 @@
                                         <div class=" row">
                                             <div class="col-md-4 pr-1">
                                                 <div class="form-group">
-                                                    <label>Class </label>
-                                                    <select id="Class_Id" name="Class_Id" class="form-control" asp-for="Class_Id" asp-items="@Model.Classes"></select>
+                                                    <label>Class *</label>
+                                                    <select id="Class_Id" name="Class_Id" class="form-control" asp-for="Class_Id" asp-items="@Model.Classes">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 pl-1">
 
                                                 <div class="form-group">
-                                                    <label>Section </label>
-                                                    <select id="Section_Id" name="Section_Id" class="form-control" asp-for="Section_Id" asp-items="@Model.Sections"></select>
+                                                    <label>Section *</label>
+                                                    <select id="Section_Id" name="Section_Id" class="form-control" asp-for="Section_Id" asp-items="@Model.Sections">
+                                                    <option value="0">--Select--</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 pl-1">
 
                                                 <div class="form-group">
-                                                    <label>Subject </label>
-                                                    <select id="Subject_Id" name="Subject_Id" class="form-control" asp-for="Subject_Id" asp-items="@Model.Subjects"></select>
+                                                    <label>Subject *</label>
+                                                    <select id="Subject_Id" name="Subject_Id" class="form-control" asp-for="Subject_Id" asp-items="@Model.Subjects">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -354,6 +374,66 @@
         $('[data-toggle="tooltip"]').tooltip();
 
 
+        //Check If Form Validation for Add
+        $("#addForm, #editForm").submit(function (event) {
+
+            
+
+            var ClassName = $("#Class_Id").val();
+            var SectionName = $("#Section_Id").val();
+            var SubjectName = $("#Subject_Id").val();
+            var StartTime = $("#Session_Start_Time").val();
+            var EndTime = $("#Session_End_Time").val();
+            var SessionDate = $("#Session_Date").val();
+            var sessionName = $("#Session_Name").val()
+
+            if (ClassName === '' || SectionName === '' || SubjectName === '' || StartTime === '' || EndTime === '' || SessionDate === '' || sessionName === '')
+            {
+                ClassName =   $('#editSessionModal #Class_Id').val();
+                SectionName = $('#editSessionModal #Section_Id').val();
+                SubjectName = $('#editSessionModal #Subject_Id').val();
+                StartTime =   $('#editSessionModal #Session_Start_Time').val();
+                EndTime =     $('#editSessionModal #Session_End_Time').val();
+                SessionDate = $('#editSessionModal #Session_Date').val();
+                sessionName = $('#editSessionModal #Session_Name').val()
+            }
+            
+            if (ClassName === "0" || SectionName === "0" || SubjectName === "0") {
+
+                event.preventDefault();
+                toastr.error("Kindly Select Class,Section And Subject");
+
+            }
+            if (StartTime === '' || EndTime === '') {
+
+                event.preventDefault();
+                toastr.error("Kindly Select Start And End Date");
+
+            }
+            if (SessionDate === '') {
+
+                event.preventDefault();
+                toastr.error("Date Is Not Selected");
+
+            }
+            //Regex for Valid Characters i.e. Alphabets and Numbers.
+            var letters = /^[0-9a-zA-Z -]+$/;
+            if (sessionName.length < 0 || !(sessionName.match(letters))) {
+
+
+                event.preventDefault();
+                toastr.error("Cannot Insert Special Characters Into Session Name");
+
+            }
+
+
+        });
+
+
+        
+
+
+
         //Get Session_Id for Delete Added By Absar
         $('#sessionpage #delete').on('click', function () {
             var Session_Id = $(this).parent().find('.Session_Id').val();
@@ -399,13 +479,42 @@
             });
         });
 
+        
 
 
         $('#sessionpage').DataTable({
-            /* Disable initial sort */
-           // "aaSorting": []
-        });
 
+            "bLengthChange": false,
+            "fixedHeader": { header: true, footer: true },
+
+            responsive: false,
+            //autoWidth: false,
+            //aaSorting: [[2, 'asc']],
+            //cache: true,
+
+
+            initComplete: function () {
+                this.api().columns([5, 6, 7]).every(function () {
+                    var column = this;
+                    //var theadname = $('#AttendanceDetailPage th').eq([d]).text();
+                    var select = $(' <select><option value="">ALL</option></select>')
+                        .appendTo($(column.header()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
 
 
 

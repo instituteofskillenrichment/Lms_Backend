@@ -15,7 +15,7 @@
                     <h5 class="title">Add Question</h5>
                 </div>
                 <div class="card-body">
-                    <form enctype="multipart/form-data">
+                    <form enctype="multipart/form-data" id="addForm">
                         <div class="row">
                             <div class="col-md-6 pr-1">
                                 <div class="form-group">
@@ -116,6 +116,11 @@
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
+
+        
+
+
+
         $("#txtQuestionCount").keyup(function (e) {
             if (e.keyCode == 8) {
                 if ($(this).length == 1) {
@@ -137,6 +142,8 @@
         });
 
         $('#btnSubmit').click(function () {
+
+            
             GetValuesFromForm();
         });
 
@@ -151,7 +158,7 @@
     function generateTextBoxes(count) {
 
         for (var i = 0; i < count; i++) {
-            $('#divQuestions').append(`<div class="questionObj"><div class="row"><div class="col-md-12 pr-1"><div class="form-group"><label>Question ` + (i + 1) + `</label><input type="text" class="form-control" placeholder="Question ` + (i + 1) + `" id="q` + (i + 1) + `"></div></div></div>
+            $('#divQuestions').append(`<div class="questionObj"><div class="row"><div class="col-md-12 pr-1"><div class="form-group"><label>Question ` + (i + 1) + `</label><input type="text" class="form-control" name="question" placeholder="Question ` + (i + 1) + `" id="q` + (i + 1) + `"></div></div></div>
                 <div class="row"><div class="col-md-12 pr-1"><div class="form-group"><div class="row"><div id="qa` + (i + 1) + `" class="col-md-6"><input type="text" class="form-control" placeholder="Answer1" value=""><input type="text" class="form-control" placeholder="Answer2" value=""><input type="text" class="form-control" placeholder="Answer3" value=""><input type="text" class="form-control" placeholder="Answer4" value=""></div><div class="col-md-3"><div class="form-group"><label>Correct Answer</label><select class="form-control"><option>A</option><option>B</option><option>C</option><option>D</option></select></div></div><div class="col-md-3"><div class="form-group"><label>Question Type</label><select  class="form-control ddlType"><option value='1'>MCQ</option><option value='2'>Textual answer</option><option value='3'>File upload</option></select></div></div></div><br/><div class="row col-md-3"><input type="number" class="form-control" name="marks" placeholder="Marks"></div></div></div></div></div> <br/>`);
         }
 
@@ -194,7 +201,7 @@
         $('#' + id).append(`<div class="form-group">
                             <label>File Upload</label>
                             <br />
-                            <input type="file" class="form-control" style="opacity: 1;margin-top: 30px;height: 40px;font-size: 1.3em;" />
+                            <input type="file" class="form-control" style="opacity: 1;margin-top: 30px;height: 40px;font-size: 1.2em;" />
                             </div>`);
     }
 
@@ -261,7 +268,8 @@
         data.append('tests', JSON.stringify(questions));
     }
 
-    function GetValuesFromForm() {
+    function GetValuesFromForm()
+    {
 
         var questions = [];
 

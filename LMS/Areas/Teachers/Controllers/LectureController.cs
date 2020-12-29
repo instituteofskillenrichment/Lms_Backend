@@ -134,7 +134,7 @@ namespace LMS.Areas.Teachers.Controllers
 
                         Lecture newLecture = new Lecture
                         {
-                            Lecture_Name = objLecture.Lecture_Name,
+                            Lecture_Name = objLecture.Lecture_Name.ToUpper(),
                             Lecture_Detail = objLecture.Lecture_Detail,
                             Lecture_File = uniqueFileName,
                             LecturePost_Date = objLecture.LecturePost_Date.ToString("yyyyMMdd"), //DateTime.Now.ToString(),
@@ -274,7 +274,7 @@ namespace LMS.Areas.Teachers.Controllers
 
                         Lecture Lecture = new Lecture();
                         Lecture.Lecture_Id = model.Id;
-                        Lecture.Lecture_Name = model.Lecture_Name;
+                        Lecture.Lecture_Name = model.Lecture_Name.ToUpper();
                         Lecture.Lecture_Detail = model.Lecture_Detail;
                         Lecture.LecturePost_Date = model.LecturePost_Date.ToString("yyyyMMdd");
                         Lecture.Teacher_Id = HttpContext.Session.GetInt32("UserId") ?? 0;

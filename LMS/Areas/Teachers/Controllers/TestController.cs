@@ -134,7 +134,7 @@ namespace LMS.Areas.Teachers.Controllers
             {
                 Test newTest = new Test
                 {
-                    Test_Name = objTest.Test_Name,
+                    Test_Name = objTest.Test_Name.ToUpper(),
                     Test_Instruction = objTest.Test_Instruction,
                     Start_Time = Convert.ToDateTime(objTest.Start_Time).ToString("HHmmss"),
                     End_Time = Convert.ToDateTime(objTest.End_Time).ToString("HHmmss"),
@@ -243,7 +243,7 @@ namespace LMS.Areas.Teachers.Controllers
 
                 Test objTest = await _TeacherTestRepository.GetTestById(testModel.Test_Id);
 
-                objTest.Test_Name = testModel.Test_Name;
+                objTest.Test_Name = testModel.Test_Name.ToUpper();
                 objTest.Test_Instruction = testModel.Test_Instruction;
                 objTest.Start_Time = Convert.ToDateTime(testModel.Start_Time).ToString("HHmmss");
                 objTest.End_Time = Convert.ToDateTime(testModel.End_Time).ToString("HHmmss");

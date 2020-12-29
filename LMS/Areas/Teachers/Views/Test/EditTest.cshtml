@@ -14,19 +14,19 @@
                     <h5 class="title">Edit Assessment</h5>
                 </div>
                 <div class="card-body">
-                    <form asp-controller="Test" asp-action="EditTest" asp-area="teachers">
+                    <form asp-controller="Test" asp-action="EditTest" asp-area="teachers" id="editForm">
                         <div class="row">
                             <div class="col-md-6 pr-1">
                                 <div class="form-group">
-                                    <label>Assessment Name</label>
-                                    <input asp-for="Test_Name" class="form-control">
+                                    <label>Assessment Name *</label>
+                                    <input id="Test_Name" asp-for="Test_Name" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-6 pl-1">
                                 <div class="form-group">
-                                    <label>Assessment Type</label>
+                                    <label>Assessment Type *</label>
                                     <select id="ddlAssessmentType" asp-for="Assessment_Type_Id" class="form-control" asp-items="@(new SelectList(ViewBag.AssessmentTypeList, "Assessment_Type_Id", "Assessment_Type_Name"))">
-                                        <option value="0">--Select--</option>
+                                        <option value="-1">--Select--</option>
                                     </select>
                                 </div>
                             </div>
@@ -34,19 +34,19 @@
                         <div class="row">
                             <div class="col-md-4 pr-1">
                                 <div class="form-group">
-                                    <label>Class</label>
+                                    <label>Class *</label>
                                     <select id="ddlClass" asp-for="Class_Id" class="form-control" asp-items="@ViewBag.ClassList"></select>
                                 </div>
                             </div>
                             <div class="col-md-4 pl-1">
                                 <div class="form-group">
-                                    <label>Section</label>
+                                    <label>Section *</label>
                                     <select id="ddlSection" asp-for="Section_Id" class="form-control" asp-items="@ViewBag.SectionList"></select>
                                 </div>
                             </div>
                             <div class="col-md-4 pl-1">
                                 <div class="form-group">
-                                    <label>Subject</label>
+                                    <label>Subject *</label>
                                     <select id="ddlSubject" asp-for="Subject_Id" class="form-control" asp-items="@ViewBag.SubjectList"></select>
                                 </div>
                             </div>
@@ -56,12 +56,12 @@
                         <div class="row">
                             <div class="col-md-6 pr-1">
                                 <div class="form-group">
-                                    <label>Start Time</label>
+                                    <label>Start Time 8</label>
                                     @{
                                         var S_Time = Model.Start_Time;
                                         DateTime Start_Time = DateTime.ParseExact(S_Time, "HHmmss", null);
                                     }
-                                    <input asp-for="@Start_Time" type="time" class="form-control">
+                                    <input id="startTime" asp-for="@Start_Time" type="time" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6 pl-1">
@@ -72,7 +72,7 @@
                                         DateTime End_Time = DateTime.ParseExact(E_Time, "HHmmss", null);
 
                                     }
-                                    <input asp-for="@End_Time" type="time" class="form-control">
+                                    <input id="endTime" asp-for="@End_Time" type="time" class="form-control">
                                 </div>
                             </div>
 
@@ -81,17 +81,17 @@
                         <div class="row">
                             <div class="col-md-6 pr-1">
                                 <div class="form-group">
-                                    <label>Assessment Datee</label>
+                                    <label>Assessment Date *</label>
                                     @{
                                         var A_Date = Model.Assessment_Date;
                                         DateTime Assessment_Date = DateTime.ParseExact(A_Date, "yyyyMMdd", null).Date;
                                     }
-                                    <input asp-for="@Assessment_Date" type="date" class="form-control">
+                                    <input id="assessmentDate" asp-for="@Assessment_Date" type="date" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6 pl-1">
                                 <div class="form-group">
-                                    <label>End Time</label>
+                                    <label>Assessment Status</label>
                                     <select id="ddlAssessmentStatus" asp-for="Assessment_Status" class="form-control">
                                         <option value="-1">--Select--</option>
                                         <option value="1">Active</option>
@@ -106,19 +106,19 @@
                             <div class="col-md-4 pr-1">
                                 <div class="form-group">
                                     <label>Total Marks</label>
-                                    <input asp-for="Total_Makrs" class="form-control">
+                                    <input id="totalMarks" asp-for="Total_Makrs" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-4 pr-1">
                                 <div class="form-group">
                                     <label>Passing Marks</label>
-                                    <input asp-for="Passing_Makrs" class="form-control">
+                                    <input id="passingMarks" asp-for="Passing_Makrs" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-4 pr-1">
                                 <div class="form-group">
                                     <label>Weightage(%)</label>
-                                    <input asp-for="Weighatge" class="form-control">
+                                    <input id="weightage" asp-for="Weighatge" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -147,3 +147,126 @@
     </div>
 </div>
 
+
+
+
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+<script>
+    $(document).ready(function () {
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = mm + '/' + dd + '/' + yyyy;
+
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+
+        if (messageSuccess.length > 0) {
+
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0) {
+            toastr.error(messageError);
+        }
+
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+
+        //Check If File Upload IS Empty
+        $("#editForm").submit(function (event) {
+
+            
+
+            var TestName = $('#Test_Name').val();
+            var AssessmentType = $('#ddlAssessmentType').val();
+            var AssessmentStatus = $('#ddlAssessmentStatus').val();
+            var ClassName = $('#ddlClass').val();
+            var SectioName = $('#ddlSection').val();
+            var SubjecName = $('#ddlSubject').val();
+            var StartTime = $('#startTime').val();
+            var EndTime = $('#endTime').val();
+            var AssessmentDate = $('#assessmentDate').val();
+            var TotalMark = $('#totalMarks').val();
+            var PassingMarks = $('#passingMarks').val();
+            var Weightage = $('#weightage').val();
+
+            var letters = /^[0-9a-zA-Z ]+$/;
+            var numeric = /^[0-9]+$/;
+
+
+            if (ClassName === "-1" || SectioName === "-1" || SubjecName === "-1" ) {
+
+                event.preventDefault();
+                toastr.error("Kindly Select Class, Section, Subject");
+
+            }
+            if (AssessmentType === "-1" || AssessmentStatus === "-1") {
+
+                event.preventDefault();
+                toastr.error("Kindly Select Class, Section, Subject");
+
+            }
+
+            if (StartTime === '' || EndTime === '' || AssessmentDate === '') {
+
+                event.preventDefault();
+                toastr.error("Date and Time Is Not Selected");
+
+            }
+            if (TestName.length <= 0 || !(TestName.match(letters))) {
+
+                event.preventDefault();
+                toastr.error("Cannot Special Characters Into Assessment Name");
+
+            }
+            if (TotalMark <= 0 || TotalMark > 100  || !(TotalMark.match(numeric))) {
+
+                event.preventDefault();
+                toastr.error("Total Marks Cannot be Less Than and Equal To 0 and Greater Than 100 ");
+
+            }
+            if (PassingMarks <= 0 || PassingMarks > 100 || !(PassingMarks.match(numeric))) {
+
+                event.preventDefault();
+                toastr.error("Passing Marks Cannot be Less Than 0 and Greater Than 100 ");
+
+            }
+            if (Weightage <= 0 || Weightage > 100 || !(Weightage.match(numeric))) {
+
+                event.preventDefault();
+                toastr.error("Weightage Marks Cannot be Less Than 0 and Greater Than 100 ");
+
+            }
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+    });
+</script>
