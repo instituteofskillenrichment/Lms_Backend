@@ -1,0 +1,20 @@
+﻿@{
+    Layout = null;
+}
+
+<li class="has-child">
+    <a href="#">
+        <i class="now-ui-icons design_app"></i>
+        <p>Categories</p>
+    </a>
+
+
+    @foreach (var Categories in Model)
+    {
+        <ul>
+            <li><a asp-controller="Library" asp-action="Category" asp-route-CategoryId="@Categories.BookCategory_Id">@Categories.BookCategory_Name</a></li>
+        </ul>
+    }
+
+
+</li>

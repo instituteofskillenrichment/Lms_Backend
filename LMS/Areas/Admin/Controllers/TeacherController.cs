@@ -72,8 +72,8 @@ namespace LMS.Areas.Admin.Controllers
             {
                 IdentityUser User = new IdentityUser
                 {
-                    UserName = objTeacher.Teacher_Email,
-                    Email = objTeacher.Teacher_Email,
+                    UserName = objTeacher.Teacher_Email.ToLower(),
+                    Email = objTeacher.Teacher_Email.ToLower(),
                     //PasswordHash = objTeacher.Teacher_Password
                 };
 
@@ -92,21 +92,21 @@ namespace LMS.Areas.Admin.Controllers
 
                     Teacher newTeacher = new Teacher
                     {
-                        Teacher_Name = objTeacher.Teacher_Name,
-                        Teacher_City = objTeacher.Teacher_City,
+                        Teacher_Name = objTeacher.Teacher_Name.ToUpper(),
+                        Teacher_City = objTeacher.Teacher_City.ToUpper(),
                         Teacher_Cnic = objTeacher.Teacher_Cnic,
-                        Teacher_Country = objTeacher.Teacher_Country,
-                        Teacher_CurrentAddress = objTeacher.Teacher_CurrentAddress,
-                        Teacher_DOB = objTeacher.Teacher_DOB.Substring(0,10),
-                        Teacher_Department = objTeacher.Teacher_Department,
-                        Teacher_Designation = objTeacher.Teacher_Designation,
-                        Teacher_Email = objTeacher.Teacher_Email,
-                        Teacher_FatherName = objTeacher.Teacher_FatherName,
-                        Teacher_Gender = objTeacher.Teacher_Gender,
+                        Teacher_Country = objTeacher.Teacher_Country.ToUpper(),
+                        Teacher_CurrentAddress = objTeacher.Teacher_CurrentAddress.ToUpper(),
+                        Teacher_DOB = Convert.ToDateTime(objTeacher.Teacher_DOB).ToString("yyyyMMdd"),
+                        Teacher_Department = objTeacher.Teacher_Department.ToUpper(),
+                        Teacher_Designation = objTeacher.Teacher_Designation.ToUpper(),
+                        Teacher_Email = objTeacher.Teacher_Email.ToLower(),
+                        Teacher_FatherName = objTeacher.Teacher_FatherName.ToUpper(),
+                        Teacher_Gender = objTeacher.Teacher_Gender.ToUpper(),
                         Teacher_HomePhone = objTeacher.Teacher_HomePhone,
-                        Teacher_LastDegree = objTeacher.Teacher_LastDegree,
+                        Teacher_LastDegree = objTeacher.Teacher_LastDegree.ToUpper(),
                         Teacher_MobNumber = objTeacher.Teacher_MobNumber,
-                        Teacher_PermenentAddress = objTeacher.Teacher_PermenentAddress,
+                        Teacher_PermenentAddress = objTeacher.Teacher_PermenentAddress.ToUpper(),
                         Teacher_Photo = objTeacher.Teacher_Photo,
                         Teacher_Ref_Id = User.Id
                     };
@@ -183,21 +183,21 @@ namespace LMS.Areas.Admin.Controllers
                 Teacher objTeacher = await _TeacherRepository.GetTeacherById(TeacherModel.Teacher_Id);
 
                 //objTeacher.Teacher_Name = TeacherModel.Teacher_Name;
-                objTeacher.Teacher_Name = TeacherModel.Teacher_Name;
-                objTeacher.Teacher_City = TeacherModel.Teacher_City;
+                objTeacher.Teacher_Name = TeacherModel.Teacher_Name.ToUpper();
+                objTeacher.Teacher_City = TeacherModel.Teacher_City.ToUpper();
                 objTeacher.Teacher_Cnic = TeacherModel.Teacher_Cnic;
-                objTeacher.Teacher_Country = TeacherModel.Teacher_Country;
-                objTeacher.Teacher_CurrentAddress = TeacherModel.Teacher_CurrentAddress;
-                objTeacher.Teacher_DOB = TeacherModel.Teacher_DOB.Substring(0, 10);
-                objTeacher.Teacher_Department = TeacherModel.Teacher_Department;
-                objTeacher.Teacher_Designation = TeacherModel.Teacher_Designation;
-                objTeacher.Teacher_Email = TeacherModel.Teacher_Email;
-                objTeacher.Teacher_FatherName = TeacherModel.Teacher_FatherName;
-                objTeacher.Teacher_Gender = TeacherModel.Teacher_Gender;
+                objTeacher.Teacher_Country = TeacherModel.Teacher_Country.ToUpper();
+                objTeacher.Teacher_CurrentAddress = TeacherModel.Teacher_CurrentAddress.ToUpper();
+                objTeacher.Teacher_DOB = Convert.ToDateTime(TeacherModel.Teacher_DOB).ToString("yyyyMMdd");
+                objTeacher.Teacher_Department = TeacherModel.Teacher_Department.ToUpper();
+                objTeacher.Teacher_Designation = TeacherModel.Teacher_Designation.ToUpper();
+                objTeacher.Teacher_Email = TeacherModel.Teacher_Email.ToLower();
+                objTeacher.Teacher_FatherName = TeacherModel.Teacher_FatherName.ToUpper();
+                objTeacher.Teacher_Gender = TeacherModel.Teacher_Gender.ToUpper();
                 objTeacher.Teacher_HomePhone = TeacherModel.Teacher_HomePhone;
-                objTeacher.Teacher_LastDegree = TeacherModel.Teacher_LastDegree;
+                objTeacher.Teacher_LastDegree = TeacherModel.Teacher_LastDegree.ToUpper();
                 objTeacher.Teacher_MobNumber = TeacherModel.Teacher_MobNumber;
-                objTeacher.Teacher_PermenentAddress = TeacherModel.Teacher_PermenentAddress;
+                objTeacher.Teacher_PermenentAddress = TeacherModel.Teacher_PermenentAddress.ToUpper();
                 //objTeacher.Teacher_Photo = TeacherModel.Teacher_Photo;
 
 
@@ -222,7 +222,7 @@ namespace LMS.Areas.Admin.Controllers
         }
 
 
-
+        
         [HttpGet]
         [Route("assignTeacherSubject/{id}")]
         public IActionResult AssignTeacherSubject(int id)
@@ -239,6 +239,7 @@ namespace LMS.Areas.Admin.Controllers
             assignTeacherSubjectVM.Subjects = _TeacherSubjectRepository.GetAllSubjects();
 
             assignTeacherSubjectVM.Classes = new List<SelectListItem>();
+            assignTeacherSubjectVM.Classes.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
 
             var objClass = _TeacherSubjectRepository.GetAllClasses();
 
@@ -256,6 +257,7 @@ namespace LMS.Areas.Admin.Controllers
             }
 
             assignTeacherSubjectVM.Sections = new List<SelectListItem>();
+            assignTeacherSubjectVM.Sections.Insert(0, new SelectListItem() { Value = "-1", Text = "--Select--" });
 
             var objSection = _TeacherSubjectRepository.GetAllSections();
 

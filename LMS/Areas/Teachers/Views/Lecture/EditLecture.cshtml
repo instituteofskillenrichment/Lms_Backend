@@ -5,95 +5,197 @@
 }
 
 
-<div class="Dashboard" id="Dashboard">
 
-    <div class="panel-header panel-header-sm">
-    </div>
+<div class="panel-header panel-header-sm">
+</div>
 
-    <div class="content">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="title">Lecture Update</h5>
-                    </div>
-                    <div class="card-body">
-                        <form enctype="multipart/form-data" asp-controller="Lecture" asp-action="EditLecture">
-                            <div class="row">
-                                <div class="col-md-5 pr-1">
-                                    <div class="form-group">
-                                        <label>Class Name</label>
-                                        <select id="ddlClass" asp-for="Class_Id" class="form-control" asp-items="@(new SelectList(ViewBag.ClassList, "Class_Id", "Class_Name"))"></select>
-                                    </div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="title">Lesson Update</h5>
+                </div>
+                <div class="card-body">
+                    <form enctype="multipart/form-data" asp-controller="Lecture" asp-action="EditLecture" id="editForm">
+
+                        <div class="row">
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Class *</label>
+                                    <select id="ddlClass" asp-for="Class_Id" class="form-control" asp-items="@ViewBag.ClassList"></select>
 
                                 </div>
-                                <div class="col-md-5 pr-1">
-                                    <div class="form-group">
-                                        <label>Section Name</label>
-                                        <select id="ddlSection" asp-for="Section_Id" class="form-control" asp-items="@(new SelectList(ViewBag.SectionList, "Section_Id", "Section_Name"))"></select>
-                                    </div>
-                                </div>
-                                <div class="col-md-5 pr-1">
-                                    <div class="form-group">
-                                        <label>Subject Name</label>
-                                        <select id="ddlSubject" asp-for="Subject_Id" class="form-control" asp-items="@(new SelectList(ViewBag.SubjectList, "Subject_Id", "Subject_Name"))"></select>
-                                    </div>
+
+                            </div>
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Section *</label>
+                                    <select id="ddlSection" asp-for="Section_Id" class="form-control" asp-items="@ViewBag.SectionList"></select>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 pr-1">
-                                    <div class="form-group">
-                                        <label>Date</label>
-                                        <input asp-for="LecturePost_Date" class="form-control">
-                                        @*<input class="form-control" type="datetime-local" id="birthdaytime" name="birthdaytime">*@
-                                    </div>
-                                </div>
-                                <div class="col-md-6 pl-1">
-                                    <div class="form-group">
-                                        <label>Lecture Name</label>
-                                        <input asp-for="Lecture_Name" autocomplete="off" class="form-control" placeholder="Lecture Name">
-                                    </div>
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Subject *</label>
+                                    <select id="ddlSubject" asp-for="Subject_Id" class="form-control" asp-items="@ViewBag.SubjectList"></select>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Details</label>
-                                        <input asp-for="Lecture_Detail" autocomplete="off" class="form-control" placeholder="Lecture Details">
-                                    </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>Date *</label>
+                                    <input id="LectureDate" asp-for="LecturePost_Date" type="date" class="form-control">
+                                    @*<input class="form-control" type="datetime-local" id="birthdaytime" name="birthdaytime">*@
                                 </div>
                             </div>
-
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Lecture File</label>
-                                        <br />
-                                        <a asp-controller="teachers/Lecture" asp-action="downloadLecture" asp-route-lectureId="@Model.Id" class="delete"><i class="fas fa-file-archive"></i> @Model.ExistingFilePath</a>
-                                    </div>
+                            <div class="col-md-6 pl-1">
+                                <div class="form-group">
+                                    <label>Lesson Name *</label>
+                                    <input id="LessonName" asp-for="Lecture_Name" autocomplete="off" class="form-control" placeholder="Lecture Name">
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Details</label>
+                                    <textarea asp-for="Lecture_Detail" autocomplete="off" class="form-control" placeholder="Lecture Details" style="border: 1px solid #174876;"> </textarea>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>Lesson File *</label>
+                                    <br />
+                                    <input id="fileUpload" asp-for="Lecture_File" style="line-height: normal; opacity: 1; height: 28px; width: 70%; border: 1px solid; margin-top: 30px; font-size: 1.3em;" />
+                                    <br /><br />
+                                    <a  asp-controller="teachers/Lecture" asp-action="downloadLecture" asp-route-lectureId="@Model.Id" class="delete">
+                                        <i class="fas fa-file-archive" style="font-size: 18px;"></i>
+                                        <label id="currentFile">@Model.ExistingFilePath</label>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
 
 
 
-                            <div class="row">
+                        @*<div class="row">
                                 <div class="col-md-4 pr-1">
                                     <div class="form-group">
                                         <label>File Upload</label>
                                         <input asp-for="Lecture_File" class="form-control">
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
 
 
-                            <input asp-for="ExistingFilePath" type="hidden" value="@Model.ExistingFilePath" />
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </form>
+                        <input asp-for="ExistingFilePath" type="hidden" value="@Model.ExistingFilePath" />
+                        <button type="submit" class="btn btn-primary">Update</button>
 
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
- </div>
+</div>
+
+
+
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+<script>
+    $(document).ready(function () {
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = mm + '/' + dd + '/' + yyyy;
+
+        var currentFile = $('#currentFile').text();
+        
+
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+
+        if (messageSuccess.length > 0) {
+
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0) {
+            toastr.error(messageError);
+        }
+
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+
+        //Check If File Upload IS Empty
+        $("#editForm").submit(function (event) {
+
+            
+
+            var fileInput = $("#fileUpload").val();
+
+            if ($("#ddlClass").val() === "-1" || $("#ddlSection").val() === "-1" || $("#ddlSubject").val() === "-1") {
+
+                event.preventDefault();
+                toastr.error("Kindly Select Class,Section And Subject");
+
+            }
+            if (fileInput === '' && currentFile === '')
+            {
+
+                event.preventDefault();
+                toastr.error("Kindly Select File");
+
+            }
+            if ($("#LectureDate").val() === '') {
+
+                event.preventDefault();
+                toastr.error("Date Is Not Selected");
+
+            }
+            if ($("#LessonName").val() === '') {
+
+                event.preventDefault();
+                toastr.error("Lesson Title Is Empty");
+
+            }
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+    });
+</script>
+
+
+
+

@@ -8,99 +8,106 @@
 
 
     
-    <div class="panel-header panel-header-sm">
-    </div>
-    
-    <div class="content">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
+<div class="panel-header panel-header-sm">
+</div>
 
-                    <div class="container-fluid">
-                        <div class="table-responsive">
-                            <div class="table-wrapper">
-                                <div class="table-title">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h2>Manage <b>Classes</b></h2>
-                                        </div>
-                                        <div class="col-md-6 pull-right">
-                                            <a href="#addClassModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Class</span></a>
-                                            
-                                        </div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2><b>Manage Classes</b></h2>
+                                    </div>
+                                    <div class="col-md-6 pull-right">
+                                        <a href="#addClassModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Class</span></a>
+                                        
                                     </div>
                                 </div>
+                            </div>
 
-                                <table id="classpage" class="display" style="width:100%">
-                                    <thead>
+                            <table id="classpage" class="display" style="width:100%">
+                                <thead class="aThead">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Class Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
                                         <tr>
-                                            <th>Class ID</th>
-                                            <th>Class Name</th>
-                                            <th>Action</th>
+                                            <td>@item.Class_Id</td>
+                                            <td>@item.Class_Name</td>
+                                            <td>
+                                                <a href="#editClassModal" class="edit" id="edit" data-toggle="modal">
+                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                                </a>
+
+                                                <a href="#deleteClassModal" class="delete" id="delete" data-toggle="modal">
+                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                                </a>
+
+                                                @*Added BY Absar To get parentid*@
+                                                <input type="hidden" class="Class_Id" value="@item.Class_Id" />
+
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td>@item.Class_Id</td>
-                                                <td>@item.Class_Name</td>
-                                                <td>
-                                                    <a href="#editClassModal" class="edit" id="edit" data-toggle="modal">
-                                                        <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
-                                                    </a>
+                                    }
+                                </tbody>
+                                @*<tfoot class="aThead">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Class Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>*@
+                            </table>
+                            <div class="clearfix">
 
-                                                    <a href="#deleteClassModal" class="delete" id="delete" data-toggle="modal">
-                                                        <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
-                                                    </a>
-
-                                                    @*Added BY Absar To get parentid*@
-                                                    <input type="hidden" class="Class_Id" value="@item.Class_Id" />
-
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                                <div class="clearfix">
-
-                                </div>
                             </div>
                         </div>
-                        <!-- Add Modal HTML -->
-                        <div id="addClassModal" class="modal fade">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form method="post" asp-controller="class" asp-action="addClass">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Add Class</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <!-- Add Modal HTML -->
+                    <div id="addClassModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="class" asp-action="addClass" id="addForm">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Add Class</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @*<div class="form-group">
+                                                <label>Class ID</label>
+                                                <input type="text" class="form-control" required="" name="class_Id">
+                                            </div>*@
+                                        <div class="form-group">
+                                            <label>Class Name</label>
+                                            <input type="text" class="form-control" required="" name="Class_Name" id="Class_Name">
                                         </div>
-                                        <div class="modal-body">
-                                            @*<div class="form-group">
-                                                    <label>Class ID</label>
-                                                    <input type="text" class="form-control" required="" name="class_Id">
-                                                </div>*@
-                                            <div class="form-group">
-                                                <label>Class Name</label>
-                                                <input type="text" class="form-control" required="" name="Class_Name">
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input type="submit" class="btn btn-success" value="Add">
-                                        </div>
-                                    </form>
-                                </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-success" value="Add">
+                                    </div>
+                                </form>
                             </div>
                         </div>
+                    </div>
 
 
-                        <!-- Edit Modal HTML -->
-                        <div id="editClassModal" class="modal fade">
+                    <!-- Edit Modal HTML -->
+                    <div id="editClassModal" class="modal fade">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form method="post" asp-controller="class" asp-action="editClass">
+                                    <form method="post" asp-controller="class" asp-action="editClass" id="addForm">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Edit Class</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -117,7 +124,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input type="submit" class="btn btn-info" value="Save">
+                                            <input type="submit" class="btn btn-info" value="Update">
                                             @*Added By Absar*@
                                             <input type="hidden" name="Class_Id" id="Class_Id" />
                                         </div>
@@ -127,8 +134,8 @@
                         </div>
 
 
-                        <!-- Delete Modal HTML -->
-                        <div id="deleteClassModal" class="modal fade">
+                    <!-- Delete Modal HTML -->
+                    <div id="deleteClassModal" class="modal fade">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <form method="post" asp-controller="class" asp-action="deleteClass">
@@ -153,44 +160,44 @@
                             </div>
                         </div>
 
-                    </div>
                 </div>
             </div>
         </div>
-
-
-
-
-        <footer class="footer">
-            <div class=" container-fluid ">
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="https://www.creative-tim.com">
-                                Karachi Grammar School
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://presentation.creative-tim.com">
-                                About Us
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://blog.creative-tim.com">
-                                Blog
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="copyright" id="copyright">
-                    &copy;
-                    <script>
-                        document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                    </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
-                </div>
-            </div>
-        </footer>
     </div>
+
+
+
+
+    <footer class="footer">
+        <div class=" container-fluid ">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#">
+                            APEX E-LEARNING
+                        </a>
+                    </li>
+                    @*<li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>*@
+                </ul>
+            </nav>
+            <div class="copyright" id="copyright">
+                &copy;
+                <script>
+                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
+            </div>
+        </div>
+    </footer>
+</div>
 
 
 <!--   Core JS Files   -->
@@ -198,7 +205,7 @@
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
 <link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
 <script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
-@*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
+
 <script>
     $(document).ready(function () {
         
@@ -228,6 +235,30 @@
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
+
+
+        //Check If Class Name non Negative
+        $("#addForm, #editForm").submit(function (event) {
+            
+            var ClassName = $('#Class_Name').val();
+
+            if (ClassName === '')
+            {
+                var ClassName = $('#editClassModal #Class_Name').val();
+            }
+            
+            //Regex for Valid Characters i.e. Alphabets and Numbers.
+            var letters = /^[0-9a-zA-Z]+$/;
+            
+            if (ClassName.length < 0 || !(ClassName.match(letters))) {
+                
+                event.preventDefault();
+                toastr.error("Cannot Insert Null, Negative Values And Special Characters");
+
+            }
+
+
+        });
 
 
         //Get Class_Id for Delete Added By Absar

@@ -1,0 +1,129 @@
+﻿@model List<LMS.Domain.ViewModels.StudentLectureViewModel>
+
+@{
+    ViewData["Title"] = "Lectures";
+    Layout = "~/Areas/Students/Views/Shared/_Studentayout.cshtml";
+}
+
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2><b>Lesson List</b></h2>
+                                    </div>
+                                   
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <table id="studentLecture" class="display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Lesson ID</th>
+                                    <th>Lesson Name</th>
+                                    <th>Lesson File</th>
+                                    <th>Date</th>
+                                    <th>Download</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Lecture_Id</td>
+                                        <td>@item.Lecture_Name</td>
+                                        <td>@item.Lecture_File</td>
+                                        <td>@item.LecturePost_Date.ToShortDateString()</td>
+                                        <td style="font-size:16px;">
+                                            
+                                            <a asp-area="students" asp-controller="lecture" asp-action="downloadLecture" asp-route-lectureId="@item.Lecture_Id" class="delete">
+                                            <i class="fas fa-file-archive" style="font-size:18px;"></i>
+                                            </a>
+
+
+                                            @*Added BY Absar To get parentid*@
+                                            <input type="hidden" class="Lecture_Id" value="@item.Lecture_Id" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <div class="clearfix">
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<footer class="footer">
+    <div class=" container-fluid ">
+        <nav>
+            <ul>
+                <li>
+                    <a href="#">
+                        APEX E-LEARNING
+                    </a>
+                </li>
+                @*<li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>*@
+            </ul>
+        </nav>
+        <div class="copyright" id="copyright">
+            &copy;
+            <script>
+                document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+            </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
+        </div>
+    </div>
+</footer>
+
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+        
+
+
+        $('#studentLecture').DataTable();
+
+    });
+</script>
+
+

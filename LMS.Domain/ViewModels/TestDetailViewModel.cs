@@ -5,5 +5,7 @@
         public int Question_Id { get; set; }
         public string Question_Name { get; set; }
         public int Options_Count { get; set; }
+        //Added By Absar
+        public int Options_Marks { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace LMS.Domain
     public class Attendance
     {
         [Key]
-        public int Id { get; set; }
+        public int Attendance_Id { get; set; }
         public string Date { get; set; }
         public string Status { get; set; }
        
@@ -27,8 +27,8 @@ namespace LMS.Domain
         public Section Section { get; set; }
         public int Section_Id { get; set; }
 
-        public Subject Subject { get; set; }
-        public int Subject_Id { get; set; }
+        //public Subject Subject { get; set; }
+        //public int Subject_Id { get; set; }
 
         public Teacher Teacher { get; set; }
         public int Teacher_Id { get; set; }

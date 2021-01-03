@@ -20,7 +20,7 @@
                             <div class="table-title">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h2>Assign Subject To Particular <b>Class & Section</b></h2>
+                                        <h2><b>Assign Subject To Particular Class & Section</b></h2>
                                     </div>
                                     <div class="col-md-6 pull-right">
                                         <a asp-area="admin" asp-controller="assignSubject" asp-action="addClassSubject" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add New Class Subjects</span></a>
@@ -30,7 +30,7 @@
                             </div>
 
                             <table id="assignClassSubjectpage" class="display" style="width:100%">
-                                <thead>
+                                <thead class="aThead">
                                     <tr>
                                         <th>ID</th>
                                         <th>Class Name</th>
@@ -68,6 +68,15 @@
                                         </tr>
                                     }
                                 </tbody>
+                                <tfoot class="aThead">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Class Name</th>
+                                        <th>Section Name</th>
+                                        <th>Subject Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                             <div class="clearfix">
 
@@ -95,23 +104,29 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Class Name</label>
-                                            <select id="Class_Id" name="Class_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Class, "Class_Id", "Class_Name"))"></select>
+                                            <select id="Class_Id" name="Class_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Class, "Class_Id", "Class_Name"))">
+                                            <option value="0">--Select--</option>
+                                            </select>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Section Name</label>
-                                            <select id="Section_Id" name="Section_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Section, "Section_Id", "Section_Name"))"></select>
+                                            <select id="Section_Id" name="Section_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Section, "Section_Id", "Section_Name"))">
+                                            <option value="0">--Select--</option>
+                                            </select>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Subject Name</label>
-                                            <select id="Subject_Id" name="Subject_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Subject, "Subject_Id", "Subject_Name"))"></select>
+                                            <select id="Subject_Id" name="Subject_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Subject, "Subject_Id", "Subject_Name"))">
+                                            <option value="0">--Select--</option>
+                                            </select>
                                         </div>
 
                                     </div>
                                     <div class="modal-footer">
                                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                        <input type="submit" class="btn btn-info" value="Save">
+                                        <input type="submit" class="btn btn-info" value="Update">
                                         @*Added By Absar*@
                                         <input type="hidden" name="ClassSubject_Id" id="ClassSubject_Id" />
                                     </div>
@@ -161,11 +176,11 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="https://www.creative-tim.com">
-                            Karachi Grammar School
+                        <a href="#">
+                            APEX E-LEARNING
                         </a>
                     </li>
-                    <li>
+                    @*<li>
                         <a href="http://presentation.creative-tim.com">
                             About Us
                         </a>
@@ -174,14 +189,14 @@
                         <a href="http://blog.creative-tim.com">
                             Blog
                         </a>
-                    </li>
+                    </li>*@
                 </ul>
             </nav>
             <div class="copyright" id="copyright">
                 &copy;
                 <script>
                     document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+                </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
             </div>
         </div>
     </footer>
@@ -248,9 +263,43 @@
         });
 
 
-        $('#assignClassSubjectpage').dataTable({
-            /* Disable initial sort */
-            "aaSorting": []
+        //$('#assignClassSubjectpage').dataTable({
+        //    /* Disable initial sort */
+        //    "aaSorting": []
+        //});
+
+        $('#assignClassSubjectpage').DataTable({
+            "aaSorting": [],
+            "bLengthChange": false,
+            "fixedHeader": { header: true, footer: true },
+
+            responsive: false,
+            //autoWidth: false,
+            //aaSorting: [[2, 'asc']],
+            //cache: true,
+
+
+            initComplete: function () {
+                this.api().columns([1, 2, 3]).every(function () {
+                    var column = this;
+                    //var theadname = $('#AttendanceDetailPage th').eq([d]).text();
+                    var select = $('<select><option value="">ALL</option></select>')
+                        .appendTo($(column.header()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
         });
 
     });

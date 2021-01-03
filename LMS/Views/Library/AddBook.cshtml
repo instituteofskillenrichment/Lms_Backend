@@ -1,0 +1,166 @@
+﻿@model LMS.Domain.ViewModels.LibraryViewModel
+@{
+    ViewData["Title"] = "AddLecture";
+    Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="title">Add Book</h5>
+                </div>
+                <div class="card-body">
+                    <form enctype="multipart/form-data" asp-controller="Library" asp-action="AddBook" id="addForm">
+
+                        <div class="row">
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>Book Name</label>
+
+                                    <input asp-for="Book_Name" type="text" class="form-control" placeholder="Book Name" id="Book_Name">
+
+                                </div>
+                                <div class="form-group">
+                                    <label>Book Detail</label>
+                                    <textarea asp-for="Book_Detail" name="Book_Detail" id="Book_Detail" class="form-control" style="border: 1px solid #174876; border-radius: .25rem;"></textarea>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2 pr-1">
+
+                            </div>
+                            <div class="col-md-4 pl-1">
+                                <div class="form-group">
+
+                                    
+                                    <img id="book_image" src="~/Dashboard/assets/img/noPhotoFound.png" style="width:150px; height:170px; margin-left:50px;" class="img-thumbnail">
+
+
+                                    <div class="row">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input asp-for="Book_Image" type="file" name="image" value="noPhotoFound.png" onchange="readURL(this);" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;" />
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label>File Upload</label>
+                                    <br />
+                                    <input asp-for="Book_File" id="fileUpload" style="line-height: normal; opacity: 1; height: 28px; width: 70%; border: 1px solid; margin-top: 30px; font-size: 1.3em;" />
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-1">
+                                <div class="form-group">
+                                    <label>Category</label>
+                                    <select id="BookCategory_Id" name="BookCategory_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "BookCategory_Id", "BookCategory_Name"))">
+                                        <option value="-1">--Select--</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+<script>
+    $(document).ready(function () {
+
+        //$('#classpage').DataTable();
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+    });
+
+
+    toastr.options = {
+        "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+        if (messageSuccess.length > 0) {
+
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0) {
+            toastr.error(messageError);
+        }
+
+
+    //Check If Cetogaye and File Is Selected
+    $("#addForm").submit(function (event) {
+
+        var fileInput = $("#fileUpload").val();
+        var BookName = $("#Book_Name").val();
+        var Category = $("#BookCategory_Id").val();
+
+        if (Category === "-1" ) {
+
+            event.preventDefault();
+            toastr.error("Kindly Select Category");
+
+        }
+        if (fileInput === '') {
+
+            event.preventDefault();
+            toastr.error("Kindly Upload Any File");
+
+        }
+        if (BookName === '') {
+
+            event.preventDefault();
+            toastr.error("Book Name Cannot Be Empty");
+
+        }
+
+    });
+
+
+
+    //function to show imae in div after browse
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#book_image')
+                    .attr('src', e.target.result)
+                // .width(150)
+                // .height(170)
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+
+</script>

@@ -1,10 +1,11 @@
-﻿@model List<LMS.Domain.Lecture>
+﻿@*@model List<LMS.Domain.Lecture>*@
+@model List<LMS.Domain.ViewModels.EditLectureViewModel>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
 }
 
-  
+
 <div class="panel-header panel-header-sm">
 </div>
 <div class="content">
@@ -18,20 +19,24 @@
                             <div class="table-title">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h2>Lecture  <b>List</b></h2>
+                                        <h2><b>Lesson  List</b></h2>
                                     </div>
                                     <div class="col-md-6 pull-right">
-                                        <a href="teacher_class_lecture_add.html" class="btn btn-success"><i class="material-icons"></i> <span>Add New Lecture</span></a>
+                                        <a asp-area="teachers" asp-controller="lecture" asp-action="addLecture" class="btn btn-success"><i class="material-icons"></i> <span>Add New Lesson</span></a>
                                     </div>
                                 </div>
                             </div>
 
                             <table id="classpage" class="display" style="width:100%">
-                                <thead>
+                                <thead class="aThead">
                                     <tr>
-                                        <th>Lecture ID</th>
-                                        <th>Lecture Name</th>
+                                        <th>Lesson ID</th>
+                                        <th>Lesson Name</th>
                                         <th>Date</th>
+                                        <th>File</th>
+                                        <th>Class</th>
+                                        <th>Section</th>
+                                        <th>Subject</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -39,98 +44,57 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <td>@item.Lecture_Id</td>
+                                            <td>@item.Id</td>
                                             <td>@item.Lecture_Name</td>
-                                            <td>@item.LecturePost_Date</td>
-                                            <td>
-                                                <a href="#editSubjectModal" class="edit" id="edit" data-toggle="modal">
-                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                            <td>@item.LecturePost_Date.ToShortDateString()</td>
+                                            <td>@item.ExistingFilePath</td>
+                                            <td>@item.Class_Name</td>
+                                            <td>@item.Section_Name</td>
+                                            <td>@item.Subject_Name</td>
+                                            <td style="font-size:16px;">
+                                                <a asp-controller="lecture" asp-action="editLecture" asp-route-id="@item.Id" class="edit" id="edit">
+                                                    <i class="fas fa-pen"></i>
                                                 </a>
 
                                                 <a href="#deleteLectureModal" class="delete" id="delete" data-toggle="modal">
-                                                    <i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                                    <i class="fas fa-trash"></i>
                                                 </a>
 
-                                                <a href="#" class="delete" data-toggle="modal"><i class="fas fa-file-archive"></i></a>
+                                                <a asp-controller="teachers/Lecture" asp-action="downloadLecture" asp-route-lectureId="@item.Id" class="delete"><i class="fas fa-file-archive"></i></a>
 
 
                                                 @*Added BY Absar To get parentid*@
-                                                <input type="hidden" class="Lecture_Id" value="@item.Lecture_Id" />
+                                                <input type="hidden" class="Lecture_Id" value="@item.Id" />
                                             </td>
                                         </tr>
                                     }
                                 </tbody>
+                                <tfoot class="aThead">
+                                    <tr>
+                                        <th>Lesson ID</th>
+                                        <th>Lesson Name</th>
+                                        <th>Date</th>
+                                        <th>File</th>
+                                        <th>Class</th>
+                                        <th>Section</th>
+                                        <th>Subject</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                             <div class="clearfix">
 
                             </div>
                         </div>
                     </div>
-                    <!-- Add Modal HTML -->
-                    <div id="addClassModal" class="modal fade">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <form method="post" asp-controller="class" asp-action="addClass">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Add Class</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        @*<div class="form-group">
-                                                <label>Class ID</label>
-                                                <input type="text" class="form-control" required="" name="class_Id">
-                                            </div>*@
-                                        <div class="form-group">
-                                            <label>Class Name</label>
-                                            <input type="text" class="form-control" required="" name="Class_Name">
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                        <input type="submit" class="btn btn-success" value="Add">
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
 
-
-                    <!-- Edit Modal HTML -->
-                    <div id="editClassModal" class="modal fade">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <form method="post" asp-controller="class" asp-action="editClass">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Edit Class</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label>Class ID</label>
-                                            <input type="text" class="form-control" required="" id="Class_Id" disabled="disabled">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Class Name</label>
-                                            <input type="text" class="form-control" required="" name="Class_Name" id="Class_Name">
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                        <input type="submit" class="btn btn-info" value="Save">
-                                        @*Added By Absar*@
-                                        <input type="hidden" name="Class_Id" id="Class_Id" />
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
 
 
                     <!-- Delete Modal HTML -->
                     <div id="deleteLectureModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form method="post" asp-controller="class" asp-action="deleteLecture">
+                                <form method="post" asp-controller="Lecture" asp-action="deleteLecture">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Delete Lecture</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -165,11 +129,11 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="https://www.creative-tim.com">
-                            Karachi Grammar School
+                        <a href="#">
+                            APEX E-LEARNING
                         </a>
                     </li>
-                    <li>
+                    @*<li>
                         <a href="http://presentation.creative-tim.com">
                             About Us
                         </a>
@@ -178,30 +142,94 @@
                         <a href="http://blog.creative-tim.com">
                             Blog
                         </a>
-                    </li>
+                    </li>*@
                 </ul>
             </nav>
             <div class="copyright" id="copyright">
                 &copy;
                 <script>
                     document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+                </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
             </div>
         </div>
     </footer>
 </div>
 
 <!--   Core JS Files   -->
-<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
-<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
-@*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
+<script src="~/Dashboard/assets/js/core/jquery-3.5.1.js"></script>
+@*<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>*@
+<script src="~/Dashboard/assets/datatables.net/js/jquery.dataTables.min.js"></script>
+@*<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>*@
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 <script>
     $(document).ready(function () {
 
-        $('#classpage').DataTable();
+        toastr.options = {
+        "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+        if (messageSuccess.length > 0) {
+
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0) {
+            toastr.error(messageError);
+        }
+
+        //Get Class_Id for Delete Added By Absar
+        $('#classpage #delete').on('click', function () {
+            var Lecture_Id = $(this).parent().find('.Lecture_Id').val();
+
+            $('#deleteLectureModal #Lecture_Id').val(Lecture_Id);
+        });
+
+
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
+
+
+        $('#classpage').DataTable({
+
+            "bLengthChange": false,
+            "fixedHeader": { header: true, footer: true },
+
+            responsive: false,
+            //autoWidth: false,
+            //aaSorting: [[2, 'asc']],
+            //cache: true,
+
+
+            initComplete: function () {
+                this.api().columns([4, 5, 6]).every(function () {
+                    var column = this;
+                    //var theadname = $('#AttendanceDetailPage th').eq([d]).text();
+                    var select = $(' <select><option value="">ALL</option></select>')
+                        .appendTo($(column.header()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
 
     });
 </script>

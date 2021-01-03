@@ -19,9 +19,53 @@ namespace LMS.Database.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("LMS.Domain.Announcement", b =>
+                {
+                    b.Property<int>("Announcement_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Announcement_Date");
+
+                    b.Property<string>("Announcement_Detail");
+
+                    b.Property<int>("Class_Id");
+
+                    b.Property<int>("Section_Id");
+
+                    b.Property<int>("Subject_Id");
+
+                    b.Property<int>("Teacher_Id");
+
+                    b.HasKey("Announcement_Id");
+
+                    b.HasIndex("Class_Id");
+
+                    b.HasIndex("Section_Id");
+
+                    b.HasIndex("Subject_Id");
+
+                    b.HasIndex("Teacher_Id");
+
+                    b.ToTable("Announcement");
+                });
+
+            modelBuilder.Entity("LMS.Domain.AssessmentType", b =>
+                {
+                    b.Property<int>("Assessment_Type_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Assessment_Type_Name");
+
+                    b.HasKey("Assessment_Type_Id");
+
+                    b.ToTable("AssessmentType");
+                });
+
             modelBuilder.Entity("LMS.Domain.Attendance", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Attendance_Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -39,11 +83,9 @@ namespace LMS.Database.Migrations
 
                     b.Property<string>("Student_Name");
 
-                    b.Property<int>("Subject_Id");
-
                     b.Property<int>("Teacher_Id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Attendance_Id");
 
                     b.HasIndex("Class_Id");
 
@@ -53,11 +95,22 @@ namespace LMS.Database.Migrations
 
                     b.HasIndex("Student_Id");
 
-                    b.HasIndex("Subject_Id");
-
                     b.HasIndex("Teacher_Id");
 
                     b.ToTable("Attendance");
+                });
+
+            modelBuilder.Entity("LMS.Domain.BookCategory", b =>
+                {
+                    b.Property<int>("BookCategory_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BookCategory_Name");
+
+                    b.HasKey("BookCategory_Id");
+
+                    b.ToTable("BookCategory");
                 });
 
             modelBuilder.Entity("LMS.Domain.Class", b =>
@@ -165,6 +218,29 @@ namespace LMS.Database.Migrations
                     b.HasIndex("Teacher_Id");
 
                     b.ToTable("Lecture");
+                });
+
+            modelBuilder.Entity("LMS.Domain.Library", b =>
+                {
+                    b.Property<int>("Book_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BookCategory_Id");
+
+                    b.Property<string>("Book_Detail");
+
+                    b.Property<string>("Book_File");
+
+                    b.Property<string>("Book_Image");
+
+                    b.Property<string>("Book_Name");
+
+                    b.HasKey("Book_Id");
+
+                    b.HasIndex("BookCategory_Id");
+
+                    b.ToTable("Library");
                 });
 
             modelBuilder.Entity("LMS.Domain.Section", b =>
@@ -289,8 +365,7 @@ namespace LMS.Database.Migrations
 
                     b.Property<int>("Student_Id");
 
-                    b.Property<DateTime>("SubmittedOn")
-                        .HasColumnType("DateTime");
+                    b.Property<string>("SubmittedOn");
 
                     b.Property<int>("Test_Id");
 
@@ -390,6 +465,12 @@ namespace LMS.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Assessment_Date");
+
+                    b.Property<int>("Assessment_Status");
+
+                    b.Property<int>("Assessment_Type_Id");
+
                     b.Property<int>("Class_Id");
 
                     b.Property<string>("End_Time");
@@ -413,6 +494,8 @@ namespace LMS.Database.Migrations
                     b.Property<int>("Weighatge");
 
                     b.HasKey("Test_Id");
+
+                    b.HasIndex("Assessment_Type_Id");
 
                     b.HasIndex("Class_Id");
 
@@ -440,6 +523,8 @@ namespace LMS.Database.Migrations
                     b.Property<string>("Option_3");
 
                     b.Property<string>("Option_4");
+
+                    b.Property<int>("Question_Marks");
 
                     b.Property<string>("Question_Name");
 
@@ -630,6 +715,29 @@ namespace LMS.Database.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("LMS.Domain.Announcement", b =>
+                {
+                    b.HasOne("LMS.Domain.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("Class_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Section", "Section")
+                        .WithMany()
+                        .HasForeignKey("Section_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("Subject_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LMS.Domain.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("Teacher_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("LMS.Domain.Attendance", b =>
                 {
                     b.HasOne("LMS.Domain.Class", "Class")
@@ -650,11 +758,6 @@ namespace LMS.Database.Migrations
                     b.HasOne("LMS.Domain.Student", "Student")
                         .WithMany()
                         .HasForeignKey("Student_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("LMS.Domain.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("Subject_Id")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("LMS.Domain.Teacher", "Teacher")
@@ -717,6 +820,14 @@ namespace LMS.Database.Migrations
                     b.HasOne("LMS.Domain.Teacher", "Teacher")
                         .WithMany()
                         .HasForeignKey("Teacher_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LMS.Domain.Library", b =>
+                {
+                    b.HasOne("LMS.Domain.BookCategory", "BookCategory")
+                        .WithMany()
+                        .HasForeignKey("BookCategory_Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -794,6 +905,11 @@ namespace LMS.Database.Migrations
 
             modelBuilder.Entity("LMS.Domain.Test", b =>
                 {
+                    b.HasOne("LMS.Domain.AssessmentType", "AssessmentType")
+                        .WithMany()
+                        .HasForeignKey("Assessment_Type_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("LMS.Domain.Class", "Class")
                         .WithMany()
                         .HasForeignKey("Class_Id")

@@ -5,11 +5,9 @@
 }
 
 
-<div class="dashboard" id="dashboard">
-   
-    <div class="panel-header panel-header-sm">
-    </div>
-    <div class="content">
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -20,10 +18,10 @@
                                 <div class="table-title">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h2>Lecture  <b>List</b></h2>
+                                            <h2><b>Lesson List</b></h2>
                                         </div>
                                         <div class="col-md-6 pull-right">
-                                            <a asp-action="AddLecture" asp-controller="Lecture" class="btn btn-success"><i class="material-icons"></i> <span>Add New Lecture</span></a>
+                                            <a asp-action="AddLecture" asp-controller="Lecture" class="btn btn-success"><i class="material-icons"></i> <span>Add New Lesson</span></a>
                                         </div>
 
                                     </div>
@@ -33,8 +31,8 @@
                             <table id="classpage" class="display" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Lecture ID</th>
-                                        <th>Lecture Name</th>
+                                        <th>Lesson ID</th>
+                                        <th>Lesson Name</th>
                                         <th>Date</th>
                                         <th>Action</th>
                                     </tr>
@@ -45,9 +43,9 @@
                                     <tr>
                                         <td>@item.Lecture_Id</td>
                                         <td>@item.Lecture_Name</td>
-                                        <td>@item.LecturePost_Date</td>
-                                        <td>
-                                            <a href="#editSubjectModal" class="edit" id="edit" data-toggle="modal">
+                                        <td>@(DateTime.ParseExact(item.LecturePost_Date, "yyyyMMd", null).ToShortDateString())</td>
+                                        <td style="font-size:16px;">
+                                            <a asp-controller="lecture" asp-action="editLecture" asp-route-id="@item.Lecture_Id" class="edit" id="edit" >
                                                 <i class="fas fa-pen"></i>
                                             </a>
 
@@ -70,65 +68,8 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Add Modal HTML -->
-                    <div id="addClassModal" class="modal fade">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <form method="post" asp-controller="class" asp-action="addClass">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Add Class</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        @*<div class="form-group">
-                            <label>Class ID</label>
-                            <input type="text" class="form-control" required="" name="class_Id">
-                        </div>*@
-                                        <div class="form-group">
-                                            <label>Class Name</label>
-                                            <input type="text" class="form-control" required="" name="Class_Name">
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                        <input type="submit" class="btn btn-success" value="Add">
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- Edit Modal HTML -->
-                    <div id="editClassModal" class="modal fade">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <form method="post" asp-controller="class" asp-action="editClass">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Edit Class</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label>Class ID</label>
-                                            <input type="text" class="form-control" required="" id="Class_Id" disabled="disabled">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Class Name</label>
-                                            <input type="text" class="form-control" required="" name="Class_Name" id="Class_Name">
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                        <input type="submit" class="btn btn-info" value="Save">
-                                        @*Added By Absar*@
-                                        <input type="hidden" name="Class_Id" id="Class_Id" />
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
+                    
+                    
 
                     <!-- Delete Modal HTML -->
                     <div id="deleteLectureModal" class="modal fade">
@@ -164,16 +105,16 @@
 
 
 
-    <footer class="footer">
-        <div class=" container-fluid ">
-            <nav>
-                <ul>
-                    <li>
-                        <a href="https://www.creative-tim.com">
-                            Karachi Grammar School
-                        </a>
-                    </li>
-                    <li>
+<footer class="footer">
+    <div class=" container-fluid ">
+        <nav>
+            <ul>
+                <li>
+                    <a href="#">
+                        APEX E-LEARNING
+                    </a>
+                </li>
+                @*<li>
                         <a href="http://presentation.creative-tim.com">
                             About Us
                         </a>
@@ -182,18 +123,17 @@
                         <a href="http://blog.creative-tim.com">
                             Blog
                         </a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="copyright" id="copyright">
-                &copy;
-                <script>
-                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
-            </div>
+                    </li>*@
+            </ul>
+        </nav>
+        <div class="copyright" id="copyright">
+            &copy;
+            <script>
+                document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+            </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
         </div>
-    </footer>
-</div>
+    </div>
+</footer>
 
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>

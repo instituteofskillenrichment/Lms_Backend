@@ -77,8 +77,8 @@ namespace LMS.Controllers
 
                 if (result.IsLockedOut)
                 {
-                    //need to create
-                    return View("AccountLocked");
+                    ModelState.AddModelError(string.Empty, "Account Has Been Locked");
+                    return View(model);
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
@@ -124,7 +124,7 @@ namespace LMS.Controllers
                     {
                         ViewBag.Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
                         return View(user);
-                        //return View("View", "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml");
+                        
                     }
                     else if (roles[0] == "TEACHER")
                     {
@@ -133,7 +133,9 @@ namespace LMS.Controllers
                     }
                     else if (roles[0] == "STUDENT")
                     {
-                        return View();
+                        
+                         ViewBag.Layout = "~/Areas/Students/Views/Shared/_Studentayout.cshtml";
+                        return View(user);
                     }
                 }
             }

@@ -24,5 +24,6 @@ namespace LMS.BusinessLogics.Interfaces
         Task<int> DeleteStudentClass(int id);
         //Task SaveChanges();
         IEnumerable<StudentTestViewModel> GetTestsByStudentId(int StudentId);
+        
     }
 }

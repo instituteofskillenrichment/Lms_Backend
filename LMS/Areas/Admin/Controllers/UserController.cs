@@ -61,7 +61,7 @@ namespace LMS.Areas.Admin.Controllers
                 IdentityUser User = new IdentityUser
                 {
                     UserName = objAppUser.UserName,
-                    Email = objAppUser.UserEmail,
+                    Email = objAppUser.UserEmail.ToLower(),
                     //PasswordHash = objAppUser.UserPassword
                 };
 
@@ -140,7 +140,7 @@ namespace LMS.Areas.Admin.Controllers
                 IdentityUser UserModel = await _UserRepository.FindUserById(User_Id);
 
                 UserModel.UserName = User_Name;
-                UserModel.Email = User_Email;
+                UserModel.Email = User_Email.ToLower();
                 UserModel.PasswordHash = User_Password;
 
                 int response = await _UserRepository.UpdateUser(UserModel);

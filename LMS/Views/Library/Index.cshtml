@@ -1,0 +1,144 @@
+﻿@model List<LMS.Domain.Library>
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+
+<div class="panel-header panel-header-sm">
+</div>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="title">Library</h5>
+                </div>
+                <div class="card-body">
+                    <form>
+
+                        <div class="row">
+
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Search By Keyword</label>
+                                    <input type="text" class="form-control" placeholder="Maths" value="">
+                                </div>
+                            </div>
+                            <div class="col-md-3 pl-1">
+                                <div class="form-group">
+                                    <label>Search The Catalogue</label>
+                                    <select class="form-control">
+                                        <option>English</option>
+                                        <option>Urdu</option>
+                                        <option>Math</option>
+                                        <option>Science</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 pl-1">
+                                <div class="form-group">
+                                    <label>All Categories</label>
+                                    <select id="BookCategory_Id" name="BookCategory_Id" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "BookCategory_Id", "BookCategory_Name"))">
+                                        <option value="-1">--Select--</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 pl-1">
+                                <div class="form-group">
+
+                                    <button class="btn btn-primary btn-lg btn-custom">Search</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+
+
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="card">
+
+                <div class="container-fluid librabry-wrapper">
+                    </br>
+                    @foreach (var Books in Model)
+                    {
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 float-left lib-boxes">
+                            <div class="hover ehover13">
+
+                                <img class="img-responsive" src="@Books.Book_Image " width="232" height="232" alt="">
+                                <div class="overlay">
+                                    <h2>@Books.Book_Name</h2>
+                                    <a asp-controller="Library" asp-action="DownloadBook" asp-route-Id="@Books.Book_Id">
+                                        <input type="button" value="Download" class="info " data-toggle="modal" data-target="#modal14" style="background-color: transparent;border: 1px solid white;color: white;font-weight: 600; font-size:18px;">
+                                            
+                                        
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+
+
+                    </br>
+                    </br>
+
+                </div>
+                <!-- /.container -->
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<footer class="footer">
+    <div class=" container-fluid ">
+        <nav>
+            <ul>
+                <li>
+                    <a href="#">
+                        APEX E-LEARNING
+                    </a>
+                </li>
+                @*<li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>*@
+            </ul>
+        </nav>
+        <div class="copyright" id="copyright">
+            &copy;
+            <script>
+                document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+            </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
+        </div>
+    </div>
+</footer>
+

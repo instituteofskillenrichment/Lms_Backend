@@ -18,14 +18,14 @@
                             <div class="table-title">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h2>Edit <b>Student</b></h2>
+                                        <h2><b>Edit Student</b></h2>
                                     </div>
-                                    
+
                                 </div>
                             </div>
 
 
-                            
+
 
                             <div class="row">
 
@@ -34,7 +34,7 @@
                                         <h5 class="title">Edit Profile</h5>
                                     </div>
                                     <div class="card-body">
-                                        <form asp-action="editStudent" enctype="multipart/form-data">
+                                        <form asp-action="editStudent" enctype="multipart/form-data" id="editForm">
                                             <input hidden asp-for="Student_Id" />
                                             <div class="row">
                                                 <div class="col-md-4 pr-1">
@@ -44,11 +44,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 px-1">
-                                                    
+
                                                 </div>
                                                 <div class="col-md-4 pl-1">
                                                     <div class="form-group">
-                                                        <img src="@Model.Student_Photo" style="width:150px; height:170px; margin-left:50px;" class="img-thumbnail">
+                                                        <img id="student_image" src="@Model.Student_Photo" style="width:150px; height:170px; margin-left:50px;" class="img-thumbnail">
 
 
                                                         <div class="row">
@@ -56,8 +56,8 @@
 
                                                             </div>
                                                             <div class="col-md-4">
-                                                                <input asp-for="Student_Photo" type="file" name="files" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;" />
-                                                                
+                                                                <input asp-for="Student_Photo" type="file" name="files" onchange="readURL(this);" style="opacity: 1; height:28px; width:215px; border:1px solid;margin-top:10px;" />
+
                                                             </div>
 
                                                         </div>
@@ -68,7 +68,7 @@
                                             <div class="row">
                                                 <div class="col-md-4 pr-1">
                                                     <div class="form-group">
-                                                        <label>Student Name</label>
+                                                        <label>Student Name *</label>
                                                         <input asp-for="Student_Name" type="text" class="form-control" placeholder="Student Name">
                                                     </div>
                                                 </div>
@@ -90,14 +90,18 @@
                                                 <div class="col-md-4 pl-1">
                                                     <div class="form-group">
                                                         <label>Date Of Birth</label>
-                                                        <input asp-for="Student_DOB" class="form-control" type="datetime-local" data-val="true" data-val-required="The Student_DOB field is required." id="Student_DOB" name="Student_DOB" value="">
+                                                        @{
+                                                            var S_Date = Model.Student_DOB;
+                                                            DateTime Student_DOB = DateTime.ParseExact(S_Date, "yyyyMMdd", null).Date;
+                                                        }
+                                                        <input asp-for="@Student_DOB" class="form-control" type="date" data-val-required="The Student_DOB field is required." id="Student_DOB" name="Student_DOB">
                                                         @*<input asp-for="Student_DOB" type="text" class="form-control" placeholder="DOB">*@
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-4 pl-1">
                                                     <div class="form-group" style="color:#9A9A9A;">
-                                                        <label>Gender</label><br>
+                                                        <label>Gender *</label><br>
                                                         Male&nbsp;&nbsp; <input asp-for="Student_Gender" name="Student_Gender" type="radio" value="Male" checked>  &nbsp;
                                                         Female&nbsp;&nbsp;  <input asp-for="Student_Gender" name="Student_Gender" type="radio" value="Female">
                                                     </div>
@@ -107,20 +111,20 @@
                                             <div class="row">
                                                 <div class="col-md-4 pr-1">
                                                     <div class="form-group">
-                                                        <label>Email</label>
-                                                        <input asp-for="Student_Email" type="text" class="form-control" placeholder="Email">
+                                                        <label>Email (Login Id) *</label>
+                                                        <input asp-for="Student_Email" type="text" class="form-control" placeholder="Email" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 px-1">
                                                     <div class="form-group">
-                                                        <label>Mobile Number</label>
+                                                        <label>Mobile Number *</label>
                                                         <input asp-for="Student_MobNumber" type="text" class="form-control" placeholder="Mobile Number">
                                                     </div>
                                                 </div>
 
                                             </div>
 
-                                            
+
 
                                             <div class="row">
                                                 <div class="col-md-12 pr-1">
@@ -197,32 +201,138 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="https://www.creative-tim.com">
-                            Karachi Grammar School
+                        <a href="#">
+                            APEX E-LEARNING
                         </a>
                     </li>
-                    <li>
-                        <a href="http://presentation.creative-tim.com">
-                            About Us
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://blog.creative-tim.com">
-                            Blog
-                        </a>
-                    </li>
+                    @*<li>
+                            <a href="http://presentation.creative-tim.com">
+                                About Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://blog.creative-tim.com">
+                                Blog
+                            </a>
+                        </li>*@
                 </ul>
             </nav>
             <div class="copyright" id="copyright">
                 &copy;
                 <script>
                     document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+                </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
             </div>
         </div>
     </footer>
 </div>
 
+
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+
+        if (messageSuccess.length > 0) {
+
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0)  {
+            toastr.error(messageError);
+        }
+
+
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+
+        //Check If Mandatory Fields are Filled Or Not
+        $("#editForm").submit(function (event) {
+
+          
+
+            var StudentName = $('#Student_Name').val();
+            var StudentEmail = $('#Student_Email').val();
+            var StudentMobNumber = $('#Student_MobNumber').val();
+            var StudentCnic = $('#Student_Cnic').val();
+
+
+            //Regex for Valid Characters i.e. Alphabets and Numbers.
+            var letters = /^[a-zA-Z ]+$/;
+            var email = /^(([^<>()[\]\\.,;:\s@@"]+(\.[^<>()[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            var cnic = /^[0-9-]+$/;
+
+            if (StudentName.length < 0 || !(StudentName.match(letters))) {
+
+                event.preventDefault();
+                toastr.error("Cannot Insert Numeric And Special Characters Into Name");
+
+            }
+            if (StudentEmail.length < 0 || !(StudentEmail.match(email))) {
+
+                event.preventDefault();
+                toastr.error("Incorrect Email Format");
+
+            }
+            if (StudentCnic.length < 0 || !(StudentCnic.match(cnic))) {
+
+                event.preventDefault();
+                toastr.error("Cannot Insert Alphabet And Special Characters Into Cnic");
+
+            }
+            if (StudentMobNumber.length < 0 || !(StudentMobNumber.match(cnic))) {
+
+                event.preventDefault();
+                toastr.error("Cannot Insert Alphabet And Special Characters Into MobileNumber");
+
+            }
+
+
+        });
+
+
+    });
+
+
+
+
+    //function to show imae in div after browse
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#student_image')
+                    .attr('src', e.target.result)
+                // .width(150)
+                // .height(170)
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+
+</script>
 
 
 

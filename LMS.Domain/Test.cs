@@ -26,5 +26,11 @@ namespace LMS.Domain
         public int Section_Id { get; set; }
         public Subject Subject { get; set; }
         public int Subject_Id { get; set; }
+        public AssessmentType AssessmentType { get; set; }
+        public int Assessment_Type_Id { get; set; }
+        //Added By Absar
+        public int Assessment_Status { get; set; }
+        public string Assessment_Date { get; set; }
+
     }
 }

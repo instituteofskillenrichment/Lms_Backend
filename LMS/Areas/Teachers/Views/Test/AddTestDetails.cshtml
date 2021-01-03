@@ -1,60 +1,62 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "AddTestDetails";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
 }
 
-<div class="dashboard" id="dashboard">
 
-    <div class="panel-header panel-header-sm">
-    </div>
-    <div class="content">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="title">Add Question</h5>
-                    </div>
-                    <div class="card-body">
-                        <form enctype="multipart/form-data">
-                            <div class="row">
-                                <div class="col-md-6 pr-1">
-                                    <div class="form-group">
-                                        <label>How many Questions you want to create?</label>
-                                        <input type="text" id="txtQuestionCount" class="form-control" placeholder="No of Question">
-                                    </div>
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="title">Add Question</h5>
+                </div>
+                <div class="card-body">
+                    <form enctype="multipart/form-data" id="addForm">
+                        <div class="row">
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>How many Questions you want to create?</label>
+                                    <input type="text" id="txtQuestionCount" class="form-control" placeholder="No of Question">
                                 </div>
                             </div>
-                            <div id="divQuestions">
+                        </div>
+                        <div id="divQuestions">
 
-                            </div>
+                        </div>
 
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <button id="btnSubmit" class="btn btn-primary btn-block">Submit</button>
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                        <button type="button" id="btnSubmit" class="btn btn-primary btn-block">Submit</button>
                                 </div>
                             </div>
-                            @{
-                                TempData["TestId"] = ViewBag.TestId;
-                            }
-                        </form>
-                    </div>
+
+                        </div>
+                        @{
+                            TempData["TestId"] = ViewBag.TestId;
+                        }
+                    </form>
+
                 </div>
             </div>
-
         </div>
+
     </div>
-    <footer class="footer">
-        <div class=" container-fluid ">
-            <nav>
-                <ul>
-                    <li>
-                        <a href="https://www.creative-tim.com">
-                            Karachi Grammar School
-                        </a>
-                    </li>
-                    <li>
+</div>
+<footer class="footer">
+    <div class=" container-fluid ">
+        <nav>
+            <ul>
+                <li>
+                    <a href="#">
+                        APEX E-LEARNING
+                    </a>
+                </li>
+                @*<li>
                         <a href="http://presentation.creative-tim.com">
                             About Us
                         </a>
@@ -63,29 +65,63 @@
                         <a href="http://blog.creative-tim.com">
                             Blog
                         </a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="copyright" id="copyright">
-                &copy;
-                <script>
-                    document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
-            </div>
+                    </li>*@
+            </ul>
+        </nav>
+        <div class="copyright" id="copyright">
+            &copy;
+            <script>
+                document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+            </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
         </div>
-    </footer>
-</div>
+    </div>
+</footer>
 
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 <script>
+
+
 
     var data = new FormData();
 
+    var marks = 0;
+
     $(document).ready(function () {
+
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+
+        if (messageSuccess.length > 0) {
+
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0)  {
+            toastr.error(messageError);
+        }
+
+
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
+
+
+        
+
+
 
         $("#txtQuestionCount").keyup(function (e) {
             if (e.keyCode == 8) {
@@ -108,6 +144,8 @@
         });
 
         $('#btnSubmit').click(function () {
+
+            
             GetValuesFromForm();
         });
 
@@ -122,8 +160,9 @@
     function generateTextBoxes(count) {
 
         for (var i = 0; i < count; i++) {
-            $('#divQuestions').append(`<div class="questionObj"><div class="row"><div class="col-md-12 pr-1"><div class="form-group"><label>Question ` + (i + 1) + `</label><input type="text" class="form-control" placeholder="Question ` + (i + 1) + `" id="q` + (i + 1) + `"></div></div></div>
-                <div class="row"><div class="col-md-12 pr-1"><div class="form-group"><div class="row"><div id="qa` + (i + 1) + `" class="col-md-6"><input type="text" class="form-control" placeholder="Answer1" value=""><input type="text" class="form-control" placeholder="Answer2" value=""><input type="text" class="form-control" placeholder="Answer3" value=""><input type="text" class="form-control" placeholder="Answer4" value=""></div><div class="col-md-3"><div class="form-group"><label>Correct Answer</label><select class="form-control"><option>A</option><option>B</option><option>C</option><option>D</option></select></div></div><div class="col-md-3"><div class="form-group"><label>Question Type</label><select  class="form-control ddlType"><option value='1'>MCQ</option><option value='2'>Textual answer</option><option value='3'>File upload</option></select></div></div></div></div></div></div></div> <br/>`);
+            $('#divQuestions').append(`<div class="questionObj">
+                                       <div class="row"><div class="col-md-12 pr-1"><div class="form-group"><label>Question ` + (i + 1) + `*</label><input type="text" class="form-control" name="question" placeholder="Question ` + (i + 1) + `" id="q` + (i + 1) + `"></div></div></div>
+                                       <div class="row"><div id="qa` + (i + 1) + `" class="col-md-6"><div class="form-group"><input type="text" class="form-control" placeholder="Answer1" value=""><input type="text" class="form-control" placeholder="Answer2" value=""><input type="text" class="form-control" placeholder="Answer3" value=""><input type="text" class="form-control" placeholder="Answer4" value=""></div></div><div class="col-md-3"><div class="form-group"><label>Correct Answer *</label><select class="form-control"><option>A</option><option>B</option><option>C</option><option>D</option></select></div></div><div class="col-md-3"><div class="form-group"><label>Question Type *</label><select  class="form-control ddlType"><option value='1'>MCQ</option><option value='2'>Textual answer</option><option value='3'>File upload</option></select></div></div><br/><div class="row col-md-3" style="margin-left:0px;"><div class="form-group"><label>Marks *</label><input type="number" class="form-control" name="marks" placeholder="Marks"></div></div></div></div><br/>`);
         }
 
     }
@@ -162,12 +201,18 @@
 
     function generateFileControl(id, ddl) {
         $('#' + id).empty();
-        $('#' + id).append(`<input type="file" class="form-control"/>`);
+        $('#' + id).append(`
+                            <label>File Upload *</label>
+                            <br />
+                            <input type="file" class="form-control" style="opacity: 1;margin-top:0px;height: 40px;font-size: 1.2em;" />
+                            `);
     }
 
     function getDataFromDiv(questions) {
 
         var questionObj = {};
+
+        data = new FormData();
 
         $('#divQuestions').find(".questionObj").each(function () {
 
@@ -177,7 +222,7 @@
 
             var textarea = $(this).find('textarea');
 
-            if (inputs.length > 2) {
+            if (inputs.length > 3) {
                 questionObj = {
                     question:   $(inputs[0]).val(),
                     option1:    $(inputs[1]).val(),
@@ -185,10 +230,13 @@
                     option3:    $(inputs[3]).val(),
                     option4:    $(inputs[4]).val(),
                     correctAns: $(selects[0]).val(),
-                    testTypeId: $(selects[1]).val()
+                    testTypeId: $(selects[1]).val(),
+                    marks: $(inputs[5]).val()
                 };
+
+               // marks += parseInt($(inputs[5]).val(), 10);
             }
-            else if (inputs.length == 2) {
+            else if (inputs.length == 3) {
                 file = $(inputs[1])[0].files[0];
                 data.append('file', file);
                 questionObj = {
@@ -198,8 +246,11 @@
                     option3:    '',
                     option4:    '',
                     correctAns: '',
-                    testTypeId: $(selects[1]).val()
+                    testTypeId: $(selects[1]).val(),
+                    marks: $(inputs[2]).val()
                 };
+
+               // marks += parseInt($(inputs[2]).val(), 10);
             }
             else if (textarea.length > 0) {
                 questionObj = {
@@ -209,8 +260,10 @@
                     option3:    '',
                     option4:    '',
                     correctAns: '',
-                    testTypeId: $(selects[1]).val()
+                    testTypeId: $(selects[1]).val(),
+                    marks: $(inputs[1]).val()
                 };
+               // marks += parseInt($(inputs[1]).val(), 10);
             }
             questions.push(questionObj);
         });
@@ -218,11 +271,27 @@
         data.append('tests', JSON.stringify(questions));
     }
 
-    function GetValuesFromForm() {
+    function GetValuesFromForm()
+    {
 
         var questions = [];
 
         getDataFromDiv(questions);
+
+
+        marks = 0;
+
+        $("input[name='marks']").each(function () {
+            marks += parseInt(this.value, 10);
+        });
+
+        var totalMarks = @ViewBag.TotalMarks;
+
+        if (marks > totalMarks) {
+            //alert('Marks can not be more than total marks');
+            toastr.error("Marks can not be more than total marks");
+        } else {
+
 
             $.ajax({
                 url: '@Url.Action("addtestdetails", "teachers/test")',
@@ -231,21 +300,22 @@
                 contentType: false,
                 data: data,
                 success: function Success(response) {
-                    debugger;
-                    if (response.d == "1") {
-                        toastr.success('Data successfully saved', 'Success')
-                    }
-                    else {
-                        toastr.error('Failed to Save Data', 'Error!')
+                    
+                    if (response == 1) {
+                        window.location.href = "/teachers/test";
+                    } else {
+                        //alert('Failed to Save Data');
+                        toastr.error("Failed to Save Data");
+
                     }
                 },
-                error: function (msg) {
-                    debugger;
-                    toastr.error('Failed to Save Data', 'Error!')
+                error: function(msg) {
+                    //alert('Failed to Save Data');
+                    toastr.error('Failed to Save Data');
                 }
             });
-
         }
+    }
 
 </script>
 

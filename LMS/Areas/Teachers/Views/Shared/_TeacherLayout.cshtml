@@ -1,8 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-
-
 <!--
 =========================================================
 * Now UI Dashboard - v1.5.0
@@ -19,10 +17,10 @@
 <head>
     <meta charset="utf-8" />
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    @*<link rel="icon" type="image/png" href="../assets/img/favicon.png">*@
+    <link rel="icon" type="image/png" href="~/Dashboard/assets/img/logo-new_03.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>
-        KGS LMS Dashboard
+        APEX E-LEARNING
     </title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
@@ -50,8 +48,8 @@
     <div class="wrapper ">
         <div class="sidebar" data-color="orange">
             <!--
-        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-    -->
+                Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+            -->
             <div class="logo">
                 <a href="#" class="">
                     <img src="/Dashboard/assets/img/logo-new_03.png" alt="" class="main-logo">
@@ -59,69 +57,9 @@
                 </a>
 
             </div>
-            <div class="sidebar-wrapper ps" id="sidebar-wrapper">
-                <ul class="nav navigation">
-                    <li class="active">
-                        <a asp-area="teachers" asp-controller="dashboard" asp-action="index">
-                            <i class="now-ui-icons design_app"></i>
-                            <p>Dashboard</p>
-                        </a>
-                    </li>
-                    <li class="has-child">
-                        <a asp-area="teachers" asp-controller="class" asp-action="index">
-                            <i class="now-ui-icons design_app"></i>
-                            
-                            <p>Classes </p>
-                        </a>
+            @*View Component For Teacher Panel Side Bar Added By Absar*@
+            @await Component.InvokeAsync("TPSidebar")
 
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <i class="now-ui-icons design_app"></i>
-                            <p>Lecture </p>
-                        </a>
-                    </li>
-
-                    <li class="has-child">
-                        <a href="#">
-                            <i class="now-ui-icons design_app"></i>
-                            <p>Attendance</p>
-                        </a>
-                        <ul>
-                            <li><a asp-area="teachers" asp-controller="attendance" asp-action="session">Session</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="has-child">
-                        <a href="#">
-                            <i class="now-ui-icons design_app"></i>
-                            <p>Quizes</p>
-                        </a>
-                        <ul>
-                            <li><a href="#">Assignments</a></li>
-                            <li><a href="#">Tests</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="now-ui-icons design_app"></i>
-                            <p>Grades</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="now-ui-icons design_app"></i>
-                            <p>Announcements</p>
-                        </a>
-                    </li>
-
-
-
-
-                </ul>
-                <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>
-            </div>
         </div>
         <div class="main-panel" id="main-panel">
 
@@ -201,7 +139,6 @@
     <script src="~/Dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
 
     <!--  Google Maps Plugin    -->
-    
     <!-- Chart JS -->
     @*<script src="../assets/js/plugins/chartjs.min.js"></script>*@
     <script src="~/Dashboard/assets/js/plugins/chartjs.min.js"></script>
@@ -217,6 +154,7 @@
     @*Jquery Data Table*@
     @* <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>*@
     @*<script src="~/Dashboard/assets/jqueryDataTable/bootstrap.min.js"></script>*@
+
     <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
 
     @*<script src="~/Dashboard/assets/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -224,6 +162,9 @@
     <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
     @*<script src="~/Dashboard/assets/demo/demo.js"></script>*@
 
+
+    @*For Date Picker*@
+    
 
     <script>
         $(document).ready(function () {

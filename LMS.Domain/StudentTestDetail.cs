@@ -30,7 +30,8 @@ namespace LMS.Domain
 
         public int Marks_Obtained { get; set; }
 
-        [Column(TypeName = "DateTime")]
-        public DateTime SubmittedOn { get; set; }
+        //[Column(TypeName = "DateTime")]
+        public string SubmittedOn { get; set; }
+
     }
 }

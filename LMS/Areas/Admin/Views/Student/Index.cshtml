@@ -18,7 +18,7 @@
                             <div class="table-title">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h2>Manage <b>Students</b></h2>
+                                        <h2><b>Manage Students</b></h2>
                                     </div>
                                     <div class="col-md-6 pull-right">
                                         <a a asp-area="admin" asp-controller="student" asp-action="addStudent" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add New Student</span></a>
@@ -28,7 +28,7 @@
                             </div>
 
                             <table id="studentpage" class="display" style="width:100%">
-                                <thead>
+                                <thead class="aThead">
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
@@ -89,11 +89,11 @@
                         </div>
                     </div>
 
-                    <!-- Edit Modal HTML -->
+                    <!-- Add Modal HTML -->
                     <div id="assignStudentClassModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form method="post" asp-controller="student" asp-action="addStudentClass">
+                                <form method="post" asp-controller="student" asp-action="addStudentClass" id="addForm">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Add Student Class</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -109,17 +109,21 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Class Name</label>
-                                            <select id="Class_Id" name="Class_Id" class="form-control" asp-for="Class_Id" asp-items="@Model.Classes"></select>
+                                            <select id="Class_Id" name="Class_Id" class="form-control" asp-for="Class_Id" asp-items="@Model.Classes">
+                                            <option value="0">--Select--</option>
+                                            </select>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Section Name</label>
-                                            <select id="Section_Id" name="Section_Id" class="form-control" asp-for="Section_Id" asp-items="@Model.Sections"></select>
+                                            <select id="Section_Id" name="Section_Id" class="form-control" asp-for="Section_Id" asp-items="@Model.Sections">
+                                                <option value="0">--Select--</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                        <input type="submit" class="btn btn-info" value="Save">
+                                        <input type="submit" class="btn btn-info" value="Update">
                                         @*Added By Absar*@
                                         <input type="hidden" id="Student_Id" name="Student_Id" />
                                         <input type="hidden" id="Student_Name" name="Student_Name" />
@@ -169,11 +173,11 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="https://www.creative-tim.com">
-                            Karachi Grammar School
+                        <a href="#">
+                            APEX E-LEARNING
                         </a>
                     </li>
-                    <li>
+                    @*<li>
                         <a href="http://presentation.creative-tim.com">
                             About Us
                         </a>
@@ -182,14 +186,14 @@
                         <a href="http://blog.creative-tim.com">
                             Blog
                         </a>
-                    </li>
+                    </li>*@
                 </ul>
             </nav>
             <div class="copyright" id="copyright">
                 &copy;
                 <script>
                     document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+                </script>, Designed by and Developed by <a href="http://www.isenrichment.org/" target="_blank">ISE</a>.
             </div>
         </div>
     </footer>
@@ -222,12 +226,26 @@
             //console.log(message);
             toastr.success(messageSuccess);
         }
-        else if (messageError > 0)  {
+        else if (messageError.length > 0)  {
             toastr.error(messageError);
         }
         
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
+
+
+        //Check If Class and Section Is Selected
+        $("#addForm").submit(function (event) {
+
+            if ($("#Class_Id").val() === "0" || $("#Section_Id").val() === "0") {
+
+                event.preventDefault();
+                toastr.error("Kindly Select Class And Section");
+
+            }
+
+
+        });
 
 
         //Get Student_Id for Delete Added By Absar

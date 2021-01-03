@@ -47,7 +47,7 @@ namespace LMS.Areas.Admin.Controllers
             {
                 Class newClass = new Class
                 {
-                    Class_Name = objClass.Class_Name
+                    Class_Name = objClass.Class_Name.ToUpper()
                 };
 
                 int result =  await _ClassRepository.AddClass(newClass);
@@ -116,7 +116,7 @@ namespace LMS.Areas.Admin.Controllers
             {
                 Class objClass = await _ClassRepository.GetClassById(classModel.Class_Id);
 
-                objClass.Class_Name = classModel.Class_Name;
+                objClass.Class_Name = classModel.Class_Name.ToUpper();
 
                 int result = await _ClassRepository.UpdateClass(objClass);
 

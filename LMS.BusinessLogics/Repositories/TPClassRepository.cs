@@ -31,11 +31,11 @@ namespace LMS.BusinessLogics.Repositories
 
 
 
-        public async Task<ClassSubject> GetClassSubjectById(int classSectionId)
+        public async Task<ClassSubject> GetClassSubjectById(int classSectionId, int subjectId)
         {
             var ClassSubject = await _lmsDbContext.ClassSubject
                 .AsNoTracking()
-                .FirstOrDefaultAsync(csub => csub.ClassSection_Id == classSectionId);
+                .FirstOrDefaultAsync(csub => csub.ClassSection_Id == classSectionId && csub.Subject_Id == subjectId);
 
             return ClassSubject;
         }

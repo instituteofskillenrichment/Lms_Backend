@@ -12,5 +12,6 @@ namespace LMS.Areas.Teachers.Models
         public string Option4 { get; set; }
         public string CorrectAns { get; set; }
         public string TestTypeId { get; set; }
+        public int Marks { get; set; }
     }
 }
