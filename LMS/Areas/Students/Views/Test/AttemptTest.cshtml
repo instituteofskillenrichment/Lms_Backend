@@ -213,7 +213,7 @@
     }
 
     function generateFileControl(i, typeId) {
-        return `<div class="row"><div  id="qa` + (parseInt(i, 10) + 1) + `" class="col-md-6" style="padding-left:40px;"><input type="file" class="form-control"/></div><div class="col-md-3"><div class="form-group"><label>Answer Type</label>` +  buildSelect(typeId)  + `</div></div></div>`;
+        return `<div class="row"><div  id="qa` + (parseInt(i, 10) + 1) + `" class="col-md-6" style="padding-left:15px;"><label>File Upload</label><input type="file" class="form-control"/></div><div class="col-md-3"><div class="form-group"><label>Answer Type</label>` +  buildSelect(typeId)  + `</div></div></div>`;
     }
 
     function buildSelect(value) {

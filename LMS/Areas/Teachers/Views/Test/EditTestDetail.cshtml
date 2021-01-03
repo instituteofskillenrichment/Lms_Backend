@@ -18,67 +18,79 @@
                         <div class="row">
                             <div class="col-md-12 pr-1">
                                 <div class="form-group">
-                                    <label>Question</label>
+                                    <label>Question *</label>
                                     <input asp-for="Question_Name" class="form-control" />
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12 pr-1">
+                            @*<div class="col-md-12 pr-1">*@
+                            @*<div class="form-group">*@
+                            @*<div class="row">*@
+
+                            @if (Model.Test_Type_Id == 1)
+                            {
+
+                                <div id="qa1" class="col-md-6 ">
+                                    <div class="form-group">
+                                        <input asp-for="Option_1" class="form-control" />
+                                        <input asp-for="Option_2" class="form-control" />
+                                        <input asp-for="Option_3" class="form-control" />
+                                        <input asp-for="Option_4" class="form-control" />
+                                    </div>
+                                </div>
+                            }
+                            else if (Model.Test_Type_Id == 2)
+                            {
+                                <div id="qa1" class="col-md-6">
+                                    <div class="form-group">
+                                        <textarea asp-for="Option_1" style="width:100%;" cols="2" rows="10"></textarea>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div id="qa1" class="col-md-6">
+                                    
+                                        <label>File Upload *</label>
+                                        <input asp-for="File" class="form-control"  />
+                                    
+                                </div>
+
+                            }
+
+
+
+                            <div id="ddlCorrectAnswerDiv" class="col-md-3">
                                 <div class="form-group">
-                                    <div class="row">
-
-                                        @if (Model.Test_Type_Id == 1)
-                                        {
-
-                                            <div id="qa1" class="col-md-6">
-                                                <input asp-for="Option_1" class="form-control" />
-                                                <input asp-for="Option_2" class="form-control" />
-                                                <input asp-for="Option_3" class="form-control" />
-                                                <input asp-for="Option_4" class="form-control" />
-                                            </div>
-                                        }
-                                        else if (Model.Test_Type_Id == 2)
-                                        {
-                                            <div id="qa1" class="col-md-6">
-                                                <textarea asp-for="Option_1" style="width:100%;" cols="2" rows="10"></textarea>
-                                            </div>
-                                        }
-                                        else
-                                        { 
-                                            <div id="qa1" class="col-md-6">
-                                                
-                                                    <label>File Upload</label>
-                                                    <input asp-for="File" class="form-control" style="opacity: 1;margin-top: 30px;height: 40px;font-size: 1.2em;margin-left:15px;" />
-                                                
-                                            </div>
-
-                                        }
-
-
-
-                                                <div id="ddlCorrectAnswerDiv" class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label>Correct Answer</label>
-                                                        <select id="ddlCorrectAnswer" asp-for="Correct_Answer" class="form-control" asp-items="@(new SelectList(ViewBag.CorrectAnswerList))"></select>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="col-md-3" style="margin-left:15px;">
-                                                    <div class="form-group qa1">
-                                                        <label>Question Type</label>
-                                                        <select asp-for="Test_Type_Id" class="form-control ddlType" asp-items="@(new SelectList(ViewBag.TestTypeList, "Test_Type_Id", "Test_Type_Name"))"></select>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                    <br />
-                                    <div class="row col-md-3"><input asp-for="Question_Marks" class="form-control" placeholder="Marks"/></div>
+                                    <label>Correct Answer *</label>
+                                    <select id="ddlCorrectAnswer" asp-for="Correct_Answer" class="form-control" asp-items="@(new SelectList(ViewBag.CorrectAnswerList))"></select>
                                 </div>
                             </div>
 
+
+                            <div class="col-md-3" >
+                                
+                                    <label>Question Type *</label>
+                                    <select asp-for="Test_Type_Id" class="form-control ddlType" asp-items="@(new SelectList(ViewBag.TestTypeList, "Test_Type_Id", "Test_Type_Name"))"></select>
+                               
+                            </div>
+
+                            @*</div>*@
+
+                            @*</div>*@
+                            @*</div>*@
+
                         </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                
+                                    <label>Marks *</label>
+                                    <input asp-for="Question_Marks" class="form-control" placeholder="Marks" />
+                                
+                            </div>
+                        </div>
+                        
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
@@ -86,7 +98,7 @@
                                 </div>
                             </div>
                         </div>
-                        @{ 
+                        @{
                             TempData["Question_Id"] = Model.Question_Id;
                         }
                     </form>
@@ -99,6 +111,8 @@
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 <script>
 
 
@@ -107,6 +121,28 @@
     var marks = 0;
 
     $(document).ready(function () {
+
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+
+        if (messageSuccess.length > 0) {
+
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0) {
+            toastr.error(messageError);
+        }
+
+
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
@@ -114,11 +150,12 @@
         {
             <text>
             $('#ddlCorrectAnswerDiv').css('display', 'none');
-    </text>
-        } else {
-         <text>
+            </text>
+        }
+        else {
+            <text>
             $('#ddlCorrectAnswerDiv').css('display', 'block');
-    </text>
+            </text>
 
         }
 
@@ -173,7 +210,7 @@
          if ($('#' + id).hasClass('col-md-3')) {
             $('#' + id).removeClass('col-md-3').addClass('col-md-6');
         }
-        $('#' + id).append(`<div class="form-group">
+        $('#' + id).append(`<div class="row">
                             <label>File Upload</label>
                             <br />
                             <input type="file" class="form-control" style="opacity: 1;margin-top: 30px;height: 40px;font-size: 1.3em;" />
@@ -244,7 +281,7 @@
         getDataFromDiv();
 
         marks = 0;
-        
+
         $("input[name='Question_Marks']").each(function () {
             marks += parseInt(this.value, 10);
         });
@@ -261,7 +298,7 @@
                 processData: false,
                 contentType: false,
                 data: data,
-               success: function Success(response) {
+                success: function Success(response) {
                     
                     if (response == 1) {
                         window.location.href = "/teachers/test";
@@ -270,7 +307,8 @@
                         toastr.error('Failed to Save Data');
                     }
                 },
-                error: function(msg) {
+                error: function (msg) {
+                    
                     //alert('Failed to Save Data');
                     toastr.error('Failed to Save Data');
                 }

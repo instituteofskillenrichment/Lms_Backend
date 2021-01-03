@@ -60,7 +60,7 @@ namespace LMS.Areas.Admin.Controllers
             {
                 IdentityUser User = new IdentityUser
                 {
-                    UserName = objAppUser.UserName.ToUpper(),
+                    UserName = objAppUser.UserName,
                     Email = objAppUser.UserEmail.ToLower(),
                     //PasswordHash = objAppUser.UserPassword
                 };
@@ -139,7 +139,7 @@ namespace LMS.Areas.Admin.Controllers
             {
                 IdentityUser UserModel = await _UserRepository.FindUserById(User_Id);
 
-                UserModel.UserName = User_Name.ToUpper();
+                UserModel.UserName = User_Name;
                 UserModel.Email = User_Email.ToLower();
                 UserModel.PasswordHash = User_Password;
 
