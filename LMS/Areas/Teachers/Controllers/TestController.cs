@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Test = LMS.Domain.Test;
@@ -31,13 +32,13 @@ namespace LMS.Areas.Teachers.Controllers
         //private readonly ISubjectRepository _SubjectRepository;
         private readonly ILectureRepository _LectureRepository;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IConfiguration _config;
 
-        public TestController(ITeacherTestRepository TeacherTestRepository, 
-            //IClassRepository ClassRepository,
-            //ISectionRepository SectionRepository, 
-            //ISubjectRepository SubjectRepository,
-            ILectureRepository LectureRepository,
-            IHostingEnvironment hostingEnvironment)
+
+        public TestController(ITeacherTestRepository TeacherTestRepository, IClassRepository ClassRepository,
+            ISectionRepository SectionRepository, ISubjectRepository SubjectRepository, IHostingEnvironment hostingEnvironment,
+            IConfiguration config)
+
         {
             _TeacherTestRepository = TeacherTestRepository;
             //_ClassRepository = ClassRepository;
@@ -45,6 +46,7 @@ namespace LMS.Areas.Teachers.Controllers
            // _SubjectRepository = SubjectRepository;
             _LectureRepository = LectureRepository;
             _hostingEnvironment = hostingEnvironment;
+            _config = config;
         }
 
         [Route("")]
@@ -578,6 +580,64 @@ namespace LMS.Areas.Teachers.Controllers
         }
 
 
+        [Route("students")]
+        public IActionResult Students(int id)
+        {
+            var Students = _TeacherTestRepository.GetStudentsByTest(id);
+
+            ViewBag.TestId = id;
+
+            return View(Students);
+        }
+
+        [Route("viewTestResult")]
+        public IActionResult ViewTestResult(int studentId, int testId)
+        {
+            var TestResults = _TeacherTestRepository.GetStudentTestResult(studentId, testId);
+
+            TestResults.ToList().ForEach(x => x.Answer = x.Answer_Type_Id == 3 ? _config.GetSection("AppSettings").GetSection("AnswerFilesPath").Value + x.Answer : x.Answer);
+
+            ViewBag.TestId = testId;
+            ViewBag.StudentId = studentId;
+
+            return View(TestResults);
+        }
+
+        [Route("viewTestResult")]
+        [HttpPost]
+        public async Task<IActionResult> ViewTestResult()
+        {
+            try
+            {
+                string result = Request.Form.Where(x => x.Key == "results").FirstOrDefault().Value;
+
+                var root = JsonConvert.DeserializeObject<List<Result>>(result);
+
+                if (ModelState.IsValid)
+                {
+                    for (int i = 0; i < root.Count; i++)
+                    {
+                        var newStudentTestDetail = await _TeacherTestRepository.GetStudentTestDetailById(Convert.ToInt32(TempData["StudentId"]), Convert.ToInt32(TempData["TestId"]), root[i].QuestionId);
+                        
+                        newStudentTestDetail.Marks_Obtained = root[i].MarksObtained;
+
+                        await _TeacherTestRepository.UpdateStudentTestDetail(newStudentTestDetail);
+                    }
+
+                    return RedirectToAction("Index", "Test", new { area = "Teachers" });
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw;
+            }
+
+            return View();
+        }
+
+
         //Added By Absar
         [Route("assessments")]
         public IActionResult Assessments()
@@ -693,6 +753,7 @@ namespace LMS.Areas.Teachers.Controllers
             return View();
 
         }
+
 
 
 

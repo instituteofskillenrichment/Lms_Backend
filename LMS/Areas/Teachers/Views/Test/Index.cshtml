@@ -32,6 +32,7 @@
                                         <th>Subject</th>
                                         <th>Date</th>
                                         <th>Questions</th>
+                                        <th>Attempts</th>
                                         <th>Options</th>
                                         <th>Action</th>
                                     </tr>
@@ -39,13 +40,22 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                        <tr>
+
+                                      <tr>
                                             <td>@item.Test_Name</td>
                                             <td>@item.Class_Name</td>
                                             <td>@item.Section_Name</td>
                                             <td>@item.Subject_Name</td>
                                             <td>@item.Assessment_Date.ToShortDateString()</td>
                                             <td>@item.Questions_Count</td>
+                                            @if (item.Attempts != 0)
+                                            {
+                                                <td><a asp-action="Students" asp-controller="Test" asp-route-id="@item.Test_Id" class="btn btn-primary btn-sm">@(item.Attempts.ToString() + " (View)")</a></td>
+                                            }
+                                            else
+                                            {
+                                                <td>@item.Attempts</td>
+                                            }
                                             <td><a asp-action="ManageTest" asp-controller="Test" asp-route-id="@item.Test_Id" class="btn btn-primary btn-sm" style="background-color:#ae7c38;">Manage Questions</a></td>
                                             <td>
                                                 <a asp-action="editTest" asp-controller="Test" asp-route-id="@item.Test_Id" class="edit" id="edit">
@@ -55,6 +65,7 @@
                                                 <input type="hidden" class="Test_Id" value="@item.Test_Id" />
                                             </td>
                                         </tr>
+
                                     }
                                 </tbody>
                             </table>

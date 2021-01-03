@@ -34,11 +34,13 @@
                                         <button type="button" id="btnSubmit" class="btn btn-primary btn-block">Submit</button>
                                 </div>
                             </div>
+
                         </div>
                         @{
                             TempData["TestId"] = ViewBag.TestId;
                         }
                     </form>
+
                 </div>
             </div>
         </div>
@@ -276,6 +278,7 @@
 
         getDataFromDiv(questions);
 
+
         marks = 0;
 
         $("input[name='marks']").each(function () {
@@ -288,6 +291,7 @@
             //alert('Marks can not be more than total marks');
             toastr.error("Marks can not be more than total marks");
         } else {
+
 
             $.ajax({
                 url: '@Url.Action("addtestdetails", "teachers/test")',

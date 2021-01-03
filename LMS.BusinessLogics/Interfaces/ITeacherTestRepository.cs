@@ -22,6 +22,13 @@ namespace LMS.BusinessLogics.Interfaces
         Task DeleteQuestion(int QuestionId);
         Task<int> UpdateTeacherTestDetail(TestDetail objTestDetail);
         Task<int> UpdateTeacherTest(Test objTest);
+
+        IEnumerable<StudentAttemptTestViewModel> GetStudentsByTest(int TestId);
+        IEnumerable<StudentTestResultViewModel> GetStudentTestResult(int StudentId, int TestId);
+        Task<StudentTestDetail> GetStudentTestDetailById(int StudentId, int TestId, int QuestionId);
+
+        Task<int> UpdateStudentTestDetail(StudentTestDetail objStudentTestDetail);
+
         IQueryable<AssessmentType> GetAllAssessmentType();
         
         
@@ -31,5 +38,6 @@ namespace LMS.BusinessLogics.Interfaces
         Task<int> UpdateAssessmentType(AssessmentType objAssessment);
         Task<int> DeleteAssessmentType(int id);
         Task<int> GetTestTotalMarks(int Id);
+
     }
 }

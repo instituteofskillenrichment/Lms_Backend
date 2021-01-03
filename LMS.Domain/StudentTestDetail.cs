@@ -27,9 +27,11 @@ namespace LMS.Domain
         public int Answer_Type_Id { get; set; }
 
         public TestType AnswerType { get; set; }
-        
-        
+
+        public int Marks_Obtained { get; set; }
+
         //[Column(TypeName = "DateTime")]
         public string SubmittedOn { get; set; }
+
     }
 }
