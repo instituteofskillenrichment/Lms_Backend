@@ -35,7 +35,7 @@ namespace LMS.Areas.Teachers.Controllers
         private readonly IConfiguration _config;
 
 
-        public TestController(ITeacherTestRepository TeacherTestRepository, IClassRepository ClassRepository,
+        public TestController(ITeacherTestRepository TeacherTestRepository, ILectureRepository LectureRepository, IClassRepository ClassRepository,
             ISectionRepository SectionRepository, ISubjectRepository SubjectRepository, IHostingEnvironment hostingEnvironment,
             IConfiguration config)
 

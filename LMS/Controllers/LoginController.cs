@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -41,47 +42,54 @@ namespace LMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await userManager.FindByNameAsync(model.UserName);
-
-               
-                var result = await signInManager.PasswordSignInAsync(user.UserName, model.Password,model.RememberMe, lockoutOnFailure: true);
-
-                if (result.Succeeded)
+                try
                 {
-                    var roleDetails = await userManager.GetRolesAsync(user);
+                    var user = await userManager.FindByNameAsync(model.UserName);
 
-                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                    {
-                        return Redirect(returnUrl);
-                    }
-                    else if (roleDetails[0] == "Admin") //Admin case
-                    {
-                        return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
-                    }
-                    else if (roleDetails[0] == "Teacher") //Teacher case
-                    {
-                        var teacherObj = teacherRepository.FindTeacherByRefId(user.Id);
 
-                        HttpContext.Session.SetInt32("UserId", teacherObj.Teacher_Id);
+                    var result = await signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: true);
 
-                        return RedirectToAction("Index", "Dashboard", new { area = "Teachers" });
-                    }
-                    else //Student case
+                    if (result.Succeeded)
                     {
-                        var studentObj = studentRepository.FindStudentByRefId(user.Id);
-                        HttpContext.Session.SetInt32("UserId", studentObj.Student_Id);
+                        var roleDetails = await userManager.GetRolesAsync(user);
 
-                        return RedirectToAction("Index", "Dashboard", new { area = "Students" });
+                        if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                        {
+                            return Redirect(returnUrl);
+                        }
+                        else if (roleDetails[0] == "Admin") //Admin case
+                        {
+                            return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                        }
+                        else if (roleDetails[0] == "Teacher") //Teacher case
+                        {
+                            var teacherObj = teacherRepository.FindTeacherByRefId(user.Id);
+
+                            HttpContext.Session.SetInt32("UserId", teacherObj.Teacher_Id);
+
+                            return RedirectToAction("Index", "Dashboard", new { area = "Teachers" });
+                        }
+                        else //Student case
+                        {
+                            var studentObj = studentRepository.FindStudentByRefId(user.Id);
+                            HttpContext.Session.SetInt32("UserId", studentObj.Student_Id);
+
+                            return RedirectToAction("Index", "Dashboard", new { area = "Students" });
+                        }
                     }
+
+                    if (result.IsLockedOut)
+                    {
+                        ModelState.AddModelError(string.Empty, "Account Has Been Locked");
+                        return View(model);
+                    }
+
+                    ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
                 }
-
-                if (result.IsLockedOut)
+                catch(Exception ex)
                 {
-                    ModelState.AddModelError(string.Empty, "Account Has Been Locked");
-                    return View(model);
+                    ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
                 }
-
-                ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
 
             return View(model);
@@ -129,12 +137,20 @@ namespace LMS.Controllers
                     else if (roles[0] == "TEACHER")
                     {
                         ViewBag.Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
+                        var objUser = _UserRepository.GetUserImage(UserId, "TEACHER");
+                        ViewBag.UserImage = objUser.UserImage;
+                        ViewBag.UserName = objUser.UserName;
+                        ViewBag.UserEmail = objUser.UserEmail;
                         return View(user);
                     }
                     else if (roles[0] == "STUDENT")
                     {
                         
                          ViewBag.Layout = "~/Areas/Students/Views/Shared/_Studentayout.cshtml";
+                        var objUser = _UserRepository.GetUserImage(UserId, "STUDENT");
+                        ViewBag.UserImage = objUser.UserImage;
+                        ViewBag.UserName = objUser.UserName;
+                        ViewBag.UserEmail = objUser.UserEmail;
                         return View(user);
                     }
                 }
@@ -167,8 +183,16 @@ namespace LMS.Controllers
                         if (roles[0] == "ADMIN")
                         {
                             result = await _UserRepository.ResetPassword(UserModel, mdlUser.PasswordHash);
-                            TempData["Success"] = "User Password Update Successfully...";
-                            ViewBag.Success = TempData["Success"].ToString();
+
+                            if(result == 1)
+                            {
+                                await signInManager.SignOutAsync();
+
+                                return RedirectToAction("Index", "Login");
+                            }
+                           
+                            TempData["Error"] = "User Password Update Falied...";
+                            ViewBag.Success = TempData["Error"].ToString();
                             ViewBag.Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
                             return View(UserModel);
 
@@ -176,41 +200,61 @@ namespace LMS.Controllers
                         else if (roles[0] == "TEACHER")
                         {
                             result = await _UserRepository.ResetPassword(UserModel, mdlUser.PasswordHash);
-                            TempData["Success"] = "User Password Update Successfully...";
-                            ViewBag.Success = TempData["Success"].ToString();
+
+                            if (result == 1)
+                            {
+                                await signInManager.SignOutAsync();
+
+                                return RedirectToAction("Index", "Login");
+                            }
+
+                            TempData["Error"] = "User Password Update Falied...";
+                            ViewBag.Success = TempData["Error"].ToString();
                             ViewBag.Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
                             return View(UserModel);
                         }
                         else if (roles[0] == "STUDENT")
                         {
-                            result = await _UserRepository.ResetPassword(UserModel, "Student@123");
-                        }
+                            result = await _UserRepository.ResetPassword(UserModel, mdlUser.PasswordHash);
 
-
-                        if (result == 1)
-                        {
-                            TempData["Success"] = "User Password Update Successfully...";
-
-                            
-
-                            if (TempData["Success"] != null)
+                            if (result == 1)
                             {
-                                ViewBag.Success = TempData["Success"].ToString();
+                                await signInManager.SignOutAsync();
+
+                                return RedirectToAction("Index", "Login");
                             }
 
+                            TempData["Error"] = "User Password Update Falied...";
+                            ViewBag.Success = TempData["Error"].ToString();
+                            ViewBag.Layout = "~/Areas/Students/Views/Shared/_Studentayout.cshtml";
                             return View(UserModel);
                         }
-                        else
-                        {
-                            TempData["Error"] = "User Password Update Failed...";
 
-                            if (TempData["Error"] != null)
-                            {
-                                ViewBag.Error = TempData["Error"].ToString();
-                            }
+
+                        //if (result == 1)
+                        //{
+                        //    TempData["Success"] = "User Password Update Successfully...";
+
                             
-                            return View();
-                        }
+
+                        //    if (TempData["Success"] != null)
+                        //    {
+                        //        ViewBag.Success = TempData["Success"].ToString();
+                        //    }
+
+                        //    return View(UserModel);
+                        //}
+                        //else
+                        //{
+                        //    TempData["Error"] = "User Password Update Failed...";
+
+                        //    if (TempData["Error"] != null)
+                        //    {
+                        //        ViewBag.Error = TempData["Error"].ToString();
+                        //    }
+                            
+                        //    return View();
+                        //}
 
 
 

@@ -76,13 +76,20 @@
                 <div class="card-body">
                     <div class="author">
                         <a href="#">
+                            @if (ViewBag.UserImage != null)
+                            {
+                                <img class="avatar border-gray" src="@ViewBag.UserImage" />
+                            }
+                            else
+                            {
+                                <img class="avatar border-gray" src="~/Dashboard/assets/img/mike.jpg" />
+                            }
 
-                            <img class="avatar border-gray" src="~/Dashboard/assets/img/mike.jpg" />
 
-                            <h5 class="title">Mike Andrew</h5>
+                            <h5 class="title">@ViewBag.UserName</h5>
                         </a>
                         <p class="description">
-                            michael24
+                            @ViewBag.UserEmail
                         </p>
                     </div>
                     <p class="description text-center">

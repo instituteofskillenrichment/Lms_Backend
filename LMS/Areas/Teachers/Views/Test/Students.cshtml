@@ -33,9 +33,9 @@
                                     {
                                         <tr>
                                             <td>@item.Student_Name</td>
-                                            <td>@item.SubmittedOn</td>
-                                            <td>100</td>
-                                            <td><a asp-action="ViewTestResult" asp-controller="Test" asp-route-studentId="@item.Student_Id" asp-route-testId="@item.Test_Id" class="btn btn-primary btn-sm">Manage</a></td>
+                                            <td>@item.SubmittedOn.ToShortDateString()</td>
+                                            <td>@item.Obtained_Marks</td>
+                                            <td><a asp-action="ViewTestResult" asp-controller="Test" asp-route-studentId="@item.Student_Id" asp-route-testId="@item.Test_Id" class="btn btn-primary btn-sm">View</a></td>
                                         </tr>
                                     }
                                 </tbody>
@@ -53,4 +53,48 @@
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 
+<script>
+    $(document).ready(function () {
+
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+
+        if (messageSuccess.length > 0) {
+
+            toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0)  {
+            toastr.error(messageError);
+        }
+
+
+
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+
+
+        $('#test').DataTable({
+            /* Disable initial sort */
+            "aaSorting": []
+        });
+
+
+
+
+    });
+</script>

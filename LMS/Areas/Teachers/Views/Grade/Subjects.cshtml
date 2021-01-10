@@ -39,7 +39,7 @@
                                             <td>@item.Subject_Name</td>
                                             <td>@item.Class_Name</td>
                                             <td>
-                                                <a asp-action="Grade" asp-controller="Class" asp-route-ClassSubjectId="@item.ClassSubject_Id" class="edit">View More<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+                                                <a asp-action="students" asp-controller="grade" asp-route-ClassSubjectId="@item.ClassSubject_Id" class="edit">View More<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>
                                     }

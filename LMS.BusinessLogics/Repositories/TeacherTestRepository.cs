@@ -63,6 +63,7 @@ namespace LMS.BusinessLogics.Repositories
             var Tests = (
                             from t in _lmsDbContext.Test
                             where t.Teacher_Id == TeacherId
+                            orderby t.Assessment_Date descending
                             select new TestListViewModel
                             {
                                 Test_Id = t.Test_Id,
@@ -183,7 +184,13 @@ namespace LMS.BusinessLogics.Repositories
                                 Test_Id = std.Test_Id,
                                 Student_Id = std.Student_Id,
                                 Student_Name = std.Student.Student_Name,
-                                SubmittedOn = std.SubmittedOn
+                                SubmittedOn = DateTime.ParseExact(std.SubmittedOn, "yyyyMMdd", null),
+                                Obtained_Marks = (from StudentTestDetail in _lmsDbContext.StudentTestDetail
+                                                  where StudentTestDetail.Test_Id == std.Test_Id
+                                                  select new
+                                                  {
+                                                      StudentTestDetail.Marks_Obtained
+                                                  }).Sum(p => p.Marks_Obtained)
                             }).ToList();
 
             return Students;

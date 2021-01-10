@@ -293,5 +293,39 @@ namespace LMS.BusinessLogics.Repositories
             return -1;
         }
 
+        //Added By Absar on 4-1-2021
+        public AppUser GetUserImage(string UserId, string Role)
+        {
+            if(Role == "TEACHER")
+            {
+                var user =  (from u in _lmsDbContext.Users
+                                           join t in _lmsDbContext.Teacher on u.Id equals t.Teacher_Ref_Id
+                                           where u.Id == UserId
+                                           select new AppUser
+                                           {
+                                               UserId = u.Id,
+                                               UserName = t.Teacher_Name,
+                                               UserEmail = t.Teacher_Email,
+                                               UserImage = t.Teacher_Photo
+                                           }).FirstOrDefault();
+
+                return user;
+            }
+            else
+            {
+                var user =  (from u in _lmsDbContext.Users
+                                           join s in _lmsDbContext.Student on u.Id equals s.Student_Ref_Id
+                                           where u.Id == UserId
+                                           select new AppUser
+                                           {
+                                               UserId = u.Id,
+                                               UserName = s.Student_Name,
+                                               UserEmail = s.Student_Email,
+                                               UserImage = s.Student_Photo
+                                           }).FirstOrDefault();
+
+                return user;
+            }
+        }
     }
 }

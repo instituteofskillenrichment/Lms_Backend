@@ -8,5 +8,8 @@ namespace LMS.Domain.ViewModels
         public int Test_Id { get; set; }
         public string Student_Name { get; set; }
         public DateTime SubmittedOn { get; set; }
+
+        //Added By Absar
+        public double Obtained_Marks { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace LMS.Domain.ViewModels
         public string UserPassword{ get; set; }
         public string UserRoleId { get; set; }
         public string UserRole { get; set; }
+        public string UserImage { get; set; }
 
         //public IdentityUser User { get; set; }
 

@@ -195,7 +195,7 @@ namespace LMS.BusinessLogics.Repositories
 
                 await _lmsDbContext.SaveChangesAsync();
 
-                return -1;
+                return 1;
             }
             catch(Exception ex)
             {

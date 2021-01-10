@@ -33,5 +33,8 @@ namespace LMS.BusinessLogics.Interfaces
 
         Task<int> ResetPassword(IdentityUser objModel, string Password);
 
+        //Added By Absar on 4-1-2021
+        AppUser GetUserImage(string UserId, string Role);
+
     }
 }

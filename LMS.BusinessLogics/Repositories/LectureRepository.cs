@@ -94,7 +94,7 @@ namespace LMS.BusinessLogics.Repositories
                                          csub.ClassSection.Class_Id == csub.ClassSection.Class.Class_Id &&
                                          csub.Subject_Id == csub.Subject.Subject_Id
                                        orderby
-                                         l.Lecture_Id
+                                         l.LecturePost_Date descending
                                        select new EditLectureViewModel
                                        {
                                            Id= l.Lecture_Id,
@@ -175,6 +175,7 @@ namespace LMS.BusinessLogics.Repositories
         {
             var Lecture = await _lmsDbContext.Lecture
                        .AsNoTracking()
+                       .OrderByDescending(c => c.LecturePost_Date)
                        .Where(c => c.ClassSubject_Id == Id).ToListAsync();
 
             return Lecture;

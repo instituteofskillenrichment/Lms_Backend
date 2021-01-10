@@ -24,7 +24,7 @@
                                 </div>
                             </div>
                             <table id="test" class="display" style="width:100%">
-                                <thead>
+                                <thead class="aThead">
                                     <tr>
                                         <th>Name</th>
                                         <th>Class</th>
@@ -41,7 +41,7 @@
                                     @foreach (var item in Model)
                                     {
 
-                                      <tr>
+                                        <tr>
                                             <td>@item.Test_Name</td>
                                             <td>@item.Class_Name</td>
                                             <td>@item.Section_Name</td>
@@ -68,6 +68,19 @@
 
                                     }
                                 </tbody>
+                                <tfoot class="aThead">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Class</th>
+                                        <th>Section</th>
+                                        <th>Subject</th>
+                                        <th>Date</th>
+                                        <th>Questions</th>
+                                        <th>Attempts</th>
+                                        <th>Options</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                             <div class="clearfix">
 
@@ -147,10 +160,45 @@
 
 
 
+        //$('#test').DataTable({
+        //    /* Disable initial sort */
+        //    // "aaSorting": []
+        //});
+
         $('#test').DataTable({
-            /* Disable initial sort */
-            // "aaSorting": []
+            "aaSorting": [],
+            "bLengthChange": false,
+            "fixedHeader": { header: true, footer: true },
+
+            responsive: false,
+            //autoWidth: false,
+            //aaSorting: [[2, 'asc']],
+            //cache: true,
+
+
+            initComplete: function () {
+                this.api().columns([1, 2]).every(function () {
+                    var column = this;
+                    //var theadname = $('#AttendanceDetailPage th').eq([d]).text();
+                    var select = $('<select><option value="">ALL</option></select>')
+                        .appendTo($(column.header()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
         });
+
 
     });
 </script>

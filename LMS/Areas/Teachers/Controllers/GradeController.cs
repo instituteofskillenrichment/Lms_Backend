@@ -8,8 +8,12 @@ using System.Threading.Tasks;
 
 namespace LMS.Areas.Teachers.Controllers
 {
+    [Authorize(Roles = "Teacher")]
+    [Area("teachers")]
+    [Route("teachers/grade")]
     public class GradeController : Controller
     {
+
         private readonly ITPClassRepository _tPClassRepository;
         private readonly ILectureRepository _LectureRepository;
         private readonly ITeacherGradeRepository _TeacherGradeRepository;

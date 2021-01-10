@@ -101,7 +101,7 @@
                     <div id="editStudentClassModel" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form method="post" asp-controller="student" asp-action="editStudentClass">
+                                <form method="post" asp-controller="student" asp-action="editStudentClass" id="editForm">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Edit Student Class</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -250,6 +250,30 @@
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
+
+
+        //Check If Form Validation for Add
+        $("#editForm").submit(function (event) {
+
+
+            var ClassName = $("#Class_Id").val();
+            var SectionName = $("#Section_Id").val();
+
+
+            if (ClassName === "0" || SectionName === "0") {
+                ClassName = $('#editStudentClassModel #Class_Id').val();
+                SectionName = $('#editStudentClassModel #Section_Id').val();
+
+            }
+
+            if (ClassName === "0" || SectionName === "0") {
+
+                event.preventDefault();
+                toastr.error("Kindly Select Class And Section");
+
+            }
+
+        });
 
 
         //Get StudentClass_Id for Delete Added By Absar

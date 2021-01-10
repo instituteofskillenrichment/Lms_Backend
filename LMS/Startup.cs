@@ -104,6 +104,7 @@ namespace LMS
             services.AddScoped<ISPAnnouncementRepository, SPAnnouncementRepository>();
             services.AddScoped<ISPStudentAttendanceRepository, SPStudentAttendanceRepository>();
             services.AddScoped<ILibraryRepository, LibraryRepository>();
+            services.AddScoped<ITeacherGradeRepository, TeacherGradeRepository>();
 
         }
 

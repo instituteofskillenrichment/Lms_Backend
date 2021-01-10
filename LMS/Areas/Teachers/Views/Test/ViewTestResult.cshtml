@@ -71,11 +71,34 @@
 <!--   Core JS Files   -->
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
 <script>
 
     var data = new FormData();
 
     $(document).ready(function () {
+
+        toastr.options = {
+        "positionClass": "toast-top-center",
+            "showDuration": "5000",
+            "hideDuration": "5000",
+            "timeOut": "5000",
+            "extendedTimeOut": "5000",
+        };
+
+        var messageError = '@(ViewBag.Error)';
+        var messageSuccess = '@(ViewBag.Success)';
+
+
+        if (messageSuccess.length > 0) {
+
+                toastr.success(messageSuccess);
+        }
+        else if (messageError.length > 0) {
+            toastr.error(messageError);
+        }
+
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
@@ -132,18 +155,23 @@
                 contentType: false,
                 data: data,
                 success: function Success(response) {
-                    alert('Data successfully saved');
+                    toastr.success('Data successfully saved');
                 },
                 error: function (msg) {
-                    alert('Failed to Save Data');
+                    toastr.error('Failed to Save Data');
                 }
             });
         } else {
-            alert("Marks obtained can't be greater than total marks");
+            toastr.error("Marks obtained can't be greater than total marks");
         }
 
 
     }
+
+    //$('#tblViewResult').DataTable({
+    //    /* Disable initial sort */
+    //    // "aaSorting": []
+    //});
 
 </script>
 

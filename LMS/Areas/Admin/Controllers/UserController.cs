@@ -137,13 +137,16 @@ namespace LMS.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                int response = 0;
+
                 IdentityUser UserModel = await _UserRepository.FindUserById(User_Id);
 
                 UserModel.UserName = User_Name;
                 UserModel.Email = User_Email.ToLower();
-                UserModel.PasswordHash = User_Password;
+                //UserModel.PasswordHash = User_Password;
 
-                int response = await _UserRepository.UpdateUser(UserModel);
+                response = await _UserRepository.UpdateUser(UserModel);
+                response = await _UserRepository.ResetPassword(UserModel, User_Password);
 
                 if (response == 1)
                 {

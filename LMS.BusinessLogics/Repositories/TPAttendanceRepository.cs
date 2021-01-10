@@ -99,6 +99,7 @@ namespace LMS.BusinessLogics.Repositories
             IQueryable<AttendanceViewModel> Session = (from sess in _lmsDbContext.Session
                                                        where
                                                          sess.Teacher_Id == TeacherId
+                                                       orderby sess.Date descending
                                                        select new AttendanceViewModel
                                                        {
                                                            Session_Id = sess.Session_Id,
@@ -205,8 +206,10 @@ namespace LMS.BusinessLogics.Repositories
                                                                  where
                                                                    atd.Teacher_Id == TeacerId
                                                                  orderby
-                                                                   atd.Class.Class_Id,
-                                                                   atd.Section.Section_Id
+                                                                   atd.Date descending
+                                                                   //atd.Class.Class_Id,
+                                                                   //atd.Section.Section_Id
+                                                                   
                                                                  select new AttendanceViewModel
                                                                  {
                                                                      Attendance_Id = atd.Attendance_Id,

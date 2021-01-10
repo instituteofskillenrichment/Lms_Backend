@@ -66,6 +66,13 @@
                 <i class="now-ui-icons design_app"></i>
                 <p>Grades</p>
             </a>
+            <ul>
+                @foreach (var TeacherClasses in Model)
+                {
+                    <li><a asp-area="teachers" asp-controller="grade" asp-action="subjects" asp-route-ClassSectionId="@TeacherClasses.ClassSection_Id">Class - @TeacherClasses.Class_Name @TeacherClasses.Section_Name </a></li>
+                }
+
+            </ul>
         </li>
         <li>
             <a asp-area="teachers" asp-controller="announcement" asp-action="index">
@@ -90,5 +97,5 @@
 
 
     </ul>
-        <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>
+        @*<div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>*@
 </div>
