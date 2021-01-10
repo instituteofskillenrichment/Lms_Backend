@@ -25,7 +25,10 @@
                             <table id="classpage" class="display" style="width:100%">
                                 <thead>
                                     <tr>
+                                        <th>Student Id</th>
                                         <th>Student Name</th>
+                                        <th>Test Id</th>
+                                        <th>Test Name</th>
                                         <th>Total Marks</th>
                                         <th>Marks Obtained</th>
                                         <th>Grade</th>
@@ -35,15 +38,18 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                    <tr>
-                                        <td>@item.Student_Name</td>
-                                        <td>@item.Total_Marks</td>
-                                        <td>@item.Obtained_Marks</td>
-                                        <td>@item.Grade</td>
-                                        <td>
-                                            <a asp-action="Grade" asp-controller="StudentsTestResults" asp-route-ClassSubjectId="@item.Student_Id" class="edit">View More<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <th>@item.Student_Id</th>
+                                            <td>@item.Student_Name</td>
+                                            <th>@item.Test_id</th>
+                                            <th>@item.Test_Name</th>
+                                            <td>@item.Total_Marks</td>
+                                            <td>@item.Obtained_Marks</td>
+                                            <td>@item.Grade</td>
+                                            <td>
+                                                <a asp-action="Grade" asp-controller="StudentsTestResults" asp-route-ClassSubjectId="@item.Student_Id" class="edit">View More<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+                                            </td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
@@ -91,3 +97,23 @@
     </footer>
 </div>
 
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+
+<script>
+    $(document).ready(function () {
+        
+        
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+        
+        $('#classpage').DataTable({
+            /* Disable initial sort */
+            "aaSorting": []
+        });
+
+      
+
+    });
+</script>

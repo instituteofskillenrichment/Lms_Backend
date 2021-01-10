@@ -73,8 +73,10 @@ namespace LMS.BusinessLogics.Repositories
                                  where std.Test_Id == t.Test_Id
                                  select new
                                  {
-                                     std.Answer
-                                 }).Count(p => p.Answer != null),
+                                     //std.Answer
+                                     std.Student_Id
+                                 }).Distinct().Count(p => p.Student_Id >= 0),
+                                //.Distinct().Count(p => p.Answer != null),
                                 Class_Name = t.Class.Class_Name,
                                 Section_Name = t.Section.Section_Name,
                                 Subject_Name = t.Subject.Subject_Name,
@@ -179,18 +181,21 @@ namespace LMS.BusinessLogics.Repositories
             var Students = (
                             from std in _lmsDbContext.StudentTestDetail
                             where std.Test_Id == TestId
+                            group new { std } by new
+                            {
+                                std.Test_Id,
+                                std.Student_Id,
+                                std.Student.Student_Name,
+                                std.SubmittedOn,
+                                std.Marks_Obtained
+                            } into g
                             select new StudentAttemptTestViewModel
                             {
-                                Test_Id = std.Test_Id,
-                                Student_Id = std.Student_Id,
-                                Student_Name = std.Student.Student_Name,
-                                SubmittedOn = DateTime.ParseExact(std.SubmittedOn, "yyyyMMdd", null),
-                                Obtained_Marks = (from StudentTestDetail in _lmsDbContext.StudentTestDetail
-                                                  where StudentTestDetail.Test_Id == std.Test_Id
-                                                  select new
-                                                  {
-                                                      StudentTestDetail.Marks_Obtained
-                                                  }).Sum(p => p.Marks_Obtained)
+                                Test_Id = g.Key.Test_Id,
+                                Student_Id = g.Key.Student_Id,
+                                Student_Name = g.Key.Student_Name,
+                                SubmittedOn = DateTime.ParseExact(g.Key.SubmittedOn, "yyyyMMdd", null),
+                                Obtained_Marks = g.Sum(p => p.std.Marks_Obtained)
                             }).ToList();
 
             return Students;

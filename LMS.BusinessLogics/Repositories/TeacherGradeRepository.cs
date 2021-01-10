@@ -19,38 +19,70 @@ namespace LMS.BusinessLogics.Repositories
 
         public IEnumerable<StudentGradeViewModel> GetAllStudentsBySubjectId(int SubjectId)
         {
-            IEnumerable<StudentGradeViewModel> AllStudents = (from s in _lmsDbContext.Student
-                                                              join std in _lmsDbContext.StudentTestDetail on s.Student_Id equals std.Student_Id into std_join
-                                                              from std in std_join.DefaultIfEmpty()
-                                                              join t in _lmsDbContext.Test on std.Test_Id equals t.Test_Id into t_join
-                                                              from t in t_join.DefaultIfEmpty()
-                                                              join sc in _lmsDbContext.StudentClass on s.Student_Id equals sc.Student_Id into sc_join
-                                                              from sc in sc_join.DefaultIfEmpty()
-                                                              join cs in _lmsDbContext.ClassSubject on new { ClassSection_Id = sc.ClassSection_id } equals new { ClassSection_Id = cs.ClassSection_Id } into cs_join
-                                                              from cs in cs_join.DefaultIfEmpty()
-                                                              where cs.Subject_Id == SubjectId
-                                                              group new { s, t, std } by new
-                                                              {
-                                                                  s.Student_Id,
-                                                                  s.Student_Name,
-                                                                  t.Total_Makrs,
-                                                                  std.Marks_Obtained
-                                                              } into g
-                                                              select new StudentGradeViewModel()
-                                                              {
-                                                                  Student_Id = (int)g.Key.Student_Id,
-                                                                  Student_Name = g.Key.Student_Name,
-                                                                  Total_Marks = (int?)g.Sum(p => p.t.Total_Makrs),
-                                                                  Obtained_Marks = (double?)((Convert.ToDouble(g.Sum(p => p.std.Marks_Obtained)) / Convert.ToDouble(g.Sum(p => p.t.Total_Makrs))) * Convert.ToDouble(g.Sum(p => p.t.Weighatge))),
-                                                                  Grade =
-                                                                  ((from Grade in _lmsDbContext.Grade
-                                                                    where Grade.Subject_Id == SubjectId &&
-                                                                    g.Key.Marks_Obtained >= Grade.Start_From && g.Key.Marks_Obtained <= Grade.End_On
-                                                                    select new
-                                                                    {
-                                                                        Grade.Grade_Name
-                                                                    }).Take(1).First().Grade_Name)
-                                                              }).Distinct();
+            //IEnumerable<StudentGradeViewModel> AllStudents = (from s in _lmsDbContext.Student
+            //                                                  join std in _lmsDbContext.StudentTestDetail on s.Student_Id equals std.Student_Id into std_join
+            //                                                  from std in std_join.DefaultIfEmpty()
+            //                                                  join t in _lmsDbContext.Test on std.Test_Id equals t.Test_Id into t_join
+            //                                                  from t in t_join.DefaultIfEmpty()
+            //                                                  join sc in _lmsDbContext.StudentClass on s.Student_Id equals sc.Student_Id into sc_join
+            //                                                  from sc in sc_join.DefaultIfEmpty()
+            //                                                  join cs in _lmsDbContext.ClassSubject on new { ClassSection_Id = sc.ClassSection_id } equals new { ClassSection_Id = cs.ClassSection_Id } into cs_join
+            //                                                  from cs in cs_join.DefaultIfEmpty()
+            //                                                  where cs.Subject_Id == SubjectId
+            //                                                  group new { s, t, std } by new
+            //                                                  {
+            //                                                      s.Student_Id,
+            //                                                      s.Student_Name,
+            //                                                      t.Total_Makrs,
+            //                                                      std.Marks_Obtained
+            //                                                  } into g
+            //                                                  select new StudentGradeViewModel()
+            //                                                  {
+            //                                                      Student_Id = (int)g.Key.Student_Id,
+            //                                                      Student_Name = g.Key.Student_Name,
+            //                                                      Total_Marks = (int?)g.Sum(p => p.t.Total_Makrs),
+            //                                                      Obtained_Marks = (double?)((Convert.ToDouble(g.Sum(p => p.std.Marks_Obtained)) / Convert.ToDouble(g.Sum(p => p.t.Total_Makrs))) * Convert.ToDouble(g.Sum(p => p.t.Weighatge))),
+            //                                                      Grade =
+            //                                                      ((from Grade in _lmsDbContext.Grade
+            //                                                        where Grade.Subject_Id == SubjectId &&
+            //                                                        g.Key.Marks_Obtained >= Grade.Start_From && g.Key.Marks_Obtained <= Grade.End_On
+            //                                                        select new
+            //                                                        {
+            //                                                            Grade.Grade_Name
+            //                                                        }).Take(1).First().Grade_Name)
+            //                                                  }).Distinct();
+
+
+            IEnumerable<StudentGradeViewModel> AllStudents = (
+                                                                from sdu in  _lmsDbContext.Student
+                                                                join std in _lmsDbContext.StudentTestDetail on sdu.Student_Id equals std.Student_Id
+                                                                join t in _lmsDbContext.Test on std.Test_Id equals t.Test_Id
+                                                                join sc in _lmsDbContext.StudentClass on std.Student_Id equals sc.Student_Id
+                                                                join cs in _lmsDbContext.ClassSection on sc.ClassSection_id equals cs.ClassSection_id
+                                                                join csj in _lmsDbContext.ClassSubject on cs.ClassSection_id equals csj.ClassSection_Id
+                                                                where
+                                                                csj.ClassSubject_Id == SubjectId
+                                                                group new { std, sdu, t } by new
+                                                                {
+                                                                    std.Student_Id,
+                                                                    sdu.Student_Name,
+                                                                    t.Test_Id,
+                                                                    t.Test_Name,
+                                                                    t.Total_Makrs,
+                                                                    std.Marks_Obtained
+                                                                } into g
+                                                                select new StudentGradeViewModel()
+                                                                {
+                                                                    Student_Id = g.Key.Student_Id,
+                                                                    Student_Name = g.Key.Student_Name,
+                                                                    Test_id = g.Key.Test_Id,
+                                                                    Test_Name = g.Key.Test_Name,
+                                                                    Total_Marks = g.Key.Total_Makrs,
+                                                                    Obtained_Marks = g.Sum(p => p.std.Marks_Obtained)
+                                                                }
+                
+                                                             );
+
 
             return AllStudents;
         }
