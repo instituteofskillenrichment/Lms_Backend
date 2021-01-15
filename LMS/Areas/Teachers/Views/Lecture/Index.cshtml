@@ -213,7 +213,7 @@
                     var column = this;
                     //var theadname = $('#AttendanceDetailPage th').eq([d]).text();
                     var select = $(' <select><option value="">ALL</option></select>')
-                        .appendTo($(column.header()).empty())
+                        .appendTo($(column.footer()).empty())
                         .on('change', function () {
                             var val = $.fn.dataTable.util.escapeRegex(
                                 $(this).val()

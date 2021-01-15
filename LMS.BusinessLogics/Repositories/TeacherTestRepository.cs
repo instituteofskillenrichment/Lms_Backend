@@ -70,7 +70,11 @@ namespace LMS.BusinessLogics.Repositories
                                 Test_Name = t.Test_Name,
                                 Attempts =
                                 (from std in _lmsDbContext.StudentTestDetail
+                                 join sc in _lmsDbContext.StudentClass on std.Student_Id equals sc.Student_Id
+                                 join cs in _lmsDbContext.ClassSection on sc.ClassSection_id equals cs.ClassSection_id
                                  where std.Test_Id == t.Test_Id
+                                  && t.Class_Id == cs.Class_Id
+                                  && t.Section_Id == cs.Section_Id
                                  select new
                                  {
                                      //std.Answer
@@ -181,13 +185,12 @@ namespace LMS.BusinessLogics.Repositories
             var Students = (
                             from std in _lmsDbContext.StudentTestDetail
                             where std.Test_Id == TestId
-                            group new { std } by new
+                            group std by new
                             {
                                 std.Test_Id,
                                 std.Student_Id,
                                 std.Student.Student_Name,
-                                std.SubmittedOn,
-                                std.Marks_Obtained
+                                std.SubmittedOn
                             } into g
                             select new StudentAttemptTestViewModel
                             {
@@ -195,7 +198,7 @@ namespace LMS.BusinessLogics.Repositories
                                 Student_Id = g.Key.Student_Id,
                                 Student_Name = g.Key.Student_Name,
                                 SubmittedOn = DateTime.ParseExact(g.Key.SubmittedOn, "yyyyMMdd", null),
-                                Obtained_Marks = g.Sum(p => p.std.Marks_Obtained)
+                                Obtained_Marks = g.Sum(p => p.Marks_Obtained)
                             }).ToList();
 
             return Students;

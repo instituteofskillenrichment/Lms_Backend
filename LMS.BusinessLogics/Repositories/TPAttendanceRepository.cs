@@ -203,8 +203,12 @@ namespace LMS.BusinessLogics.Repositories
 
                                                                  from atd in _lmsDbContext.Attendance
                                                                  join sess in _lmsDbContext.Session on atd.Session_Id equals sess.Session_Id
+                                                                 join sc in _lmsDbContext.StudentClass on atd.Student_Id equals sc.Student_Id
+                                                                 join cs in _lmsDbContext.ClassSection on sc.ClassSection_id equals cs.ClassSection_id
                                                                  where
                                                                    atd.Teacher_Id == TeacerId
+                                                                   && cs.Class_Id == atd.Class_Id
+                                                                   && cs.Section_Id == atd.Section_Id
                                                                  orderby
                                                                    atd.Date descending
                                                                    //atd.Class.Class_Id,

@@ -32,8 +32,8 @@
                                         <th>ID</th>
                                         <th>Student ID</th>
                                         <th>Student Name</th>
-                                        <th>Class Name</th>
-                                        <th>Section Name</th>
+                                        <th>Class</th>
+                                        <th>Section</th>
                                         <th>Enroll Subjects</th>
                                         <th>Action</th>
                                     </tr>
@@ -80,8 +80,8 @@
                                         <th>ID</th>
                                         <th>Student ID</th>
                                         <th>Student Name</th>
-                                        <th>Class Name</th>
-                                        <th>Section Name</th>
+                                        <th>Class</th>
+                                        <th>Section</th>
                                         <th>Enroll Subjects</th>
                                         <th>Action</th>
                                     </tr>
@@ -326,7 +326,7 @@
                     var column = this;
                     //var theadname = $('#AttendanceDetailPage th').eq([d]).text();
                     var select = $('<select><option value="">ALL</option></select>')
-                        .appendTo($(column.header()).empty())
+                        .appendTo($(column.footer()).empty())
                         .on('change', function () {
                             var val = $.fn.dataTable.util.escapeRegex(
                                 $(this).val()
