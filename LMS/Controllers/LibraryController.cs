@@ -202,5 +202,19 @@ namespace LMS.Controllers
         }
 
 
+
+        [Route("search")]
+        public IActionResult Search(int BookCategory_Id, string Book_Name)
+        {
+
+            ViewBag.Categories = _LibraryRepository.GetAllCategories();
+
+            var search = _LibraryRepository.SearchBooks(BookCategory_Id, Book_Name).ToList();
+
+
+            return View("Index", search);
+        }
+
+
     }
 }

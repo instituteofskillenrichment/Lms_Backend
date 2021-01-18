@@ -17,27 +17,17 @@
                     <h5 class="title">Library</h5>
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form method="post" asp-controller="Library" asp-action="Search">
 
                         <div class="row">
 
                             <div class="col-md-4 pr-1">
                                 <div class="form-group">
                                     <label>Search By Keyword</label>
-                                    <input type="text" class="form-control" placeholder="Maths" value="">
+                                    <input name="Book_Name" type="text" class="form-control" placeholder="Maths" value="">
                                 </div>
                             </div>
-                            <div class="col-md-3 pl-1">
-                                <div class="form-group">
-                                    <label>Search The Catalogue</label>
-                                    <select class="form-control">
-                                        <option>English</option>
-                                        <option>Urdu</option>
-                                        <option>Math</option>
-                                        <option>Science</option>
-                                    </select>
-                                </div>
-                            </div>
+                            
                             <div class="col-md-3 pl-1">
                                 <div class="form-group">
                                     <label>All Categories</label>
@@ -49,7 +39,8 @@
                             <div class="col-md-2 pl-1">
                                 <div class="form-group">
 
-                                    <button class="btn btn-primary btn-lg btn-custom">Search</button>
+                                    @*<button class="btn btn-primary btn-lg btn-custom">Search</button>*@
+                                    <input type="submit" class="btn btn-primary btn-lg btn-custom" value="Search">
                                 </div>
                             </div>
 

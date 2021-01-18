@@ -3,6 +3,7 @@ using LMS.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,10 +26,11 @@ namespace LMS.Areas.Teachers.Controllers
             _TeacherGradeRepository = TeacherGradeRepository;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
+
 
         [Route("subjects")]
         public IActionResult Subjects(int ClassSectionId)
@@ -48,10 +50,16 @@ namespace LMS.Areas.Teachers.Controllers
             return View(TeacherClassSubjects);
         }
 
-        [Route("students")]
+        [HttpGet]
+        [Route("students/{ClassSubjectId}")]
         public IActionResult Students(int ClassSubjectId)
         {
-            var Students =  _TeacherGradeRepository.GetAllStudentsBySubjectId(ClassSubjectId);
+            string StartDate = "01010101";
+            string EndDate = "01010102";
+
+            var Students = _TeacherGradeRepository.RunSql($@"EXEC spGetStudentGradeBySubjectId '"+ ClassSubjectId + "','" + StartDate + "','" + EndDate + "'");
+
+            ViewBag.ClassSubjectId = ClassSubjectId;
 
             if (TempData["Error"] != null)
             {
@@ -66,10 +74,20 @@ namespace LMS.Areas.Teachers.Controllers
             return View(Students);
         }
 
-        [Route("studentsTestResults")]
-        public IActionResult StudentsTestResults(int StudentId)
+
+        [HttpGet]
+        [Route("studentsGrade/{ClassSubjectId}")]
+        public IActionResult StudentsGrade(int ClassSubjectId, string StartDate, string EndDate)
         {
-            var Students = _TeacherGradeRepository.GetStudentsAllTestResults(StudentId);
+
+            string sDate = Convert.ToDateTime(StartDate).ToString("yyyyMMdd");
+            string eDate = Convert.ToDateTime(EndDate).ToString("yyyyMMdd");
+
+            var Students = _TeacherGradeRepository.RunSql($@"EXEC spGetStudentGradeBySubjectId '"+ ClassSubjectId + "','" + sDate + "','" + eDate + "'");
+
+            ViewBag.ClassSubjectId = ClassSubjectId;
+            ViewBag.StartDate = StartDate;
+            ViewBag.EndDate = EndDate;
 
             if (TempData["Error"] != null)
             {
@@ -81,7 +99,33 @@ namespace LMS.Areas.Teachers.Controllers
                 ViewBag.Success = TempData["Success"].ToString();
             }
 
-            return View(Students);
+            return View("Students", Students);
+        }
+
+        [Route("studentsTestResults/{StudentId}")]
+        public IActionResult StudentsTestResults(int StudentId, int ClassSubjectId, string StartDate, string EndDate)
+        {
+
+            
+            string sDate = Convert.ToDateTime(StartDate).ToString("yyyyMMdd");
+            string eDate = Convert.ToDateTime(EndDate).ToString("yyyyMMdd");
+
+
+            var Test = _TeacherGradeRepository.GetStudentsAllTestResults($@"EXEC spGetStudentGradeByTestId '" + ClassSubjectId + "', '" + StudentId + "','" + sDate + "','" + eDate + "'");
+
+
+
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"].ToString();
+            }
+
+            if (TempData["Success"] != null)
+            {
+                ViewBag.Success = TempData["Success"].ToString();
+            }
+
+            return View(Test);
         }
     }
 }

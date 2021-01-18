@@ -315,24 +315,36 @@ namespace LMS.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                //get class section id
                 var objClassSection = await _StudentClassRepository.GetClassSectionById(studentClassModel.Class_Id, studentClassModel.Section_Id);
 
-                StudentClass studentClass = new StudentClass();
-                studentClass.Student_Id = studentClassModel.Student_Id;
-                studentClass.ClassSection_id = objClassSection.ClassSection_id;
+                if(objClassSection != null)
+                { 
+
+                    StudentClass studentClass = new StudentClass();
+                    studentClass.Student_Id = studentClassModel.Student_Id;
+                    studentClass.ClassSection_id = objClassSection.ClassSection_id;
                 
 
 
-                int result = await _StudentClassRepository.AddStudentClass(studentClass);
-                if (result == 1)
-                {
-                    TempData["Success"] = "Class Successfully Assigned To Student";
-                    return RedirectToAction("studentClassDetail", "Student", new { area = "admin" });
+                    int result = await _StudentClassRepository.AddStudentClass(studentClass);
+                    if (result == 1)
+                    {
+                        TempData["Success"] = "Class Successfully Assigned To Student";
+                        return RedirectToAction("studentClassDetail", "Student", new { area = "admin" });
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Class Assigned To Student Failed";
+                        return RedirectToAction("studentClassDetail", "Student", new { area = "admin" });
+                    }
+
                 }
                 else
                 {
-                    TempData["Error"] = "Class Assigned To Student Failed";
+                    TempData["Error"] = "Did't Find Class And Section";
                     return RedirectToAction("studentClassDetail", "Student", new { area = "admin" });
+                    
                 }
 
             }
@@ -365,24 +377,32 @@ namespace LMS.Areas.Admin.Controllers
                 //get class section id
                 var ClassSection = await _StudentClassRepository.GetClassSectionById(studentClassModel.Class_Id, studentClassModel.Section_Id);
 
-                //assign new values to class subject
-                StudentClass objStudentClass = new StudentClass();
-
-                objStudentClass.StudentClass_Id = studentClassModel.StudentClass_Id;
-                objStudentClass.ClassSection_id = ClassSection.ClassSection_id;
-                objStudentClass.Student_Id = studentClassModel.Student_Id;
-
-
-                int result = await _StudentClassRepository.UpdateStudentClass(objStudentClass);
-
-                if (result == 1)
+                if(ClassSection != null)
                 {
-                    TempData["Success"] = "Student Class Updated Successfully";
-                    return RedirectToAction("studentClassDetail", "Student", new { area = "admin" });
+                    //assign new values to class subject
+                    StudentClass objStudentClass = new StudentClass();
+
+                    objStudentClass.StudentClass_Id = studentClassModel.StudentClass_Id;
+                    objStudentClass.ClassSection_id = ClassSection.ClassSection_id;
+                    objStudentClass.Student_Id = studentClassModel.Student_Id;
+
+
+                    int result = await _StudentClassRepository.UpdateStudentClass(objStudentClass);
+
+                    if (result == 1)
+                    {
+                        TempData["Success"] = "Student Class Updated Successfully";
+                        return RedirectToAction("studentClassDetail", "Student", new { area = "admin" });
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Failed To Update Student Class";
+                        return RedirectToAction("studentClassDetail", "Student", new { area = "admin" });
+                    }
                 }
                 else
                 {
-                    TempData["Error"] = "Failed To Update Student Class";
+                    TempData["Error"] = "Did't Find Class And Section";
                     return RedirectToAction("studentClassDetail", "Student", new { area = "admin" });
                 }
 

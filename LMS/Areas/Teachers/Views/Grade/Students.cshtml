@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LMS.Domain.ViewModels.StudentGradeViewModel>
+﻿@model IEnumerable<LMS.Domain.SpStudentGradeBySubjectId>
 @{
     ViewData["Title"] = "Students";
     Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
@@ -22,15 +22,43 @@
                                 </div>
                             </div>
 
+                            <form method="get" asp-controller="grade" asp-action="StudentsGrade">
+                                <div class="row">
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Start From *</label>
+
+                                            <input id="startDate" name="startDate" type="date" class="form-control" value="@ViewBag.StartDate">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>End On *</label>
+
+                                            <input id="endDate" name="endDate" type="date" class="form-control" value="@ViewBag.EndDate">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 pl-1">
+                                        <div class="form-group" style="margin-top: 15px;">
+                                            <input type="hidden" name="ClassSubjectId" id="ClassSubjectId" value="@ViewBag.ClassSubjectId" />
+                                            <input type="submit" class="btn btn-primary btn-lg btn-custom" value="Search">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <br />
+
                             <table id="classpage" class="display" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Student Id</th>
                                         <th>Student Name</th>
-                                        <th>Test Id</th>
-                                        <th>Test Name</th>
                                         <th>Total Marks</th>
-                                        <th>Marks Obtained</th>
+                                        <th>Obtained Marks</th>
+                                        <th>Total Weighatge</th>
+                                        <th>Obtained Weighatge</th>
                                         <th>Grade</th>
                                         <th>Details</th>
                                     </tr>
@@ -41,13 +69,13 @@
                                         <tr>
                                             <th>@item.Student_Id</th>
                                             <td>@item.Student_Name</td>
-                                            <th>@item.Test_id</th>
-                                            <th>@item.Test_Name</th>
-                                            <td>@item.Total_Marks</td>
-                                            <td>@item.Obtained_Marks</td>
+                                            <th>@item.Total_Makrs</th>
+                                            <th>@item.Marks_Obtained</th>
+                                            <td>@item.Total_Weightage</td>
+                                            <td>@item.Weightage_Score</td>
                                             <td>@item.Grade</td>
                                             <td>
-                                                <a asp-action="Grade" asp-controller="StudentsTestResults" asp-route-ClassSubjectId="@item.Student_Id" class="edit">View More<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+                                                <a asp-action="StudentsTestResults" asp-controller="grade" asp-route-StudentId="@item.Student_Id" asp-route-ClassSubjectId="@ViewBag.ClassSubjectId" asp-route-StartDate="@ViewBag.StartDate" asp-route-EndDate="@ViewBag.EndDate" class="edit">View More<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>
                                     }
@@ -110,7 +138,8 @@
         
         $('#classpage').DataTable({
             /* Disable initial sort */
-            "aaSorting": []
+            "aaSorting": [],
+            "bLengthChange": false,
         });
 
       

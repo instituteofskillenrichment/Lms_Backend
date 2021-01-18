@@ -1,6 +1,8 @@
 ﻿using LMS.Domain;
+using LMS.Domain.ViewModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LMS.Database
 {
@@ -31,6 +33,10 @@ namespace LMS.Database
         public DbSet<Announcement> Announcement { get; set; }
         public DbSet<BookCategory> BookCategory { get; set; }
         public DbSet<Library> Library { get; set; }
+
+        //[NotMapped]
+        public DbQuery<SpStudentGradeBySubjectId> SpStudentGradeBySubjectId { get; set; }  //Calling SP Added By Absar
+        public DbQuery<SpStudentGradeByTestId> SpStudentGradeByTestId { get; set; }  //Calling SP Added By Absar
 
 
 

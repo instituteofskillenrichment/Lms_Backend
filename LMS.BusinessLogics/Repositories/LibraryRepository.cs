@@ -91,5 +91,14 @@ namespace LMS.BusinessLogics.Repositories
                 return -1;
             }
         }
+
+        public IQueryable<Library> SearchBooks(int CategoryId, string Name)
+        {
+            var listOfBook = _lmsDbContext.Library
+                        .AsNoTracking()
+                        .Where(b => b.BookCategory_Id == CategoryId || b.Book_Name.Contains(Name) );
+
+            return listOfBook;
+        }
     }
 }

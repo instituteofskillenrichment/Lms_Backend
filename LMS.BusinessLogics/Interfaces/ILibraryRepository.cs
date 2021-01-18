@@ -13,6 +13,9 @@ namespace LMS.BusinessLogics.Interfaces
         IQueryable<Library> GetAllBooks();
         Task<Library> GetBookById(int Id);
         IQueryable<Library> GetAllBooksByCategoryId(int CategoryId);
+
+        IQueryable<Library> SearchBooks(int CategoryId, string Name);
+
         Task<int> AddBook(Library objLibrary);
 
         Library FindBookById(int Id);

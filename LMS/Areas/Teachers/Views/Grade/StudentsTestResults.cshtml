@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LMS.Domain.ViewModels.StudentTestDetailViewModel>
+﻿@model IEnumerable<LMS.Domain.SpStudentGradeByTestId>
 @{
     ViewData["Title"] = "StudentsTestResults";
     Layout = "~/Areas/Teachers/Views/Shared/_TeacherLayout.cshtml";
@@ -22,26 +22,28 @@
                                 </div>
                             </div>
 
-                            <table id="classpage" class="display" style="width:100%">
+                            <table id="studentTest" class="display" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Student Name</th>
+                                        <th>Test Id</th>
                                         <th>Test Name</th>
                                         <th>Total Marks</th>
                                         <th>Marks Obtained</th>
-                                        <th>Grade</th>
+                                        <th>Total Weightage</th>
+                                        <th>Weightage Score</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                    <tr>
-                                        <td>@item.Student_Name</td>
-                                        <td>@item.Test_Name</td>
-                                        <td>@item.Total_Marks</td>
-                                        <td>@item.Marks_Obtained</td>
-                                        <td>@item.Grade_Name</td>
-                                    </tr>
+                                        <tr>
+                                            <td>@item.Test_id</td>
+                                            <td>@item.Test_Name</td>
+                                            <td>@item.Total_Makrs</td>
+                                            <td>@item.Marks_Obtained</td>
+                                            <td>@item.Total_Weightage</td>
+                                            <td>@item.Weightage_Score</td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
@@ -89,4 +91,24 @@
     </footer>
 </div>
 
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
 
+<script>
+    $(document).ready(function () {
+
+
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $('#studentTest').DataTable({
+            /* Disable initial sort */
+            "aaSorting": [],
+            "bLengthChange": false,
+        });
+
+
+
+    });
+</script>
