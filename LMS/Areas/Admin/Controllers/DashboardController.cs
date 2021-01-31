@@ -16,11 +16,17 @@ namespace LMS.Areas.Admin.Controllers
     {
         private readonly ITeacherRepository _TeacherRepository;
         private readonly IStudentRepository _StudentRepository;
+        private readonly IClassRepository _ClassRepository;
+        private readonly IAnnouncementReporitory _AnnouncementRepository;
+        private readonly ILibraryRepository _LibraryRepository;
 
-        public DashboardController(ITeacherRepository TeacherRepository, IStudentRepository StudentRepository)
+        public DashboardController(ITeacherRepository TeacherRepository, IStudentRepository StudentRepository, IClassRepository ClassRepository, IAnnouncementReporitory AnnouncementRepository, ILibraryRepository LibraryRepository)
         {
             _TeacherRepository = TeacherRepository;
             _StudentRepository = StudentRepository;
+            _ClassRepository = ClassRepository;
+            _AnnouncementRepository = AnnouncementRepository;
+            _LibraryRepository = LibraryRepository;
         }
 
         [Route("")]
@@ -32,6 +38,15 @@ namespace LMS.Areas.Admin.Controllers
 
             var Students = _StudentRepository.GetAllStudent();
             ViewBag.Students = Students.Count();
+
+            var Classes = _ClassRepository.GetAllClass();
+            ViewBag.Classes = Classes.Count();
+
+            var Announcements = _AnnouncementRepository.GetAllAnnouncement(); ;
+            ViewBag.Announcements = Announcements;
+
+            var RecentPost = _LibraryRepository.GetAllRecentBooks(); ;
+            ViewBag.RecentPost = RecentPost;
 
             return View();
         }

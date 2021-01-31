@@ -17,6 +17,7 @@ namespace LMS.Domain.ViewModels
         public string Test_Name { get; set; }
 
         public DateTime Assessment_Date { get; set; }
+        public DateTime Assessment_EndTime { get; set; }
 
     }
 }

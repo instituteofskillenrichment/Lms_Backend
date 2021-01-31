@@ -1,0 +1,153 @@
+﻿@model IEnumerable<LMS.Domain.SpProgressReportByStudentId>
+
+    @{
+        ViewData["Title"] = "ProgressReport";
+        Layout = "~/Areas/Students/Views/Shared/_Studentayout.cshtml";
+    }
+
+    <div class="panel-header panel-header-sm">
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+
+                    <div class="container-fluid">
+                        <div class="table-responsive">
+                            <div class="table-wrapper">
+                                <div class="table-title">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h2>Students Progress Report</h2>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <form method="get" asp-controller="progressReport" asp-action="progressReport">
+                                    <div class="row">
+                                        <div class="col-md-4 pr-1">
+                                            <div class="form-group">
+                                                <label>Start From *</label>
+
+                                                <input id="startDate" name="startDate" type="date" class="form-control" value="@ViewBag.StartDate">
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 pr-1">
+                                            <div class="form-group">
+                                                <label>End On *</label>
+
+                                                <input id="endDate" name="endDate" type="date" class="form-control" value="@ViewBag.EndDate">
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 pl-1">
+                                            <div class="form-group" style="margin-top: 15px;">
+                                                @*<input type="hidden" name="ClassSubjectId" id="ClassSubjectId" value="@ViewBag.ClassSubjectId" />*@
+                                                <input type="submit" class="btn btn-primary btn-lg btn-custom" value="Search">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <br />
+
+                                <table id="progressReport" class="display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Student Id</th>
+                                            <th>Student Name</th>
+                                            <th>Total Marks</th>
+                                            <th>Obtained Marks</th>
+                                            <th>Total Weighatge</th>
+                                            <th>Obtained Weighatge</th>
+                                            <th>Grade</th>
+                                            <th>Subject</th>
+                                            @*<th>Details</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <th>@item.Student_Id</th>
+                                                <td>@item.Student_Name</td>
+                                                <th>@item.Total_Makrs</th>
+                                                <th>@item.Marks_Obtained</th>
+                                                <td>@item.Total_Weightage</td>
+                                                <td>@item.Weightage_Score</td>
+                                                <td>@item.Grade</td>
+                                                <td>@item.Subject_Name</td>
+                                                @*<td>
+                                                    <a asp-action="StudentsTestResults" asp-controller="grade" asp-route-StudentId="@item.Student_Id" asp-route-ClassSubjectId="@ViewBag.ClassSubjectId" asp-route-StartDate="@ViewBag.StartDate" asp-route-EndDate="@ViewBag.EndDate" class="edit">View More<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+                                                </td>*@
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                <div class="clearfix">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <footer class="footer">
+            <div class=" container-fluid ">
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="https://www.creative-tim.com">
+                                Karachi Grammar School
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://presentation.creative-tim.com">
+                                About Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://blog.creative-tim.com">
+                                Blog
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="copyright" id="copyright">
+                    &copy;
+                    <script>
+                        document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                    </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!--   Core JS Files   -->
+    <script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+    <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+
+            // Activate tooltip
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $('#progressReport').DataTable({
+                /* Disable initial sort */
+                "aaSorting": [],
+                "bLengthChange": false,
+                "bFilter": false,
+            });
+
+
+
+        });
+    </script>
+

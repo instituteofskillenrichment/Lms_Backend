@@ -23,5 +23,6 @@ namespace LMS.BusinessLogics.Interfaces
         //Added BY Absar
         IQueryable<LectureViewModel> GetAllClassSectionByTeacherId(int TeacherId);
         IQueryable<LectureViewModel> GetAllSubjectByTeacherId(int TeacherId);
+        IQueryable<Lecture> GetRecentLecture();
     }
 }

@@ -176,7 +176,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input type="submit" class="btn btn-info" value="Update">
+                                            <input type="submit" class="btn btn-info" value="Update" id="btnUpdate">
                                             @*Added By Absar*@
                                             <input type="hidden" name="User_Id" id="User_Id" />
                                         </div>
@@ -278,6 +278,29 @@
         else if (messageError.length > 0)  {
             toastr.error(messageError);
         }
+
+
+
+        $("#btnUpdate").on('click', function () {
+
+
+
+            var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@@#\$%\^&\*])(?=.{8,})");
+
+            //var password = $('#txtPassword').val();
+
+            //$("txtPassword").val().match(strongRegex)
+
+            if (!($('#User_Password').val().match(strongRegex))) {
+                toastr.error('Password Must Be Greater Than 8 Digit, And Must Contain 1 Upper Case, 1 Lower Case, 1 Numeric And 1 Special Character')
+
+                $('#txtPassword').focus();
+
+                return false;
+            }
+
+
+        });
 
 
         // Activate tooltip

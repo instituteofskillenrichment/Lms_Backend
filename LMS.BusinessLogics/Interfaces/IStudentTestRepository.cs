@@ -1,4 +1,5 @@
 ﻿using LMS.Domain;
+using LMS.Domain.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,6 +10,9 @@ namespace LMS.BusinessLogics.Interfaces
         Task<int> AddStudentTestDetail(StudentTestDetail objTestDetail);
 
         IEnumerable<TestDetail> GetQuestionsByTest(int TestId);
+
+        IEnumerable<StudentTestResultViewModel> GetStudentTestResult(int TestId, int StudentId);
+
 
     }
 }

@@ -37,6 +37,8 @@ namespace LMS.Database
         //[NotMapped]
         public DbQuery<SpStudentGradeBySubjectId> SpStudentGradeBySubjectId { get; set; }  //Calling SP Added By Absar
         public DbQuery<SpStudentGradeByTestId> SpStudentGradeByTestId { get; set; }  //Calling SP Added By Absar
+        public DbQuery<SpProgressReportByStudentId> SpProgressReportByStudentId { get; set; }  //Calling SP Added By Absar
+        public DbQuery<SpProgressReportByClassSectionId> SpProgressReportByClassSectionId { get; set; }  //Calling SP Added By Absar
 
 
 

@@ -14,5 +14,6 @@ namespace LMS.Domain.ViewModels
         public int Answer_Type_Id { get; set; }
         public int Marks_Obtained { get; set; }
         public int Marks { get; set; }
+        public double Total_Obtained { get; set; }  //Added By Absar
     }
 }

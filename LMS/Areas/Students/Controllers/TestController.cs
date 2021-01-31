@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -25,9 +26,11 @@ namespace LMS.Areas.Students.Controllers
         private readonly ISectionRepository _SectionRepository;
         private readonly ISubjectRepository _SubjectRepository;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IConfiguration _config;
 
         public TestController(IStudentTestRepository StudentTestRepository, IStudentClassRepository StudentClassRepository, IClassRepository ClassRepository,
-            ISectionRepository SectionRepository, ISubjectRepository SubjectRepository, IHostingEnvironment hostingEnvironment)
+            ISectionRepository SectionRepository, ISubjectRepository SubjectRepository, IHostingEnvironment hostingEnvironment,
+            IConfiguration config)
         {
             _StudentTestRepository = StudentTestRepository;
             _StudentClassRepository = StudentClassRepository;
@@ -35,6 +38,7 @@ namespace LMS.Areas.Students.Controllers
             _SectionRepository = SectionRepository;
             _SubjectRepository = SubjectRepository;
             _hostingEnvironment = hostingEnvironment;
+            _config = config;
         }
 
         [Route("index")]
@@ -134,6 +138,21 @@ namespace LMS.Areas.Students.Controllers
 
             //return View();
             return -1; 
+        }
+
+
+
+
+        [Route("viewResult")]
+        public IActionResult ViewResult(int TestId)
+        {
+            var TestResults = _StudentTestRepository.GetStudentTestResult(TestId, HttpContext.Session.GetInt32("UserId") ?? 0);
+
+            TestResults.ToList().ForEach(x => x.Answer = x.Answer_Type_Id == 3 ? _config.GetSection("AppSettings").GetSection("AnswerFilesPath").Value + x.Answer : x.Answer);
+
+            
+
+            return View(TestResults);
         }
     }
 }

@@ -69,6 +69,13 @@ namespace LMS.BusinessLogics.Repositories
             return listOfCategories;
         }
 
+        public IQueryable<Library> GetAllRecentBooks()
+        {
+            IQueryable<Library> listOfBooks = _lmsDbContext.Library.Take(6).AsQueryable();
+
+            return listOfBooks;
+        }
+
         public async Task<Library> GetBookById(int Id)
         {
             var Book = await _lmsDbContext.Library

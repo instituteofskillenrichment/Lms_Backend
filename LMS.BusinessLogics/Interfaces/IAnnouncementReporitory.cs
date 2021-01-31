@@ -15,5 +15,7 @@ namespace LMS.BusinessLogics.Interfaces
         Task<int> DeleteAnnouncement(int id);
         Task<Announcement> GetAnnouncementById(int Id);
         Task<int> UpdateAnnouncement(Announcement objAnnouncement);
+        IQueryable<Announcement> GetAllAnnouncement();
+
     }
 }

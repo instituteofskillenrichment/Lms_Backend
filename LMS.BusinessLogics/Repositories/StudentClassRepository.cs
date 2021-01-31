@@ -232,7 +232,8 @@ namespace LMS.BusinessLogics.Repositories
                                                                      csub.ClassSection.Section.Section_Name,
                                                                      t.Subject_Id,
                                                                      csub.Subject.Subject_Name,
-                                                                     t.Assessment_Date
+                                                                     t.Assessment_Date,
+                                                                     t.End_Time
                                                                  } into g
                                                                  orderby g.Key.Assessment_Date descending
                                                                  select new StudentTestViewModel
@@ -246,7 +247,9 @@ namespace LMS.BusinessLogics.Repositories
                                                                      Subject_Name = g.Key.Subject_Name,
                                                                      Test_Name = g.Key.Test_Name,
                                                                      Test_Id = g.Key.Test_Id,
-                                                                     Assessment_Date = DateTime.ParseExact(g.Key.Assessment_Date, "yyyyMMdd", null)
+                                                                     Assessment_Date = DateTime.ParseExact(g.Key.Assessment_Date, "yyyyMMdd", null),
+                                                                     Assessment_EndTime = DateTime.ParseExact(g.Key.End_Time, "HHmmss", null),
+
 
 
                                                                  }).ToList();

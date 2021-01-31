@@ -56,6 +56,13 @@ namespace LMS.BusinessLogics.Repositories
             }
         }
 
+        public IQueryable<Announcement> GetAllAnnouncement()
+        {
+            IQueryable<Announcement> listOfAnnouncement = _lmsDbContext.Announcement.OrderByDescending(a => a.Announcement_Date).Take(6).AsQueryable();
+
+            return listOfAnnouncement;
+        }
+
         public async Task<Announcement> GetAnnouncementById(int Id)
         {
             var Announcement = await _lmsDbContext.Announcement

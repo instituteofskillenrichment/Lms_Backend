@@ -251,5 +251,11 @@ namespace LMS.BusinessLogics.Repositories
             return AllSubject;
         }
 
+        public IQueryable<Lecture> GetRecentLecture()
+        {
+            IQueryable<Lecture> listOfLecture = _lmsDbContext.Lecture.OrderByDescending(d => d.LecturePost_Date).Take(6).AsQueryable();
+
+            return listOfLecture;
+        }
     }
 }

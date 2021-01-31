@@ -18,7 +18,7 @@
                                     <div class="col-md-6">
                                         <h2>Tests</h2>
                                     </div>
-                                   
+
                                 </div>
                             </div>
                             <table id="test" class="display" style="width:100%">
@@ -30,19 +30,30 @@
                                         <th>Subject</th>
                                         <th>Assessment Date</th>
                                         <th>Action</th>
+                                        <th>Result</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                    <tr>
-                                        <td>@item.Test_Name</td>
-                                        <td>@item.Class_Name</td>
-                                        <td>@item.Section_Name</td>
-                                        <td>@item.Subject_Name</td>
-                                        <td>@item.Assessment_Date.ToShortDateString()</td>
-                                        <td><a asp-action="AttemptTest" asp-controller="Test" asp-route-id="@item.Test_Id" class="btn btn-primary btn-sm">Attempt Test</a></td>
-                                    </tr>
+                                        <tr>
+                                            <td>@item.Test_Name</td>
+                                            <td>@item.Class_Name</td>
+                                            <td>@item.Section_Name</td>
+                                            <td>@item.Subject_Name</td>
+                                            <td>
+
+                                                @item.Assessment_Date.ToShortDateString()
+                                                
+                                            </td>
+                                            <td>
+
+                                                <a id="AttemptTest" asp-action="AttemptTest" asp-controller="Test" asp-route-id="@item.Test_Id" class="btn btn-primary btn-sm">Attempt Test</a>
+                                                <input type="hidden" class="AssessmentTime" value="@item.Assessment_EndTime.ToShortTimeString()" />
+                                                <input type="hidden" class="AssessmentDate" value="@item.Assessment_Date.ToShortDateString()" />
+                                            </td>
+                                            <td><a asp-action="ViewResult" asp-controller="Test" asp-route-TestId="@item.Test_Id" class="btn btn-primary btn-sm">View Result</a></td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
@@ -82,9 +93,21 @@
 <script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
 <link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
 <script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+<script src="~/Dashboard/assets/js/core/moment.js"></script>
 @*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
 <script>
+
+    function getTwentyFourHourTime(EndTime) {
+        var d = new Date("1/1/0101 " + EndTime);
+        return d.getHours() + ':' + d.getMinutes();
+    }
+
     $(document).ready(function () {
+
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
 
         toastr.options = {
             "positionClass": "toast-top-center",
@@ -107,6 +130,42 @@
         else if (messageError.length > 0)  {
             toastr.error(messageError);
         }
+
+
+        //Check If Student Alredy Submited Test Or Test Time Ended
+        $('#test #AttemptTest').on('click', function (event) {
+
+
+            var EndTime = $(this).parent().find('.AssessmentTime').val();
+            EndTime = getTwentyFourHourTime(EndTime);
+            var AssessmentDate = $(this).parent().find('.AssessmentDate').val();
+            
+            var currentDate = new Date();
+            var currentDate = (currentDate.getMonth() + 1) + '/' + currentDate.getDate() + '/' + currentDate.getFullYear()
+            
+            var currentTime = new Date();
+            var currentTime = currentTime.getHours() + ':' + currentTime.getMinutes();
+
+
+            if (currentDate != AssessmentDate || currentTime >= EndTime) {
+
+                event.preventDefault();
+                toastr.error("Assessment Has Expired ");
+
+            }
+
+            if (currentDate == AssessmentDate && currentTime >= EndTime) {
+
+                event.preventDefault();
+                toastr.error("Assessment Has Expired ");
+
+            }
+            
+        });
+
+
+        
+
 
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();

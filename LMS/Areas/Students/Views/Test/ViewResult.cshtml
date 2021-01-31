@@ -1,0 +1,100 @@
+﻿@model List<LMS.Domain.ViewModels.StudentTestResultViewModel>
+@{
+    ViewData["Title"] = "ViewTestResult";
+    Layout = "~/Areas/Students/Views/Shared/_Studentayout.cshtml";
+}
+
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2>Student Test <b>Result</b></h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="tblViewResult" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Question</th>
+                                        <th>Answer</th>
+                                        <th>CorrectAnswer</th>
+                                        <th>Marks</th>
+                                        <th>Marks Obtained</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Question</td>
+                                            @if (item.Answer_Type_Id == 3)
+                                            {
+                                                <td><a href="@item.Answer" target="_blank">Click to view Answer</a></td>
+                                            }
+                                            else
+                                            {
+                                                <td>@item.Answer</td>
+                                            }
+                                            <td>@item.CorrectAnswer</td>
+                                            <td data-marks="@item.Marks">@item.Marks</td>
+                                            <td><input data-question-id="@item.Question_Id" readonly asp-for="@item.Marks_Obtained" class="form-control"></td>
+                                        </tr>
+                                        @if (item.Total_Obtained != 0)
+                                        {
+                                            ViewBag.Total_Obtained = item.Total_Obtained;
+                                        }
+                                        else
+                                        {
+                                            ViewBag.Total_Obtained = 0;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <div class="col-md-2 pr-1">
+                                    <div class="form-group">
+                                        <label>Total Marks Obtained</label>
+                                        <input readonly id="LectureDate" type="text" class="form-control" value="@ViewBag.Total_Obtained">
+                                        @*<input class="form-control" type="datetime-local" id="birthdaytime" name="birthdaytime">*@
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    @{
+                        TempData["TestId"] = ViewBag.TestId;
+                        TempData["StudentId"] = ViewBag.StudentId;
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--   Core JS Files   -->
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.min.js"></script>
+<script src="~/Dashboard/assets/jqueryDataTable/jquery.dataTables.js"></script>
+<link href="~/Dashboard/assets/js/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Dashboard/assets/js/toastr/toastr.js"></script>
+@*<script src="~/Dashboard/assets/js/navigation.js"></script>*@
+<script>
+    $(document).ready(function () {
+
+        
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+    });
+</script>

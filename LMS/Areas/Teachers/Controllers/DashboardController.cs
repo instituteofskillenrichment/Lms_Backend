@@ -17,12 +17,15 @@ namespace LMS.Areas.Teachers.Controllers
         private readonly ITPClassRepository _tPClassRepository;
         private readonly ILectureRepository _LectureRepository;
         private readonly ITPAttendanceRepository _tPAttendanceRepository;
+        private readonly IAnnouncementReporitory _AnnouncementRepository;
 
-        public DashboardController(ITPClassRepository tPClassRepository, ILectureRepository LectureRepository, ITPAttendanceRepository tPAttendanceRepository)
+        public DashboardController(ITPClassRepository tPClassRepository, ILectureRepository LectureRepository, ITPAttendanceRepository tPAttendanceRepository, IAnnouncementReporitory AnnouncementRepository)
         {
             _tPClassRepository = tPClassRepository;
             _LectureRepository = LectureRepository;
             _tPAttendanceRepository = tPAttendanceRepository;
+            _AnnouncementRepository = AnnouncementRepository;
+
         }
 
         [Route("")]
@@ -37,6 +40,13 @@ namespace LMS.Areas.Teachers.Controllers
 
             var TeacherStudents = _tPAttendanceRepository.GetAllStudentsClass(HttpContext.Session.GetInt32("UserId") ?? 0).ToList();
             ViewBag.Students = TeacherStudents.Count();
+            
+            
+            var Announcements = _AnnouncementRepository.GetAllAnnouncement(); ;
+            ViewBag.Announcements = Announcements;
+
+            var RecentLecture = _LectureRepository.GetRecentLecture(); ;
+            ViewBag.RecentLecture = RecentLecture;
 
             return View();
         }

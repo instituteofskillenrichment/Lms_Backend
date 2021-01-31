@@ -11,6 +11,7 @@ namespace LMS.BusinessLogics.Interfaces
     {
         IQueryable<BookCategory> GetAllCategories();
         IQueryable<Library> GetAllBooks();
+        IQueryable<Library> GetAllRecentBooks();
         Task<Library> GetBookById(int Id);
         IQueryable<Library> GetAllBooksByCategoryId(int CategoryId);
 

@@ -4,8 +4,18 @@
     Layout = "~/Areas/Students/Views/Shared/_Studentayout.cshtml";
 }
 
-<div class="panel-header panel-header-lg" style="background-image:url(/dashboard/assets/img/stdheader.png);">
+@*<div class="panel-header panel-header-lg" style="background-image:url(/dashboard/assets/img/stdheader.png);">
     <canvas id="bigDashboardChart"></canvas>
+</div>*@
+<div class="panel-header panel-header-lg">
+    <h1 style="color: #fff;font-size: 3em;text-align: justify;padding: 4% 8%;">
+        Start from where your <span style="    color: #b58e5a;
+        font-weight: bold;">Students</span> are,
+        not where you would like them to be.
+        <span style="display: block;
+        text-align: right;
+        font-size: 21px;">(-Dylan William)</span>
+    </h1>
 </div>
 <div class="content">
             <div class="row">
@@ -28,7 +38,7 @@
                             <h4 class="card-title">Total Assessments</h4>
                         </div>
                         <div class="card-body">
-                            <h1>50</h1>
+                            <h1>@ViewBag.Assessments</h1>
                         </div>
 
                     </div>
@@ -37,10 +47,10 @@
                     <div class="card card-chart">
                         <div class="card-header">
                             <h5 class="card-category"></h5>
-                            <h4 class="card-title">Total Announcements</h4>
+                            <h4 class="card-title">Total Leture</h4>
                         </div>
                         <div class="card-body">
-                            <h1>160</h1>
+                            <h1>15</h1>
                         </div>
 
                     </div>
@@ -56,88 +66,19 @@
                             <h4 class="card-title">Announcements</h4>
                         </div>
 
-                        <div class="card-body ">
-
-                            <div class="table-full-width table-responsive">
-                                <table class="table">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input" type="checkbox" checked="">
-                                                        <span class="form-check-sign"></span>
-                                                    </label>
-                                                </div>
-                                            </td>
-
-                                            <td class="text-left">Winter Break Will Begin From 24th December 2020.</td>
-                                            <td class="td-actions text-right">
-                                                <button type="button" rel="tooltip" title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Edit Task">
-                                                    <i class="now-ui-icons ui-2_settings-90"></i>
-                                                </button>
-                                                <button type="button" rel="tooltip" title="" class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Remove">
-                                                    <i class="now-ui-icons ui-1_simple-remove"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input" type="checkbox">
-                                                        <span class="form-check-sign"></span>
-                                                    </label>
-                                                </div>
-                                            </td>
-
-                                            <td class="text-left">Virtual Assembly Will Be Held At 9am Tomorrow.</td>
-                                            <td class="td-actions text-right">
-                                                <button type="button" rel="tooltip" title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Edit Task">
-                                                    <i class="now-ui-icons ui-2_settings-90"></i>
-                                                </button>
-                                                <button type="button" rel="tooltip" title="" class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Remove">
-                                                    <i class="now-ui-icons ui-1_simple-remove"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        @*<tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input" type="checkbox" checked="">
-                                                        <span class="form-check-sign"></span>
-                                                    </label>
-                                                </div>
-                                            </td>
-
-                                            <td class="text-left">
-                                                Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                                            </td>
-                                            <td class="td-actions text-right">
-                                                <button type="button" rel="tooltip" title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Edit Task">
-                                                    <i class="now-ui-icons ui-2_settings-90"></i>
-                                                </button>
-                                                <button type="button" rel="tooltip" title="" class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Remove">
-                                                    <i class="now-ui-icons ui-1_simple-remove"></i>
-                                                </button>
-                                            </td>
-                                        </tr>*@
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="card-body">
+                            @foreach (var item in ViewBag.Announcements)
+                            {
+                                <div class="alert alert-info alert-with-icon" data-notify="container">
+                                    <button type="button" aria-hidden="true" class="close"></button>
+                                    <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                                    <span data-notify="message">@item.Announcement_Detail</span>
+                                </div>
+                            }
 
 
 
-                        </div>
 
-
-
-                        <div class="card-footer ">
-                            <hr>
-                            <div class="stats">
-                                <i class="now-ui-icons loader_refresh spin"></i> Updated 3 minutes ago
-                            </div>
                         </div>
 
                     </div>
@@ -147,101 +88,42 @@
                     <div class="card">
                         <div class="card-header">
                             @*<h5 class="card-category">All Persons List</h5>*@
-                            <h4 class="card-title"> Recent Posts</h4>
+                            <h4 class="card-title"> Recent Lectures</h4>
 
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table">
-                                    <thead class=" text-primary">
-                                        <tr>
-                                            <th>
-                                                Type
-                                            </th>
-                                            <th>
-                                                Title
-                                            </th>
-                                            @*<th>
-                                                City
-                                            </th>*@
-                                            <th class="text-right">
-                                                Date
-                                            </th>
-                                        </tr>
-                                    </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                Lesson
-                                            </td>
-                                            <td>
-                                                Julius Caesar Act IV, Secen iii
-                                            </td>
-                                            @*<td>
-            Oud-Turnhout
-        </td>*@
-                                            <td class="text-right">
-                                                20201214
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                E-Book
-                                            </td>
-                                            <td>
-                                                To Kill A Mockingbird
-                                            </td>
-                                            @*<td>
-            Sinaai-Waas
-        </td>*@
-                                            <td class="text-right">
-                                                20201216
-                                            </td>
-                                        </tr>
-                                        @*<tr>
-                                            <td>
-                                                Sage Rodriguez
-                                            </td>
-                                            <td>
-                                                Netherlands
-                                            </td>
-                                            <td>
-                                                Baileux
-                                            </td>
-                                            <td class="text-right">
-                                                $56,142
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Doris Greene
-                                            </td>
-                                            <td>
-                                                Malawi
-                                            </td>
-                                            <td>
-                                                Feldkirchen in Kärnten
-                                            </td>
-                                            <td class="text-right">
-                                                $63,542
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Mason Porter
-                                            </td>
-                                            <td>
-                                                Chile
-                                            </td>
-                                            <td>
-                                                Gloucester
-                                            </td>
-                                            <td class="text-right">
-                                                $78,615
-                                            </td>
-                                        </tr>*@
+                                        @foreach (var item in ViewBag.RecentLecture)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <img src="~/Dashboard/assets/img/lectureIcon.png" height="50" />
+                                                            @*<img src="@item.Lecture_File" height="50" />*@
+
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td class="text-left">@item.Lecture_Name</td>
+                                                <td class="td-actions text-right">
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Edit Task">
+                                                        <i class="now-ui-icons ui-2_settings-90"></i>
+                                                    </button>
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Remove">
+                                                        <i class="now-ui-icons ui-1_simple-remove"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+
+
+
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
                     </div>

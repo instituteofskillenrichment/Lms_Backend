@@ -43,6 +43,37 @@ namespace LMS.BusinessLogics.Repositories
             return Questions;
         }
 
+        public IEnumerable<StudentTestResultViewModel> GetStudentTestResult(int TestId, int StudentId)
+        {
+            var TestResult = (
+                                from std in _lmsDbContext.StudentTestDetail
+                                join t in _lmsDbContext.TestDetail
+                                on new { std.Test_Id, std.Question_Id } equals new { t.Test_Id, t.Question_Id }
+                                where std.Test_Id == TestId && std.Student_Id == StudentId
+                                select new StudentTestResultViewModel
+                                {
+                                    Test_Id = std.Test_Id,
+                                    Student_Id = std.Student_Id,
+                                    Student_Name = std.Student.Student_Name,
+                                    Question = t.Question_Name,
+                                    Answer = std.Answer,
+                                    CorrectAnswer = t.Correct_Answer ?? "Subjected on Teacher",
+                                    Answer_Type_Id = std.Answer_Type_Id,
+                                    Marks_Obtained = std.Marks_Obtained,
+                                    Marks = t.Question_Marks,
+                                    Question_Id = std.Question_Id,
+                                    Total_Obtained = (from std2 in _lmsDbContext.StudentTestDetail 
+                                                      where std2.Student_Id == StudentId
+                                                      && std2.Test_Id == TestId
+                                                      select new
+                                                      {
+                                                          
+                                                          std2.Marks_Obtained
+                                                      }).Sum(s => s.Marks_Obtained)
+                                }
+                             ).ToList();
 
+            return TestResult;
+        }
     }
 }
